@@ -5,40 +5,29 @@
     <v-row>
 
       <v-col cols="6">
-        <v-text-field
-          label="Search"
-          v-model="query"
-          @change="search"
-          append-icon="mdi-magnify">
-        </v-text-field>
-      </v-col>
 
-      <v-col cols="6">
+        <v-toolbar>
 
-        <v-container style="height: 400px;" v-if="showLoadingIndicator">
-          <v-row
-            class="fill-height"
-            align-content="center"
-            justify="center"
-          >
-            <v-col
-              class="subtitle-1 text-center"
-              cols="12"
-            >
-              Getting your files
-            </v-col>
-            <v-col cols="6">
-              <v-progress-linear
-                color="deep-purple accent-4"
-                indeterminate
-                rounded
-                height="6"
-              ></v-progress-linear>
-            </v-col>
-          </v-row>
-        </v-container>
+          <v-text-field
+            hide-details
+            single-line
+            v-model="query"
+            @change="search"
+            prepend-icon="mdi-magnify">
+          </v-text-field>
 
-        <v-list two-line subheader v-else>
+          <v-progress-linear
+            :active="showLoadingIndicator"
+            :indeterminate="showLoadingIndicator"
+            absolute
+            bottom
+            color="deep-purple accent-4"
+          ></v-progress-linear>
+
+        </v-toolbar>
+
+    
+        <v-list two-line subheader v-if="!showLoadingIndicator">
           <v-list-item v-for="movie in movies" :key="movie.id" @click="movieSelected">
             <v-list-item-content>
               <v-list-item-title v-text="movie.title"></v-list-item-title>
