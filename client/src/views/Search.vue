@@ -25,9 +25,8 @@
           ></v-progress-linear>
 
         </v-toolbar>
-
     
-        <v-list two-line subheader v-if="!showLoadingIndicator">
+        <v-list two-line subheader class="mt-2" min-height="200">
           <v-list-item v-for="movie in movies" :key="movie.id" @click="movieSelected">
             <v-list-item-content>
               <v-list-item-title v-text="movie.title"></v-list-item-title>
@@ -63,6 +62,8 @@ export default {
 
   methods: {
     async search() {
+      this.movies = [];
+      
       if (this.query.length >= 3) {
         this.showLoadingIndicator = true;
 
@@ -75,7 +76,6 @@ export default {
         this.showLoadingIndicator = false;
       } else {
         this.showLoadingIndicator = false;
-        this.movies = [];
       }
     },
 
