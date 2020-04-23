@@ -3,6 +3,10 @@
     "express": "4.17.1"
   },
   "scripts": {
+    "debug": "nodemon --inspect index.js",
     "start": "node index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }
