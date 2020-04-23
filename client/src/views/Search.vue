@@ -9,9 +9,11 @@
           <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon>
-            <v-icon color="grey lighten-1">mdi-information</v-icon>
-          </v-btn>
+          <v-chip color="grey">
+            <v-icon small color="white" v-for="star in movie.starRating" :key="star.index">
+              {{ star.icon }}
+            </v-icon>
+          </v-chip>
         </v-list-item-action>
       </v-list-item>
     </v-list>
@@ -35,7 +37,16 @@ export default {
   methods: {
     async load() {
       const result = await axios.get('/api/search?query=matrix');
-      this.movies = result.data;
+      const movies = result.data.map(movie => Object.assign({
+        starRating: this.starRating(movie)
+      }, movie));
+      this.movies = movies;
+    },
+
+    starRating(movie) {
+      const rating = Array(3).fill({ icon: 'mdi-star-outline' })
+      rating.fill({ icon: 'mdi-star' }, 0, movie.rating);
+      return rating;
     }
   }
 }
