@@ -2,6 +2,10 @@ version: '3'
 services:
   postgres:
     image: 'postgres:latest'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_DB=bechdel_demo
   nginx:
     restart: always
     build:
@@ -16,6 +20,8 @@ services:
     volumes:
       - /app/node_modules
       - ./api:/app
+    ports:
+      - '9229:9229'
   client:
     build:
       dockerfile: Dockerfile.dev
