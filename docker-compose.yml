@@ -21,7 +21,11 @@ services:
       - /app/node_modules
       - ./api:/app
     ports:
+<<<<<<< HEAD
       - '9229:9229'
+=======
+      - 9229:9229
+>>>>>>> fix-debugger
   client:
     build:
       dockerfile: Dockerfile.dev
