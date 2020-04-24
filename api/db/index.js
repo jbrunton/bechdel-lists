@@ -13,7 +13,10 @@ const sequelize = new Sequelize('bechdel_demo', 'postgres', 'postgres_password',
 const List = sequelize.define('list', {
   title: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   }
 });
 
@@ -43,5 +46,6 @@ module.exports = {
     
     // await sequelize.sync({ force: true });
     await sequelize.sync();
-  }
+  },
+  isValidationError: (error) => error instanceof Sequelize.ValidationError
 }

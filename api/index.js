@@ -26,15 +26,6 @@ const movieRepository = {
   }
 }
 
-function payloadFor(object, annotations = null) {
-  const objectValues = object.get({ plain: true })
-  if (annotations == null) {
-    return objectValues;
-  } else {
-    return Object.assign({ annotations }, objectValues);
-  }
-}
-
 db.init();
 
 app.get('/', (req, res) => res.send('Hello World!'))
@@ -52,20 +43,18 @@ app.get('/lists', async (req, res) => {
 
 app.post('/lists', async (req, res) => {
   const title = req.body.title;
-
-  if (isNullOrEmpty(title)) {
-    res.status(422).json({
-      error: 'required title'
-    })
-  }
-  
+  const list = await db.List.build({ title: title });
+    
   try {
-    const list = await db.List.create({ title: title });
-    res.json(list)
+    await list.save();
+    res.json(list);
   } catch (e) {
-    res.status(500).json({
-      error: e.toString()
-    })
+    if (db.isValidationError(e)) {
+      res.status(422).json(e.errors)
+    } else {
+      console.log(e);
+      res.status(500)
+    }
   }
 });
 
