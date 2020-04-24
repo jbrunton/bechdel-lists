@@ -4,7 +4,7 @@
     "express": "4.17.1"
   },
   "scripts": {
-    "debug": "nodemon --inspect index.js",
+    "debug": "nodemon --inspect=0.0.0.0:9229 index.js",
     "start": "node index.js"
   },
   "devDependencies": {

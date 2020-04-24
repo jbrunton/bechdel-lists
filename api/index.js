@@ -8,6 +8,7 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/search', async (req, res) => {
     const query = req.query['query'];
+    console.log('/search: ' + JSON.stringify(req.query));
     const results = await axios.get(`http://bechdeltest.com/api/v1/getMoviesByTitle?title=${query}`)
     res.json(results.data)
 });

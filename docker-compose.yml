@@ -16,6 +16,8 @@ services:
     volumes:
       - /app/node_modules
       - ./api:/app
+    ports:
+      - 9229:9229
   client:
     build:
       dockerfile: Dockerfile.dev
