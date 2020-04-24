@@ -10,7 +10,7 @@ module.exports = {
   init: () => {
     pool.on('error', () => console.log('Lost PG connection'));
 
-    pool.query('DROP TABLE IF EXISTS lists');
+    //pool.query('DROP TABLE IF EXISTS lists');
     pool.query('CREATE TABLE IF NOT EXISTS lists (id serial PRIMARY KEY, title TEXT)')
       .catch(err => console.log(err));
   },

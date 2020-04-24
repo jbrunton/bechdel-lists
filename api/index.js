@@ -1,11 +1,13 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const axios = require('axios');
 const db = require('./db');
 
-const app = express()
-const port = 5000
+const app = express();
+app.use(bodyParser.json());
+const port = 5000;
 
-const isEmpty = (value) => value === null || value === '';
+const isNullOrEmpty = (value) => value === null || value === '';
 
 db.init();
 
@@ -24,11 +26,14 @@ app.get('/lists', async (req, res) => {
 
 app.post('/lists', async (req, res) => {
   const title = req.body.title;
-  // if (isNullOrEmpty(title)) {
 
-  // }
+  if (isNullOrEmpty(title)) {
+    res.status(422).json({
+      error: 'required title'
+    })
+  }
   
-  const result = db.query('INSERT INTO lists(title) VALUES($1) RETURNING *', [title]);
+  const result = await db.query('INSERT INTO lists(title) VALUES($1) RETURNING *', [title]);
 
   res.json(result.rows[0])
 });
