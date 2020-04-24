@@ -6,13 +6,15 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres_password
       - POSTGRES_DB=bechdel_demo
+    ports:
+      - 5432:5432
   nginx:
     restart: always
     build:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - '3001:80'
+      - 3001:80
   api:
     build:
       dockerfile: Dockerfile.dev

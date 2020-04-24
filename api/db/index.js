@@ -5,7 +5,8 @@ const sequelize = new Sequelize('bechdel_demo', 'postgres', 'postgres_password',
   host: 'postgres',
   dialect: 'postgres',
   define: {
-    timestamps: true
+    timestamps: true,
+    underscored: true
   }
 });
 
@@ -16,8 +17,19 @@ const List = sequelize.define('list', {
   }
 });
 
+const Movie = sequelize.define('movie', {
+  title: Sequelize.STRING,
+  externalId: {
+    type: Sequelize.STRING,
+    unique: true
+  },
+  year: Sequelize.INTEGER,
+  rating: Sequelize.INTEGER
+});
+
 module.exports = {
   List: List,
+  Movie: Movie,
   init: async () => {
     try {
       await sequelize.authenticate()
@@ -26,6 +38,6 @@ module.exports = {
       console.error('Unable to connect to the database:', err);
     }
     
-    await sequelize.sync();
+    await sequelize.sync({ force: true });
   }
 }
