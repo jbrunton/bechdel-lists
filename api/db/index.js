@@ -19,13 +19,16 @@ const List = sequelize.define('list', {
 
 const Movie = sequelize.define('movie', {
   title: Sequelize.STRING,
-  externalId: {
+  imdbId: {
     type: Sequelize.STRING,
     unique: true
   },
   year: Sequelize.INTEGER,
   rating: Sequelize.INTEGER
 });
+
+Movie.belongsToMany(List, {through: 'ListEntry'});
+List.belongsToMany(Movie, {through: 'ListEntry'});
 
 module.exports = {
   List: List,
@@ -38,6 +41,7 @@ module.exports = {
       console.error('Unable to connect to the database:', err);
     }
     
-    await sequelize.sync({ force: true });
+    // await sequelize.sync({ force: true });
+    await sequelize.sync();
   }
 }
