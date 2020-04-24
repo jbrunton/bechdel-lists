@@ -41,12 +41,9 @@ app.get('/lists', async (req, res) => {
   res.json(lists);
 });
 
-app.post('/lists', async (req, res) => {
-  const title = req.body.title;
-  const list = await db.List.build({ title: title });
-    
+const trySave = (object, res) => {
   try {
-    await list.save();
+    await object.save();
     res.json(list);
   } catch (e) {
     if (db.isValidationError(e)) {
@@ -56,6 +53,12 @@ app.post('/lists', async (req, res) => {
       res.status(500)
     }
   }
+}
+
+app.post('/lists', async (req, res) => {
+  const title = req.body.title;
+  const list = await db.List.build({ title: title });
+  trySave(list);
 });
 
 app.get('/lists/:id', async (req, res) => {
