@@ -20,8 +20,8 @@ app.get('/search', async (req, res) => {
 });
 
 app.get('/lists', async (req, res) => {
-  const values = await db.query('SELECT * from lists');
-  res.json(values.rows);
+  const lists = await db.List.findAll();
+  res.json(lists);
 });
 
 app.post('/lists', async (req, res) => {
@@ -33,9 +33,14 @@ app.post('/lists', async (req, res) => {
     })
   }
   
-  const result = await db.query('INSERT INTO lists(title) VALUES($1) RETURNING *', [title]);
-
-  res.json(result.rows[0])
+  try {
+    const result = await db.List.create({ title: title });
+    res.json(result)
+  } catch (e) {
+    res.status(500).json({
+      error: e.toString()
+    })
+  }
 });
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
