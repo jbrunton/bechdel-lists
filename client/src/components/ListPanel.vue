@@ -17,8 +17,14 @@
       <v-list min-height="200" max-height="100%;">
         <v-list-item v-for="movie in list.movies" :key="movie.id">
           <v-list-item-content>
-            <v-list-item-title v-text="movie.title"></v-list-item-title>
-          </v-list-item-content>
+              <v-list-item-title v-text="movie.title"></v-list-item-title>
+              <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-chip color="grey">
+                <v-rating dense="true" small="true" color="white" background-color="white" v-model="movie.rating" length="3"></v-rating>
+              </v-chip>
+            </v-list-item-action>
         </v-list-item>
       </v-list>
     </v-card-text>
