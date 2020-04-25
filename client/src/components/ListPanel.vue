@@ -38,6 +38,8 @@
           prepend-icon="mdi-magnify"
           single-line
           label="Search"
+          v-model="query"
+          @change="search"
         ></v-text-field>
         <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
       </form>
@@ -47,7 +49,7 @@
 
     <v-card-text>
       <v-list min-height="200" max-height="100%;">
-        <v-list-item v-for="movie in list.movies" :key="movie.id">
+        <v-list-item v-for="movie in movies" :key="movie.id">
           <v-list-item-content>
             <v-list-item-title v-text="movie.title"></v-list-item-title>
             <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
@@ -74,6 +76,8 @@ export default {
   data() {
     return {
       list: { title: '', movies: [] },
+      movies: [],
+      query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false
     }
@@ -97,6 +101,7 @@ export default {
 
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
+      this.movies = this.list.movies;
       this.showLoadingIndicator = false;
     },
 
@@ -105,6 +110,20 @@ export default {
       await axios.delete(`/api/lists/${this.listId}`);
       this.showLoadingIndicator = true;
       this.listId = null;
+    },
+
+    async search() {
+      this.movies = [];
+      
+      if (this.query.length >= 3) {
+        this.showLoadingIndicator = true;
+
+        const result = await axios.get(`/api/search?query=${this.query}`);
+        this.movies = result.data;
+        this.showLoadingIndicator = false;
+      } else {
+        this.showLoadingIndicator = false;
+      }
     },
 
     deleteListClicked() {
@@ -117,6 +136,7 @@ export default {
 
     hideAddMovieCardClicked() {
       this.showAddMovieCard = false;
+      this.load();
     }
   }
 }
