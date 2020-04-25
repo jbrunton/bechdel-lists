@@ -58,7 +58,7 @@ const trySave = async (object, res) => {
 app.post('/lists', async (req, res) => {
   const title = req.body.title;
   const list = await db.List.build({ title: title });
-  trySave(list);
+  trySave(list, res);
 });
 
 app.get('/lists/:id', async (req, res) => {
@@ -70,13 +70,27 @@ app.get('/lists/:id', async (req, res) => {
   }
 });
 
-app.post('/lists/:id/add', async (req, res) => {
-  const list = await db.List.findByPk(req.params.id)
+app.post('/lists/:listId/movies/:imdbId', async (req, res) => {
+  const list = await db.List.findByPk(req.params.listId)
   if (list != null) {
-    const movie = await movieRepository.findByImdbId(req.body.imdbId);
+    const movie = await movieRepository.findByImdbId(req.params.imdbId);
     await list.addMovie(movie)
     await list.reload({ include: [ db.Movie ] })
     res.json(list);  
+  } else {
+    res.send(404);
+  }
+});
+
+app.delete('/lists/:listId/movies/:imdbId', async (req, res) => {
+  const list = await db.List.findByPk(req.params.listId)
+  if (list != null) {
+    const movie = await db.Movie.findOne({ where: { imdbId: req.params.imdbId } })
+    if (movie != null) {
+      list.removeMovie(movie);
+      await list.reload({ include: [ db.Movie ] })
+      res.json(list);
+    }
   } else {
     res.send(404);
   }
