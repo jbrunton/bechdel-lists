@@ -41,7 +41,7 @@ app.get('/lists', async (req, res) => {
   res.json(lists);
 });
 
-const trySave = (object, res) => {
+const trySave = async (object, res) => {
   try {
     await object.save();
     res.json(list);
