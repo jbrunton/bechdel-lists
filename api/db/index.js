@@ -17,8 +17,20 @@ const List = sequelize.define('list', {
     validate: {
       notEmpty: true
     }
-  }
+  },
+  averageRating: Sequelize.FLOAT
 });
+
+List.prototype.updateRating = async function() {
+  const movies = await this.getMovies();
+  const ratings = movies.map((movie) => movie.rating).filter(x => x);
+  if (ratings.length > 0) {
+    this.averageRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+  } else {
+    this.averageRating = null;
+  }
+  await this.save();
+};
 
 const Movie = sequelize.define('movie', {
   title: Sequelize.STRING,

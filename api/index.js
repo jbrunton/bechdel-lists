@@ -93,8 +93,8 @@ app.post('/lists/:listId/movies/:imdbId', async (req, res) => {
   if (list != null) {
     const movie = await movieRepository.findByImdbId(req.params.imdbId);
     await list.addMovie(movie)
-    await list.reload({ include: [ db.Movie ] })
-    res.json(list);  
+    await list.updateRating();
+    res.send(200);  
   } else {
     res.send(404);
   }
@@ -106,8 +106,8 @@ app.delete('/lists/:listId/movies/:imdbId', async (req, res) => {
     const movie = await db.Movie.findOne({ where: { imdbId: req.params.imdbId } })
     if (movie != null) {
       list.removeMovie(movie);
-      await list.reload({ include: [ db.Movie ] })
-      res.json(list);
+      await list.updateRating();
+      res.send(200);
     }
   } else {
     res.send(404);
