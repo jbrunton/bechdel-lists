@@ -44,7 +44,7 @@ app.get('/lists', async (req, res) => {
 const trySave = async (object, res) => {
   try {
     await object.save();
-    res.json(list);
+    res.json(object);
   } catch (e) {
     if (db.isValidationError(e)) {
       res.status(422).json(e.errors)
