@@ -70,6 +70,16 @@ app.get('/lists/:id', async (req, res) => {
   }
 });
 
+app.delete('/lists/:id', async (req, res) => {
+  const list = await db.List.findByPk(req.params.id, { include: [db.Movie] });
+  if (list != null) {
+    await list.destroy();
+    res.send(200)
+  } else {
+    res.send(404)
+  }
+});
+
 app.post('/lists/:listId/movies/:imdbId', async (req, res) => {
   const list = await db.List.findByPk(req.params.listId)
   if (list != null) {
