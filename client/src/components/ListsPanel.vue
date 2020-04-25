@@ -23,22 +23,22 @@
       ></v-progress-linear>
     </v-toolbar>
 
-    <v-card-text>
+    <v-card-text v-show="showAddListItem">
+      <form>
+        <v-text-field
+          label="Title"
+          placeholder="My New List"
+          v-model="newListTitle"
+        ></v-text-field>
+        <v-btn class="mr-4" color="success" @click="addListClicked">add</v-btn>
+        <v-btn @click="hideAddListItemClicked">cancel</v-btn>
+      </form>
+    </v-card-text>
 
+    <v-divider></v-divider>
+
+    <v-card-text>
       <v-list min-height="200" max-height="100%;">
-        <v-list-item v-show="showAddListItem">
-          <v-list-item-content>
-            <form>
-              <v-text-field
-                label="Title"
-                placeholder="My New List"
-                v-model="newListTitle"
-              ></v-text-field>
-              <v-btn class="mr-4" color="success" @click="addListClicked">add</v-btn>
-              <v-btn @click="hideAddListItemClicked">cancel</v-btn>
-            </form>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
           <v-list-item-content>
             <v-list-item-title v-text="list.title"></v-list-item-title>

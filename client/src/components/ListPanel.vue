@@ -12,6 +12,15 @@
           </v-btn>
         </template>
         <span>Delete List</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on" @click="showAddMovieCardClicked">
+            <v-icon>mdi-plus-circle</v-icon>
+          </v-btn>
+        </template>
+        <span>Add Movie</span>
       </v-tooltip> 
 
       <v-progress-linear
@@ -22,6 +31,19 @@
         color="deep-purple accent-4"
       ></v-progress-linear>
     </v-toolbar>
+
+    <v-card-text v-show="showAddMovieCard">
+      <form>
+        <v-text-field
+          prepend-icon="mdi-magnify"
+          single-line
+          label="Search"
+        ></v-text-field>
+        <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
+      </form>
+    </v-card-text>
+
+    <v-divider></v-divider>
 
     <v-card-text>
       <v-list min-height="200" max-height="100%;">
@@ -52,7 +74,8 @@ export default {
   data() {
     return {
       list: { title: '', movies: [] },
-      showLoadingIndicator: false
+      showLoadingIndicator: false,
+      showAddMovieCard: false
     }
   },
 
@@ -86,6 +109,14 @@ export default {
 
     deleteListClicked() {
       this.deleteList();
+    },
+
+    showAddMovieCardClicked() {
+      this.showAddMovieCard = true;
+    },
+
+    hideAddMovieCardClicked() {
+      this.showAddMovieCard = false;
     }
   }
 }
