@@ -33,7 +33,15 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/search', async (req, res) => {
   const query = req.query['query'];
   const results = await axios.get(`http://bechdeltest.com/api/v1/getMoviesByTitle?title=${query}`)
-  res.json(results.data)
+  const movies = results.data.map((movie) => {
+    return {
+      title: movie.title,
+      imdbId: movie.imdbid,
+      year: movie.year,
+      rating: movie.rating
+    };
+  });
+  res.json(movies)
 });
 
 app.get('/lists', async (req, res) => {
