@@ -65,7 +65,7 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-chip color="grey" v-show="!editMode">
-              <v-rating dense="true" small="true" color="white" background-color="white" v-model="movie.rating" length="3"></v-rating>
+              <v-rating :dense=true :small=true color="white" background-color="white" v-model="movie.rating" length="3"></v-rating>
             </v-chip>
 
             <v-tooltip bottom>
