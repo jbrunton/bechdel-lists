@@ -148,7 +148,7 @@ export default {
     async addMovie(movie) {
       this.showLoadingIndicator = true;
       this.showAddMovieCard = false;
-      await axios.post(`/api/lists/${this.listId}/movies/${movie.imdbid}`);
+      await axios.post(`/api/lists/${this.listId}/movies/${movie.imdbId}`);
       this.load();
     },
 
