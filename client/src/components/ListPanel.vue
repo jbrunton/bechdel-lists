@@ -23,6 +23,15 @@
         <span>Add Movie</span>
       </v-tooltip> 
 
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on" @click="editMode = !editMode">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit</span>
+      </v-tooltip> 
+
       <v-progress-linear
         :active="showLoadingIndicator"
         :indeterminate="showLoadingIndicator"
@@ -55,9 +64,18 @@
             <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-chip color="grey">
+            <v-chip color="grey" v-show="!editMode">
               <v-rating dense="true" small="true" color="white" background-color="white" v-model="movie.rating" length="3"></v-rating>
             </v-chip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on" @click="removeMovie(movie)" v-show="editMode">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </template>
+              <span>Remove Movie</span>
+            </v-tooltip>
           </v-list-item-action>
         </v-list-item>
       </v-list>
@@ -79,7 +97,8 @@ export default {
       movies: [],
       query: '',
       showLoadingIndicator: false,
-      showAddMovieCard: false
+      showAddMovieCard: false,
+      editMode: false
     }
   },
 
@@ -130,6 +149,12 @@ export default {
       this.showLoadingIndicator = true;
       this.showAddMovieCard = false;
       await axios.post(`/api/lists/${this.listId}/movies/${movie.imdbid}`);
+      this.load();
+    },
+
+    async removeMovie(movie) {
+      this.showLoadingIndicator = true;
+      await axios.delete(`/api/lists/${this.listId}/movies/${movie.imdbId}`);
       this.load();
     },
 
