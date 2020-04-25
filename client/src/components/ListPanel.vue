@@ -49,7 +49,7 @@
 
     <v-card-text>
       <v-list min-height="200" max-height="100%;">
-        <v-list-item v-for="movie in movies" :key="movie.id">
+        <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
           <v-list-item-content>
             <v-list-item-title v-text="movie.title"></v-list-item-title>
             <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
@@ -126,6 +126,13 @@ export default {
       }
     },
 
+    async addMovie(movie) {
+      this.showLoadingIndicator = true;
+      this.showAddMovieCard = false;
+      await axios.post(`/api/lists/${this.listId}/movies/${movie.imdbid}`);
+      this.load();
+    },
+
     deleteListClicked() {
       this.deleteList();
     },
@@ -137,6 +144,14 @@ export default {
     hideAddMovieCardClicked() {
       this.showAddMovieCard = false;
       this.load();
+    },
+
+    movieClicked(movie) {
+      if (this.showAddMovieCard) {
+        this.addMovie(movie);
+      } else {
+        // ???
+      }
     }
   }
 }
