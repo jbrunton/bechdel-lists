@@ -5,7 +5,7 @@
       <ListsPanel v-on:list-selected="listSelected" />
     </v-col>
     <v-col cols="6">
-      <ListPanel />
+      <ListPanel v-bind:list-id="selectedListId" />
     </v-col>
   </v-row>
 </v-container>
@@ -21,9 +21,16 @@ export default {
     ListsPanel,
     ListPanel
   },
+
+  data() {
+    return {
+      selectedListId: null
+    }
+  },
+
   methods: {
     listSelected(list) {
-      alert(list.title);
+      this.selectedListId = list.id;
     }
   }
 }

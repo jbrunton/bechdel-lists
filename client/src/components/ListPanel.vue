@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card outlined v-show="showPanel">
     <v-toolbar flat class="grey lighten-3">
       <v-toolbar-title v-text="list.title"></v-toolbar-title>  
 
@@ -29,6 +29,10 @@
 const axios = require('axios');
 
 export default {
+  props: {
+    listId: Number
+  },
+
   data() {
     return {
       list: { title: '', movies: [] },
@@ -36,15 +40,23 @@ export default {
     }
   },
 
-  created() {
-    this.load();
+  watch: {
+    listId () {
+      this.load();
+    }
+  },
+
+  computed: {
+    showPanel () {
+      return this.listId != undefined && this.listId != null && this.listId != '';
+    }
   },
 
   methods: {
     async load() {
       this.showLoadingIndicator = true;
 
-      const result = await axios.get('/api/lists/1');
+      const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       this.showLoadingIndicator = false;
     },
