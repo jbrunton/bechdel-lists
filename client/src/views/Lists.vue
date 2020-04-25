@@ -2,10 +2,10 @@
 <v-container>
   <v-row>
     <v-col cols="6">
-      <ListsPanel v-on:list-selected="listSelected" />
+      <ListsPanel ref="listsPanel" v-on:list-selected="listSelected" />
     </v-col>
     <v-col cols="6">
-      <ListPanel v-bind:list-id="selectedListId" />
+      <ListPanel v-bind:list-id="selectedListId" v-on:list-updated="listUpdated" />
     </v-col>
   </v-row>
 </v-container>
@@ -31,6 +31,9 @@ export default {
   methods: {
     listSelected(list) {
       this.selectedListId = list.id;
+    },
+    listUpdated() {
+      this.$refs.listsPanel.load();
     }
   }
 }
