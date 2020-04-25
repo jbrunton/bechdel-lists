@@ -149,12 +149,14 @@ export default {
       this.showLoadingIndicator = true;
       this.showAddMovieCard = false;
       await axios.post(`/api/lists/${this.listId}/movies/${movie.imdbId}`);
+      this.$emit('list-updated');
       this.load();
     },
 
     async removeMovie(movie) {
       this.showLoadingIndicator = true;
       await axios.delete(`/api/lists/${this.listId}/movies/${movie.imdbId}`);
+      this.$emit('list-updated');
       this.load();
     },
 

@@ -43,6 +43,11 @@
           <v-list-item-content>
             <v-list-item-title v-text="list.title"></v-list-item-title>
           </v-list-item-content>
+          <v-list-item-action>
+            <v-chip color="grey" v-show="list.averageRating != null">
+              <v-rating :dense=true :small=true color="white" background-color="white" v-model="list.averageRating" length="3"></v-rating>
+            </v-chip>
+          </v-list-item-action>
         </v-list-item>
       </v-list>
     </v-card-text>
