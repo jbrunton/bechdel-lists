@@ -88,6 +88,7 @@ export default {
       try {
         this.showLoadingIndicator = true;
         await axios.post('/api/lists', { title: this.newListTitle });
+        this.showAddListItem = false;
         this.load();
       } catch (e) {
         alert(e);
