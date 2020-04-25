@@ -2,7 +2,7 @@
 <v-container>
   <v-row>
     <v-col cols="6">
-      <ListsPanel />
+      <ListsPanel v-on:list-selected="listSelected" />
     </v-col>
     <v-col cols="6">
       <ListPanel />
@@ -20,6 +20,11 @@ export default {
   components: {
     ListsPanel,
     ListPanel
+  },
+  methods: {
+    listSelected(list) {
+      alert(list.title);
+    }
   }
 }
 </script>

@@ -39,7 +39,7 @@
             </form>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-for="list in lists" :key="list.id">
+        <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
           <v-list-item-content>
             <v-list-item-title v-text="list.title"></v-list-item-title>
           </v-list-item-content>
@@ -82,6 +82,10 @@ export default {
 
     hideAddListItemClicked() {
       this.showAddListItem = false;
+    },
+
+    listClicked(list) {
+      this.$emit('list-selected', list);
     },
 
     async addListClicked() {
