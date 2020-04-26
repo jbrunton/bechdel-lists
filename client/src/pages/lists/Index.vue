@@ -113,7 +113,7 @@ export default {
     },
 
     listClicked(list) {
-      this.$emit('list-selected', list);
+      this.$router.push({ name: 'ShowList', params: { id: list.id }})
     },
 
     async addListClicked() {
