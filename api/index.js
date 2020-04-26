@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const db = require('./db');
+const db = require('./models');
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,7 +26,7 @@ const movieRepository = {
   }
 }
 
-db.init();
+//db.init();
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
