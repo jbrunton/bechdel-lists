@@ -1,18 +1,17 @@
 <template>
   <v-card outlined>
-    <v-toolbar flat class="grey lighten-3">
-      <v-toolbar-title>My Lists</v-toolbar-title>  
-      
-      <v-spacer></v-spacer>
+    <v-toolbar flat :color="showAddListItem ? 'grey darken-3' : 'grey lighten-3'" :dark="showAddListItem">
+      <v-btn
+        v-if="showAddListItem"
+        icon
+        @click="showAddListItem = false"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="showAddListItemClicked">
-            <v-icon>mdi-plus-circle</v-icon>
-          </v-btn>
-        </template>
-        <span>Add List</span>
-      </v-tooltip>
+      <v-toolbar-title>
+        {{ showAddListItem ? 'New List' : 'My Lists' }}
+      </v-toolbar-title>  
 
       <v-progress-linear
         :active="showLoadingIndicator"
@@ -23,7 +22,7 @@
       ></v-progress-linear>
     </v-toolbar>
 
-    <v-card-text v-show="showAddListItem">
+    <v-card-text v-if="showAddListItem">
       <form>
         <v-text-field
           label="Title"
@@ -31,27 +30,38 @@
           v-model="newListTitle"
         ></v-text-field>
         <v-btn class="mr-4" color="success" @click="addListClicked">add</v-btn>
-        <v-btn @click="hideAddListItemClicked">cancel</v-btn>
       </form>
     </v-card-text>
 
-    <v-divider></v-divider>
-
-    <v-card-text>
-      <v-list>
+    <v-card-text v-else>
+      <v-list class="mb-4 mt-2">
         <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
           <v-list-item-content>
             <v-list-item-title v-text="list.title"></v-list-item-title>
             <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-chip color="grey" v-show="list.averageRating != null">
+            <v-chip color="grey" v-if="list.averageRating != null">
               <v-rating :dense=true :small=true :half-increments=true color="white" background-color="grey lighten-1"
                 v-model="list.averageRating" length="3"></v-rating>
             </v-chip>
           </v-list-item-action>
         </v-list-item>
       </v-list>
+      <v-fab-transition>
+        <v-btn
+          v-show="showActionButton"
+          color="pink"
+          fab
+          dark
+          absolute
+          bottom
+          right
+          @click="showAddListItem = true"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </v-card-text>
   </v-card>
 </template>
@@ -65,12 +75,17 @@ export default {
       lists: [],
       showLoadingIndicator: false,
       showAddListItem: false,
-      newListTitle: ""
+      newListTitle: "",
+      showActionButton: false
     }
   },
 
   created() {
     this.load();
+  },
+
+  mounted() {
+    this.showActionButton = true;
   },
 
   methods: {
