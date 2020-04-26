@@ -1,7 +1,7 @@
 
 const express = require('express');
 const axios = require('axios');
-const db = require('../../models');
+const db = require.main.require('./models');
 const router = express.Router();
 
 const movieRepository = {
