@@ -1,7 +1,7 @@
 <template>
 <v-container>
   <v-row justify="center">
-    <v-col cols="8">
+    <v-col cols="10">
       <ListsPanel ref="listsPanel" v-on:list-selected="listSelected" />
     </v-col>
   </v-row>

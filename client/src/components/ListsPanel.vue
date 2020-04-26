@@ -38,7 +38,7 @@
     <v-divider></v-divider>
 
     <v-card-text>
-      <v-list min-height="200" max-height="100%;">
+      <v-list>
         <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
           <v-list-item-content>
             <v-list-item-title v-text="list.title"></v-list-item-title>
