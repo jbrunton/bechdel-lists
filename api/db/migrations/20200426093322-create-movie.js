@@ -12,7 +12,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       imdbId: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       year: {
         type: Sequelize.INTEGER
