@@ -24,6 +24,8 @@ services:
       - ./api:/app
     ports:
       - 9229:9229
+    environment:
+      - POSTGRES_HOST=postgres
   client:
     build:
       dockerfile: Dockerfile.dev

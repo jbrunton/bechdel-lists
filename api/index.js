@@ -1,13 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const db = require('./db');
+const db = require('./models');
 
 const app = express();
 app.use(bodyParser.json());
 const port = 5000;
-
-const isNullOrEmpty = (value) => value === null || value === '';
 
 const movieRepository = {
   findByImdbId: async(imdbId) => {
@@ -25,8 +23,6 @@ const movieRepository = {
     return movie;
   }
 }
-
-db.init();
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
