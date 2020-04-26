@@ -10,5 +10,3 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
-
-document.title = "Bechdel Lists";
