@@ -1,11 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const axios = require('axios');
-const db = require('./models');
 
-const app = express();
-app.use(bodyParser.json());
-const port = 5000;
+const express = require('express');
+const axios = require('axios');
+const db = require.main.require('./models');
+const router = express.Router();
 
 const movieRepository = {
   findByImdbId: async(imdbId) => {
@@ -24,31 +21,17 @@ const movieRepository = {
   }
 }
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.get('/search', async (req, res) => {
-  const query = req.query['query'];
-  const results = await axios.get(`http://bechdeltest.com/api/v1/getMoviesByTitle?title=${query}`)
-  const movies = results.data.map((movie) => {
-    return {
-      title: movie.title,
-      imdbId: movie.imdbid,
-      year: movie.year,
-      rating: movie.rating
-    };
-  });
-  res.json(movies)
-});
-
-app.get('/lists', async (req, res) => {
+router.get('/lists', async (req, res) => {
   const lists = await db.List.findAll();
   res.json(lists);
 });
 
-const trySave = async (object, res) => {
+router.post('/lists', async (req, res) => {
+  const title = req.body.title;
+  const list = await db.List.build({ title: title });
   try {
-    await object.save();
-    res.json(object);
+    await list.save();
+    res.json(list);
   } catch (e) {
     if (db.isValidationError(e)) {
       res.status(422).json(e.errors)
@@ -57,15 +40,9 @@ const trySave = async (object, res) => {
       res.status(500)
     }
   }
-}
-
-app.post('/lists', async (req, res) => {
-  const title = req.body.title;
-  const list = await db.List.build({ title: title });
-  trySave(list, res);
 });
 
-app.get('/lists/:id', async (req, res) => {
+router.get('/lists/:id', async (req, res) => {
   const list = await db.List.findByPk(req.params.id, { include: [db.Movie] });
   if (list != null) {
     res.json(list);
@@ -74,7 +51,7 @@ app.get('/lists/:id', async (req, res) => {
   }
 });
 
-app.delete('/lists/:id', async (req, res) => {
+router.delete('/lists/:id', async (req, res) => {
   const list = await db.List.findByPk(req.params.id, { include: [db.Movie] });
   if (list != null) {
     await list.destroy();
@@ -84,7 +61,7 @@ app.delete('/lists/:id', async (req, res) => {
   }
 });
 
-app.post('/lists/:listId/movies/:imdbId', async (req, res) => {
+router.post('/lists/:listId/movies/:imdbId', async (req, res) => {
   const list = await db.List.findByPk(req.params.listId)
   if (list != null) {
     const movie = await movieRepository.findByImdbId(req.params.imdbId);
@@ -96,7 +73,7 @@ app.post('/lists/:listId/movies/:imdbId', async (req, res) => {
   }
 });
 
-app.delete('/lists/:listId/movies/:imdbId', async (req, res) => {
+router.delete('/lists/:listId/movies/:imdbId', async (req, res) => {
   const list = await db.List.findByPk(req.params.listId)
   if (list != null) {
     const movie = await db.Movie.findOne({ where: { imdbId: req.params.imdbId } })
@@ -110,4 +87,4 @@ app.delete('/lists/:listId/movies/:imdbId', async (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+module.exports = router;
