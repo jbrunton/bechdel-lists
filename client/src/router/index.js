@@ -7,7 +7,12 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Lists',
-    component: () => import(/* webpackChunkName: "lists" */ '../pages/Lists.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Index.vue')
+  },
+  {
+    path: '/lists/:id',
+    name: 'ShowList',
+    component: () => import(/* webpackChunkName: "showList" */ '../pages/lists/Show.vue')
   },
   {
     path: '/search',
