@@ -1,11 +1,8 @@
 <template>
 <v-container>
-  <v-row>
-    <v-col cols="6">
+  <v-row justify="center">
+    <v-col cols="8">
       <ListsPanel ref="listsPanel" v-on:list-selected="listSelected" />
-    </v-col>
-    <v-col cols="6">
-      <ListPanel v-bind:list-id="selectedListId" v-on:list-updated="listUpdated" />
     </v-col>
   </v-row>
 </v-container>
@@ -13,13 +10,11 @@
 
 <script>
 import ListsPanel from '@/components/ListsPanel.vue'
-import ListPanel from '@/components/ListPanel.vue'
 
 export default {
   name: 'Lists',
   components: {
-    ListsPanel,
-    ListPanel
+    ListsPanel
   },
 
   data() {
