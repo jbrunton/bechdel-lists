@@ -42,6 +42,7 @@
         <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
           <v-list-item-content>
             <v-list-item-title v-text="list.title"></v-list-item-title>
+            <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <v-chip color="grey" v-show="list.averageRating != null">

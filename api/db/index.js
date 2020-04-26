@@ -18,17 +18,32 @@ const List = sequelize.define('list', {
       notEmpty: true
     }
   },
-  averageRating: Sequelize.FLOAT
+  averageRating: Sequelize.FLOAT,
+  description: Sequelize.STRING
 });
 
-List.prototype.updateRating = async function() {
+List.prototype.updateDetails = async function() {
   const movies = await this.getMovies();
+  
   const ratings = movies.map((movie) => movie.rating).filter(x => x);
   if (ratings.length > 0) {
     this.averageRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
   } else {
     this.averageRating = null;
   }
+
+  if (movies.length == 0) {
+    this.description = null;
+  } else if (movies.length == 1) {
+    this.description = movies[0].title;
+  } else if (movies.length == 2) {
+    this.description = `${movies[0].title} and ${movies[1].title}`;
+  } else {
+    const remainder = movies.length - 2;
+    const remainderDescription = remainder > 1 ? 'others' : 'other';
+    this.description = `${movies[0].title}, ${movies[1].title} and ${remainder} ${remainderDescription}`;
+  }
+
   await this.save();
 };
 
@@ -56,7 +71,7 @@ module.exports = {
       console.error('Unable to connect to the database:', err);
     }
     
-    // await sequelize.sync({ force: true });
+    //await sequelize.sync({ force: true });
     await sequelize.sync();
   },
   isValidationError: (error) => error instanceof Sequelize.ValidationError
