@@ -16,7 +16,7 @@
     <p>
       The app itself allows users to create lists of movies and assigns an aggregate Bechdel score for the list (based
       on the average). Bechdel scores are taken from the
-      <a href="https://bechdeltest.com/api/v1/doc">bechdeltest.comAPI</a>.
+      <a href="https://bechdeltest.com/api/v1/doc">bechdeltest.com API</a>.
     </p>
     </v-container>
 </template>
