@@ -7,8 +7,6 @@ const app = express();
 app.use(bodyParser.json());
 const port = 5000;
 
-const isNullOrEmpty = (value) => value === null || value === '';
-
 const movieRepository = {
   findByImdbId: async(imdbId) => {
     var movie = await db.Movie.findOne({ where: { imdbId: imdbId } })
@@ -25,8 +23,6 @@ const movieRepository = {
     return movie;
   }
 }
-
-//db.init();
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
