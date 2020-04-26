@@ -1,5 +1,9 @@
 <template>
-  <v-card outlined v-show="showPanel">
+  <v-container>
+  <v-row justify="center">
+    <v-col cols="10">
+
+       <v-card outlined>
     <v-toolbar flat class="grey lighten-3">
       <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
@@ -82,16 +86,16 @@
       </v-list>
     </v-card-text>
   </v-card>
+
+    </v-col>
+  </v-row>
+  </v-container>
 </template>
 
 <script>
 const axios = require('axios');
 
 export default {
-  props: {
-    listId: Number
-  },
-
   data() {
     return {
       list: { title: '', movies: [] },
@@ -103,23 +107,15 @@ export default {
     }
   },
 
-  watch: {
-    listId () {
-      this.load();
-    }
-  },
-
-  computed: {
-    showPanel () {
-      return this.listId != undefined && this.listId != null && this.listId != '';
-    }
+  created () {
+    this.load();
   },
 
   methods: {
     async load() {
       this.showLoadingIndicator = true;
 
-      const result = await axios.get(`/api/lists/${this.listId}`);
+      const result = await axios.get(`/api/lists/${this.$route.params.id}`);
       this.list = result.data;
       this.movies = this.list.Movies;
       this.showLoadingIndicator = false;
@@ -149,14 +145,14 @@ export default {
     async addMovie(movie) {
       this.showLoadingIndicator = true;
       this.showAddMovieCard = false;
-      await axios.post(`/api/lists/${this.listId}/movies/${movie.imdbId}`);
+      await axios.post(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
       this.$emit('list-updated');
       this.load();
     },
 
     async removeMovie(movie) {
       this.showLoadingIndicator = true;
-      await axios.delete(`/api/lists/${this.listId}/movies/${movie.imdbId}`);
+      await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
       this.$emit('list-updated');
       this.load();
     },
