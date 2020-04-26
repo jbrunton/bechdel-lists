@@ -10,7 +10,7 @@ const sequelize = new Sequelize('bechdel_demo', 'postgres', 'postgres_password',
   }
 });
 
-const List = sequelize.define('list', {
+const List = sequelize.define('List', {
   title: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -47,7 +47,7 @@ List.prototype.updateDetails = async function() {
   await this.save();
 };
 
-const Movie = sequelize.define('movie', {
+const Movie = sequelize.define('Movie', {
   title: Sequelize.STRING,
   imdbId: {
     type: Sequelize.STRING,
