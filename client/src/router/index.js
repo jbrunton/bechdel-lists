@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Lists from '../views/Lists.vue'
 
 Vue.use(VueRouter)
 
@@ -8,12 +7,12 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Lists',
-    component: Lists
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/Lists.vue')
   },
   {
     path: '/search',
     name: 'Search',
-    component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue')
+    component: () => import(/* webpackChunkName: "search" */ '../pages/Search.vue')
   }
 ]
 
