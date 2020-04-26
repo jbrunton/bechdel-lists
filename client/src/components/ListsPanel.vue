@@ -9,9 +9,13 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
 
-      <v-toolbar-title>
+      
+<v-fade-transition mode="out-in">
+  <v-toolbar-title :key="showAddListItem">
         {{ showAddListItem ? 'New List' : 'My Lists' }}
-      </v-toolbar-title>  
+  </v-toolbar-title>  
+</v-fade-transition>
+      
 
       <v-progress-linear
         :active="showLoadingIndicator"
@@ -22,7 +26,8 @@
       ></v-progress-linear>
     </v-toolbar>
 
-    <v-card-text v-if="showAddListItem">
+<v-slide-y-transition mode="out-in">
+    <v-card-text v-if="showAddListItem" key="addList">
       <form>
         <v-text-field
           label="Title"
@@ -33,7 +38,9 @@
       </form>
     </v-card-text>
 
-    <v-card-text v-else>
+
+
+    <v-card-text v-else key="list">
       <v-list class="mb-4 mt-2">
         <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
           <v-list-item-content>
@@ -48,9 +55,8 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
-      <v-fab-transition>
+      <v-fab-transition appear>
         <v-btn
-          v-show="showActionButton"
           color="pink"
           fab
           dark
@@ -63,6 +69,7 @@
         </v-btn>
       </v-fab-transition>
     </v-card-text>
+</v-slide-y-transition>
   </v-card>
 </template>
 
@@ -75,17 +82,12 @@ export default {
       lists: [],
       showLoadingIndicator: false,
       showAddListItem: false,
-      newListTitle: "",
-      showActionButton: false
+      newListTitle: ""
     }
   },
 
   created() {
     this.load();
-  },
-
-  mounted() {
-    this.showActionButton = true;
   },
 
   methods: {
