@@ -70,9 +70,9 @@ module.exports = {
     } catch (err) {
       console.error('Unable to connect to the database:', err);
     }
-    
     //await sequelize.sync({ force: true });
     await sequelize.sync();
   },
-  isValidationError: (error) => error instanceof Sequelize.ValidationError
+  isValidationError: (error) => error instanceof Sequelize.ValidationError,
+  sequelize: sequelize
 }
