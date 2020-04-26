@@ -120,7 +120,7 @@ export default {
 
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
-      this.movies = this.list.movies;
+      this.movies = this.list.Movies;
       this.showLoadingIndicator = false;
     },
 
