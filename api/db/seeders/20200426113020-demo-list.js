@@ -1,39 +1,23 @@
 'use strict';
 
 const db = require('../../models');
+const yaml = require('js-yaml');
+const fs   = require('fs');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
-      const list = await db.List.create({
-        title: 'Star Trek Reboots'
-      });
+      const seeds = yaml.safeLoad(fs.readFileSync('./db/seeders/lists.yml', 'utf8'));
+      for (const listSeed of seeds.lists) {
+        const list = await db.List.create({
+          title: listSeed.title
+        });
 
-      console.log('list: ' + list.id);
-
-      const movies = [{
-        title: "Star Trek Beyond",
-        imdbId: "2660888",
-        year: 2016,
-        rating: 1
-      },
-      {
-        title: "Star Trek Into Darkness",
-        imdbId: "1408101",
-        year: 2013,
-        rating: 1
-      },
-      {
-        title: "Star Trek",
-        imdbId: "0796366",
-        year: 2009,
-        rating: 3
-      }]
-
-      for (const details of movies) {
-        const movie = await db.Movie.create(details);
-        await list.addMovie(movie)
-        await list.updateDetails();
+        for (const movieSeed of listSeed.movies) {
+          const movie = await db.Movie.create(movieSeed);
+          await list.addMovie(movie)
+          await list.updateDetails();
+        }
       }
     } catch (e) {
       console.log(e);
