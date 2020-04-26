@@ -34,4 +34,8 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.isValidationError = function (error) {
+  return error instanceof Sequelize.ValidationError;
+};
+
 module.exports = db;
