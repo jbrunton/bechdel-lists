@@ -46,7 +46,8 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-chip color="grey" v-show="list.averageRating != null">
-              <v-rating :dense=true :small=true color="white" background-color="white" v-model="list.averageRating" length="3"></v-rating>
+              <v-rating :dense=true :small=true :half-increments=true color="white" background-color="grey lighten-1"
+                v-model="list.averageRating" length="3"></v-rating>
             </v-chip>
           </v-list-item-action>
         </v-list-item>

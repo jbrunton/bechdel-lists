@@ -17,6 +17,7 @@
     "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate && npm run db:seed"
   },
   "devDependencies": {
+    "js-yaml": "^3.13.1",
     "nodemon": "^2.0.3",
     "sequelize-cli": "^5.5.1"
   }
