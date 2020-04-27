@@ -27,6 +27,7 @@ services:
     environment:
       - POSTGRES_HOST=postgres
       - SERVER_PORT=5000
+      - GOOGLE_CLIENT_ID=952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com
   client:
     build:
       dockerfile: Dockerfile.dev
@@ -34,3 +35,5 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+    environment:
+      - VUE_APP_GOOGLE_CLIENT_ID=952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com

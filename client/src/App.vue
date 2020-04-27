@@ -69,7 +69,7 @@
 const axios = require('axios');
 
 const googleParams = {
-  client_id: '952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com',
+  client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
   cookie_policy: 'single_host_origin',
   scope: 'email profile',
   response_type: 'code'
@@ -77,6 +77,8 @@ const googleParams = {
 
 export default {
   data() {
+    console.log('GOOGLE_CLIENT_ID: ' + process.env.GOOGLE_CLIENT_ID);
+    console.log('VUE_APP_GOOGLE_CLIENT_ID: ' + process.env.VUE_APP_GOOGLE_CLIENT_ID);
     return {
       signedIn: false,
       signedInUser: ""
