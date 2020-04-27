@@ -22,13 +22,27 @@ const movieRepository = {
 }
 
 router.get('/lists', async (req, res) => {
-  const lists = await db.List.findAll();
+  const userId = req.session.userId;
+  if (!userId) {
+    res.send(401);
+    return;
+  }
+
+  const user = await db.User.findByPk(userId);
+
+  const lists = await user.getLists();
   res.json(lists);
 });
 
 router.post('/lists', async (req, res) => {
   const title = req.body.title;
-  const list = await db.List.build({ title: title });
+  const userId = req.session.userId;
+  if (!userId) {
+    res.send(401);
+    return;
+  }
+
+  const list = await db.List.build({ title: title, UserId: userId });
   try {
     await list.save();
     res.json(list);

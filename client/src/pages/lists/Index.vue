@@ -79,6 +79,7 @@
 
 <script>
 const axios = require('axios');
+const { Auth } = require('../../auth');
 
 export default {
   data() {
@@ -99,6 +100,8 @@ export default {
       this.lists = [];
       this.showLoadingIndicator = true;
 
+      await Auth.authenticate();
+      
       const result = await axios.get('/api/lists');
       this.lists = result.data;
       this.showLoadingIndicator = false;

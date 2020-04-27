@@ -6,6 +6,7 @@ module.exports = {
       'Lists',
       'UserId',
       {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
