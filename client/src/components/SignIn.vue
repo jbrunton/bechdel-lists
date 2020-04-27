@@ -89,9 +89,9 @@ export default {
     async verifyUser(googleUser) {
       try {
         const idToken = googleUser.getAuthResponse().id_token;
-        await axios.post('/api/auth/signin', { idToken: idToken });
+        const response = await axios.post('/api/auth/signin', { idToken: idToken });
         this.signedIn = true;
-        this.signedInUser = googleUser.getBasicProfile().getName();
+        this.signedInUser = response.data.name;
       } catch (e) {
         alert('Unable to sign you in.');
         this.signOut();
