@@ -32,7 +32,8 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    const user = await models.User.findOne({ where: { email: userEmail } });
-    await user.destroy();
+    await queryInterface.bulkDelete('ListEntries', null, {});
+    await queryInterface.bulkDelete('Movies', null, {});
+    await queryInterface.bulkDelete('Lists', null, {});
   }
 };
