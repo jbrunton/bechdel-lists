@@ -12,6 +12,12 @@ router.get('/signin', async (req, res) => {
   }
 });
 
+router.delete('/signout', async (req, res) => {
+  req.session.destroy(function() {
+    res.clearCookie('connect.sid', { path: '/' }).send(200);
+  });
+});
+
 module.exports = {
   router: router,
   routerPath: '/dev',
