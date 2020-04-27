@@ -5,12 +5,12 @@
       color="primary"
       dark
     >
-      <a class="d-flex align-center" href="/">
+      <router-link to="/" class="d-flex align-center">
         <v-icon large class="mr-4">mdi-filmstrip-box-multiple</v-icon>
         <v-toolbar-title class="white--text">
           Bechdel Lists
         </v-toolbar-title>
-      </a>
+      </router-link>
 
       <v-spacer></v-spacer>
 
