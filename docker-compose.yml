@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - 3000:80
+      - 3001:80
   api:
     build:
       dockerfile: Dockerfile.dev
@@ -27,7 +27,7 @@ services:
     environment:
       - POSTGRES_HOST=postgres
       - SERVER_PORT=5000
-      - GOOGLE_CLIENT_ID=952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com
+      - GOOGLE_CLIENT_ID=729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
   client:
     build:
       dockerfile: Dockerfile.dev
@@ -36,4 +36,4 @@ services:
       - /app/node_modules
       - ./client:/app
     environment:
-      - VUE_APP_GOOGLE_CLIENT_ID=952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com
+      - VUE_APP_GOOGLE_CLIENT_ID=729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
