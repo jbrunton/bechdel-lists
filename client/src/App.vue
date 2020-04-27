@@ -66,6 +66,8 @@
 <script>
 /* global gapi */
 
+const axios = require('axios');
+
 const googleParams = {
   client_id: '952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com',
   cookie_policy: 'single_host_origin',
@@ -89,8 +91,17 @@ export default {
     async checkAuthStatus() {
       const auth = await gapi.auth2.init(googleParams);
       if (auth.isSignedIn.get()) {
-        this.signedIn = true;
-        this.signedInUser = auth.currentUser.get().getBasicProfile().getName()
+        const idToken = auth.currentUser.get().getAuthResponse().id_token;
+        console.log('idToken: ' + idToken);
+
+        try {
+          await axios.post('/api/auth/signin', { idToken: idToken });
+          this.signedIn = true;
+          this.signedInUser = auth.currentUser.get().getBasicProfile().getName()
+        } catch (e) {
+          alert('Unable to sign you in.');
+          this.signOut();
+        }
       } else {
         this.signedIn = false;
         this.signedInUser = "";
@@ -107,8 +118,17 @@ export default {
     async signIn() {
       const auth2 = gapi.auth2.getAuthInstance();
       const googleUser = await auth2.signIn();
-      this.signedIn = true;
-      this.signedInUser = googleUser.getBasicProfile().getName()
+      const idToken = googleUser.getAuthResponse().id_token;
+      console.log('idToken: ' + idToken);
+
+      try {
+        await axios.post('/api/auth/signin', { idToken: idToken });
+        this.signedIn = true;
+        this.signedInUser = googleUser.getBasicProfile().getName()
+      } catch (e) {
+        alert('Unable to sign you in.');
+        this.signOut();
+      }
     }
   }
 }
