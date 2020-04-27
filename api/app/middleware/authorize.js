@@ -4,7 +4,7 @@ module.exports = function(prototype) {
   return function(req, res, next) {
     if (prototype == models.List) {
       if (req.user) {
-        if (req.list && req.list.userId == req.user.Id) {
+        if (req.list && req.list.userId == req.user.id) {
           return next();
         }
       }
