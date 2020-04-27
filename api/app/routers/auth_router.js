@@ -7,6 +7,12 @@ const clientId = process.env.GOOGLE_CLIENT_ID;
 const router = express.Router();
 const client = new OAuth2Client(clientId);
 
+function logUserEvent(message, user) {
+  const { name, email, ...excludingPII } = user.get()
+  const userAsString = JSON.stringify(excludingPII);
+  console.log(`${message}: ${userAsString}`);
+}
+
 router.post('/auth/signin', async (req, res) => {
   try {
     const ticket = await client.verifyIdToken({
@@ -18,7 +24,10 @@ router.post('/auth/signin', async (req, res) => {
     const [user, created] = await models.User.findOrCreate({
       where: { email: payload.email }
     });
-    if (!created) {
+    if (created) {
+      logUserEvent('Created new user', user);
+    } else {
+      logUserEvent('Found existing user', user);
       user.name = payload.name;
       await user.save();
     }
