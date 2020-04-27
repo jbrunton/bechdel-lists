@@ -60,23 +60,19 @@ export default {
       if (auth.isSignedIn.get()) {
         const googleUser = auth.currentUser.get();
         await this.verifyUser(googleUser);
-      } else {
-        this.signedIn = false;
-        this.signedInUser = "";
-        this.authInProgress = false;
       }
 
       this.authInProgress = false;
     },
 
-    signOut() {
+    async signOut() {
       this.authInProgress = true;
 
       const auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function () {
-        location.reload();
-      });
-
+      await auth2.signOut()
+      this.signedIn = false;
+      this.signedInUser = "";
+      
       this.authInProgress = false;
     },
 
