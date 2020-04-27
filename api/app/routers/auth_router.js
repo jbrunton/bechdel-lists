@@ -14,8 +14,6 @@ router.post('/auth/signin', async (req, res) => {
       audience: clientId
     });
     const payload = ticket.getPayload();
-    const userid = payload['sub'];
-    console.log('Verification successful: ' + payload);
     res.json(payload);
   } catch (e) {
     console.log('Verification failed: ' + e);
