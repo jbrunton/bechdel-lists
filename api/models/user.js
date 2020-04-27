@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       user.logEvent('Created new user', user);
     } else {
       user.logEvent('Found existing user', user);
-      if (!!name) {
-        user.name = name;
-        await user.save();
-      }
+    }
+    if (!!name) {
+      user.name = name;
+      await user.save();
     }
     return user;
   };
