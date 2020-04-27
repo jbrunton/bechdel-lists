@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 
   List.associate = function(models) {
     List.belongsToMany(models.Movie, {through: 'ListEntry'});
+    List.belongsTo(models.User);
   };
 
   List.prototype.updateDetails = async function() {
