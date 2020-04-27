@@ -18,6 +18,7 @@
         <template v-slot:activator="{ on }">
           <v-btn
             text
+            :loading="authInProgress"
             v-on="on"
           >
             {{ signedInUser }}
@@ -35,7 +36,7 @@
         </v-list>
       </v-menu>
 
-      <v-btn v-else text @click="signIn">
+      <v-btn v-else text @click="signIn" :loading="authInProgress">
         <v-icon>mdi-account</v-icon>
         <span class="ml-2">Sign In</span>
       </v-btn>
@@ -79,7 +80,8 @@ export default {
   data() {
     return {
       signedIn: false,
-      signedInUser: ""
+      signedInUser: "",
+      authInProgress: false
     }
   },
 
@@ -89,6 +91,7 @@ export default {
 
   methods : {
     async checkAuthStatus() {
+      this.authInProgress = true;
       const auth = await gapi.auth2.init(googleParams);
       if (auth.isSignedIn.get()) {
         const googleUser = auth.currentUser.get();
@@ -96,10 +99,12 @@ export default {
       } else {
         this.signedIn = false;
         this.signedInUser = "";
+        this.authInProgress = false;
       }
     },
 
     signOut() {
+      this.authInProgress = true;
       const auth2 = gapi.auth2.getAuthInstance();
       auth2.signOut().then(function () {
         location.reload();
@@ -107,6 +112,7 @@ export default {
     },
 
     async signIn() {
+      this.authInProgress = true;
       const auth2 = gapi.auth2.getAuthInstance();
       const googleUser = await auth2.signIn();
       await this.verifyUser(googleUser);
@@ -118,6 +124,7 @@ export default {
         await axios.post('/api/auth/signin', { idToken: idToken });
         this.signedIn = true;
         this.signedInUser = googleUser.getBasicProfile().getName();
+        this.authInProgress = false;
       } catch (e) {
         alert('Unable to sign you in.');
         this.signOut();
