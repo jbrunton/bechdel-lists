@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { Auth } from '../auth';
 
 export default {
@@ -55,26 +54,20 @@ export default {
   },
 
   created() {
-    this.checkAuthStatus();
+    this.load();
   },
 
   methods: {
-    async checkAuthStatus() {
-      const status = await Auth.getStatus();
-      if (status.signedIn) {
-        this.loadProfile();
-      } else {
-        window.location = '/';
-      }
-    },
-
-    async loadProfile() {
+    async load() {
       this.loading = true;
 
-      const response = await axios.get('/api/users/me');
-      const user = response.data;
-      this.name = user.name;
-      this.email = user.email;
+      try {
+        const user = await Auth.authenticate();
+        this.name = user.name;
+        this.email = user.email;
+      } catch {
+        window.location = '/';
+      }
       
       this.loading = false;
     }

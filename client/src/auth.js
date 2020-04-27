@@ -46,10 +46,20 @@ async function verifyUser(googleUser) {
   }
 }
 
+async function authenticate() {
+  const status = await authState;
+  if (status.signedIn) {
+    return status.user;
+  } else {
+    throw "Unauthenticated";
+  }
+}
+
 export const Auth = {
   getStatus() {
     return authState;
   },
+  authenticate: authenticate,
   signIn: signIn,
   signOut: signOut
 };
