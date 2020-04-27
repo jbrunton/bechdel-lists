@@ -4,10 +4,10 @@ const axios = require('axios');
 const models = require.main.require('./models');
 const authenticate = require.main.require('./app/middleware/authenticate');
 const authorize = require.main.require('./app/middleware/authorize');
-const listParam = require.main.require('./app/middleware/authorize');
+const listParam = require.main.require('./app/middleware/list_param');
 
 const router = express.Router();
-router.use(listParam);
+router.param('listId', listParam);
 
 const movieRepository = {
   findByImdbId: async(imdbId) => {
@@ -47,7 +47,7 @@ router.post('/lists', authenticate, async (req, res) => {
   }
 });
 
-router.get('/lists/:listId', authenticate, authorize(models.List), async (req, res) => {
+router.get('/lists/:listId', [authenticate, authorize(models.List)], async (req, res) => {
   if (req.list != null) {
     res.json(req.list);
   } else {

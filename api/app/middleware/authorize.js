@@ -1,10 +1,10 @@
 const models = require.main.require('./models');
 
 module.exports = function(prototype) {
-  return async function(req, res, next) {
+  return function(req, res, next) {
     if (prototype == models.List) {
-      if (req.userId) {
-        if (req.list.userId == req.userId) {
+      if (req.user) {
+        if (req.list.userId == req.user.Id) {
           return next();
         }
       }
