@@ -5,6 +5,19 @@
 
        <v-card outlined>
     <v-toolbar flat class="grey lighten-3">
+
+      <template v-slot:extension v-if="showRatings">
+        <v-chip class="ma-2" color="white">          
+          <span class="grey--text text--darken-1">Avg</span> <b class="ml-2">{{avgRating}}</b>
+        </v-chip>
+        <v-chip class="ma-2" color="white">          
+          <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
+        </v-chip>
+        <v-chip class="ma-2" color="white">          
+          <span class="grey--text text--darken-1">Max</span> <b class="ml-2">{{maxRating}}</b>
+        </v-chip>
+      </template>
+
       <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
       <v-spacer></v-spacer>
@@ -36,6 +49,7 @@
         <span>Edit</span>
       </v-tooltip> 
 
+      
       <v-progress-linear
         :active="showLoadingIndicator"
         :indeterminate="showLoadingIndicator"
@@ -92,6 +106,12 @@
   </v-container>
 </template>
 
+<style>
+.v-chip .v-avatar {
+  font-weight: 500;
+}
+</style>
+
 <script>
 const axios = require('axios');
 const { Auth } = require('../../auth');
@@ -104,6 +124,7 @@ export default {
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
+      showRatings: false,
       editMode: false
     }
   },
@@ -121,6 +142,7 @@ export default {
       const result = await axios.get(`/api/lists/${this.$route.params.id}`);
       this.list = result.data;
       this.movies = this.list.Movies;
+      this.updateRatings();
       this.showLoadingIndicator = false;
     },
 
@@ -158,6 +180,16 @@ export default {
       await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
       this.$emit('list-updated');
       this.load();
+    },
+
+    updateRatings() {
+      const ratings = this.movies.map((movie) => movie.rating).filter(x => x);
+      this.showRatings = ratings.length > 0;
+      if (this.showRatings) {
+        this.minRating = Math.min(...ratings);
+        this.maxRating = Math.max(...ratings);
+        this.avgRating = this.list.averageRating.toFixed(1);
+      }
     },
 
     deleteListClicked() {
