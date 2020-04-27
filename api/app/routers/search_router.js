@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const router = express.Router();
 
-router.get('/search', async (req, res) => {
+router.get('/', async (req, res) => {
   const query = req.query['query'];
   const results = await axios.get(`http://bechdeltest.com/api/v1/getMoviesByTitle?title=${query}`)
   const movies = results.data.map((movie) => {
@@ -17,4 +17,7 @@ router.get('/search', async (req, res) => {
   res.json(movies)
 });
 
-module.exports = router;
+module.exports = {
+  routerPath: '/search',
+  router: router
+};

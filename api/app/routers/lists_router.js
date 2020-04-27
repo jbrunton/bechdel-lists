@@ -11,12 +11,12 @@ const router = express.Router();
 router.param('listId', listParam);
 router.param('imdbId', imdbIdParam);
 
-router.get('/lists', authenticate, async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   const lists = await req.user.getLists();
   res.json(lists);
 });
 
-router.post('/lists', authenticate, async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
   const title = req.body.title;
   const list = await models.List.build({ title: title, UserId: req.user.id });
   try {
@@ -32,7 +32,7 @@ router.post('/lists', authenticate, async (req, res) => {
   }
 });
 
-router.get('/lists/:listId', [authenticate, authorize(models.List)], async (req, res) => {
+router.get('/:listId', [authenticate, authorize(models.List)], async (req, res) => {
   if (req.list != null) {
     res.json(req.list);
   } else {
@@ -40,7 +40,7 @@ router.get('/lists/:listId', [authenticate, authorize(models.List)], async (req,
   }
 });
 
-router.delete('/lists/:listId', [authenticate, authorize(models.List)], async (req, res) => {
+router.delete('/:listId', [authenticate, authorize(models.List)], async (req, res) => {
   if (req.list != null) {
     await req.list.destroy();
     res.send(200)
@@ -49,7 +49,7 @@ router.delete('/lists/:listId', [authenticate, authorize(models.List)], async (r
   }
 });
 
-router.post('/lists/:listId/movies/:imdbId', [authenticate, authorize(models.List)], async (req, res) => {
+router.post('/:listId/movies/:imdbId', [authenticate, authorize(models.List)], async (req, res) => {
   if (req.list != null) {
     const movie = req.movie;
     await req.list.addMovie(movie)
@@ -60,7 +60,7 @@ router.post('/lists/:listId/movies/:imdbId', [authenticate, authorize(models.Lis
   }
 });
 
-router.delete('/lists/:listId/movies/:imdbId', [authenticate, authorize(models.List)], async (req, res) => {
+router.delete('/:listId/movies/:imdbId', [authenticate, authorize(models.List)], async (req, res) => {
   if (req.list != null) {
     const movie = req.movie;
     if (movie != null) {
@@ -73,4 +73,7 @@ router.delete('/lists/:listId/movies/:imdbId', [authenticate, authorize(models.L
   }
 });
 
-module.exports = router;
+module.exports = {
+  routerPath: '/lists',
+  router: router
+};
