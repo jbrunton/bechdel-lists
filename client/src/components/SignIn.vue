@@ -12,7 +12,7 @@
     </template>
 
     <v-list>
-      <v-list-item href="#">
+      <v-list-item @click="profileClicked">
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
       <v-list-item @click="signOut">
@@ -64,6 +64,10 @@ export default {
     async signIn() {
       this.authInProgress = true;
       Auth.signIn();
+    },
+
+    profileClicked() {
+      this.$router.push({ name: 'Profile' })
     }
   }
 }
