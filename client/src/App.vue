@@ -14,7 +14,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu open-on-hover bottom offset-y>
+      <v-menu open-on-hover bottom offset-y v-if="signedIn">
         <template v-slot:activator="{ on }">
           <v-btn
             text
@@ -34,6 +34,11 @@
           </v-list-item>
         </v-list>
       </v-menu>
+
+      <v-btn v-else text @click="signIn">
+        <v-icon>mdi-account</v-icon>
+        <span class="ml-2">Sign In</span>
+      </v-btn>
 
       <v-btn
         href="https://github.com/jbrunton/bechdel-demo"
@@ -60,6 +65,14 @@
 </template>
 <script>
 /* global gapi */
+
+const googleParams = {
+  client_id: '952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com',
+  cookie_policy: 'single_host_origin',
+  scope: 'email profile',
+  response_type: 'code'
+};
+
 export default {
   data() {
     return {
@@ -74,12 +87,7 @@ export default {
 
   methods : {
     async checkAuthStatus() {
-      const auth = await gapi.auth2.init({
-          client_id: '952635847674-ocr6762iqhjkvtb988fclnfs4trr6qqr.apps.googleusercontent.com',
-          cookie_policy: 'single_host_origin',
-          scope: 'email profile',
-          response_type: 'code'
-      });
+      const auth = await gapi.auth2.init(googleParams);
       if (auth.isSignedIn.get()) {
         this.signedIn = true;
         this.signedInUser = auth.currentUser.get().getBasicProfile().getName()
@@ -94,6 +102,13 @@ export default {
       auth2.signOut().then(function () {
         location.reload();
       });
+    },
+
+    async signIn() {
+      const auth2 = gapi.auth2.getAuthInstance();
+      const googleUser = await auth2.signIn();
+      this.signedIn = true;
+      this.signedInUser = googleUser.getBasicProfile().getName()
     }
   }
 }
