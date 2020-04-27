@@ -7,7 +7,7 @@ const clientId = process.env.GOOGLE_CLIENT_ID;
 const router = express.Router();
 const client = new OAuth2Client(clientId);
 
-router.post('/auth/signin', async (req, res) => {
+router.post('/signin', async (req, res) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: req.body.idToken,
@@ -24,4 +24,7 @@ router.post('/auth/signin', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = {
+  routerPath: '/auth',
+  router: router
+};

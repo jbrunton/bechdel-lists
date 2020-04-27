@@ -3,7 +3,7 @@ const models = require.main.require('./models');
 
 const router = express.Router();
 
-router.get('/users/me', async (req, res) => {
+router.get('/me', async (req, res) => {
   const userId = req.session.userId;
   console.log(`sessionId: ${req.session.id}, userId: ${userId}`);
   if (userId) {
@@ -16,4 +16,7 @@ router.get('/users/me', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = module.exports = {
+  routerPath: '/users',
+  router: router
+};

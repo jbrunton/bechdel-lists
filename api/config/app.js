@@ -15,9 +15,14 @@ app.use(morgan('dev'));
 
 console.log('Configuring routers...');
 glob.sync('./app/routers/*_router.js').forEach(function(file) {
-  console.log(`  Registering router at ${file}`);
-  const router = require(path.resolve(file));
-  app.use(router);
+  const { routerPath, router, environments } = require(path.resolve(file));
+  const applyRouter = !environments || environments.includes(process.env.NODE_ENV);
+  if (applyRouter) {
+    console.log(`  Registering router ${file} at ${routerPath}`);
+    app.use(routerPath, router);
+  } else {
+    console.log(`  Skipping router ${file} for environment ${process.env.NODE_ENV}`);
+  }
 });
 
 module.exports = app;

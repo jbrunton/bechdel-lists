@@ -94,6 +94,7 @@
 
 <script>
 const axios = require('axios');
+const { Auth } = require('../../auth');
 
 export default {
   data() {
@@ -115,6 +116,8 @@ export default {
     async load() {
       this.showLoadingIndicator = true;
 
+      await Auth.authenticate();
+      
       const result = await axios.get(`/api/lists/${this.$route.params.id}`);
       this.list = result.data;
       this.movies = this.list.Movies;
