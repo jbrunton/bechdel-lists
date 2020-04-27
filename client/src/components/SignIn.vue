@@ -12,7 +12,7 @@
     </template>
 
     <v-list>
-      <v-list-item href="#">
+      <v-list-item @click="profileClicked">
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
       <v-list-item @click="signOut">
@@ -28,16 +28,7 @@
 </template>
 
 <script>
-/* global gapi */
-
-const axios = require('axios');
-
-const googleParams = {
-  client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
-  cookie_policy: 'single_host_origin',
-  scope: 'email profile',
-  response_type: 'code'
-};
+import { Auth } from '../auth';
 
 export default {
   data() {
@@ -49,17 +40,17 @@ export default {
   },
 
   mounted() {
-    gapi.load('auth2', this.checkAuthStatus);
+    this.checkAuthStatus();
   },
 
   methods : {
     async checkAuthStatus() {
       this.authInProgress = true;
 
-      const auth = await gapi.auth2.init(googleParams);
-      if (auth.isSignedIn.get()) {
-        const googleUser = auth.currentUser.get();
-        await this.verifyUser(googleUser);
+      const status = await Auth.getStatus();
+      if (status.signedIn) {
+        this.signedIn = true;
+        this.signedInUser = status.user.name;
       }
 
       this.authInProgress = false;
@@ -67,36 +58,18 @@ export default {
 
     async signOut() {
       this.authInProgress = true;
-
-      const auth2 = gapi.auth2.getAuthInstance();
-      await auth2.signOut()
-      this.signedIn = false;
-      this.signedInUser = "";
-      
-      this.authInProgress = false;
+      Auth.signOut();
     },
 
     async signIn() {
       this.authInProgress = true;
-
-      const auth2 = gapi.auth2.getAuthInstance();
-      const googleUser = await auth2.signIn();
-      await this.verifyUser(googleUser);
-
-      this.authInProgress = false;
+      Auth.signIn();
     },
 
-    async verifyUser(googleUser) {
-      try {
-        const idToken = googleUser.getAuthResponse().id_token;
-        const response = await axios.post('/api/auth/signin', { idToken: idToken });
-        this.signedIn = true;
-        this.signedInUser = response.data.name;
-      } catch (e) {
-        alert('Unable to sign you in.');
-        this.signOut();
-      }
+    profileClicked() {
+      this.$router.push({ name: 'Profile' })
     }
   }
 }
 </script>
+
