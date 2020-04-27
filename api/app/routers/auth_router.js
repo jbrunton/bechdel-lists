@@ -14,22 +14,12 @@ router.post('/auth/signin', async (req, res) => {
       audience: clientId
     });
     const payload = ticket.getPayload();
-
-    const [user, created] = await models.User.findOrCreate({
-      where: { email: payload.email }
-    });
-    if (created) {
-      user.logEvent('Created new user', user);
-    } else {
-      user.logEvent('Found existing user', user);
-      user.name = payload.name;
-      await user.save();
-    }
-
+    const user = await models.User.findOrCreateByEmail(payload.email, payload.name);
     req.session.userId = user.id;
     res.json(user);
   } catch (e) {
-    console.log('Verification failed: ' + e);
+    // TODO: distinguish between auth failure, network failure and other errors.
+    console.log('Verification failed: ' + e.stack);
     res.status(401).json({ error: e.message });
   }
 });
