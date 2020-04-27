@@ -77,8 +77,6 @@ const googleParams = {
 
 export default {
   data() {
-    console.log('GOOGLE_CLIENT_ID: ' + process.env.GOOGLE_CLIENT_ID);
-    console.log('VUE_APP_GOOGLE_CLIENT_ID: ' + process.env.VUE_APP_GOOGLE_CLIENT_ID);
     return {
       signedIn: false,
       signedInUser: ""
