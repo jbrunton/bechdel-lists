@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/users/me', async (req, res) => {
   const userId = req.session.userId;
-  // console.log(`sessionId: ${req.session.id}, userId: ${userId}`);
+  console.log(`sessionId: ${req.session.id}, userId: ${userId}`);
   if (userId) {
     const user = await models.User.findByPk(userId);
     user.logEvent('Found user');

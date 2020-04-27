@@ -43,6 +43,7 @@
 
 <script>
 import axios from 'axios';
+import { Auth } from '../auth';
 
 export default {
   data() {
@@ -54,11 +55,20 @@ export default {
   },
 
   created() {
-    this.load();
+    this.checkAuthStatus();
   },
 
   methods: {
-    async load() {
+    async checkAuthStatus() {
+      const status = await Auth.getStatus();
+      if (status.signedIn) {
+        this.loadProfile();
+      } else {
+        window.location = '/';
+      }
+    },
+
+    async loadProfile() {
       this.loading = true;
 
       const response = await axios.get('/api/users/me');

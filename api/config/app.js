@@ -8,9 +8,7 @@ const session = require('express-session');
 const app = express();
 app.use(bodyParser.json());
 app.use(session({
-  secret: 'debug secret',
-  resave: false,
-  saveUninitialized: true
+  secret: 'debug secret'
 }));
 
 console.log('Configuring routers...');

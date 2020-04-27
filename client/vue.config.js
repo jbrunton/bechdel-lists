@@ -13,5 +13,8 @@ module.exports = {
       args[0].title = 'Bechdel Lists';
       return args;
     })
+  },
+  "configureWebpack": {
+    devtool: 'source-map'
   }
 }
