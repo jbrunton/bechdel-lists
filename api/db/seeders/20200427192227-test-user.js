@@ -4,17 +4,18 @@ const models = require('../../models');
 const yaml = require('js-yaml');
 const fs   = require('fs');
 
-require('dotenv').config();
-
-const userEmail = process.env.SEED_USER_EMAIL || 'demo.user@example.com';
-const userName = process.env.SEED_USER_NAME || 'Demo User';
+const userEmail = 'test.user@example.com';
+const userName = 'Test User';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
-      const user = await models.User.findOrCreateByEmail(userEmail, userName);
+      const user = await models.User.create({
+        email: userEmail,
+        name: userName
+      });
       const seeds = yaml.safeLoad(fs.readFileSync('./db/seeders/lists.yml', 'utf8'));
-      for (const listSeed of seeds.demoUserLists) {
+      for (const listSeed of seeds.testUserLists) {
         const list = await models.List.create({
           title: listSeed.title,
           UserId: user.id

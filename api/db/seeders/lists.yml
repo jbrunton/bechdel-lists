@@ -1,5 +1,5 @@
 ---
-lists:
+demoUserLists:
   - title: Star Trek Reboots
     movies:
       - title: Star Trek Beyond
@@ -28,3 +28,18 @@ lists:
         imdbId: "0800369"
         year: 2011
         rating: 3
+testUserLists:
+  - title: Star Wars (Original Trilogy)
+    movies:
+      - title: Star Wars
+        imdbId: "0076759"
+        year: 1977
+        rating: 1
+      - title: 'Star Wars: Episode VI - Return of the Jedi'
+        imdbId: "0086190"
+        year: 1983
+        rating: 1
+      - title: 'Star Wars: Episode V - The Empire Strikes Back'
+        imdbId: "0080684"
+        year: 1980
+        rating: 0
