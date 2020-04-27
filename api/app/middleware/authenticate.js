@@ -1,6 +1,6 @@
 const models = require.main.require('./models');
 
-async function authenticate(req, res, next) {
+module.exports = async function (req, res, next) {
   const userId = req.session.userId;
   if (userId) {
     const user = await models.User.findByPk(userId);
@@ -9,6 +9,4 @@ async function authenticate(req, res, next) {
   } else {
     res.send(401);
   }
-}
-
-module.exports = authenticate;
+};
