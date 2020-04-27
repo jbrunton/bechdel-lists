@@ -2,6 +2,7 @@
 const express = require('express');
 const axios = require('axios');
 const db = require.main.require('./models');
+const authenticate = require.main.require('./app/middleware/authenticate');
 const router = express.Router();
 
 const movieRepository = {
@@ -21,28 +22,14 @@ const movieRepository = {
   }
 }
 
-router.get('/lists', async (req, res) => {
-  const userId = req.session.userId;
-  if (!userId) {
-    res.send(401);
-    return;
-  }
-
-  const user = await db.User.findByPk(userId);
-
-  const lists = await user.getLists();
+router.get('/lists', authenticate, async (req, res) => {
+  const lists = await req.user.getLists();
   res.json(lists);
 });
 
-router.post('/lists', async (req, res) => {
+router.post('/lists', authenticate, async (req, res) => {
   const title = req.body.title;
-  const userId = req.session.userId;
-  if (!userId) {
-    res.send(401);
-    return;
-  }
-
-  const list = await db.List.build({ title: title, UserId: userId });
+  const list = await db.List.build({ title: title, UserId: req.user.id });
   try {
     await list.save();
     res.json(list);
