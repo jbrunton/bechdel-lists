@@ -91,17 +91,8 @@ export default {
     async checkAuthStatus() {
       const auth = await gapi.auth2.init(googleParams);
       if (auth.isSignedIn.get()) {
-        const idToken = auth.currentUser.get().getAuthResponse().id_token;
-        console.log('idToken: ' + idToken);
-
-        try {
-          await axios.post('/api/auth/signin', { idToken: idToken });
-          this.signedIn = true;
-          this.signedInUser = auth.currentUser.get().getBasicProfile().getName()
-        } catch (e) {
-          alert('Unable to sign you in.');
-          this.signOut();
-        }
+        const googleUser = auth.currentUser.get();
+        await this.verifyUser(googleUser);
       } else {
         this.signedIn = false;
         this.signedInUser = "";
@@ -118,13 +109,15 @@ export default {
     async signIn() {
       const auth2 = gapi.auth2.getAuthInstance();
       const googleUser = await auth2.signIn();
-      const idToken = googleUser.getAuthResponse().id_token;
-      console.log('idToken: ' + idToken);
+      await this.verifyUser(googleUser);
+    },
 
+    async verifyUser(googleUser) {
       try {
+        const idToken = googleUser.getAuthResponse().id_token;
         await axios.post('/api/auth/signin', { idToken: idToken });
         this.signedIn = true;
-        this.signedInUser = googleUser.getBasicProfile().getName()
+        this.signedInUser = googleUser.getBasicProfile().getName();
       } catch (e) {
         alert('Unable to sign you in.');
         this.signOut();
