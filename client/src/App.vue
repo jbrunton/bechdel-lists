@@ -14,7 +14,7 @@
 
       <v-spacer></v-spacer>
 
-      <SignIn></SignIn>
+      <SignIn />
 
       <v-btn
         href="https://github.com/jbrunton/bechdel-demo"
