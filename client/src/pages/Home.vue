@@ -8,8 +8,8 @@
         <li>A non-trivial, cleanly architected backend
           <a href="https://github.com/jbrunton/bechdel-demo/tree/master/api">API</a> written using <b>Express</b>.
         </li>
-        <li>A cleanly written <a href="https://github.com/jbrunton/bechdel-demo/tree/master/client">client app</a>
-        written using <b>Vue.js</b>
+        <li>A cleanly written <a href="https://github.com/jbrunton/bechdel-demo/tree/master/client">client app</a> using
+        <b>Vue.js</b>
         </li>
       </ul>
     </p>
