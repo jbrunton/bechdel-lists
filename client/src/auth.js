@@ -9,7 +9,7 @@ const googleParams = {
   response_type: 'code'
 };
 
-const authState = new Promise(function(resolve) {
+const authStatus = new Promise(function(resolve) {
   gapi.load('auth2', async function() {
     const auth = await gapi.auth2.init(googleParams);
     if (auth.isSignedIn.get()) {
@@ -47,7 +47,7 @@ async function verifyUser(googleUser) {
 }
 
 async function authenticate() {
-  const status = await authState;
+  const status = await authStatus;
   if (status.signedIn) {
     return status.user;
   } else {
@@ -57,7 +57,7 @@ async function authenticate() {
 
 export const Auth = {
   getStatus() {
-    return authState;
+    return authStatus;
   },
   authenticate: authenticate,
   signIn: signIn,
