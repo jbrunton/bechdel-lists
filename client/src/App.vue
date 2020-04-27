@@ -22,7 +22,7 @@
         text
       >
         <v-icon>mdi-github</v-icon>
-        <span class="ml-2">Project Source</span>
+        <span class="ml-2">Source</span>
       </v-btn>
     </v-app-bar>
 
