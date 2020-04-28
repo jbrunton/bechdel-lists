@@ -12,11 +12,10 @@ for service in ${StringArray[@]}; do
   echo "Building $service service..."
 
   docker build \
-    -t $DOCKER_USERNAME/bechdel-lists-$service-dev:latest \
-    -t $DOCKER_USERNAME/bechdel-lists-$service-dev:$SHA \
-    -f ./api/Dockerfile.dev ./$service
+    -t $DOCKER_USERNAME/bechdel-lists-$service:latest \
+    -t $DOCKER_USERNAME/bechdel-lists-$service:$SHA \
+    -f ./$service/Dockerfile ./$service
 
-    docker push $DOCKER_USERNAME/bechdel-lists-$service-dev:latest
-
-    docker push $DOCKER_USERNAME/bechdel-lists-$service-dev:$SHA
+  docker push $DOCKER_USERNAME/bechdel-lists-$service:latest
+  docker push $DOCKER_USERNAME/bechdel-lists-$service:$SHA
 done
