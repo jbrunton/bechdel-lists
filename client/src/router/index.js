@@ -31,6 +31,13 @@ const routes = [
   }
 ]
 
+if (process.env.NODE_ENV == 'development') {
+  routes.push({
+    path: '/dev/idtoken',
+    component: () => import(/* webpackChunkName: "idToken" */ '../pages/dev/IdToken.vue')
+  })
+}
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
