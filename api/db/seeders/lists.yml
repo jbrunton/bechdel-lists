@@ -28,7 +28,7 @@ demoUserLists:
         imdbId: "0800369"
         year: 2011
         rating: 3
-  - title: Top Grossing US Domestic 2019
+  - title: Top Grossing US 2019
     movies:
       - title: 'Avengers: Endgame'
         imdbId: '4154796'
@@ -70,7 +70,7 @@ demoUserLists:
         imdbId: '7349950'
         year: 2019
         rating: 3
-  - title: Top Grossing US Domestic 2009
+  - title: Top Grossing US 2009
     movies:
       - title: 'Transformers: Revenge of the Fallen'
         imdbId: '1055369'
@@ -109,6 +109,41 @@ demoUserLists:
         imdbId: 0878804
         year: 2009
         rating: 2
+  - title: Top Grossing US 1999
+    movies: # note: this list is missing 'Big Daddy' and 'Runaway Bride' as they haven't been added to bechdeltest.com
+      - title: 'Star Wars: Episode I - The Phantom Menace'
+        imdbId: 0120915
+        year: 1999
+        rating: 3
+      - title: Sixth Sense, The
+        imdbId: '0167404'
+        year: 1999
+        rating: 3
+      - title: 'Austin Powers: The Spy Who Shagged Me'
+        imdbId: '0145660'
+        year: 1999
+        rating: 1
+      - title: Toy Story 2
+        imdbId: '0120363'
+        year: 1999
+        rating: 1
+      - title: Matrix, The
+        imdbId: 0133093
+        year: 1999
+        rating: 3
+      - title: Tarzan
+        imdbId: 0120855
+        year: 1999
+        rating: 2
+      - title: Mummy, The
+        imdbId: '0120616'
+        year: 1999
+        rating: 1
+      - title: Blair Witch Project, The
+        imdbId: 0185937
+        year: 1999
+        rating: 3
+
 testUserLists:
   - title: Star Wars (Original Trilogy)
     movies:
