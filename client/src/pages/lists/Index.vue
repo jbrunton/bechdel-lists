@@ -55,6 +55,7 @@
                           <v-rating :dense=true :small=true :half-increments=true :readonly=true
                           color="white" background-color="grey lighten-1"
                           v-model="list.averageRating" length="3"></v-rating>
+                          <b class="ml-2 white--text" v-text="list.averageRating.toFixed(1)"></b>
                         </v-chip>
                       </template>
                     <RatingToolTip :rating="list.averageRating"></RatingToolTip>
