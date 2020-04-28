@@ -52,3 +52,5 @@ For convenience the repository includes a Postman collection and environment. Th
     api/bechdel-demo.postman_environment.json
 
 The environment includes a variable `authEmail`. If you set this to your user's email, then you can authenticate at `/dev/signin`. This cuts out the Google Sign-In flow which [doesn't work with Postman](https://github.com/postmanlabs/postman-app-support/issues/7700).
+
+If you wish to test the usual authentication endpoints with Postman you'll need an idtoken. There is a convenience page at http://localhost:3001/dev/idtoken which will show you one for your signed in user. You can then set the postman `idToken` environment variable to this value.

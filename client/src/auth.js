@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const googleParams = {
+const GoogleParams = {
   client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
   cookie_policy: 'single_host_origin',
   scope: 'email profile',
@@ -11,7 +11,7 @@ const googleParams = {
 
 const authStatus = new Promise(function(resolve) {
   gapi.load('auth2', async function() {
-    const auth = await gapi.auth2.init(googleParams);
+    const auth = await gapi.auth2.init(GoogleParams);
     if (auth.isSignedIn.get()) {
       const googleUser = auth.currentUser.get();
       const user = await verifyUser(googleUser);
@@ -56,7 +56,7 @@ async function authenticate() {
   if (status.signedIn) {
     return status.user;
   } else {
-    throw "Unauthenticated";
+    throw new Error("Unauthenticated");
   }
 }
 

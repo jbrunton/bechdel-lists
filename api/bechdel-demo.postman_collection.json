@@ -23,10 +23,25 @@
 						}
 					],
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"{{authEmail}}\"\n}\n"
+						},
 						"url": {
-							"raw": "localhost:3001/api/dev/signin?email={{authEmail}}",
+							"raw": "localhost:3001/api/dev/signin",
 							"host": [
 								"localhost"
 							],
@@ -35,12 +50,38 @@
 								"api",
 								"dev",
 								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dev#signout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "99688aae-85e3-4043-9b84-c561015683ea",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/dev/signout",
+							"host": [
+								"localhost"
 							],
-							"query": [
-								{
-									"key": "email",
-									"value": "{{authEmail}}"
-								}
+							"port": "3001",
+							"path": [
+								"api",
+								"dev",
+								"signout"
 							]
 						}
 					},
@@ -248,6 +289,78 @@
 									"key": "query",
 									"value": "Star Wars"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "auth#signin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idToken\": \"{{idToken}}\"\n}\n"
+						},
+						"url": {
+							"raw": "localhost:3001/api/auth/signin",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth#signout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "localhost:3001/api/auth/signout",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"signout"
 							]
 						}
 					},
