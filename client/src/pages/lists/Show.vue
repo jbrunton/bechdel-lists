@@ -100,11 +100,16 @@
             <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-chip color="grey" v-show="!editMode">
-              <v-rating :dense=true :small=true color="white" background-color="grey lighten-1"
-                v-model="movie.rating" length="3"></v-rating>
-            </v-chip>
-
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip color="grey" v-show="!editMode" v-on="on">
+                  <v-rating :dense=true :small=true :readonly=true
+                    color="white" background-color="grey lighten-1"
+                    v-model="movie.rating" length="3"></v-rating>
+                  </v-chip>
+                </template>
+                <RatingToolTip :rating="movie.rating"></RatingToolTip>
+              </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on" @click="removeMovie(movie)" v-show="editMode">

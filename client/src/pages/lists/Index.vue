@@ -50,12 +50,13 @@
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-tooltip bottom>
-                    <template v-slot:activator="{ on }" v-if="list.averageRating != null">
-                      <v-chip color="grey" v-on="on">
-                        <v-rating :dense=true :small=true :half-increments=true color="white" background-color="grey lighten-1"
-                        v-model="list.averageRating" length="3"></v-rating>
-                      </v-chip>
-                    </template>
+                      <template v-slot:activator="{ on }" v-if="list.averageRating != null">
+                        <v-chip color="grey" v-on="on">
+                          <v-rating :dense=true :small=true :half-increments=true :readonly=true
+                          color="white" background-color="grey lighten-1"
+                          v-model="list.averageRating" length="3"></v-rating>
+                        </v-chip>
+                      </template>
                     <RatingToolTip :rating="list.averageRating"></RatingToolTip>
                   </v-tooltip>
                   </v-list-item-action>
@@ -91,7 +92,7 @@ export default {
   components: {
     RatingToolTip
   },
-  
+
   data() {
     return {
       lists: [],
