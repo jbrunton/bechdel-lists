@@ -3,13 +3,13 @@ set -e
 
 export SHA=$(git rev-parse HEAD)
 
-echo "Running build for SHA $SHA"
+echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-#docker build \
-#  -t jbrunton/bechdel-lists-api:latest \
-#  -t jbrunton/bechdel-lists-api:$SHA \
-#  -f ./api/Dockerfile.dev ./api
+docker build \
+ -t $DOCKER_USERNAME/bechdel-lists-api-dev:latest \
+ -t $DOCKER_USERNAME/bechdel-lists-api-dev:$SHA \
+ -f ./api/Dockerfile.dev ./api
 
-#docker push jbrunton/bechdel-lists-api:latest
+docker push $DOCKER_USERNAME/bechdel-lists-api-dev:latest
 
-#docker push jbrunton/bechdel-lists-api:$SHA
+docker push $DOCKER_USERNAME/bechdel-lists-api-dev:$SHA
