@@ -70,8 +70,45 @@ demoUserLists:
         imdbId: '7349950'
         year: 2019
         rating: 3
-        
-
+  - title: Top Grossing US Domestic 2009
+    movies:
+      - title: 'Transformers: Revenge of the Fallen'
+        imdbId: '1055369'
+        year: 2009
+        rating: 3
+      - title: Harry Potter and the Half-Blood Prince
+        imdbId: '0417741'
+        year: 2009
+        rating: 3
+      - title: Up
+        imdbId: '1049413'
+        year: 2009
+        rating: 1
+      - title: New Moon
+        imdbId: '1259571'
+        year: 2009
+        rating: 3
+      - title: Avatar
+        imdbId: 0499549
+        year: 2009
+        rating: 2
+      - title: Hangover, The
+        imdbId: '1119646'
+        year: 2009
+        rating: 1
+      - '0796366' # Star Trek 2009
+      - title: Monsters vs Aliens
+        imdbId: 0892782
+        year: 2009
+        rating: 3
+      - title: 'Ice Age: Dawn of the Dinosaurs'
+        imdbId: '1080016'
+        year: 2009
+        rating: 1
+      - title: Blind Side, The
+        imdbId: 0878804
+        year: 2009
+        rating: 2
 testUserLists:
   - title: Star Wars (Original Trilogy)
     movies:
