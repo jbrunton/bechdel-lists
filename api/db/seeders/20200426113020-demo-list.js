@@ -21,7 +21,7 @@ module.exports = {
         });
 
         for (const movieSeed of listSeed.movies) {
-          const movie = movieSeed === 'string'
+          const movie = (typeof movieSeed === 'string')
               ? await models.Movie.findOne({ where: { imdbId: movieSeed } })
               : await models.Movie.create(movieSeed);
           await list.addMovie(movie)
