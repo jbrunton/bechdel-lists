@@ -28,6 +28,50 @@ demoUserLists:
         imdbId: "0800369"
         year: 2011
         rating: 3
+  - title: Top Grossing US Domestic 2019
+    movies:
+      - title: 'Avengers: Endgame'
+        imdbId: '4154796'
+        year: 2019
+        rating: 3
+      - title: Lion King, The
+        imdbId: '6105098'
+        year: 2019
+        rating: 3
+      - title: Toy Story 4
+        imdbId: '1979376'
+        year: 2019
+        rating: 3
+      - title: Frozen 2
+        imdbId: '4520988'
+        year: 2019
+        rating: 3
+      - title: Captain Marvel
+        imdbId: '4154664'
+        year: 2019
+        rating: 3
+      - title: 'Star Wars: Episode IX - The Rise of Skywalker'
+        imdbId: '2527338'
+        year: 2019
+        rating: 3
+      - title: 'Spider-Man: Far from Home'
+        imdbId: '6320628'
+        year: 2019
+        rating: 1
+      - title: Aladdin
+        imdbId: '6139732'
+        year: 2019
+        rating: 3
+      - title: Joker
+        imdbId: '7286456'
+        year: 2019
+        rating: 3
+      - title: It Chapter 2
+        imdbId: '7349950'
+        year: 2019
+        rating: 3
+        
+
 testUserLists:
   - title: Star Wars (Original Trilogy)
     movies:
