@@ -53,8 +53,6 @@ return {
 
   methods : {
     async checkAuthStatus() {
-      this.loading = !this.assumeSignedIn;
-
       const status = await Auth.getStatus();
       if (status.signedIn) {
         this.signedIn = true;
@@ -67,8 +65,6 @@ return {
           location.reload();
         }
       }
-
-      this.loading = false;
     },
 
     async signOut() {
