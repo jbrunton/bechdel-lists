@@ -16,6 +16,7 @@ router.post('/signin', async (req, res) => {
     const payload = ticket.getPayload();
     const user = await models.User.findOrCreateByEmail(payload.email, payload.name);
     req.session.userId = user.id;
+    res.cookie('user', user.name, { httpOnly: false });
     res.json(user);
   } catch (e) {
     // TODO: distinguish between auth failure, network failure and other errors.

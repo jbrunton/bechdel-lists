@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on }">
       <v-btn
         text
-        :loading="authInProgress"
+        :loading="loading"
         v-on="on"
       >
         {{ signedInUser }}
@@ -24,7 +24,7 @@
     </v-list>
   </v-menu>
 
-  <v-btn v-else text @click="signIn" :loading="authInProgress">
+  <v-btn v-else text @click="signIn" :loading="loading">
     <v-icon>mdi-account</v-icon>
     <span class="ml-2">Sign In</span>
   </v-btn>
@@ -32,13 +32,18 @@
 
 <script>
 import { Auth } from '../auth';
+import Cookies from 'js-cookie';
 
 export default {
   data() {
-    return {
-      signedIn: false,
-      signedInUser: "",
-      authInProgress: false
+    const assumedUserName = Cookies.get('user');
+    const assumeSignedIn = !!assumedUserName;
+
+return {
+      signedIn: assumeSignedIn,
+      signedInUser: assumedUserName,
+      loading: false,
+      assumeSignedIn: assumeSignedIn
     }
   },
 
@@ -48,7 +53,7 @@ export default {
 
   methods : {
     async checkAuthStatus() {
-      this.authInProgress = true;
+      this.loading = !this.assumeSignedIn;
 
       const status = await Auth.getStatus();
       if (status.signedIn) {
@@ -56,16 +61,16 @@ export default {
         this.signedInUser = status.user.name;
       }
 
-      this.authInProgress = false;
+      this.loading = false;
     },
 
     async signOut() {
-      this.authInProgress = true;
+      this.loading = true;
       Auth.signOut();
     },
 
     async signIn() {
-      this.authInProgress = true;
+      this.loading = true;
       Auth.signIn();
     },
 
