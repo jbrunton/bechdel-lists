@@ -16,12 +16,19 @@ router.post('/signin', async (req, res) => {
     const payload = ticket.getPayload();
     const user = await models.User.findOrCreateByEmail(payload.email, payload.name);
     req.session.userId = user.id;
+    res.cookie('user', user.name, { httpOnly: false });
     res.json(user);
   } catch (e) {
     // TODO: distinguish between auth failure, network failure and other errors.
     console.log('Verification failed: ' + e.stack);
     res.status(401).json({ error: e.message });
   }
+});
+
+router.post('/signout', async (req, res) => {
+  await req.session.destroy()
+  res.clearCookie('user', { httpOnly: false });
+  res.send(200);
 });
 
 module.exports = {
