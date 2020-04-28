@@ -25,6 +25,12 @@ router.post('/signin', async (req, res) => {
   }
 });
 
+router.post('/signout', async (req, res) => {
+  await req.session.destroy()
+  res.clearCookie('user', { httpOnly: false });
+  res.send(200);
+});
+
 module.exports = {
   routerPath: '/auth',
   router: router

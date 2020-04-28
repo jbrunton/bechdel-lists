@@ -25,6 +25,7 @@ const authStatus = new Promise(function(resolve) {
 async function signOut() {
   const auth2 = gapi.auth2.getAuthInstance();
   await auth2.signOut()
+  await axios.post('/api/auth/signout');
 
   // so that components which use the authorize() method will correctly reload
   location.reload();

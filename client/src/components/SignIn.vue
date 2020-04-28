@@ -59,6 +59,11 @@ return {
       if (status.signedIn) {
         this.signedIn = true;
         this.signedInUser = status.user.name;
+      } else {
+        if (this.assumeSignedIn) {
+          //Cookies.remove('user');
+          //location.reload();
+        }
       }
 
       this.loading = false;
