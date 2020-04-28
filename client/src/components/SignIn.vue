@@ -61,8 +61,10 @@ return {
         this.signedInUser = status.user.name;
       } else {
         if (this.assumeSignedIn) {
-          //Cookies.remove('user');
-          //location.reload();
+          // an edge case: in case the user signs out with Google but the call to /api/auth/signout fails (which would
+          // leave the user cookie intact)
+          Cookies.remove('user');
+          location.reload();
         }
       }
 
