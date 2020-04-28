@@ -12,18 +12,28 @@
             <v-chip class="ma-2" color="white" v-on="on">
               <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
                 color="grey darken-1" background-color="grey lighten-1"
-                v-model="list.avgRating" length="3"></v-rating>
+                v-model="list.averageRating" length="3"></v-rating>
               <b class="ml-2">{{avgRating}}</b>
             </v-chip>
           </template>
-          <RatingToolTip></RatingToolTip>
+          <RatingToolTip :rating="list.averageRating"></RatingToolTip>
         </v-tooltip>
-        <v-chip class="ma-2" color="white">          
-          <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
-        </v-chip>
-        <v-chip class="ma-2" color="white">          
-          <span class="grey--text text--darken-1">Max</span> <b class="ml-2">{{maxRating}}</b>
-        </v-chip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="ma-2" color="white" v-on="on">
+              <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="minRating"></RatingToolTip>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="ma-2" color="white" v-on="on">
+              <span class="grey--text text--darken-1">Max</span> <b class="ml-2">{{maxRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="maxRating"></RatingToolTip>
+        </v-tooltip>
       </template>
 
       <v-toolbar-title v-text="list.title"></v-toolbar-title> 
