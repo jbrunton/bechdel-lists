@@ -7,15 +7,33 @@
     <v-toolbar flat class="grey lighten-3">
 
       <template v-slot:extension v-if="showRatings">
-        <v-chip class="ma-2" color="white">          
-          <span class="grey--text text--darken-1">Avg</span> <b class="ml-2">{{avgRating}}</b>
-        </v-chip>
-        <v-chip class="ma-2" color="white">          
-          <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
-        </v-chip>
-        <v-chip class="ma-2" color="white">          
-          <span class="grey--text text--darken-1">Max</span> <b class="ml-2">{{maxRating}}</b>
-        </v-chip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="ma-2" color="white" v-on="on">
+              <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
+                color="grey darken-1" background-color="grey lighten-1"
+                v-model="list.averageRating" length="3"></v-rating>
+              <b class="ml-2">{{avgRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="list.averageRating"></RatingToolTip>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="ma-2" color="white" v-on="on">
+              <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="minRating"></RatingToolTip>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="ma-2" color="white" v-on="on">
+              <span class="grey--text text--darken-1">Max</span> <b class="ml-2">{{maxRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="maxRating"></RatingToolTip>
+        </v-tooltip>
       </template>
 
       <v-toolbar-title v-text="list.title"></v-toolbar-title> 
@@ -82,11 +100,16 @@
             <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-chip color="grey" v-show="!editMode">
-              <v-rating :dense=true :small=true color="white" background-color="grey lighten-1"
-                v-model="movie.rating" length="3"></v-rating>
-            </v-chip>
-
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-chip color="grey" v-show="!editMode" v-on="on">
+                  <v-rating :dense=true :small=true :readonly=true
+                    color="white" background-color="grey lighten-1"
+                    v-model="movie.rating" length="3"></v-rating>
+                  </v-chip>
+                </template>
+                <RatingToolTip :rating="movie.rating"></RatingToolTip>
+              </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on" @click="removeMovie(movie)" v-show="editMode">
@@ -115,8 +138,13 @@
 <script>
 const axios = require('axios');
 const { Auth } = require('../../auth');
+import RatingToolTip from '../../components/RatingToolTip';
 
 export default {
+  components: {
+    RatingToolTip
+  },
+
   data() {
     return {
       list: { title: '', movies: [] },
@@ -183,7 +211,7 @@ export default {
     },
 
     updateRatings() {
-      const ratings = this.movies.map((movie) => movie.rating).filter(x => x);
+      const ratings = this.movies.map((movie) => movie.rating).filter(x => x === 0 || x);
       this.showRatings = ratings.length > 0;
       if (this.showRatings) {
         this.minRating = Math.min(...ratings);
