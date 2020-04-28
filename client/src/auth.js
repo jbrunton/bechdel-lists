@@ -66,6 +66,5 @@ export const Auth = {
   },
   authenticate: authenticate,
   signIn: signIn,
-  signOut: signOut,
-  GoogleParams: GoogleParams
+  signOut: signOut
 };
