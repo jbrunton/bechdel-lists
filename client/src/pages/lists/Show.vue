@@ -8,7 +8,10 @@
 
       <template v-slot:extension v-if="showRatings">
         <v-chip class="ma-2" color="white">          
-          <span class="grey--text text--darken-1">Avg</span> <b class="ml-2">{{avgRating}}</b>
+          <v-rating :dense=true :small=true :half-increments="true" color="grey darken-1" background-color="grey lighten-1"
+                v-model="avgRating" length="3"></v-rating>
+          <b class="ml-2">{{avgRating}}</b>
+          
         </v-chip>
         <v-chip class="ma-2" color="white">          
           <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
