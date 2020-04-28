@@ -11,11 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      SHA: $(git rev-parse HEAD)
-
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: echo "Running build for SHA $SHA" # docker build . --file Dockerfile --tag my-image-name:$(SHA)
+      run: ./ci/build.sh
+      
       
