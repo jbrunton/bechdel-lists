@@ -7,12 +7,17 @@
     <v-toolbar flat class="grey lighten-3">
 
       <template v-slot:extension v-if="showRatings">
-        <v-chip class="ma-2" color="white">          
-          <v-rating :dense=true :small=true :half-increments="true" color="grey darken-1" background-color="grey lighten-1"
-                v-model="avgRating" length="3"></v-rating>
-          <b class="ml-2">{{avgRating}}</b>
-          
-        </v-chip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="ma-2" color="white" v-on="on">
+              <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
+                color="grey darken-1" background-color="grey lighten-1"
+                v-model="list.avgRating" length="3"></v-rating>
+              <b class="ml-2">{{avgRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip></RatingToolTip>
+        </v-tooltip>
         <v-chip class="ma-2" color="white">          
           <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
         </v-chip>
@@ -118,8 +123,13 @@
 <script>
 const axios = require('axios');
 const { Auth } = require('../../auth');
+import RatingToolTip from '../../components/RatingToolTip';
 
 export default {
+  components: {
+    RatingToolTip
+  },
+
   data() {
     return {
       list: { title: '', movies: [] },
