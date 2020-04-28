@@ -39,7 +39,7 @@ export default {
     const assumedUserName = Cookies.get('user');
     const assumeSignedIn = !!assumedUserName;
 
-return {
+    return {
       signedIn: assumeSignedIn,
       signedInUser: assumedUserName,
       loading: false,
