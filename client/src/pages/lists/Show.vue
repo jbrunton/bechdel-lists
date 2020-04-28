@@ -186,7 +186,7 @@ export default {
     },
 
     updateRatings() {
-      const ratings = this.movies.map((movie) => movie.rating).filter(x => x);
+      const ratings = this.movies.map((movie) => movie.rating).filter(x => x === 0 || x);
       this.showRatings = ratings.length > 0;
       if (this.showRatings) {
         this.minRating = Math.min(...ratings);

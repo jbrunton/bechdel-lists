@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   List.prototype.updateDetails = async function() {
     const movies = await this.getMovies();
     
-    const ratings = movies.map((movie) => movie.rating).filter(x => x);
+    const ratings = movies.map((movie) => movie.rating).filter(x => x === 0 || x);
     if (ratings.length > 0) {
       this.averageRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
     } else {
