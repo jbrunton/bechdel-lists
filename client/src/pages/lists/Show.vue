@@ -21,18 +21,14 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-chip class="ma-2" color="white" v-on="on">
-              <span class="grey--text text--darken-1">Min</span> <b class="ml-2">{{minRating}}</b>
+              <span class="grey--text text--darken-1">Min</span>
+              <b class="ml-2">{{minRating}}</b>
+              <span class="ml-2 mr-2">-</span>
+              <span class="grey--text text--darken-1">Max</span>
+              <b class="ml-2">{{maxRating}}</b>
             </v-chip>
           </template>
           <RatingToolTip :rating="minRating"></RatingToolTip>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip class="ma-2" color="white" v-on="on">
-              <span class="grey--text text--darken-1">Max</span> <b class="ml-2">{{maxRating}}</b>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="maxRating"></RatingToolTip>
         </v-tooltip>
       </template>
 
