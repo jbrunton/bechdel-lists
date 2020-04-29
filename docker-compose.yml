@@ -21,6 +21,7 @@ services:
       - POSTGRES_USER
       - POSTGRES_HOST
       - POSTGRES_PORT
+      - DEPLOYMENT_SHA
   client:
     image: 'jbrunton/bechdel-lists-client:latest'
     build:
