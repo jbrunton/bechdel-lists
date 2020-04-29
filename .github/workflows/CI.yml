@@ -29,14 +29,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Generate deployment file
+    - name: Generate deployment
       run: |
         export DEPLOYMENT_NAME="release_$(date '+%Y-%m-%d_%H%M%S')"
-        export DOCKER_COMPOSE_FILE="docker-compose-$DEPLOYMENT_NAME.yml"
+        export DOCKER_COMPOSE_FILE="$DEPLOYMENT_NAME/docker-compose.yml"
         echo "::set-env name=DEPLOYMENT_NAME::$DEPLOYMENT_NAME"
         echo "::set-env name=DOCKER_COMPOSE_FILE::$DOCKER_COMPOSE_FILE"
+        echo "DEPLOYMENT_NAME=$DEPLOYMENT_NAME, DOCKER_COMPOSE_FILE=$DOCKER_COMPOSE_FILE"
+
+        echo "Creating deployment directory..."
+        mkdir $DEPLOYMENT_NAME
         mv docker-compose.yml $DOCKER_COMPOSE_FILE
-        echo "Created $DOCKER_COMPOSE_FILE"
+        services=($(docker-compose config --services))
+        for service in "${services[@]}"; do
+            echo "Creating directory for service $service"
+            mkdir "deployment/$service"
+            touch "deployment/$service/.keep"
+        done   
 
     - name: Copy deployment file
       uses: appleboy/scp-action@master
@@ -45,7 +54,7 @@ jobs:
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
-        source: ${{ env.DOCKER_COMPOSE_FILE }}
+        source: ${{ env.DEPLOYMENT_NAME }}
         target: "/home/deployer/"
   
     - name: Restart services
@@ -56,7 +65,7 @@ jobs:
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
         script: |
-          docker-compose -f $DOCKER_COMPOSE_FILE down
-          docker-compose pull
-          docker-compose up -d
+          docker-compose down
+          docker-compose -f $DOCKER_COMPOSE_FILE pull
+          docker-compose -f $DOCKER_COMPOSE_FILE up -d
         envs: DOCKER_COMPOSE_FILE

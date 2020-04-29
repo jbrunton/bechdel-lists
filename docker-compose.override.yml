@@ -5,9 +5,16 @@ services:
       - /app/node_modules
       - ./api:/app
     command: npm run debug
+    build:
+      context: ./api
   client:
     build:
       dockerfile: Dockerfile.dev
     volumes:
       - /app/node_modules
       - ./client:/app
+    build:
+      context: ./api
+  nginx:
+    build:
+      context: ./api
