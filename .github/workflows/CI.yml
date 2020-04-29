@@ -40,8 +40,8 @@ jobs:
       with:
         script: |
           cd bechdel-demo
-          docker-compose -f $DOCKER_COMPOSE_FILE down
+          docker-compose down
           git checkout $DEPLOYMENT_SHA
-          docker-compose -f $DOCKER_COMPOSE_FILE pull
-          docker-compose -f $DOCKER_COMPOSE_FILE up -d
+          docker-compose pull
+          docker-compose up -d
         envs: DEPLOYMENT_SHA,COMPOSE_FILE
