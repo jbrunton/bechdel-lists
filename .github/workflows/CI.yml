@@ -34,6 +34,7 @@ jobs:
         export DEPLOYMENT_NAME="release_$(date '+%Y-%m-%d_%H%M%S')"
         echo "::set-env name=DEPLOYMENT_NAME::$DEPLOYMENT_NAME"
         echo "::set-env name=DOCKER_COMPOSE_FILE::docker-compose-$DEPLOYMENT_NAME.yml"
+        echo "Configured env vars: DEPLOYMENT_NAME=$DEPLOYMENT_NAME, DOCKER_COMPOSE_FILE=$DOCKER_COMPOSE_FILE"
 
     - name: Copy docker-compose.yml
       uses: appleboy/scp-action@master
