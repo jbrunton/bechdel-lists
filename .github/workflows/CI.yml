@@ -28,6 +28,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Copy docker-compose.yml
       uses: appleboy/scp-action@master
       env:
@@ -37,3 +38,11 @@ jobs:
       with:
         source: "docker-compose.yml,ci/deploy.sh"
         target: "/home/deployer/"
+    
+    - name: Run ci/deploy.sh
+    uses: appleboy/ssh-action@master
+    with:
+      host: ${{ secrets.DEPLOY_HOST }}
+      USERNAME: deployer
+      KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+      script: ./deploy.sh
