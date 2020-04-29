@@ -32,8 +32,9 @@ jobs:
     - name: Generate deployment name
       run: |
         export DEPLOYMENT_NAME="release_$(date '+%Y-%m-%d_%H%M%S')"
+        export DOCKER_COMPOSE_FILE="docker-compose-$DEPLOYMENT_NAME.yml"
         echo "::set-env name=DEPLOYMENT_NAME::$DEPLOYMENT_NAME"
-        echo "::set-env name=DOCKER_COMPOSE_FILE::docker-compose-$DEPLOYMENT_NAME.yml"
+        echo "::set-env name=DOCKER_COMPOSE_FILE::$DOCKER_COMPOSE_FILE"
         echo "Configured env vars: DEPLOYMENT_NAME=$DEPLOYMENT_NAME, DOCKER_COMPOSE_FILE=$DOCKER_COMPOSE_FILE"
 
     - name: Copy docker-compose.yml
