@@ -35,5 +35,5 @@ jobs:
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
-        source: "docker-compose.yml"
-        target: "/home/deployer/docker-compose.yml"
+        source: "docker-compose.yml,ci/deploy.sh"
+        target: "/home/deployer/"
