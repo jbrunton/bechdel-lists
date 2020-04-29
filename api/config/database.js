@@ -17,7 +17,7 @@ module.exports = {
   },
   production: {
     username: 'postgres',
-    password: process.env.POSTGRESS_PASSWORD,
+    password: process.env.POSTGRES_PASSWORD,
     database: 'bechdel_demo',
     host: 'postgres',
     dialect: 'postgres',
