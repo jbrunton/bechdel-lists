@@ -1,0 +1,13 @@
+version: '3'
+services:
+  api:
+    volumes:
+      - /app/node_modules
+      - ./api:/app
+    command: npm run debug
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./client:/app
