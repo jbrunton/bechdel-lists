@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build the Docker image
-      run: ./ci/build.sh
+      run: echo "skipping" # ./ci/build.sh
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,5 +46,7 @@ jobs:
           git fetch
           git checkout $DEPLOYMENT_SHA
           docker-compose pull
+          echo POSTGRES_PORT=$POSTGRES_PORT
+          echo POSTGRES_USER=$POSTGRES_USER
           docker-compose up -d
         envs: DEPLOYMENT_SHA,COMPOSE_FILE,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_HOST,POSTGRES_PORT
