@@ -1,11 +1,13 @@
 version: '3'
 services:
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres_password
-      - POSTGRES_DB=bechdel_demo
+  # postgres:
+  #   image: 'postgres:latest'
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres_password
+  #     - POSTGRES_DB=bechdel_demo
+  #   ports:
+  #     - 5432:5432
   api:
     volumes:
       - /app/node_modules
@@ -13,7 +15,7 @@ services:
     command: npm run debug
     build:
       context: ./api
-    env:
+    environment:
       - NODE_ENV=development
   client:
     build:
@@ -22,10 +24,7 @@ services:
       - /app/node_modules
       - ./client:/app
     build:
-      context: ./api
+      context: ./client
   nginx:
     build:
-      context: ./api
-  postgres:
-    ports:
-      - 5432:5432
+      context: ./nginx
