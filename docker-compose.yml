@@ -6,8 +6,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres_password
       - POSTGRES_DB=bechdel_demo
-    ports:
-      - 5432:5432
   nginx:
     image: 'jbrunton/bechdel-lists-nginx:latest'
     restart: always
