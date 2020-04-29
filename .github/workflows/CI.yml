@@ -28,44 +28,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Generate deployment
-      run: |
-        export DEPLOYMENT_NAME="release_$(date '+%Y-%m-%d_%H%M%S')"
-        export DOCKER_COMPOSE_FILE="$DEPLOYMENT_NAME/docker-compose.yml"
-        echo "::set-env name=DEPLOYMENT_NAME::$DEPLOYMENT_NAME"
-        echo "::set-env name=DOCKER_COMPOSE_FILE::$DOCKER_COMPOSE_FILE"
-        echo "DEPLOYMENT_NAME=$DEPLOYMENT_NAME, DOCKER_COMPOSE_FILE=$DOCKER_COMPOSE_FILE"
-
-        echo "Creating deployment directory..."
-        mkdir $DEPLOYMENT_NAME
-        cp docker-compose.yml $DOCKER_COMPOSE_FILE
-        services=($(docker-compose config --services))
-        for service in "${services[@]}"; do
-            echo "Creating directory for service $service"
-            mkdir "$DEPLOYMENT_NAME/$service"
-            touch "$DEPLOYMENT_NAME/$service/.keep"
-        done
-
-    - name: Copy deployment file
-      uses: appleboy/scp-action@master
-      env:
-        HOST: ${{ secrets.DEPLOY_HOST }}
-        USERNAME: deployer
-        KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
-      with:
-        source: ${{ env.DEPLOYMENT_NAME }}
-        target: "/home/deployer/"
   
-    - name: Restart services
+    - name: Deploy
       uses: appleboy/ssh-action@master
       env:
+        DEPLOYMENT_SHA: ${{ github.sha }}
         HOST: ${{ secrets.DEPLOY_HOST }}
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
         script: |
-          docker-compose down
+          cd bechdel-demo
+          docker-compose -f $DOCKER_COMPOSE_FILE down
+          git checkout $DEPLOYMENT_SHA
           docker-compose -f $DOCKER_COMPOSE_FILE pull
           docker-compose -f $DOCKER_COMPOSE_FILE up -d
-        envs: DOCKER_COMPOSE_FILE
+        envs: DEPLOYMENT_SHA
