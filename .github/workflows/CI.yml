@@ -32,17 +32,18 @@ jobs:
     - name: Copy docker-compose.yml
       uses: appleboy/scp-action@master
       env:
-        host: ${{ secrets.DEPLOY_HOST }}
-        username: deployer
-        key: ${{ secrets.DEPLOYER_SSH_KEY }}
+        HOST: ${{ secrets.DEPLOY_HOST }}
+        USERNAME: deployer
+        KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
         source: "docker-compose.yml,ci/deploy.sh"
         target: "/home/deployer/"
     
     - name: Run ci/deploy.sh
       uses: appleboy/ssh-action@master
+      env:
+        HOST: ${{ secrets.DEPLOY_HOST }}
+        USERNAME: deployer
+        KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        username: deployer
-        key: ${{ secrets.DEPLOYER_SSH_KEY }}
         script: ./deploy.sh
