@@ -35,7 +35,7 @@ jobs:
         export DOCKER_COMPOSE_FILE="docker-compose-$DEPLOYMENT_NAME.yml"
         echo "::set-env name=DEPLOYMENT_NAME::$DEPLOYMENT_NAME"
         echo "::set-env name=DOCKER_COMPOSE_FILE::$DOCKER_COMPOSE_FILE"
-        cp docker-compose.yml $DOCKER_COMPOSE_FILE
+        mv docker-compose.yml $DOCKER_COMPOSE_FILE
         echo "Created $DOCKER_COMPOSE_FILE"
 
     - name: Copy deployment file
@@ -45,8 +45,8 @@ jobs:
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
-        source: $DOCKER_COMPOSE_FILE
-        target: "/home/deployer"
+        source: ${{ env.DOCKER_COMPOSE_FILE }}
+        target: "/home/deployer/"
   
     - name: Restart services
       uses: appleboy/ssh-action@master
