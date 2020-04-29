@@ -40,7 +40,6 @@ jobs:
         POSTGRES_USER: ${{ secrets.POSTGRES_PRODUCTION_USER }}
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PRODUCTION_PASSWORD }}
         POSTGRES_HOST: ${{ secrets.POSTGRES_PRODUCTION_HOST }}
-        POSTGRES_DATABASE: ${{ secrets.POSTGRES_PRODUCTION_DATABASE }}
         POSTGRES_PORT: ${{ secrets.POSTGRES_PRODUCTION_PORT }}
       with:
         script: |
