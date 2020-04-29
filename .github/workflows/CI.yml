@@ -43,9 +43,9 @@ jobs:
         services=($(docker-compose config --services))
         for service in "${services[@]}"; do
             echo "Creating directory for service $service"
-            mkdir "deployment/$service"
-            touch "deployment/$service/.keep"
-        done   
+            mkdir "$DEPLOYMENT_NAME/$service"
+            touch "$DEPLOYMENT_NAME/$service/.keep"
+        done
 
     - name: Copy deployment file
       uses: appleboy/scp-action@master
