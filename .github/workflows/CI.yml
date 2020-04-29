@@ -39,7 +39,7 @@ jobs:
 
         echo "Creating deployment directory..."
         mkdir $DEPLOYMENT_NAME
-        mv docker-compose.yml $DOCKER_COMPOSE_FILE
+        cp docker-compose.yml $DOCKER_COMPOSE_FILE
         services=($(docker-compose config --services))
         for service in "${services[@]}"; do
             echo "Creating directory for service $service"
