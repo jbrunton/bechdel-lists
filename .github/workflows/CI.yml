@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build the Docker image
-      run: echo "skipping build" # ./ci/build.sh
+      run: ./ci/build.sh
 
   deploy:
     runs-on: ubuntu-latest
