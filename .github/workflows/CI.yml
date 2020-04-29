@@ -26,6 +26,9 @@ jobs:
 
     needs: build
 
+    env:
+      DOCKER_COMPOSE_FILE: ${{ echo "docker-compose-$(date '+%Y-%m-%d_%H%M%S').yml" }}
+
     steps:
     - uses: actions/checkout@v2
 
@@ -36,9 +39,9 @@ jobs:
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
-        source: "docker-compose.yml,ci/deploy.sh"
-        target: "/home/deployer/"
-    
+        source: "docker-compose.yml"
+        target: "/home/deployer/$DOCKER_COMPOSE_FILE"
+  
     - name: Run ci/deploy.sh
       uses: appleboy/ssh-action@master
       env:
@@ -46,4 +49,8 @@ jobs:
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
       with:
-        script: ./deploy.sh
+        script: |
+          docker-compose -f $DOCKER_COMPOSE_FILE down
+          docker-compose pull
+          docker-compose up -d
+        envs: DOCKER_COMPOSE_FILE
