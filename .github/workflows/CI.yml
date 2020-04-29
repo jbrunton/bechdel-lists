@@ -35,6 +35,10 @@ jobs:
         HOST: ${{ secrets.DEPLOY_HOST }}
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_PRODUCTION_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PRODUCTION_PASSWORD }}
+        POSTGRES_HOST: ${{ secrets.POSTGRES_PRODUCTION_HOST }}
+        POSTGRES_PORT: ${{ secrets.POSTGRES_PRODUCTION_PORT }}
       with:
         script: |
           cd bechdel-demo
@@ -43,4 +47,4 @@ jobs:
           git checkout $DEPLOYMENT_SHA
           docker-compose pull
           docker-compose up -d
-        envs: DEPLOYMENT_SHA,COMPOSE_FILE
+        envs: DEPLOYMENT_SHA,COMPOSE_FILE,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_HOST,POSTGRES_PORT
