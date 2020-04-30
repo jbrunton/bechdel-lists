@@ -1,17 +1,11 @@
 #!/bin/bash
 set -e
 
-# Verify this build was triggered by a tag on master (grep exits with a 1 if it finds nothing, so will error otherwise)
-git branch --contains tags/$TAGS | grep master
-
 export COMPOSE_FILE=docker-compose.yml
-
-# Verify the tag appears on master. Grep returns with an exit code of 1 if it doesn't find anything.
-git branch --contains "tags/$TAG" | grep master
 
 echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-export DEPLOYMENT_FILE=deployments/docker-compose.${TAG}.yml
+export DEPLOYMENT_FILE=deployments/docker-compose.$TAG.yml
 docker-compose -v
 docker-compose pull
 docker-compose config --resolve-image-digests > $DEPLOYMENT_FILE
