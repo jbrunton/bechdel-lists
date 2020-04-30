@@ -6,7 +6,7 @@ services:
     build:
       context: ./nginx
     ports:
-      - 3001:80
+      - 80:80
   api:
     image: 'jbrunton/bechdel-lists-api:latest'
     build:

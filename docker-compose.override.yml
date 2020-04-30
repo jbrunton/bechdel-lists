@@ -25,3 +25,5 @@ services:
       - ./client:/app
   nginx:
     image: 'bechdel-lists-nginx'
+    ports:
+      - "${NGINX_LOCAL_PORT:-3001}:80"

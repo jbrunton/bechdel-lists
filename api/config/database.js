@@ -3,7 +3,7 @@ module.exports = {
     username: 'postgres',
     password: 'postgres_password',
     database: 'bechdel_demo_development',
-    host: process.env.POSTGRES_HOST || '127.0.0.1',
+    host: 'postgres',
     dialect: 'postgres',
     operatorsAliases: false
   },
@@ -11,7 +11,7 @@ module.exports = {
     username: 'postgres',
     password: 'postgres_password',
     database: 'bechdel_demo_test',
-    host: process.env.POSTGRES_HOST || '127.0.0.1',
+    host: 'postgres',
     dialect: 'postgres',
     operatorsAliases: false
   },
