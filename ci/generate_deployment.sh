@@ -17,3 +17,8 @@ git config --global user.email "jbrunton-ci-minion@outlook.com"
 git config --global user.name "jbrunton-ci-minion"
 git add $DEPLOYMENT_FILE
 git commit -m "Generated deployment file for $TAG"
+
+git status
+
+echo GITHUB_SHA=$GITHUB_SHA
+echo GITHUB_REF=$GITHUB_REF

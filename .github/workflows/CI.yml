@@ -24,6 +24,9 @@ jobs:
       run: echo "Skipping." # ./ci/build.sh
 
   deploy:
+    env:
+      GITHUB_REF: ${{ github.ref }}
+      GITHUB_SHA: ${{ github.sha }}
     runs-on: ubuntu-latest
 
     needs: build
