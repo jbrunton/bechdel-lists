@@ -1,9 +1,14 @@
 #!/bin/bash
 set -e
 
+export COMPOSE_FILE=docker-compose.yml
+
+echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
 export TAG=v0.0.1
 export DEPLOYMENT_FILE=deployments/docker-compose.${TAG}.yml
-docker-compose -f docker-compose.yml config --resolve-image-digests > $DEPLOYMENT_FILE
+docker-compose -v
+docker-compose config --resolve-image-digests > $DEPLOYMENT_FILE
 
 echo "Generated deployment file $DEPLOYMENT_FILE:"
 cat $DEPLOYMENT_FILE
