@@ -23,26 +23,31 @@ This will run the app at http://localhost:3001, though you'll need to prepare a 
 
 You'll need to create and configure the database:
 
-    cd api
-    npm run db:create
-    npm run db:migrate
+    docker-compose run api npm run db:migrate
 
 ### Seed data
 
-For development purposes, it's useful to create some lists associated with your user. You can do this by creating a `.env` file in the `api/` directory like this:
+For development purposes, it's useful to create some lists associated with your user. You can do this by adding the following to a `.env` file in the project root directory:
 
     SEED_USER_EMAIL=my.email@example.com
     SEED_USER_NAME=My Name
 
 Then you can run the following command (again, from the `api/` directory) to create/update your user with some seed lists:
 
-    npm run db:seed
+    docker-compose run api npm run db:seed
 
 ### Recreating the development database
 
 At any point you can drop, create, migrate and seed the database like this:
 
-    npm run db:reset
+    docker-compose run api npm run db:reset
+
+### Override development defaults
+
+By default docker-compose will map port 5432 to the postgres instance, and serve the client app on port 3001. You can change these values locally by adding the following to a `.env` file in the project root directory:
+
+    POSTGRES_LOCAL_PORT=7000
+    NGINX_LOCAL_PORT=80
 
 ### Testing the API
 

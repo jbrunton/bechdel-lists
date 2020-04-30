@@ -6,7 +6,7 @@ services:
     build:
       context: ./nginx
     ports:
-      - 3001:80
+      - 80:80
   api:
     image: 'jbrunton/bechdel-lists-api:latest'
     build:
@@ -21,7 +21,6 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
-      - DEPLOYMENT_SHA=${DEPLOYMENT_SHA}
   client:
     image: 'jbrunton/bechdel-lists-client:latest'
     build:
