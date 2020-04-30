@@ -33,11 +33,11 @@ jobs:
     - name: Parse tag
       run: |
         export TAG=${GITHUB_REF/refs\/tags\//}
-        echo "TAG=$TAG"
-        echo "::set-output name=TAG::$TAG"
+        echo "TAG=${TAG}"
+        echo "::set-output name=TAG::${TAG}"
 
     - name: Build the Docker image
-      run: echo "Running for TAG=$TAG. Skipping build." # ./ci/build.sh
+      run: echo "Running for TAG=${TAG}. Skipping build." # ./ci/build.sh
 
   deploy:
     needs: build
