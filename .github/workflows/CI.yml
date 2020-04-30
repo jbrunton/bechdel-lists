@@ -41,8 +41,9 @@ jobs:
           cd bechdel-demo
           docker-compose down
           git fetch
+          echo "DEPLOYMENT_SHA: $DEPLOYMENT_SHA"
           git checkout $DEPLOYMENT_SHA
           docker-compose pull
-          export POSTGRES_CONNECTION=$POSTGRES_CONNECTION
+          export POSTGRES_CONNECTION
           docker-compose up -d --no-build
-        envs: POSTGRES_CONNECTION
+        envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA
