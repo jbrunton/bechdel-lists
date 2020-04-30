@@ -27,7 +27,7 @@ You'll need to create and configure the database:
     npm run db:create
     npm run db:migrate
 
-### Seed data
+#### Seed data
 
 For development purposes, it's useful to create some lists associated with your user. You can do this by creating a `.env` file in the `api/` directory like this:
 
@@ -38,11 +38,17 @@ Then you can run the following command (again, from the `api/` directory) to cre
 
     npm run db:seed
 
-### Recreating the development database
+#### Recreating the development database
 
 At any point you can drop, create, migrate and seed the database like this:
 
     npm run db:reset
+
+#### Specifying a local port for the database
+
+By default docker-compose will map port 5432 to the postgres instance. You can change this locally by adding a `.env` file in the parent directory like this:
+
+    POSTGRES_LOCAL_PORT=5005
 
 ### Testing the API
 
