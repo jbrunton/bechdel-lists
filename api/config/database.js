@@ -1,6 +1,6 @@
 module.exports = {
   development: {
-    username: 'postgres',
+    username: 'postgres_user',
     password: 'postgres_password',
     database: 'bechdel_demo_development',
     host: 'postgres',
@@ -8,7 +8,7 @@ module.exports = {
     operatorsAliases: false
   },
   test: {
-    username: 'postgres',
+    username: 'postgres_user',
     password: 'postgres_password',
     database: 'bechdel_demo_test',
     host: 'postgres',

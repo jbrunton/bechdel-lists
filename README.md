@@ -23,9 +23,7 @@ This will run the app at http://localhost:3001, though you'll need to prepare a 
 
 You'll need to create and configure the database:
 
-    cd api
-    npm run db:create
-    npm run db:migrate
+    docker-compose run api npm run db:migrate
 
 ### Seed data
 
@@ -36,13 +34,13 @@ For development purposes, it's useful to create some lists associated with your 
 
 Then you can run the following command (again, from the `api/` directory) to create/update your user with some seed lists:
 
-    npm run db:seed
+    docker-compose run api npm run db:seed
 
 ### Recreating the development database
 
 At any point you can drop, create, migrate and seed the database like this:
 
-    npm run db:reset
+    docker-compose run api npm run db:reset
 
 ### Override development defaults
 

@@ -3,9 +3,9 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=postgres_user
       - POSTGRES_PASSWORD=postgres_password
-      - POSTGRES_DB=bechdel_demo
+      - POSTGRES_DB=bechdel_demo_development
     ports:
       - "${POSTGRES_LOCAL_PORT:-5432}:5432"
   api:
