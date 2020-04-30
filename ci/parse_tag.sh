@@ -13,8 +13,8 @@ echo "Checking master contains tag $TAG"
 echo "is shallow?"
 git rev-parse --is-shallow-repository
 echo "master contains v0.0.5?"
-git branch --contains tags/v0.0.5 | grep master
+git branch -a --contains tags/v0.0.5 | grep master
 echo "master contains $TAG?"
-git branch --contains tags/$TAG | grep master
+git branch -a --contains tags/$TAG | grep master
 
 echo "::set-env name=TAG::$TAG"
