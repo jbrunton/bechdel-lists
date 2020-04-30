@@ -43,6 +43,6 @@ jobs:
           git fetch
           git checkout $DEPLOYMENT_SHA
           docker-compose pull
-          export POSTGRES_CONNECTION
+          export POSTGRES_CONNECTION=$POSTGRES_CONNECTION
           docker-compose up -d --no-build
         envs: POSTGRES_CONNECTION
