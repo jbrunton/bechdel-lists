@@ -27,7 +27,7 @@ You'll need to create and configure the database:
 
 ### Seed data
 
-For development purposes, it's useful to create some lists associated with your user. You can do this by creating a `.env` file in the `api/` directory like this:
+For development purposes, it's useful to create some lists associated with your user. You can do this by creating a `.env` file in the project root directory like this:
 
     SEED_USER_EMAIL=my.email@example.com
     SEED_USER_NAME=My Name
@@ -44,7 +44,7 @@ At any point you can drop, create, migrate and seed the database like this:
 
 ### Override development defaults
 
-By default docker-compose will map port 5432 to the postgres instance, and serve the client app on port 3001. You can change these values locally by adding a `.env` file in the parent directory like this:
+By default docker-compose will map port 5432 to the postgres instance, and serve the client app on port 3001. You can change these values locally by adding a `.env` file in the project root directory with the following variables:
 
     POSTGRES_LOCAL_PORT=7000
     NGINX_LOCAL_PORT=80

@@ -16,6 +16,8 @@ services:
     command: npm run debug
     environment:
       - NODE_ENV=development
+      - SEED_USER_NAME
+      - SEED_USER_EMAIL
   client:
     image: 'bechdel-lists-client'
     build:

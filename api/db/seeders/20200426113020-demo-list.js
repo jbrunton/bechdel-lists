@@ -4,8 +4,6 @@ const models = require('../../models');
 const yaml = require('js-yaml');
 const fs   = require('fs');
 
-require('dotenv').config();
-
 const userEmail = process.env.SEED_USER_EMAIL || 'demo.user@example.com';
 const userName = process.env.SEED_USER_NAME || 'Demo User';
 
