@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Verify this build was triggered by a tag on master (grep exits with a 1 if it finds nothing, so will error otherwise)
+git branch --contains tags/$TAGS | grep master
+
 export COMPOSE_FILE=docker-compose.yml
 
 # Verify the tag appears on master. Grep returns with an exit code of 1 if it doesn't find anything.
