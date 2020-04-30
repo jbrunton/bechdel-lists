@@ -1,9 +1,10 @@
 #!/bin/bash
 set -e
 
+export COMPOSE_FILE=docker-compose.yml
+
 cd bechdel-demo
 
-COMPOSE_FILE=docker-compose.yml
 docker-compose down
 git fetch
 git checkout $DEPLOYMENT_SHA
