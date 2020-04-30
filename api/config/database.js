@@ -3,7 +3,7 @@ module.exports = {
     url: process.env.POSTGRES_CONNECTION,
     username: 'postgres_user',
     password: 'postgres_password',
-    database: 'bechdel_demo_development',
+    database: 'bechdel_lists_development',
     host: 'postgres',
     dialect: 'postgres',
     operatorsAliases: false
@@ -12,13 +12,19 @@ module.exports = {
     url: process.env.POSTGRES_CONNECTION,
     username: 'postgres_user',
     password: 'postgres_password',
-    database: 'bechdel_demo_test',
+    database: 'bechdel_lists_test',
     host: 'postgres',
     dialect: 'postgres',
     operatorsAliases: false
   },
   production: {
     url: process.env.POSTGRES_CONNECTION,
-    operatorsAliases: false
+    operatorsAliases: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   }
 };
