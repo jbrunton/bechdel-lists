@@ -1,14 +1,14 @@
 version: '3'
 services:
   nginx:
-    image: 'jbrunton/bechdel-lists-nginx:latest'
+    image: "jbrunton/bechdel-lists-nginx:${TAG?}"
     restart: always
     build:
       context: ./nginx
     ports:
       - 80:80
   api:
-    image: 'jbrunton/bechdel-lists-api:latest'
+    image: "jbrunton/bechdel-lists-api:${TAG?}"
     build:
       context: ./api
     ports:
@@ -19,7 +19,7 @@ services:
       - GOOGLE_CLIENT_ID=729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
       - POSTGRES_CONNECTION=${POSTGRES_CONNECTION}
   client:
-    image: 'jbrunton/bechdel-lists-client:latest'
+    image: "jbrunton/bechdel-lists-client:${TAG?}"
     build:
       context: ./client
     environment:
