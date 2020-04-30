@@ -4,47 +4,56 @@ on:
   push:
     tags:
       - v*
+    branches:
+      - demo-44
 
+env:
+  DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+  DOCKER_USERNAME: jbrunton
+  TAG: v0.0.01
+        
 jobs:
 
   build:
     runs-on: ubuntu-latest
 
-    env:
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      DOCKER_USERNAME: jbrunton
-
     steps:
     - uses: actions/checkout@v2
 
     - name: Build the Docker image
-      run: ./ci/build.sh
+      run: echo "Skipping." # ./ci/build.sh
 
   deploy:
+    env:
+      GITHUB_REF: ${{ github.ref }}
+      GITHUB_SHA: ${{ github.sha }}
     runs-on: ubuntu-latest
 
     needs: build
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Generate Deployment
+      run: ./ci/generate_deployment.sh
   
-    - name: Deploy
-      uses: appleboy/ssh-action@master
-      env:
-        DEPLOYMENT_SHA: ${{ github.sha }}
-        HOST: ${{ secrets.DEPLOY_HOST }}
-        USERNAME: deployer
-        KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
-        POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
-      with:
-        script: |
-          export COMPOSE_FILE=docker-compose.yml
-          cd bechdel-demo
-          docker-compose down
-          git fetch
-          echo "DEPLOYMENT_SHA: $DEPLOYMENT_SHA"
-          git checkout $DEPLOYMENT_SHA
-          docker-compose pull
-          export POSTGRES_CONNECTION
-          docker-compose up -d --no-build
-        envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA
+    # - name: Deploy
+    #   uses: appleboy/ssh-action@master
+    #   env:
+    #     DEPLOYMENT_SHA: ${{ github.sha }}
+    #     HOST: ${{ secrets.DEPLOY_HOST }}
+    #     USERNAME: deployer
+    #     KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+    #     POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+    #   with:
+    #     script: |
+    #       export COMPOSE_FILE=docker-compose.yml
+    #       cd bechdel-demo
+    #       docker-compose down
+    #       git fetch
+    #       echo "DEPLOYMENT_SHA: $DEPLOYMENT_SHA"
+    #       git checkout $DEPLOYMENT_SHA
+    #       docker-compose pull
+    #       export POSTGRES_CONNECTION
+    #       docker-compose up -d --no-build
+    #     envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA
