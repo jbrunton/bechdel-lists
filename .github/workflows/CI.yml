@@ -1,6 +1,9 @@
 name: Deploy
 
-on: ['deployment']
+on:
+  push:
+    tags:
+      - v*
 
 jobs:
 
