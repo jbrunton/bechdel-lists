@@ -9,6 +9,7 @@ services:
     ports:
       - 5432:5432
   api:
+    image: 'bechdel-lists-api'
     volumes:
       - /app/node_modules
       - ./api:/app
@@ -16,8 +17,11 @@ services:
     environment:
       - NODE_ENV=development
   client:
+    image: 'bechdel-lists-client'
     build:
       dockerfile: Dockerfile.dev
     volumes:
       - /app/node_modules
       - ./client:/app
+  nginx:
+    image: 'bechdel-lists-nginx'
