@@ -10,7 +10,6 @@ on:
 env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   DOCKER_USERNAME: jbrunton
-  TAG: v0.0.01
         
 jobs:
 
@@ -20,19 +19,25 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Parse tag
+      run: ./ci/parse_tag.sh
+
     - name: Build the Docker image
-      run: echo "Skipping." # ./ci/build.sh
+      run: echo "Running for TAG=${TAG}. Skipping build." # ./ci/build.sh
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
     env:
       GITHUB_REF: ${{ github.ref }}
       GITHUB_SHA: ${{ github.sha }}
-    runs-on: ubuntu-latest
-
-    needs: build
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Parse tag
+      run: ./ci/parse_tag.sh
 
     - name: Generate Deployment
       run: ./ci/generate_deployment.sh
