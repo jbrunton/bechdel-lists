@@ -4,9 +4,12 @@ set -e
 TAG=${GITHUB_REF/refs\/tags\//}
 echo "TAG=$TAG"
 
+git fetch --unshallow
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git fetch origin
+
 echo "Checking master contains tag $TAG"
 # This works because grep finishes with an exit code of 1 if it doesn't find anything
-git fetch
 echo "is shallow?"
 git rev-parse --is-shallow-repository
 echo "master contains v0.0.5?"
