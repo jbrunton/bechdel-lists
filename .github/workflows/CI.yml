@@ -9,12 +9,12 @@ on:
 
 jobs:
 
+  env:
+    DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+    DOCKER_USERNAME: jbrunton
+    
   build:
     runs-on: ubuntu-latest
-
-    env:
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      DOCKER_USERNAME: jbrunton
 
     steps:
     - uses: actions/checkout@v2
