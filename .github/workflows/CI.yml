@@ -31,24 +31,18 @@ jobs:
       uses: appleboy/ssh-action@master
       env:
         DEPLOYMENT_SHA: ${{ github.sha }}
-        COMPOSE_FILE: docker-compose.yml
         HOST: ${{ secrets.DEPLOY_HOST }}
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
-        POSTGRES_USER: ${{ secrets.POSTGRES_PRODUCTION_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PRODUCTION_PASSWORD }}
-        POSTGRES_HOST: ${{ secrets.POSTGRES_PRODUCTION_HOST }}
-        POSTGRES_PORT: ${{ secrets.POSTGRES_PRODUCTION_PORT }}
+        POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
       with:
         script: |
+          export COMPOSE_FILE=docker-compose.yml
           cd bechdel-demo
-          docker-compose -f docker-compose.yml down
+          docker-compose down
           git fetch
           git checkout $DEPLOYMENT_SHA
-          docker-compose -f docker-compose.yml pull
-          export POSTGRES_USER=$POSTGRES_USER
-          export POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-          export POSTGRES_HOST=$POSTGRES_HOST
-          export POSTGRES_PORT=$POSTGRES_PORT
-          docker-compose -f docker-compose.yml up -d
-        envs: DEPLOYMENT_SHA,COMPOSE_FILE,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_HOST,POSTGRES_PORT
+          docker-compose pull
+          export POSTGRES_CONNECTION
+          docker-compose up -d --no-build
+        envs: POSTGRES_CONNECTION

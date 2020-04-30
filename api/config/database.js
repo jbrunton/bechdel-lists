@@ -16,18 +16,6 @@ module.exports = {
     operatorsAliases: false
   },
   production: {
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: 'bechdel_demo',
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT,
-    dialect: 'postgres',
-    operatorsAliases: false,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
+    connectionString: process.env.POSTGRES_CONNECTION
   }
 };
