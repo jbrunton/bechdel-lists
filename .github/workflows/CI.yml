@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Parse tag
-      run: ./ci/parse_tag/sh
+      run: ./ci/parse_tag.sh
 
     - name: Build the Docker image
       run: echo "Running for TAG=${TAG}. Skipping build." # ./ci/build.sh
