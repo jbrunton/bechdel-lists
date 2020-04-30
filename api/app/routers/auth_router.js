@@ -17,11 +17,11 @@ router.post('/signin', async (req, res) => {
     const user = await models.User.findOrCreateByEmail(payload.email, payload.name);
     req.session.userId = user.id;
     res.cookie('user', user.name, { httpOnly: false });
-    res.json(user);
+    return res.json(user);
   } catch (e) {
     // TODO: distinguish between auth failure, network failure and other errors.
     console.log('Verification failed: ' + e.stack);
-    res.status(401).json({ error: e.message });
+    return res.status(401).json({ error: e.message });
   }
 });
 

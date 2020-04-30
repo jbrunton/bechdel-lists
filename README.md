@@ -59,3 +59,16 @@ For convenience the repository includes a Postman collection and environment. Th
 The environment includes a variable `authEmail`. If you set this to your user's email, then you can authenticate at `/dev/signin`. This cuts out the Google Sign-In flow which [doesn't work with Postman](https://github.com/postmanlabs/postman-app-support/issues/7700).
 
 If you wish to test the usual authentication endpoints with Postman you'll need an idtoken. There is a convenience page at http://localhost:3001/dev/idtoken which will show you one for your signed in user. You can then set the postman `idToken` environment variable to this value.
+
+### Testing production builds
+
+If you want to test docker-compose files for production, or a build of the client app, then you'll need to run the production containers locally. To do this, ensure docker-compose uses only the `docker-compose.yml` file:
+
+    docker-compose -f docker-compose.yml up
+
+To test anything that requires a database connection you'll need to use your own database, as docker-compose won't run its own postgres container in production. You can specify a database with the POSTGRES_CONNECTION environment variable:
+
+    export POSTGRES_CONNECTION=postgres://my_user:my_password@host.docker.internal:5432/my_test_db
+    docker-compose -f docker-compose.yml up
+
+You can create and configure the database as usual (i.e. with `docker-compose run api npm run db:create`, etc).
