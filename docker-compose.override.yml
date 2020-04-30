@@ -13,8 +13,6 @@ services:
       - /app/node_modules
       - ./api:/app
     command: npm run debug
-    build:
-      context: ./api
     environment:
       - NODE_ENV=development
   client:
@@ -23,8 +21,3 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
-    build:
-      context: ./client
-  nginx:
-    build:
-      context: ./nginx
