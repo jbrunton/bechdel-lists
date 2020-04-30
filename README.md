@@ -66,7 +66,9 @@ If you want to test docker-compose files for production, or a build of the clien
 
     docker-compose -f docker-compose.yml up
 
-To test anything that requires a database connection you'll need to specify your own database, as docker-compose won't run its own postgres container in production. You can specify a database with the POSTGRES_CONNECTION environment variable:
+To test anything that requires a database connection you'll need to use your own database, as docker-compose won't run its own postgres container in production. You can specify a database with the POSTGRES_CONNECTION environment variable:
 
     export POSTGRES_CONNECTION=postgres://my_user:my_password@host.docker.internal:5432/my_test_db
     docker-compose -f docker-compose.yml up
+
+You can create and configure the database as usual (i.e. with `docker-compose run api npm run db:create`, etc).
