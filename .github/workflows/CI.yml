@@ -13,28 +13,14 @@ env:
         
 jobs:
 
-  configure:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Parse tag
-      run: |
-        export TAG=${GITHUB_REF/refs\/tags\//}
-        echo "TAG=$TAG"
-        echo "::set-env name=TAG::$TAG"
-
   build:
-    needs: configure
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Parse tag
-      run: |
-        export TAG=${GITHUB_REF/refs\/tags\//}
-        echo "TAG=${TAG}"
-        echo "::set-output name=TAG::${TAG}"
+      run: ./ci/parse_tag/sh
 
     - name: Build the Docker image
       run: echo "Running for TAG=${TAG}. Skipping build." # ./ci/build.sh
@@ -49,6 +35,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Parse tag
+      run: ./ci/parse_tag.sh
 
     - name: Generate Deployment
       run: ./ci/generate_deployment.sh
