@@ -12,3 +12,5 @@ docker-compose config --resolve-image-digests > $DEPLOYMENT_FILE
 
 echo "Generated deployment file $DEPLOYMENT_FILE:"
 cat $DEPLOYMENT_FILE
+
+git commit -m "Generated deployment file for $TAG"
