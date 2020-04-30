@@ -1,5 +1,6 @@
 module.exports = {
   development: {
+    // url: process.env.POSTGRES_CONNECTION,
     username: 'postgres_user',
     password: 'postgres_password',
     database: 'bechdel_demo_development',
@@ -16,6 +17,6 @@ module.exports = {
     operatorsAliases: false
   },
   production: {
-    connectionString: process.env.POSTGRES_CONNECTION
+    url: process.env.POSTGRES_CONNECTION
   }
 };

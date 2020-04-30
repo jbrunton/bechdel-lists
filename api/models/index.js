@@ -9,9 +9,11 @@ const config = require(__dirname + '/../config/database.js')[env];
 const db = {};
 
 let sequelize;
-if (typeof config.connectionString === 'string') {
-  sequelize = new Sequelize(config.connectionString);
+if (typeof config.url === 'string') {
+  console.log('Connecting to DB with connection string');
+  sequelize = new Sequelize(config.url);
 } else {
+  console.log('Connecting to DB with config');
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
