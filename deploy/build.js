@@ -42,21 +42,15 @@ async function build() {
         const missingImages = await compose.checkImages();
         if (missingImages.length > 0) {
           console.log('Images missing: ' + JSON.stringify(missingImages));
+          await compose.build();
+          await compose.push();
         } else {
           console.log('Images exist locally.');
         }
-        // const result = await compose.config();
-        // if (result.stdout) {
-        //   console.log('stdout');
-        //   const deploymentConfig = result.stdout;
-        //   console.log('config: ' + deploymentConfig);
-        //   fs.writeFileSync(deploymentFile, deploymentConfig);
-        //   console.log(`Generated deployment file ${deploymentFile}:`);
-        //   console.log(deploymentConfig);
-        // } else {
-        //   console.log('stderr');
-        //   console.log(result.stderr);
-        // }
+        const deploymentConfig = await compose.config();
+        fs.writeFileSync(deploymentFile, deploymentConfig);
+        console.log(`Generated deployment file ${deploymentFile}:`);
+        console.log(deploymentConfig);
       } catch (e) {
         console.log('unexpected error');
         console.log(e);

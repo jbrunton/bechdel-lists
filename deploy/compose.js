@@ -48,6 +48,14 @@ class Compose {
     return missingImages;
   }
 
+  async build() {
+    await exec('docker-compose build', this.execOpts);
+  }
+
+  async push() {
+    await exec('docker-compose push', this.execOpts);
+  }
+
   async pull() {
     const result = await exec('docker-compose pull', this.execOpts);
     console.log('stdout: ' + result.stdout);
@@ -56,10 +64,8 @@ class Compose {
   }
 
   async config() {
-    console.log('starting config()');
     const result = await exec('docker-compose config --resolve-image-digests | sed "s#$(pwd)/##"', this.execOpts);
-    console.log('completed config()');
-    return result;
+    return result.stdout;
   }
 }
 
