@@ -42,23 +42,24 @@ jobs:
     - name: Generate Deployment
       run: ./ci/generate_deployment.sh
   
-    # - name: Deploy
-    #   uses: appleboy/ssh-action@master
-    #   env:
-    #     DEPLOYMENT_SHA: ${{ github.sha }}
-    #     HOST: ${{ secrets.DEPLOY_HOST }}
-    #     USERNAME: deployer
-    #     KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
-    #     POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
-    #   with:
-    #     script: |
-    #       export COMPOSE_FILE=docker-compose.yml
-    #       cd bechdel-demo
-    #       docker-compose down
-    #       git fetch
-    #       echo "DEPLOYMENT_SHA: $DEPLOYMENT_SHA"
-    #       git checkout $DEPLOYMENT_SHA
-    #       docker-compose pull
-    #       export POSTGRES_CONNECTION
-    #       docker-compose up -d --no-build
-    #     envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      env:
+        HOST: ${{ secrets.DEPLOY_HOST }}
+        USERNAME: deployer
+        KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+        POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+      with:
+        script: |
+          export COMPOSE_FILE=$DEPLOYMENT_FILE
+          echo "DEPLOYMENT_FILE: $DEPLOYMENT_FILE"
+          # export COMPOSE_FILE=docker-compose.yml
+          # cd bechdel-demo
+          # docker-compose down
+          # git fetch
+          # echo "DEPLOYMENT_SHA: $DEPLOYMENT_SHA"
+          # git checkout $DEPLOYMENT_SHA
+          # docker-compose pull
+          # export POSTGRES_CONNECTION
+          # docker-compose up -d --no-build
+        envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA
