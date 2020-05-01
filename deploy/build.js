@@ -1,33 +1,11 @@
-const yaml = require('js-yaml');
 const fs   = require('fs');
-const util = require('util');
-console.log("Running build...");
-
-//const exec = util.promisify(require('child_process').exec);
-
 const argv = require('yargs').argv;
+const manifest = require.main.require('./lib/manifest');
+const Compose = require.main.require('./lib/compose');
 
-const Compose = require('./compose');
-
-// function exec(cmd, opts) {
-//   const exec = require('child_process').exec;
-//   return new Promise((resolve, reject) => {
-//     exec(cmd, opts, (error, stdout, stderr) => {
-//       if (error) {
-//         reject({ error: error });
-//       }
-//       if (stderr) {
-//         reject({ stderr: stderr });
-//       }
-//       resolve(stdout);
-//     });
-//   });
-// }
+const dryRun = !!argv['dry-run'];
 
 async function build() {
-  const dryRun = !!argv['dry-run'];
-  const manifest = yaml.safeLoad(fs.readFileSync('./manifest.yml', 'utf8'));
-
   for (let [envName, envProperties] of Object.entries(manifest.environments)) {
     const buildSha = envProperties.build.sha;
     console.log(`Environment ${envName} should have build SHA ${buildSha}`);

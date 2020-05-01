@@ -1,9 +1,4 @@
-const util = require('util');
-const _exec = util.promisify(require('child_process').exec);
-const exec = async function(cmd, options) {
-  console.log('running ' + cmd);
-  return await _exec(cmd, options);
-};
+const exec = require.main.require('./lib/child_process').exec;
 const tmp = require('tmp');
 
 class Compose {
