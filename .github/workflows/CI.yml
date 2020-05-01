@@ -55,12 +55,8 @@ jobs:
           git fetch
           git checkout $DEPLOYMENT_SHA
 
-          export COMPOSE_FILE=docker-compose.deployment.yml
-          cp $DEPLOYMENT_FILE $COMPOSE_FILE
-          
-          docker-compose pull
-          
           export POSTGRES_CONNECTION
-          docker-compose up --detach --no-build --remove-orphans
-          
+          export DEPLOYMENT_FILE
+
+          ./ci/deploy.sh
         envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE
