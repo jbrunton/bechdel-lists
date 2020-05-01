@@ -1,7 +1,10 @@
 #!/bin/bash
 set -e
 
-DOCKER_RUN="docker-compose --file $DEPLOYMENT_FILE --project-directory ."
+COMPOSE_FILE=docker-compose.deployment.yml
+mv $DEPLOYMENT_FILE $COMPOSE_FILE
 
-$DOCKER_RUN pull
-$DOCKER_RUN up --detach --no-build --remove-orphans
+docker-compose pull
+
+export POSTGRES_CONNECTION
+docker-compose up --detach --no-build --remove-orphans
