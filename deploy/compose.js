@@ -34,9 +34,18 @@ class Compose {
   }
 
   async checkImages() {
-    const servicesResult = await exec('docker-compose config --services');
-    const services = servicesResult.stdout.split(/\s+/);
+    const servicesResult = await exec('docker-compose config --services', this.execOpts);
+    const services = servicesResult.stdout.split("\n").filter((s) => s.length > 0);
     console.log('services: ' + JSON.stringify(services));
+    var missingImages = [];
+    for (const service of services) {
+      try {
+        await exec(`docker inspect --type=image jbrunton/bechdel-lists-${service}:${this.tag}`, this.execOpts);
+      } catch (e) {
+        missingImages.push(service);
+      }
+    }
+    return missingImages;
   }
 
   async pull() {
