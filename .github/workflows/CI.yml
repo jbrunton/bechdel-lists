@@ -49,7 +49,6 @@ jobs:
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
-        DEPLOYMENT_SHA: ${{ github.sha }}
       with:
         script: |
           cd bechdel-demo
@@ -57,4 +56,4 @@ jobs:
           git checkout $DEPLOYMENT_SHA
 
           ./ci/deploy.sh
-        envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE
+        envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE,DEPLOYMENT_SHA
