@@ -40,8 +40,10 @@ async function build() {
         await compose.pull();
         const result = await compose.config();
         if (result.stdout) {
-          const deploymentFile = result.stdout;
-          console.log('config: ' + deploymentFile);
+          const deploymentConfig = result.stdout;
+          await fs.writeFileSync(deploymentFile, deploymentConfig);
+          console.log(`Generated deployment file ${deploymentFile}:`);
+          console.log(deploymentConfig);
         }
       } catch (e) {
         console.log(e);
