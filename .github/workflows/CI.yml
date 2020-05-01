@@ -23,7 +23,7 @@ jobs:
       run: ./ci/parse_tag.sh
 
     - name: Build the Docker image
-      run: echo "Running for TAG=${TAG}. Skipping build." # ./ci/build.sh
+      run: ./ci/build.sh
 
   deploy:
     needs: build
