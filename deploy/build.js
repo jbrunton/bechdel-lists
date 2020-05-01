@@ -5,6 +5,8 @@ console.log("Running build...");
 
 //const exec = util.promisify(require('child_process').exec);
 
+const argv = require('yargs').argv;
+
 const Compose = require('./compose');
 
 // function exec(cmd, opts) {
@@ -23,6 +25,7 @@ const Compose = require('./compose');
 // }
 
 async function build() {
+  console.log(JSON.stringify(argv));
   const manifest = yaml.safeLoad(fs.readFileSync('./manifest.yml', 'utf8'));
 
   for (let [envName, envProperties] of Object.entries(manifest.environments)) {
@@ -43,15 +46,27 @@ async function build() {
         if (missingImages.length > 0) {
           console.log('Images missing: ' + JSON.stringify(missingImages));
           await compose.build();
-          await compose.push();
+          if (!argv.dryrun) {
+            await compose.push();
+          } else {
+            console.log('--dryrun passed, skipping docker-compose push');
+          }
         } else {
           console.log('Images exist locally.');
         }
         const deploymentConfig = await compose.config();
-        fs.writeFileSync(deploymentFile, deploymentConfig);
-        console.log(`Generated deployment file ${deploymentFile}:`);
-        console.log(deploymentConfig);
-      } catch (e) {
+
+        if (!argv.dryrun) {
+          fs.writeFileSync(deploymentFile, deploymentConfig);
+          // TODO: git commit
+          console.log(`Generated deployment file ${deploymentFile}:`);
+          console.log(deploymentConfig);
+        } else {
+          console.log('--dryrun passed, skipping deployment file creation.');
+          console.log(`Would have created deployment file ${deploymentFile}:`);
+          console.log(deploymentConfig);
+        }
+    } catch (e) {
         console.log('unexpected error');
         console.log(e);
       } finally {
