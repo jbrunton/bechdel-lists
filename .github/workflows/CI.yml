@@ -55,5 +55,8 @@ jobs:
           git fetch
           git checkout $DEPLOYMENT_SHA
 
-          ./ci/deploy.sh
-        envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE,DEPLOYMENT_SHA
+          export POSTGRES_CONNECTION
+
+          docker-compose --file $DEPLOYMENT_FILE --project-directory . \
+            up --detach --no-build --remove-orphans
+        envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE
