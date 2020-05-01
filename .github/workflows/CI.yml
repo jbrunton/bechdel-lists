@@ -49,15 +49,12 @@ jobs:
         USERNAME: deployer
         KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+        DEPLOYMENT_SHA: ${{ github.sha }}
       with:
         script: |
-          echo "DEPLOYMENT_FILE: $DEPLOYMENT_FILE"
-          export COMPOSE_FILE=$DEPLOYMENT_FILE
-          
           cd bechdel-demo
           git fetch
-          git checkout origin/master
-          
-          export POSTGRES_CONNECTION
-          docker-compose up --project-directory=. --detach --no-build --remove-orphans
+          git checkout $DEPLOYMENT_SHA
+
+          ./ci/deploy.sh
         envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE
