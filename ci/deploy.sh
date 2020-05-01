@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-COMPOSE_FILE=docker-compose.deployment.yml
-mv $DEPLOYMENT_FILE $COMPOSE_FILE
+export COMPOSE_FILE=docker-compose.deployment.yml
+cp $DEPLOYMENT_FILE $COMPOSE_FILE
 
 docker-compose pull
 
