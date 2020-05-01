@@ -25,7 +25,7 @@ const Compose = require('./compose');
 // }
 
 async function build() {
-  console.log(JSON.stringify(argv));
+  const dryRun = !!argv['dry-run'];
   const manifest = yaml.safeLoad(fs.readFileSync('./manifest.yml', 'utf8'));
 
   for (let [envName, envProperties] of Object.entries(manifest.environments)) {
@@ -46,7 +46,7 @@ async function build() {
         if (missingImages.length > 0) {
           console.log('Images missing: ' + JSON.stringify(missingImages));
           await compose.build();
-          if (!argv.dryrun) {
+          if (!dryRun) {
             await compose.push();
           } else {
             console.log('--dryrun passed, skipping docker-compose push');
@@ -56,7 +56,7 @@ async function build() {
         }
         const deploymentConfig = await compose.config();
 
-        if (!argv.dryrun) {
+        if (!dryRun) {
           fs.writeFileSync(deploymentFile, deploymentConfig);
           // TODO: git commit
           console.log(`Generated deployment file ${deploymentFile}:`);
