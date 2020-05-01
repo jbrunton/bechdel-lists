@@ -1,4 +1,4 @@
-const exec = require.main.require('./lib/child_process').exec;
+const exec = require('./child_process').exec;
 const tmp = require('tmp');
 
 class Compose {

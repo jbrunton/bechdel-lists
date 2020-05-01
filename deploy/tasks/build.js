@@ -1,7 +1,7 @@
 const fs   = require('fs');
 const argv = require('yargs').argv;
-const manifest = require.main.require('./lib/manifest');
-const Compose = require.main.require('./lib/compose');
+const manifest = require('../lib/manifest');
+const Compose = require('../lib/compose');
 
 const dryRun = !!argv['dry-run'];
 
