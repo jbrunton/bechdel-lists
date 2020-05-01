@@ -1,0 +1,14 @@
+---
+environments:
+  production:
+    build:
+      sha: 7fdc223
+    meta:
+      timestamp: ...
+      description: ...
+  staging:
+    build:
+      sha: 7fdc223
+    meta:
+      timestamp: ...
+      description: ...
