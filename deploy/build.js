@@ -37,16 +37,25 @@ async function build() {
 
       const compose = new Compose(buildSha);
       try {
+        await compose.setup();
         await compose.pull();
         const result = await compose.config();
         if (result.stdout) {
+          console.log('stdout');
           const deploymentConfig = result.stdout;
-          await fs.writeFileSync(deploymentFile, deploymentConfig);
+          console.log('config: ' + deploymentConfig);
+          fs.writeFileSync(deploymentFile, deploymentConfig);
           console.log(`Generated deployment file ${deploymentFile}:`);
           console.log(deploymentConfig);
+        } else {
+          console.log('stderr');
+          console.log(result.stderr);
         }
       } catch (e) {
+        console.log('unexpected error');
         console.log(e);
+      } finally {
+        compose.cleanup();
       }
     }
   }
