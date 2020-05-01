@@ -6,7 +6,7 @@ export COMPOSE_FILE=docker-compose.yml
 echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 export DEPLOYMENT_NAME=release-${TAG}-$(date '+%Y%m%d%H%M%S')
-export DEPLOYMENT_FILE=deployments/docker-compose.${DEPLOYMENT_NAME}.yml
+export DEPLOYMENT_FILE=deployments/${DEPLOYMENT_NAME}.yml
 docker-compose -v
 docker-compose pull
 # docker-compose config resolves contexts to absolute paths, hence using sed to make them relative again
