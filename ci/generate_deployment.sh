@@ -13,10 +13,10 @@ docker-compose config --resolve-image-digests > $DEPLOYMENT_FILE
 echo "Generated deployment file $DEPLOYMENT_FILE:"
 cat $DEPLOYMENT_FILE
 
+git add $DEPLOYMENT_FILE
 git stash save
 git checkout master
 git stash pop
-git add $DEPLOYMENT_FILE
 
 git config --global user.email "jbrunton-ci-minion@outlook.com"
 git config --global user.name "jbrunton-ci-minion"
