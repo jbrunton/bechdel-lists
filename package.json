@@ -1,6 +1,7 @@
 {
   "name": "bechdel-demo",
   "scripts": {
+    "deploy:check": "node deploy/tasks/check",
     "deploy:build": "node deploy/tasks/build"
   },
   "repository": {

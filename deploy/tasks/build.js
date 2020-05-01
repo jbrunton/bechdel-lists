@@ -7,16 +7,14 @@ const dryRun = !!argv['dry-run'];
 
 async function build() {
   for (let [envName, envProperties] of Object.entries(manifest.environments)) {
-    const buildSha = envProperties.build.sha;
-    console.log(`Environment ${envName} should have build SHA ${buildSha}`);
-
-    const deploymentFile = `./deployments/docker-compose.${buildSha}.yml`;
+    console.log(`Checking environment ${envName} for deployment file.`);
+    const deploymentFile = envProperties.deploymentFile;
     if (fs.existsSync(deploymentFile)) {
       console.log(`Deployment file exists: ${deploymentFile}`);
     } else {
       console.log(`No deployment file exists at ${deploymentFile}. Starting build.`);
 
-      const compose = new Compose(buildSha);
+      const compose = new Compose(envProperties.buildId);
       try {
         await compose.setup();
         await compose.pull();
