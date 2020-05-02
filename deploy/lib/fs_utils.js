@@ -1,10 +1,10 @@
 const fs   = require('fs');
-const argv = require('yargs').argv;
+const args = require('./args');
 require('colors');
 const logger = require('./logger');
 
 function writeOutput(file, content) {
-  const dryRun = !!argv['dry-run'];
+  const dryRun = args.boolean('dry-run');
   if (!dryRun) {
     console.log(`Writing output to ${file}`);
     fs.writeFileSync(file, content + '\n');
