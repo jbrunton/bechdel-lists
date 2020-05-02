@@ -23,7 +23,7 @@ jobs:
       - name: Check manifest
         run: ./ci/check_manifest.sh
 
-      - name Build
+      - name: Build
         if: ${{ env.DEPLOYMENT_REQUIRED }}
         run: echo "Running build"
 
