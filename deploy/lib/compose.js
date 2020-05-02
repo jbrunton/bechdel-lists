@@ -1,5 +1,17 @@
 const { exec, spawn } = require('./child_process');
 const tmp = require('tmp');
+const yaml = require('js-yaml');
+
+function removeBuildContexts(config) {
+  const configObject = yaml.safeLoad(config);
+  for (let [service, serviceConfig] of Object.entries(configObject.services)) {
+    console.log('scanning service ' + service);
+    if (serviceConfig.build) {
+      delete serviceConfig.build;
+    }
+  }
+  return yaml.safeDump(configObject);
+}
 
 class Compose {
   constructor(tag) {
@@ -59,8 +71,11 @@ class Compose {
   }
 
   async config() {
-    const result = await exec('docker-compose config --resolve-image-digests | sed "s#$(pwd)/##"', this.execOpts);
-    return result.stdout;
+    //const configCmd = 'docker-compose config --resolve-image-digests | sed "/build:/d" | sed "/context:/d"';
+    const result = await exec('docker-compose config --resolve-image-digests', this.execOpts);
+    const dockerFile = result.stdout;
+    const config = removeBuildContexts(dockerFile);
+    return config;
   }
 }
 

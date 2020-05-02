@@ -1,9 +1,11 @@
 {
   "name": "bechdel-demo",
   "scripts": {
-    "deploy:build:check": "node deploy/tasks/build_check",
-    "deploy:build": "node deploy/tasks/build",
-    "deploy:workflows:generate": "node deploy/tasks/pipelines"
+    "ci:deploy": "node deploy/tasks/deploy",
+    "ci:deploy:check": "node deploy/tasks/deploy_check",
+    "ci:build": "node deploy/tasks/build",
+    "ci:build:check": "node deploy/tasks/build_check",
+    "ci:workflows:generate": "node deploy/tasks/pipelines"
   },
   "repository": {
     "type": "git",
