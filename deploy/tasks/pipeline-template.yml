@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      buildRequired: ${{ steps.build_check.outputs.buildRequired }}
-      buildId: ${{ steps.build_check.outputs.buildId }}
+      buildRequired: ${{ steps.check.outputs.buildRequired }}
+      buildId: ${{ steps.check.outputs.buildId }}
       
     steps:
       - uses: actions/checkout@v2
