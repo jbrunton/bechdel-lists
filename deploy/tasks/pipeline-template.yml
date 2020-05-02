@@ -8,6 +8,7 @@ on:
 env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   DOCKER_USERNAME: jbrunton
+  ENVIRONMENT_NAME: <%= environment.name %>
         
 jobs:
 

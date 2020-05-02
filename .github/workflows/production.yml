@@ -1,0 +1,123 @@
+# IMPORTANT: Generated using deploy:workflows:generate command, do not modify.
+name: CI
+
+on:
+  push:
+    branches:
+      - demo-59
+
+env:
+  DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+  DOCKER_USERNAME: jbrunton
+  ENVIRONMENT_NAME: production
+        
+jobs:
+
+  check:
+    runs-on: ubuntu-latest
+
+    outputs:
+      deploymentRequired: ${{ steps.check.outputs.deploymentRequired }}
+      buildIds: ${{ steps.check.outputs.buildIds }}
+      
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: Check manifest
+        id: check
+        run: |
+          npm run deploy:check -- --output-file check.env
+          source check.env
+          cat check.env
+          echo "::set-output name=deploymentRequired::$DEPLOYMENT_REQUIRED"
+          echo "::set-output name=buildIds::$BUILD_IDS"
+
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ needs.check.outputs.deploymentRequired == true }}
+    needs: check
+
+    outputs:
+      deploymentFiles: ${{ steps.build.outputs.deploymentFiles }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: Build
+        id: build
+        env:
+          BUILDS_IDS: ${{ needs.check.outputs.buildIds }}
+        run: |
+          npm run deploy:build -- --build-ids $BUILD_IDS --output-file build.env
+          source build.env
+          echo "::set-output name=deploymentFiles::$DEPLOYMENT_FILES"
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ needs.check.outputs.deploymentRequired == true }}
+    needs: [check, build]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: Deploy
+        env:
+          DEPLOYMENT_FILES: ${{ needs.build.outputs.deploymentFiles }}
+        run: echo "Running deployment with files $DEPLOYMENT_FILES"
+
+  # build:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name: Parse tag
+  #     run: ./ci/parse_tag.sh
+
+  #   - name: Build the Docker image
+  #     run: ./ci/build.sh
+
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+
+  #   env:
+  #     GITHUB_REF: ${{ github.ref }}
+  #     GITHUB_SHA: ${{ github.sha }}
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name: Parse tag
+  #     run: ./ci/parse_tag.sh
+
+  #   - name: Generate Deployment
+  #     run: ./ci/generate_deployment.sh
+  
+  #   - name: Deploy
+  #     uses: appleboy/ssh-action@master
+  #     env:
+  #       HOST: ${{ secrets.DEPLOY_HOST }}
+  #       USERNAME: deployer
+  #       KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+  #       POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+  #     with:
+  #       script: |
+  #         cd bechdel-demo
+  #         git fetch
+  #         git checkout $DEPLOYMENT_SHA
+
+  #         export POSTGRES_CONNECTION
+  #         export DEPLOYMENT_FILE
+
+  #         ./ci/deploy.sh
+  #       envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE
