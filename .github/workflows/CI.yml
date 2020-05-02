@@ -52,7 +52,7 @@ jobs:
         env:
           BUILDS_IDS: ${{ needs.check.outputs.buildIds }}
         run: |
-          npm run deploy:build -- --build-ids=$BUILD_IDS --output-file build.env
+          npm run deploy:build -- --build-ids $BUILD_IDS --output-file build.env
           source build.env
           echo "::set-output name=deploymentFiles::$DEPLOYMENT_FILES"
 
