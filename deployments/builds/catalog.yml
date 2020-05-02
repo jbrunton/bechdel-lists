@@ -4,3 +4,5 @@ builds:
     timestamp: ...
   - id: 1588456910
     version: v0.0.2
+  - id: 1588457153
+    version: v0.0.9
