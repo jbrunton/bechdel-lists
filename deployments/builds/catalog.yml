@@ -2,3 +2,5 @@ builds:
   - version: v0.0.1
     id: <git sha>
     timestamp: ...
+  - id: 1588456910
+    version: v0.0.2
