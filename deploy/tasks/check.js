@@ -37,12 +37,12 @@ console.log('');
 
 if (missingBuilds.length == 0) {
   if (outputEnvFile) {
-    writeOutput('DEPLOYMENT_REQUIRED=false\n');
+    writeOutput('DEPLOYMENT_REQUIRED=0\n');
   }
   console.log('Deployment files found for all environments, no build required.\n');
 } else {
   if (outputEnvFile) {
-    writeOutput(`DEPLOYMENT_REQUIRED=true\nMISSING_BUILDS=${missingBuilds.join(',')}\n`);
+    writeOutput(`DEPLOYMENT_REQUIRED=1\nMISSING_BUILDS=${missingBuilds.join(',')}\n`);
   }
   console.log(`Missing deployment files for builds ${missingBuilds.join(', ')}.\n`);
 }
