@@ -8,6 +8,7 @@ on:
 env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   DOCKER_USERNAME: jbrunton
+  FORCE_COLOR: 1
         
 jobs:
 
