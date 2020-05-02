@@ -30,7 +30,7 @@ jobs:
       - name: check manifest
         id: check
         run: |
-          npm run ci:build:check -- --output-file check.env
+          npm run ci:build:check -- --next-build-id $BUILD_ID --output-file check.env
           source check.env
           echo "::set-output name=buildRequired::$BUILD_REQUIRED"
           echo "::set-output name=buildFile::$BUILD_FILE"
