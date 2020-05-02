@@ -30,7 +30,7 @@ jobs:
 
       - name: No Build
         if: ${{ steps.check.deploymentRequired == false }}
-        run: echo "No build required"
+        run: echo "No build required, steps.check.deploymentRequired=${{ steps.check.deploymentRequired }}"
 
   # build:
   #   runs-on: ubuntu-latest
