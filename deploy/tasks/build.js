@@ -30,7 +30,7 @@ async function build(buildIds) {
         if (!dryRun) {
           await compose.push();
         } else {
-          console.log('--dryrun passed, skipping docker-compose push');
+          console.log('--dry-run passed, skipping docker-compose push');
         }
       } else {
         console.log('Images exist locally.');
@@ -43,7 +43,7 @@ async function build(buildIds) {
         console.log(`Generated deployment file ${deploymentFile}:`);
         console.log(deploymentConfig);
       } else {
-        console.log('--dryrun passed, skipping deployment file creation.');
+        console.log('--dry-run passed, skipping deployment file creation.');
         console.log(`Would have created deployment file ${deploymentFile}:`);
         console.log(deploymentConfig);
       }
