@@ -48,13 +48,13 @@ jobs:
       - uses: actions/checkout@v2
  
       - name: Build
-        if: ${{ needs.check.outputs.deploymentRequired }}
+        if: ${{ needs.check.outputs.deploymentRequired == true }}
         env:
           DEPLOYMENT_REQUIRED: ${{ needs.check.outputs.deploymentRequired }}
         run: echo "Running build, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
 
       - name: No Build
-        if: ${{ !needs.check.outputs.deploymentRequired }}
+        if: ${{ needs.check.outputs.deploymentRequired == false }}
         env:
           DEPLOYMENT_REQUIRED: ${{ needs.check.outputs.deploymentRequired }}
         run: echo "No build required, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
