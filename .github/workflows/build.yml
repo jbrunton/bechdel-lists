@@ -70,7 +70,7 @@ jobs:
           git config --global user.email "jbrunton-ci-minion@outlook.com"
           git config --global user.name "jbrunton-ci-minion"
           git commit -m "Generated build for ${BUILD_VERSION} (id: ${BUILD_ID})"
-          git push origin HEAD:demo-59-staging
+          git push origin HEAD:master
   # deploy:
   #   runs-on: ubuntu-latest
   #   if: ${{ needs.check.outputs.deploymentRequired == true }}
