@@ -36,7 +36,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: ${{ needs.build_check.outputs.buildRequired == true }}
-    needs: check
+    needs: build_check
 
     steps:
       - uses: actions/checkout@v2
