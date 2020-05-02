@@ -1,4 +1,4 @@
-name: Deploy
+name: CI
 
 on:
   push:
@@ -26,12 +26,19 @@ jobs:
 
       - name: Check manifest
         id: check
-        run: ./ci/check_manifest.sh
+        run: |
+          npm run deploy:check -- --output-file check.env
+          source check.env
+          echo "::set-output name=deploymentRequired::$DEPLOYMENT_REQUIRED"
+          echo "::set-output name=buildIds::$BUILD_IDS"
 
   build:
     runs-on: ubuntu-latest
     if: ${{ needs.check.outputs.deploymentRequired == true }}
     needs: check
+
+    outputs:
+      deploymentFiles: ${{ steps.build.outputs.deploymentFiles }}
 
     steps:
       - uses: actions/checkout@v2
@@ -40,9 +47,13 @@ jobs:
         run: npm install
 
       - name: Build
+        id: build
         env:
           BUILDS_IDS: ${{ needs.check.outputs.buildIds }}
-        run: echo "Running build for $BUILD_IDS"
+        run: |
+          npm run deploy:build -- --build-ids=$BUILD_IDS --output-file build.env
+          source build.env
+          echo "::set-output name=deploymentFiles::$DEPLOYMENT_FILES"
 
   deploy:
     runs-on: ubuntu-latest
@@ -57,8 +68,8 @@ jobs:
 
       - name: Deploy
         env:
-          BUILDS_IDS: ${{ needs.check.outputs.buildIds }}
-        run: echo "Running deployment for $BUILD_IDS"
+          DEPLOYMENT_FILES: ${{ needs.build.outputs.deploymentFiles }}
+        run: echo "Running deployment with files $DEPLOYMENT_FILES"
 
   # build:
   #   runs-on: ubuntu-latest

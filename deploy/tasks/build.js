@@ -4,22 +4,21 @@ require('colors');
 const logger = require('../lib/logger');
 const manifest = require('../lib/manifest');
 const Compose = require('../lib/compose');
+const { writeOutput } = require('../lib/fs_utils');
 
 if (!argv['build-ids']) {
   console.log('Missing required parameter --build-ids'.red);
   process.exit(64);
 }
 
+const outputEnvFile = argv['output-file'];
 const dryRun = !!argv['dry-run'];
 const skipBuild = !!argv['skip-build'];
 const buildIds = argv['build-ids'].toString().split(',');
 
-function indent(message) {
-  return '  ' + message.replace(/\n/g, '\n  ');
-}
-
 async function build() {
   const completedBuildIds = [];
+  const deploymentFiles = [];
 
   for (let buildId of buildIds) {
     console.log(`Starting build for ${buildId}`.bold);
@@ -45,16 +44,8 @@ async function build() {
 
       const deploymentConfig = await compose.config();
       const deploymentFile = manifest.deploymentFileFor(buildId);
-
-      if (!dryRun) {
-        fs.writeFileSync(deploymentFile, deploymentConfig);
-        logger.log(`  Generated deployment file ${deploymentFile}:`);
-        logger.log(deploymentConfig, { indent: true });
-      } else {
-        logger.log('--dry-run passed, skipping deployment file creation.');
-        logger.log(`Would have created deployment file ${deploymentFile}:`.yellow);
-        logger.log(deploymentConfig.yellow);
-      }
+      writeOutput(deploymentFile, deploymentConfig);
+      deploymentFiles.push(deploymentFile);
 
       await compose.cleanup();
     }
@@ -66,6 +57,12 @@ async function build() {
 
     completedBuildIds.push(buildId);
     console.log(`Completed build for ${buildId}`);
+  }
+
+  if (outputEnvFile) {
+    writeOutput(outputEnvFile, `DEPLOYMENT_FILES=${deploymentFiles.join(' ')}`);
+  } else {
+    console.log('Hint: set --output-file to output the results for scripting.');    
   }
 }
 

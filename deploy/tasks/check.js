@@ -2,23 +2,11 @@ const fs   = require('fs');
 const argv = require('yargs').argv;
 const manifest = require('../lib/manifest');
 require('colors');
-
-const outputEnvFile = argv['output-file'];
-const dryRun = !!argv['dry-run'];
-
-function writeOutput(content) {
-  if (!dryRun) {
-    console.log(`Writing output to ${outputEnvFile}`);
-    fs.writeFileSync(outputEnvFile, content);
-  } else {
-    console.log('--dry-run passed, skipping output.');
-    console.log(`Would have created ${outputEnvFile} with content:`);
-    console.log('  ' + content.replace('\n', '\n  '));
-  }
-}
+const { writeOutput, outputFile } = require('../lib/fs_utils');
 
 console.log('Checking for existing deployment files:'.bold)
 
+const outputEnvFile = argv['output-file'];
 const missingBuilds = [];
 
 for (let [envName, envProperties] of Object.entries(manifest.environments)) {
@@ -37,12 +25,12 @@ console.log('');
 
 if (missingBuilds.length == 0) {
   if (outputEnvFile) {
-    writeOutput('DEPLOYMENT_REQUIRED=0\n');
+    writeOutput(outputEnvFile, 'DEPLOYMENT_REQUIRED=0');
   }
   console.log('Deployment files found for all environments, no build required.\n');
 } else {
   if (outputEnvFile) {
-    writeOutput(`DEPLOYMENT_REQUIRED=1\nMISSING_BUILDS=${missingBuilds.join(',')}\n`);
+    writeOutput(outputEnvFile, `DEPLOYMENT_REQUIRED=1\nMISSING_BUILDS=${missingBuilds.join(',')}`);
   }
   console.log(`Missing deployment files for builds ${missingBuilds.join(', ')}.\n`);
 }
