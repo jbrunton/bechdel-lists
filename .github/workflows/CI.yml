@@ -11,7 +11,7 @@ env:
         
 jobs:
 
-  deploy:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,6 +35,29 @@ jobs:
         env:
           DEPLOYMENT_REQUIRED: ${{ steps.check.outputs.deploymentRequired }}
         run: echo "No build required, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
+
+    outputs:
+      deploymentRequired: ${{ steps.check.outputs.deploymentRequired }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: check
+
+    steps:
+      - uses: actions/checkout@v2
+ 
+      - name: Build
+        if: ${{ jobs.check.outputs.deploymentRequired }}
+        env:
+          DEPLOYMENT_REQUIRED: ${{ jobs.check.outputs.deploymentRequired }}
+        run: echo "Running build, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
+
+      - name: No Build
+        if: ${{ !jobs.check.outputs.deploymentRequired }}
+        env:
+          DEPLOYMENT_REQUIRED: ${{ jobs.check.outputs.deploymentRequired }}
+        run: echo "No build required, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
+
 
   # build:
   #   runs-on: ubuntu-latest
