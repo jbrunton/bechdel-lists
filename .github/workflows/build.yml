@@ -9,7 +9,6 @@ env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   DOCKER_USERNAME: jbrunton
   FORCE_COLOR: 1
-  BUILD_ID: ${{ github.sha }}
         
 jobs:
 
@@ -20,6 +19,7 @@ jobs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
       buildFile: ${{ steps.check.outputs.buildFile }}
       buildVersion: ${{ steps.check.outputs.buildVersion }}
+      buildId: ${{ steps.check.outputs.buildId }}
       
     steps:
       - uses: actions/checkout@v2
@@ -30,11 +30,15 @@ jobs:
       - name: check manifest
         id: check
         run: |
+          export BUILD_ID=$(date +%s)
+
           npm run ci:build:check -- --next-build-id $BUILD_ID --output-file check.env
           source check.env
+
           echo "::set-output name=buildRequired::$BUILD_REQUIRED"
-          echo "::set-output name=buildFile::$BUILD_FILE"
+          echo "::set-output name=buildId::$BUILD_ID"
           echo "::set-output name=buildVersion::$BUILD_VERSION"
+          echo "::set-output name=buildFile::$BUILD_FILE"
 
   build:
     runs-on: ubuntu-latest
@@ -42,8 +46,9 @@ jobs:
     needs: build_check
 
     env:
-      BUILD_FILE: ${{ needs.build_check.outputs.buildFile }}
+      BUILD_ID: ${{ needs.build_check.outputs.buildId }}
       BUILD_VERSION: ${{ needs.build_check.outputs.buildVersion }}
+      BUILD_FILE: ${{ needs.build_check.outputs.buildFile }}
 
     steps:
       - uses: actions/checkout@v2
