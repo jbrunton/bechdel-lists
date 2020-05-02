@@ -56,15 +56,16 @@ jobs:
         env:
           BUILD_ID: ${{ needs.build_check.outputs.buildId }}
         run: |
-          npm run ci:build -- --build-id $BUILD_ID --output-file build.env
-          source build.env
+          #npm run ci:build -- --build-id $BUILD_ID --output-file build.env
+          #source build.env
+          export DEPLOYMENT_FILE=./deployments/docker-compose.v0.0.7.yml
           echo "::set-output name=deploymentFile::$DEPLOYMENT_FILE"
 
       - name: Upload deployment file
         uses: actions/upload-artifact@v1
         with:
           name: docker-compose.yml
-          path: ${{ needs.build_check.outputs.deploymentFile }}
+          path: ${{ steps.build.outputs.deploymentFile }}
 
   # deploy:
   #   runs-on: ubuntu-latest
