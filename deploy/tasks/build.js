@@ -6,65 +6,52 @@ const manifest = require('../lib/manifest');
 const Compose = require('../lib/compose');
 const { writeOutput } = require('../lib/fs_utils');
 
-if (!argv['build-ids']) {
-  console.log('Missing required parameter --build-ids'.red);
+const buildId = argv.buildId;
+if (!buildId) {
+  console.log('Missing required parameter --build-id'.red);
   process.exit(64);
 }
 
 const outputEnvFile = argv['output-file'];
 const dryRun = !!argv['dry-run'];
 const skipBuild = !!argv['skip-build'];
-const buildIds = argv['build-ids'].toString().split(',');
 
 async function build() {
-  const completedBuildIds = [];
-  const deploymentFiles = [];
-
-  for (let buildId of buildIds) {
-    console.log(`Starting build for ${buildId}`.bold);
-    
-    if (completedBuildIds.includes(buildId)) {
-      console.log(`  Build ${buildId} already completed, skipping.`);
-      continue;
+  console.log(`Starting build for ${buildId}`.bold);
+  
+  const compose = new Compose(buildId);
+  try {
+    await compose.setup();
+    if (!skipBuild) {
+      await compose.build(logger.dockerLogger);
+    } else {
+      console.log('--skip-build passed, skipping docker-compose build');
+    }
+    if (!dryRun) {
+      await compose.push(logger.dockerLogger);
+    } else {
+      console.log('--dry-run passed, skipping docker-compose push');
     }
 
-    const compose = new Compose(buildId);
-    try {
-      await compose.setup();
-      if (!skipBuild) {
-        await compose.build(logger.dockerLogger);
-      } else {
-        console.log('--skip-build passed, skipping docker-compose build');
-      }
-      if (!dryRun) {
-        await compose.push(logger.dockerLogger);
-      } else {
-        console.log('--dry-run passed, skipping docker-compose push');
-      }
-
-      const deploymentConfig = await compose.config();
-      const deploymentFile = manifest.deploymentFileFor(buildId);
-      writeOutput(deploymentFile, deploymentConfig);
-      deploymentFiles.push(deploymentFile);
-
-      await compose.cleanup();
+    const deploymentConfig = await compose.config();
+    const deploymentFile = manifest.deploymentFileFor(buildId);
+    writeOutput(deploymentFile, deploymentConfig);
+    if (outputEnvFile) {
+      writeOutput(outputEnvFile, `DEPLOYMENT_FILE=${deploymentFile}`);
+    } else {
+      console.log('Hint: set --output-file to output the results for scripting.');    
     }
-    catch (e) {
-      await compose.cleanup();
-      console.log(e);
-      process.exit(1);
-    }
-
-    completedBuildIds.push(buildId);
-    console.log(`Completed build for ${buildId}`);
+    await compose.cleanup();
+  }
+  catch (e) {
+    await compose.cleanup();
+    console.log(e);
+    process.exit(1);
   }
 
-  if (outputEnvFile) {
-    writeOutput(outputEnvFile, `DEPLOYMENT_FILES=${deploymentFiles.join(' ')}`);
-  } else {
-    console.log('Hint: set --output-file to output the results for scripting.');    
-  }
+  console.log(`Completed build for ${buildId}`);
 }
+
 
 build();
 

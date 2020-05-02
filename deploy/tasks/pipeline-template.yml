@@ -16,7 +16,7 @@ jobs:
 
     outputs:
       buildRequired: ${{ steps.build_check.outputs.buildRequired }}
-      buildIds: ${{ steps.build_check.outputs.buildIds }}
+      buildId: ${{ steps.build_check.outputs.buildId }}
       
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
           source check.env
           cat check.env
           echo "::set-output name=buildRequired::$BUILD_REQUIRED"
-          echo "::set-output name=buildIds::$BUILD_IDS"
+          echo "::set-output name=buildId::$BUILD_ID"
 
   build:
     runs-on: ubuntu-latest
