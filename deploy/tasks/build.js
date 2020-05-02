@@ -11,6 +11,7 @@ const buildId = args.require('build-id')
 const outputEnvFile = args.require('output-file');
 const dryRun = args.boolean('dry-run');
 const skipBuild = args.boolean('skip-build');
+const skipPush = args.boolean('skip-push');
 
 async function build() {
   console.log(`Starting build for ${buildId}`.bold);
@@ -21,12 +22,13 @@ async function build() {
     if (!skipBuild) {
       await compose.build(logger.dockerLogger);
     } else {
-      console.log('--skip-build passed, skipping docker-compose build');
+      console.log('--skip-build passed, skipping docker-compose build'.yellow);
     }
-    if (!dryRun) {
+    if (!dryRun && !skipPush) {
       await compose.push(logger.dockerLogger);
     } else {
-      console.log('--dry-run passed, skipping docker-compose push');
+      const argName = dryRun ? 'dry-run' : 'skip-push';
+      console.log(`--${argName} passed, skipping docker-compose push`.yellow);
     }
 
     const deploymentConfig = await compose.config();

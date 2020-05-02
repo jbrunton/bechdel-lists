@@ -39,6 +39,9 @@ jobs:
     if: ${{ needs.build_check.outputs.buildRequired == true }}
     needs: build_check
 
+    outputs:
+      deploymentFile: ${{ steps.build.outputs.deploymentFile }}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -50,7 +53,15 @@ jobs:
         env:
           BUILD_ID: ${{ needs.build_check.outputs.buildId }}
         run: |
-          npm run deploy:build -- --build-id $BUILD_ID --output-file build.env
+          npm run deploy:build -- --build-id $BUILD_ID --output-file build.env --skip-push
+          source build.env
+          echo "::set-output name=deploymentFile::$DEPLOYMENT_FILE"
+
+      - name: Upload deployment file
+        uses: actions/upload-artifact@v1
+        with:
+          name: docker-compose.yml
+          path: ${{ needs.build_check.outputs.buildId }}
 
   # deploy:
   #   runs-on: ubuntu-latest

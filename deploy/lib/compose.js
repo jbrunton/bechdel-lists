@@ -4,8 +4,7 @@ const yaml = require('js-yaml');
 
 function removeBuildContexts(config) {
   const configObject = yaml.safeLoad(config);
-  for (let [service, serviceConfig] of Object.entries(configObject.services)) {
-    console.log('scanning service ' + service);
+  for (let [_, serviceConfig] of Object.entries(configObject.services)) {
     if (serviceConfig.build) {
       delete serviceConfig.build;
     }
