@@ -26,6 +26,7 @@ jobs:
         run: npm install
 
       - name: check manifest
+        id: check
         run: |
           npm run ci:build:check -- --environment <%= environment.name %> --output-file check.env
           source check.env
