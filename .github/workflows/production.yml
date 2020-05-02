@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: docker-compose.yml
-          path: ${{ needs.build_check.outputs.buildId }}
+          path: ${{ needs.build_check.outputs.deploymentFile }}
 
   # deploy:
   #   runs-on: ubuntu-latest
