@@ -1,5 +1,5 @@
 # IMPORTANT: Generated using deploy:workflows:generate command, do not modify.
-name: production
+name: ci-production
 
 on:
   push:
