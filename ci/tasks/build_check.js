@@ -10,9 +10,13 @@ console.log('Checking for build'.bold);
 const buildExists = !!manifest.currentBuild;
 
 if (buildExists) {
-  writeOutput(outputEnvFile, 'BUILD_REQUIRED=0');
   console.log(`Found build for version ${manifest.version}: ${JSON.stringify(manifest.currentBuild)}`);
 } else {
-  writeOutput(outputEnvFile, `BUILD_REQUIRED=1`);
   console.log(`Build required for version ${manifest.version}.`);
+}
+
+if (buildExists) {
+  writeOutput(outputEnvFile, 'BUILD_REQUIRED=0');
+} else {
+  writeOutput(outputEnvFile, `BUILD_REQUIRED=1`);
 }
