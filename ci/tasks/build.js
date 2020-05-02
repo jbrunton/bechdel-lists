@@ -38,7 +38,7 @@ async function build() {
     }
 
     const buildConfig = await compose.config();
-    const buildFile = build.buildFileFor(buildId);
+    const buildFile = builds.buildFileFor(buildId);
     writeOutput(buildFile, buildConfig);
     
     await compose.cleanup();
