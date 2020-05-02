@@ -1,4 +1,4 @@
-const exec = require('./child_process').exec;
+const { exec, spawn } = require('./child_process');
 const tmp = require('tmp');
 
 class Compose {
@@ -43,12 +43,12 @@ class Compose {
     return missingImages;
   }
 
-  async build() {
-    await exec('docker-compose build', this.execOpts);
+  async build(logger) {
+    await spawn('docker-compose build', this.execOpts, logger);
   }
 
-  async push() {
-    await exec('docker-compose push', this.execOpts);
+  async push(logger) {
+    await spawn('docker-compose push', this.execOpts, logger);
   }
 
   async pull() {
