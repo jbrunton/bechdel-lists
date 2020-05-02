@@ -1,7 +1,7 @@
 {
   "name": "bechdel-demo",
   "scripts": {
-    "deploy:check": "node deploy/tasks/check",
+    "deploy:build:check": "node deploy/tasks/build_check",
     "deploy:build": "node deploy/tasks/build",
     "deploy:workflows:generate": "node deploy/tasks/pipelines"
   },

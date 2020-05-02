@@ -9,16 +9,15 @@ on:
 env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   DOCKER_USERNAME: jbrunton
-  ENVIRONMENT_NAME: staging
         
 jobs:
 
-  check:
+  build_check:
     runs-on: ubuntu-latest
 
     outputs:
-      deploymentRequired: ${{ steps.check.outputs.deploymentRequired }}
-      buildIds: ${{ steps.check.outputs.buildIds }}
+      buildRequired: ${{ steps.build_check.outputs.buildRequired }}
+      buildIds: ${{ steps.build_check.outputs.buildIds }}
       
     steps:
       - uses: actions/checkout@v2
@@ -29,19 +28,16 @@ jobs:
       - name: Check manifest
         id: check
         run: |
-          npm run deploy:check -- --output-file check.env
+          npm run deploy:build:check -- --environment staging --output-file check.env
           source check.env
           cat check.env
-          echo "::set-output name=deploymentRequired::$DEPLOYMENT_REQUIRED"
+          echo "::set-output name=buildRequired::$BUILD_REQUIRED"
           echo "::set-output name=buildIds::$BUILD_IDS"
 
   build:
     runs-on: ubuntu-latest
-    if: ${{ needs.check.outputs.deploymentRequired == true }}
+    if: ${{ needs.build_check.outputs.buildRequired == true }}
     needs: check
-
-    outputs:
-      deploymentFiles: ${{ steps.build.outputs.deploymentFiles }}
 
     steps:
       - uses: actions/checkout@v2
@@ -52,27 +48,25 @@ jobs:
       - name: Build
         id: build
         env:
-          BUILDS_IDS: ${{ needs.check.outputs.buildIds }}
+          BUILD_ID: ${{ needs.build_check.outputs.buildId }}
         run: |
-          npm run deploy:build -- --build-ids $BUILD_IDS --output-file build.env
-          source build.env
-          echo "::set-output name=deploymentFiles::$DEPLOYMENT_FILES"
+          npm run deploy:build -- --build-id $BUILD_ID --output-file build.env
 
-  deploy:
-    runs-on: ubuntu-latest
-    if: ${{ needs.check.outputs.deploymentRequired == true }}
-    needs: [check, build]
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ needs.check.outputs.deploymentRequired == true }}
+  #   needs: [check, build]
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: npm install
-        run: npm install
+  #     - name: npm install
+  #       run: npm install
 
-      - name: Deploy
-        env:
-          DEPLOYMENT_FILES: ${{ needs.build.outputs.deploymentFiles }}
-        run: echo "Running deployment with files $DEPLOYMENT_FILES"
+  #     - name: Deploy
+  #       env:
+  #         DEPLOYMENT_FILES: ${{ needs.build.outputs.deploymentFiles }}
+  #       run: echo "Running deployment with files $DEPLOYMENT_FILES"
 
   # build:
   #   runs-on: ubuntu-latest
