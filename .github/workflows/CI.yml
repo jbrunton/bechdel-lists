@@ -21,11 +21,16 @@ jobs:
         run: npm install
 
       - name: Check manifest
+        id: check
         run: ./ci/check_manifest.sh
 
       - name: Build
-        if: ${{ env.DEPLOYMENT_REQUIRED }}
+        if: ${{ steps.check.deploymentRequired }}
         run: echo "Running build"
+
+      - name: No Build
+        if: ${{ steps.check.deploymentRequired == false }}
+        run: echo "No build required"
 
   # build:
   #   runs-on: ubuntu-latest
