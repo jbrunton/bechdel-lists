@@ -2,7 +2,7 @@ const fs   = require('fs');
 const argv = require('yargs').argv;
 const manifest = require('../lib/manifest');
 require('colors');
-const { writeOutput, outputFile } = require('../lib/fs_utils');
+const { writeOutput } = require('../lib/fs_utils');
 
 console.log('Checking for existing deployment files:'.bold)
 
@@ -30,7 +30,7 @@ if (missingBuilds.length == 0) {
   console.log('Deployment files found for all environments, no build required.\n');
 } else {
   if (outputEnvFile) {
-    writeOutput(outputEnvFile, `DEPLOYMENT_REQUIRED=1\nMISSING_BUILDS=${missingBuilds.join(',')}`);
+    writeOutput(outputEnvFile, `DEPLOYMENT_REQUIRED=1\nBUILD_IDS=${missingBuilds.join(',')}`);
   }
   console.log(`Missing deployment files for builds ${missingBuilds.join(', ')}.\n`);
 }
