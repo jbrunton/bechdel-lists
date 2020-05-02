@@ -40,9 +40,6 @@ jobs:
           DEPLOYMENT_REQUIRED: ${{ steps.check.outputs.deploymentRequired }}
         run: echo "No build required, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
 
-    outputs:
-      deploymentRequired: ${{ steps.check.outputs.deploymentRequired }}
-
   build:
     runs-on: ubuntu-latest
     needs: check
