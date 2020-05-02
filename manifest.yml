@@ -1,0 +1,13 @@
+---
+version: v0.0.2
+environments:
+  production:
+    version: v0.0.7
+    meta:
+      timestamp: ...
+      description: ...
+  staging:
+    version: v0.0.7
+    meta:
+      timestamp: ...
+      description: ...

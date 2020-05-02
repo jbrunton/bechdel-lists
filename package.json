@@ -1,0 +1,23 @@
+{
+  "name": "bechdel-demo",
+  "scripts": {
+    "ci:deploy": "node ci/tasks/deploy",
+    "ci:deploy:check": "node ci/tasks/deploy_check",
+    "ci:build": "node ci/tasks/build",
+    "ci:build:check": "node ci/tasks/build_check",
+    "ci:workflows:generate": "node ci/tasks/pipelines"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbrunton/bechdel-demo.git"
+  },
+  "homepage": "https://github.com/jbrunton/bechdel-demo#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "colors": "^1.4.0",
+    "js-yaml": "^3.13.1",
+    "mustache": "^4.0.1",
+    "tmp": "^0.2.1",
+    "yargs": "^15.3.1"
+  }
+}
