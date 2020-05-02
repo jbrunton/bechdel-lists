@@ -3,19 +3,25 @@ require('colors');
 
 const args = require('../lib/args');
 const logger = require('../lib/logger');
-const manifest = require('../lib/manifest');
+const builds = require('../lib/builds');
 const Compose = require('../lib/compose');
 const { writeOutput } = require('../lib/fs_utils');
 
-const buildId = args.require('build-id')
-const outputEnvFile = args.require('output-file');
+const buildId = args.require('build-id');
+const buildVersion = args.require('build-version');
 const dryRun = args.boolean('dry-run');
 const skipBuild = args.boolean('skip-build');
 const skipPush = args.boolean('skip-push');
 
 async function build() {
-  console.log(`Starting build for ${buildId}`.bold);
-  
+  console.log(`Starting build for ${buildVersion}`.bold);
+
+  builds.create(buildId, buildVersion, dryRun);
+  if (!dryRun) {
+    console.log('Added build to catalog.');
+  } else {
+    console.log('--dry-run passed, skipping adding build to catalog'.yellow);
+  }
   const compose = new Compose(buildId);
   try {
     await compose.setup();
@@ -31,10 +37,9 @@ async function build() {
       console.log(`--${argName} passed, skipping docker-compose push`.yellow);
     }
 
-    const deploymentConfig = await compose.config();
-    const deploymentFile = manifest.deploymentFileFor(buildId);
-    writeOutput(deploymentFile, deploymentConfig);
-    writeOutput(outputEnvFile, `DEPLOYMENT_FILE=${deploymentFile}`);
+    const buildConfig = await compose.config();
+    const buildFile = build.buildFileFor(buildId);
+    writeOutput(buildFile, buildConfig);
     
     await compose.cleanup();
   }
@@ -44,7 +49,7 @@ async function build() {
     process.exit(1);
   }
 
-  console.log(`Completed build for ${buildId}`);
+  console.log(`Completed build for ${buildVersion}`);
 }
 
 

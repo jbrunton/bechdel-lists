@@ -9,7 +9,7 @@ env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   DOCKER_USERNAME: jbrunton
   FORCE_COLOR: 1
-  NEXT_BUILD_ID: ${{ github.sha }}
+  BUILD_ID: ${{ github.sha }}
         
 jobs:
 
@@ -18,7 +18,8 @@ jobs:
 
     outputs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
-      buildId: ${{ steps.check.outputs.buildId }}
+      buildFile: ${{ steps.check.outputs.buildFile }}
+      buildVersion: ${{ steps.check.outputs.buildVersion }}
       
     steps:
       - uses: actions/checkout@v2
@@ -29,19 +30,20 @@ jobs:
       - name: check manifest
         id: check
         run: |
-          npm run ci:build:check -- --environment <%= environment.name %> --output-file check.env
+          npm run ci:build:check -- --output-file check.env
           source check.env
-          cat check.env
           echo "::set-output name=buildRequired::$BUILD_REQUIRED"
-          echo "::set-output name=buildId::$BUILD_ID"
+          echo "::set-output name=buildFile::$BUILD_FILE"
+          echo "::set-output name=buildVersion::$BUILD_VERSION"
 
   build:
     runs-on: ubuntu-latest
     if: ${{ needs.build_check.outputs.buildRequired == true }}
     needs: build_check
 
-    outputs:
-      deploymentFile: ${{ steps.build.outputs.deploymentFile }}
+    env:
+      BUILD_FILE: ${{ needs.build_check.outputs.buildFile }}
+      BUILD_VERSION: ${{ needs.build_check.outputs.buildVersion }}
 
     steps:
       - uses: actions/checkout@v2
@@ -53,21 +55,17 @@ jobs:
         run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       - name: build
-        id: build
-        env:
-          BUILD_ID: ${{ needs.build_check.outputs.buildId }}
         run: |
-          #npm run ci:build -- --build-id $BUILD_ID --output-file build.env
-          #source build.env
-          export DEPLOYMENT_FILE=./deployments/docker-compose.v0.0.7.yml
-          echo "::set-output name=deploymentFile::$DEPLOYMENT_FILE"
+          npm run ci:build -- --build-id $BUILD_ID --build-version $BUILD_VERSION
 
-      - name: Upload deployment file
-        uses: actions/upload-artifact@v1
-        with:
-          name: docker-compose.yml
-          path: ${{ steps.build.outputs.deploymentFile }}
-
+      - name: commit
+        run: |
+          git add $BUILD_FILE
+          git add deployments/builds/catalog.yml
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          git commit -m "Generated build for ${BUILD_VERSION} (id: ${BUILD_ID})"
+          git push origin HEAD:demo-59-staging
   # deploy:
   #   runs-on: ubuntu-latest
   #   if: ${{ needs.check.outputs.deploymentRequired == true }}
