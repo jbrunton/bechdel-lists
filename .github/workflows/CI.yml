@@ -28,38 +28,37 @@ jobs:
         id: check
         run: ./ci/check_manifest.sh
 
-      - name: Build
-        if: ${{ steps.check.outputs.deploymentRequired == true }}
-        env:
-          DEPLOYMENT_REQUIRED: ${{ steps.check.outputs.deploymentRequired }}
-        run: echo "Running build, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
-
-      - name: No Build
-        if: ${{ steps.check.outputs.deploymentRequired == false }}
-        env:
-          DEPLOYMENT_REQUIRED: ${{ steps.check.outputs.deploymentRequired }}
-        run: echo "No build required, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
-
   build:
     runs-on: ubuntu-latest
+    if: ${{ needs.check.outputs.deploymentRequired == true }}
     needs: check
-    if: ${{ needs.check.outputs.deploymentRequired }}
 
     steps:
       - uses: actions/checkout@v2
- 
+
+      - name: npm install
+        run: npm install
+
       - name: Build
-        if: ${{ needs.check.outputs.deploymentRequired == true }}
         env:
-          DEPLOYMENT_REQUIRED: ${{ needs.check.outputs.deploymentRequired }}
-        run: echo "Running build, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
+          BUILDS_IDS: ${{ needs.check.outputs.buildIds }}
+        run: echo "Running build for $BUILD_IDS"
 
-      - name: No Build
-        if: ${{ needs.check.outputs.deploymentRequired == false }}
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ needs.check.outputs.deploymentRequired == true }}
+    needs: [check, build]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: Deploy
         env:
-          DEPLOYMENT_REQUIRED: ${{ needs.check.outputs.deploymentRequired }}
-        run: echo "No build required, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
-
+          BUILDS_IDS: ${{ needs.check.outputs.buildIds }}
+        run: echo "Running deployment for $BUILD_IDS"
 
   # build:
   #   runs-on: ubuntu-latest
