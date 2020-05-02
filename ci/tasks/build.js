@@ -23,31 +23,22 @@ async function build() {
     console.log('--dry-run passed, skipping adding build to catalog'.yellow);
   }
   const compose = new Compose(buildId);
-  try {
-    await compose.setup();
-    if (!skipBuild) {
-      await compose.build(logger.dockerLogger);
-    } else {
-      console.log('--skip-build passed, skipping docker-compose build'.yellow);
-    }
-    if (!dryRun && !skipPush) {
-      await compose.push(logger.dockerLogger);
-    } else {
-      const argName = dryRun ? 'dry-run' : 'skip-push';
-      console.log(`--${argName} passed, skipping docker-compose push`.yellow);
-    }
+  
+  if (!skipBuild) {
+    await compose.build(logger.dockerLogger);
+  } else {
+    console.log('--skip-build passed, skipping docker-compose build'.yellow);
+  }
+  if (!dryRun && !skipPush) {
+    await compose.push(logger.dockerLogger);
+  } else {
+    const argName = dryRun ? 'dry-run' : 'skip-push';
+    console.log(`--${argName} passed, skipping docker-compose push`.yellow);
+  }
 
-    const buildConfig = await compose.config();
-    const buildFile = builds.buildFileFor(buildId);
-    writeOutput(buildFile, buildConfig);
-    
-    await compose.cleanup();
-  }
-  catch (e) {
-    await compose.cleanup();
-    console.log(e);
-    process.exit(1);
-  }
+  const buildConfig = await compose.config();
+  const buildFile = builds.buildFileFor(buildId);
+  writeOutput(buildFile, buildConfig);
 
   console.log(`Completed build for ${buildVersion}`);
 }

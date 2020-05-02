@@ -3,7 +3,7 @@ name: ci-build
 on:
   push:
     branches:
-      - demo-59
+      - master
 
 env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
@@ -17,9 +17,9 @@ jobs:
 
     outputs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
-      buildFile: ${{ steps.check.outputs.buildFile }}
-      buildVersion: ${{ steps.check.outputs.buildVersion }}
       buildId: ${{ steps.check.outputs.buildId }}
+      buildVersion: ${{ steps.check.outputs.buildVersion }}
+      buildFile: ${{ steps.check.outputs.buildFile }}
       
     steps:
       - uses: actions/checkout@v2

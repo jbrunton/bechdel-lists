@@ -15,28 +15,12 @@ function removeBuildContexts(config) {
 class Compose {
   constructor(tag) {
     this.tag = tag;
-  }
-
-  async setup() {
-    console.log('starting setup()')
-    this.dir = tmp.dirSync();
-
     this.execOpts = {
-      //cwd: this.dir.name,
       env: Object.assign({
         'TAG': this.tag,
         'COMPOSE_FILE': 'docker-compose.yml'
       }, process.env)
     };
-
-    //const result = await exec(`git clone git@github.com:jbrunton/bechdel-demo.git ${this.dir.name}`, { env: process.env });
-    console.log(`Cloned repo to ${this.dir.name}`);
-  }
-
-  cleanup() {
-    console.log('Cleaning up tmp directory ' + this.dir.name);
-    //this.dir.removeCallback();
-    //this.dir = null;
   }
 
   async checkImages() {
@@ -70,7 +54,6 @@ class Compose {
   }
 
   async config() {
-    //const configCmd = 'docker-compose config --resolve-image-digests | sed "/build:/d" | sed "/context:/d"';
     const result = await exec('docker-compose config --resolve-image-digests', this.execOpts);
     const dockerFile = result.stdout;
     const config = removeBuildContexts(dockerFile);
