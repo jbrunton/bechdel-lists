@@ -1,14 +1,13 @@
 ---
+version: v0.0.7
 environments:
   production:
-    build:
-      sha: 7fdc223
+    version: v0.0.7
     meta:
       timestamp: ...
       description: ...
   staging:
-    build:
-      sha: v0.0.1
+    version: v0.0.7
     meta:
       timestamp: ...
       description: ...
