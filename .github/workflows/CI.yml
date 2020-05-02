@@ -23,6 +23,10 @@ jobs:
       - name: Check manifest
         run: ./ci/check_manifest.sh
 
+      - name Build
+        if: ${{ env.DEPLOYMENT_REQUIRED }}
+        run: echo "Running build"
+
   # build:
   #   runs-on: ubuntu-latest
 
