@@ -9,19 +9,15 @@ const dryRun = !!argv['dry-run'];
 function writeOutput(content) {
   if (!dryRun) {
     console.log(`Writing output to ${outputEnvFile}`);
-    fs.writeFileSync(outputEnvFile, `SKIP_BUILD=0\nMISSING_BUILDS=${missingBuilds.join(',')}\n`);
+    fs.writeFileSync(outputEnvFile, content);
   } else {
     console.log('--dry-run passed, skipping output.');
     console.log(`Would have created ${outputEnvFile} with content:`);
-    console.log(content);
+    console.log('  ' + content.replace('\n', '\n  '));
   }
 }
 
 console.log('Checking for existing deployment files:'.bold)
-
-if (!outputEnvFile) {
-  console.log('Set --output-file to output the results for scripting.');
-}
 
 const missingBuilds = [];
 
@@ -37,14 +33,20 @@ for (let [envName, envProperties] of Object.entries(manifest.environments)) {
   }
 }
 
+console.log('');
+
 if (missingBuilds.length == 0) {
   if (outputEnvFile) {
-    writeOutput('SKIP_BUILD=1\n');
+    writeOutput('DEPLOYMENT_REQUIRED=false\n');
   }
   console.log('Deployment files found for all environments, no build required.\n');
 } else {
   if (outputEnvFile) {
-    writeOutput(`SKIP_BUILD=0\nMISSING_BUILDS=${missingBuilds.join(',')}\n`);
+    writeOutput(`DEPLOYMENT_REQUIRED=true\nMISSING_BUILDS=${missingBuilds.join(',')}\n`);
   }
   console.log(`Missing deployment files for builds ${missingBuilds.join(', ')}.\n`);
+}
+
+if (!outputEnvFile) {
+  console.log('Hint: set --output-file to output the results for scripting.');
 }
