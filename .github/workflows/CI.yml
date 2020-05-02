@@ -17,6 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: npm install
+        run: npm install
+
       - name: Check manifest
         run: ./ci/check_manifest.sh
 
