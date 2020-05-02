@@ -16,11 +16,11 @@ function deploymentFileFor(buildId) {
 }
 
 module.exports = {
-  findBuildById(buildId) {
+  findById(buildId) {
     return buildsById[buildId];
   },
 
-  findBuildByVersion(version) {
+  findByVersion(version) {
     return buildsByVersion[version];
   }
 };

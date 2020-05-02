@@ -9,6 +9,6 @@ for (let [_, envProperties] of Object.entries(manifest.environments)) {
   envProperties.build = build;
 }
 
-manifest.currentBuild = builds.findBuildByVersion(manifest.version);
+manifest.currentBuild = builds.findByVersion(manifest.version);
 
 module.exports = manifest;

@@ -1,4 +1,3 @@
-const fs   = require('fs');
 require('colors');
 
 const manifest = require('../lib/manifest');
@@ -12,8 +11,8 @@ const buildExists = !!manifest.currentBuild;
 
 if (buildExists) {
   writeOutput(outputEnvFile, 'BUILD_REQUIRED=0');
-  console.log(`  Found build for version ${manifest.version}: ${JSON.stringify(manifest.currentBuild)}`);
+  console.log(`Found build for version ${manifest.version}: ${JSON.stringify(manifest.currentBuild)}`);
 } else {
-  writeOutput(outputEnvFile, `BUILD_REQUIRED=1\nBUILD_ID=${buildId}`);
-  console.log(`  Build required for version ${manifest.version}.`);
+  writeOutput(outputEnvFile, `BUILD_REQUIRED=1`);
+  console.log(`Build required for version ${manifest.version}.`);
 }
