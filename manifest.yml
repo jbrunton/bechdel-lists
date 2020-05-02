@@ -2,7 +2,7 @@
 environments:
   production:
     build:
-      sha: 7fdc223
+      sha: v0.0.1
     meta:
       timestamp: ...
       description: ...
