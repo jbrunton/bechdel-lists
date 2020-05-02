@@ -1,5 +1,0 @@
----
-builds:
-  - name: v0.0.1
-    sha: <git sha>
-    timestamp: ...
