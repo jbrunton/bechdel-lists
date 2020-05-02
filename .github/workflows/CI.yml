@@ -25,12 +25,16 @@ jobs:
         run: ./ci/check_manifest.sh
 
       - name: Build
-        if: ${{ steps.check.deploymentRequired }}
-        run: echo "Running build"
+        if: ${{ steps.check.outputs.deploymentRequired }}
+        env:
+          DEPLOYMENT_REQUIRED: ${{ steps.check.outputs.deploymentRequired }}
+        run: echo "Running build, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
 
       - name: No Build
-        if: ${{ steps.check.deploymentRequired == false }}
-        run: echo "No build required, steps.check.deploymentRequired=${{ steps.check.deploymentRequired }}"
+        if: ${{ !steps.check.outputs.deploymentRequired }}
+        env:
+          DEPLOYMENT_REQUIRED: ${{ steps.check.outputs.deploymentRequired }}
+        run: echo "No build required, DEPLOYMENT_REQUIRED=$DEPLOYMENT_REQUIRED"
 
   # build:
   #   runs-on: ubuntu-latest
