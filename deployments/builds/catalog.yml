@@ -6,3 +6,8 @@ builds:
     version: v0.0.2
   - id: 1588457153
     version: v0.0.9
+  - id: v0.0.10-39a5e58-1588502768015
+    imageTag: v0.0.10-39a5e58-1588502768015
+    version: v0.0.10
+    buildSha: 39a5e58
+    timestamp: '2020-05-03T10:46:08.015Z'
