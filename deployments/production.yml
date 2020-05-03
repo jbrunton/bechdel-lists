@@ -1,4 +1,4 @@
-latest: a1b2c3
+latest: 1c915aea-7f98-49fe-8897-c0ff037e7e47
 deployments:
   - id: a1b2c3
     version: v0.0.6
@@ -12,3 +12,6 @@ deployments:
   - id: 1a7225db-75e6-4bcd-8e27-8818a6db953b
     version: v0.0.10
     timestamp: '2020-05-03T13:30:39.090Z'
+  - id: 1c915aea-7f98-49fe-8897-c0ff037e7e47
+    version: v0.0.10
+    timestamp: '2020-05-03T13:34:39.696Z'

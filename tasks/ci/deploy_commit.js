@@ -1,6 +1,5 @@
 const git = require('simple-git/promise')();
 const manifest = require('../lib/manifest');
-const builds = require('../lib/builds');
 const Deployments = require('../lib/deployments');
 const args = require('../lib/args');
 const logger = require('../lib/logger');
@@ -19,7 +18,7 @@ const dryRun = args.boolean('dry-run');
     process.exit(1);
   }
 
-  const deployment = deployments.create(build.version, dryRun);
+  const deployment = deployments.updateLatest(build.version, dryRun);
 
   const filesToAdd = [deployments.manifestFile];
   const commitMessage = `Generated deployment for ${build.version} (${deployment.id})`;
