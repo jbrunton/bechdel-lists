@@ -3,7 +3,7 @@ name: ci-deploy-production
 on:
   push:
     branches:
-      - master
+      - demo-61
 
 env:
   FORCE_COLOR: 1
@@ -79,4 +79,4 @@ jobs:
           
           npm run ci:deploy:commit -- --environment production
           
-          git push origin HEAD:master
+          git push origin HEAD:demo-61

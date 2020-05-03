@@ -19,7 +19,7 @@ const dryRun = args.boolean('dry-run');
     process.exit(1);
   }
 
-  const deployment = deployments.create(build.version, dryRun);
+  const deployment = deployments.updateLatest(build.version, dryRun);
 
   const filesToAdd = [deployments.manifestFile];
   const commitMessage = `Generated deployment for ${build.version} (${deployment.id})`;

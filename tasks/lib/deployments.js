@@ -23,7 +23,7 @@ class Deployments {
     return this._deploymentsById[this.manifest.latest];
   }
 
-  create(version, dryRun) {
+  updateLatest(version, dryRun) {
     const deployment = {
       id: uuid(),
       version: version,
@@ -31,6 +31,7 @@ class Deployments {
     };
     
     this.manifest.deployments.push(deployment);
+    this.manifest.latest = deployment.id;
     if (!dryRun) {
       fs.writeFileSync(this.manifestFile, yaml.safeDump(this.manifest));
       console.log('Added build to catalog.');
