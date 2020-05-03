@@ -1,0 +1,6 @@
+---
+latest: a1b2c3
+deployments:
+  - id: a1b2c3
+    version: v0.0.6
+    timestamp: ...

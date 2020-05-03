@@ -3,7 +3,8 @@
   "scripts": {
     "ci:build": "node tasks/ci/build",
     "ci:build:check": "node tasks/ci/build_check",
-    "ci:build:commit": "node tasks/ci/build_commit"
+    "ci:build:commit": "node tasks/ci/build_commit",
+    "ci:deploy:check": "node tasks/ci/deploy_check"
   },
   "repository": {
     "type": "git",

@@ -2,40 +2,31 @@ const fs   = require('fs');
 require('colors');
 
 const manifest = require('../lib/manifest');
+const Deployments = require('../lib/deployments');
+const builds = require('../lib/builds');
 const { writeOutput } = require('../lib/fs_utils');
 const logger = require('../lib/logger');
 const args = require('../lib/args');
-const { exec } = require('../lib/child_process');
 
 const envName = args.require('environment');
-const outputEnvFile = args.require('output-file');
+const outputFile = args.require('output-file');
 
 console.log('Checking deployment status for environment'.bold);
 
-const envProperties = manifest.environments[envName];
-envProperties.name = envName;
-logger.log('Environment:'.yellow);
-logger.log(JSON.stringify(envProperties).yellow, { indent: true });
+const envManifest = manifest.environments[envName];
+logger.info('Environment: ' + JSON.stringify(envManifest));
 
-async function check() {
-  const deploymentFile = envProperties.deploymentFile;
-  const result = await exec(`sha1sum ${deploymentFile} | awk '{ print $1 }'`, process.env);
-  if (result.stderr) {
-    console.log(result.stderr);
-    process.exit(1);
-  }
+const deployments = new Deployments(envName);
+const latestDeployment = deployments.getLatest();
+logger.info('Latest deployment: ' + JSON.stringify(latestDeployment));
 
-  const localSignature = result.stdout;
-  console.log(`Deployment file signature is ${localSignature}`);
-  console.log('');
-
-  // if (buildExists) {
-  //   writeOutput(outputEnvFile, 'BUILD_REQUIRED=0');
-  //   console.log(`Build found for environment ${envName}, no build required.\n`);
-  // } else {
-  //   writeOutput(outputEnvFile, `BUILD_REQUIRED=1\nBUILD_ID=${buildId}`);
-  //   console.log(`Build required for id ${buildId}.\n`);
-  // }
+console.log(`Manifest version for ${envName} is ${envManifest.version}, latest deployed version is ${latestDeployment.version}`);
+if (envManifest.version != latestDeployment.version) {
+  const build = builds.findByVersion(envManifest.version);
+  const buildFile = builds.buildFilePath(build.id);
+  console.log('Deployed version out of date, deployment required.');
+  writeOutput(outputFile, `DEPLOYMENT_REQUIRED=1\nBUILD_FILE=${buildFile}\nHOST=${envManifest.host}`);
+} else {
+  console.log('Versions match, skipping deployment');
+  writeOutput(outputFile, 'DEPLOYMENT_REQUIRED=0');
 }
-
-check();
