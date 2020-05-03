@@ -16,6 +16,11 @@ router.get('/', authenticate, async (req, res) => {
   res.json(lists);
 });
 
+router.get('/browse', async (req, res) => {
+  const lists = await models.List.findAll();
+  res.json(lists);
+});
+
 router.post('/', authenticate, async (req, res) => {
   const title = req.body.title;
   const list = await models.List.build({ title: title, UserId: req.user.id });
@@ -32,7 +37,8 @@ router.post('/', authenticate, async (req, res) => {
   }
 });
 
-router.get('/:listId', [authenticate, authorize(models.List)], async (req, res) => {
+// TODO: reinstate [authenticate, authorize(models.List)] based on public flag
+router.get('/:listId', async (req, res) => {
   if (req.list != null) {
     res.json(req.list);
   } else {
