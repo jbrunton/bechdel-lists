@@ -54,6 +54,7 @@ jobs:
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
           source: ${{ needs.deploy_check.outputs.buildFile }}
+          overwrite: true
           target: .
 
       - name: deploy
@@ -63,11 +64,13 @@ jobs:
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
           POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+          BUILD_FILE: ${{ needs.deploy_check.outputs.buildFile }}
         with:
           script: |
+            ln -sf $BUILD_FILE docker-compose.yml
             export POSTGRES_CONNECTION
             docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
-          envs: POSTGRES_CONNECTION,BUILD_ID
+          envs: POSTGRES_CONNECTION,BUILD_FILE
 
       - name: commit
         run: |
