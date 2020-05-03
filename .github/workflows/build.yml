@@ -3,7 +3,7 @@ name: ci-build
 on:
   push:
     branches:
-      - demo-60
+      - master
 
 env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
@@ -56,8 +56,8 @@ jobs:
           
           npm run ci:build:commit
           
-          git push origin HEAD:demo-60
-          
+          git push origin HEAD:master
+
   # deploy:
   #   runs-on: ubuntu-latest
   #   if: ${{ needs.check.outputs.deploymentRequired == true }}
