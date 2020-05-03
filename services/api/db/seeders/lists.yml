@@ -96,7 +96,10 @@ demoUserLists:
         imdbId: '1119646'
         year: 2009
         rating: 1
-      - '0796366' # Star Trek 2009
+      - title: Star Trek
+        imdbId: "0796366"
+        year: 2009
+        rating: 3
       - title: Monsters vs Aliens
         imdbId: 0892782
         year: 2009
