@@ -5,14 +5,14 @@ services:
     environment:
       - POSTGRES_USER=postgres_user
       - POSTGRES_PASSWORD=postgres_password
-      - POSTGRES_DB=bechdel_demo_development
+      - POSTGRES_DB=bechdel_lists_development
     ports:
       - "${POSTGRES_LOCAL_PORT:-5432}:5432"
   api:
     image: 'bechdel-lists-api'
     volumes:
       - /app/node_modules
-      - ./api:/app
+      - ./services/api:/app
     command: npm run debug
     environment:
       - NODE_ENV=development
@@ -24,7 +24,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - /app/node_modules
-      - ./client:/app
+      - ./services/client:/app
   nginx:
     image: 'bechdel-lists-nginx'
     ports:
