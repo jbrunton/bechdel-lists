@@ -46,7 +46,7 @@ jobs:
       - name: npm install
         run: npm install
 
-      - name: prepare
+      - name: copy files
         uses: appleboy/scp-action@master
         env:
           HOST: ${{ needs.deploy_check.outputs.host }}
@@ -54,7 +54,7 @@ jobs:
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
           source: ${{ needs.deploy_check.outputs.buildFile }}
-          target: docker-compose.yml
+          target: .
 
       - name: deploy
         uses: appleboy/ssh-action@master
