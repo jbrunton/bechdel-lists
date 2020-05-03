@@ -77,6 +77,6 @@ jobs:
           git config --global user.email "jbrunton-ci-minion@outlook.com"
           git config --global user.name "jbrunton-ci-minion"
           
-          npm run ci:deploy:commit --environment production
+          npm run ci:deploy:commit -- --environment production
           
           git push origin HEAD:demo-61
