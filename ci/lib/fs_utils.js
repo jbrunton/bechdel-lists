@@ -9,10 +9,9 @@ function writeOutput(file, content) {
     console.log(`Writing output to ${file}`);
     fs.writeFileSync(file, content + '\n');
   } else {
-    logger.log('--dry-run passed, skipping output.'.yellow);
-    logger.log(`Would have created ${file} with content:`.yellow);
-    logger.write(content.yellow, { indent: true });
-    logger.log('');
+    logger.info('--dry-run passed, skipping output.');
+    logger.info(`Would have created ${file} with content:`);
+    logger.infoBlock(content);
   }
 }
 

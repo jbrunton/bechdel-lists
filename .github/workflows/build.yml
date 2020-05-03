@@ -17,9 +17,6 @@ jobs:
 
     outputs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
-      buildId: ${{ steps.check.outputs.buildId }}
-      buildVersion: ${{ steps.check.outputs.buildVersion }}
-      buildFile: ${{ steps.check.outputs.buildFile }}
       
     steps:
       - uses: actions/checkout@v2
@@ -30,25 +27,15 @@ jobs:
       - name: check manifest
         id: check
         run: |
-          export BUILD_ID=$(date +%s)
+          npm run ci:build:check -- --output-file check.env
 
-          npm run ci:build:check -- --next-build-id $BUILD_ID --output-file check.env
           source check.env
-
           echo "::set-output name=buildRequired::$BUILD_REQUIRED"
-          echo "::set-output name=buildId::$BUILD_ID"
-          echo "::set-output name=buildVersion::$BUILD_VERSION"
-          echo "::set-output name=buildFile::$BUILD_FILE"
 
   build:
     runs-on: ubuntu-latest
     if: ${{ needs.build_check.outputs.buildRequired == true }}
     needs: build_check
-
-    env:
-      BUILD_ID: ${{ needs.build_check.outputs.buildId }}
-      BUILD_VERSION: ${{ needs.build_check.outputs.buildVersion }}
-      BUILD_FILE: ${{ needs.build_check.outputs.buildFile }}
 
     steps:
       - uses: actions/checkout@v2
@@ -60,16 +47,11 @@ jobs:
         run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       - name: build
-        run: |
-          npm run ci:build -- --build-id $BUILD_ID --build-version $BUILD_VERSION
+        run: npm run ci:build
 
       - name: commit
         run: |
-          git add $BUILD_FILE
-          git add deployments/builds/catalog.yml
-          git config --global user.email "jbrunton-ci-minion@outlook.com"
-          git config --global user.name "jbrunton-ci-minion"
-          git commit -m "Generated build for ${BUILD_VERSION} (id: ${BUILD_ID})"
+          npm run ci:build:commit
           git push origin HEAD:master
   # deploy:
   #   runs-on: ubuntu-latest

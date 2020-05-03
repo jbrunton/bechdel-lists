@@ -10,6 +10,15 @@ function log(message, options) {
   write(message + '\n', options);
 }
 
+function info(message, options) {
+  log(message.yellow, options);
+}
+
+function infoBlock(message) {
+  write(message.yellow, { indent: true });
+  log('');
+}
+
 const dockerLogger = {
   log(message) {
     write(message.yellow, { indent: true });
@@ -19,5 +28,7 @@ const dockerLogger = {
 module.exports = {
   dockerLogger: dockerLogger,
   write: write,
-  log: log
+  log: log,
+  info: info,
+  infoBlock: infoBlock
 }
