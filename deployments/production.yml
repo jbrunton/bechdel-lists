@@ -1,6 +1,8 @@
----
 latest: a1b2c3
 deployments:
   - id: a1b2c3
     version: v0.0.6
     timestamp: ...
+  - id: ee4e2f56-ea9f-401d-b7f6-9b48e6f8e32a
+    version: v0.0.10
+    timestamp: '2020-05-03T12:50:24.488Z'
