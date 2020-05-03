@@ -1,12 +1,12 @@
 {
   "name": "bechdel-demo",
   "scripts": {
-    "ci:deploy": "node ci/tasks/deploy",
-    "ci:deploy:check": "node ci/tasks/deploy_check",
-    "ci:build": "node ci/tasks/build",
-    "ci:build:check": "node ci/tasks/build_check",
-    "ci:build:commit": "node ci/tasks/build_commit",
-    "ci:workflows:generate": "node ci/tasks/pipelines"
+    "ci:deploy": "node tasks/tasks/deploy",
+    "ci:deploy:check": "node tasks/tasks/deploy_check",
+    "ci:build": "node tasks/tasks/build",
+    "ci:build:check": "node tasks/tasks/build_check",
+    "ci:build:commit": "node tasks/tasks/build_commit",
+    "ci:workflows:generate": "node tasks/tasks/pipelines"
   },
   "repository": {
     "type": "git",
