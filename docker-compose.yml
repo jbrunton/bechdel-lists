@@ -4,13 +4,13 @@ services:
     image: "jbrunton/bechdel-lists-nginx:${TAG?}"
     restart: always
     build:
-      context: ./nginx
+      context: ./services/nginx
     ports:
       - 80:80
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
     build:
-      context: ./api
+      context: ./services/api
     ports:
       - 9229:9229
     environment:
@@ -21,6 +21,6 @@ services:
   client:
     image: "jbrunton/bechdel-lists-client:${TAG?}"
     build:
-      context: ./client
+      context: ./services/client
     environment:
       - VUE_APP_GOOGLE_CLIENT_ID=729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
