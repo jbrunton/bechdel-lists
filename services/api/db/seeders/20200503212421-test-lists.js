@@ -18,7 +18,8 @@ async function createUser(details) {
   return await models.User.findOrCreateByEmail(details.email, details.name);
 }
 
-async function createLists(lists, user) {
+async function createLists(lists, userDetails) {
+  const user = await createUser(userDetails);
   for (const listSeed of lists) {
     const list = await models.List.create({
       title: listSeed.title,
@@ -40,12 +41,8 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
       const seeds = yaml.safeLoad(fs.readFileSync('./db/seeders/lists.yml', 'utf8'));
-      
-      const demoUser = await createUser(demoUserDetails);
-      await createLists(seeds.demoUserLists, demoUser);
-
-      const testUser = await createUser(testUserDetails);
-      await createLists(seeds.testUserLists, testUser);
+      await createLists(seeds.demoUserLists, demoUserDetails);
+      await createLists(seeds.testUserLists, testUserDetails);
     } catch (e) {
       console.log(e);
     }
