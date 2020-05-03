@@ -3,7 +3,7 @@ name: ci-deploy-production
 on:
   push:
     branches:
-      - master
+      - demo-62
 
 env:
   FORCE_COLOR: 1

@@ -4,7 +4,8 @@
     "ci:build": "node tasks/ci/build",
     "ci:build:check": "node tasks/ci/build_check",
     "ci:build:commit": "node tasks/ci/build_commit",
-    "ci:deploy:check": "node tasks/ci/deploy_check"
+    "ci:deploy:check": "node tasks/ci/deploy_check",
+    "ci:deploy:commit": "node tasks/ci/deploy_commit"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
     "mustache": "^4.0.1",
     "simple-git": "^2.3.0",
     "tmp": "^0.2.1",
+    "uuid": "^8.0.0",
     "yargs": "^15.3.1"
   }
 }
