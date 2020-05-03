@@ -7,17 +7,30 @@ const logger = require('../lib/logger');
 const dryRun = args.boolean('dry-run');
 
 const git = Git();
+git.addConfig('user.name', 'jbrunton-ci-minion');
+git.addConfig('user.email', 'jbrunton-ci-minion@outlook.com');
 
 
 (async function() {
   const build = manifest.currentBuild;
+
+  if (!build) {
+    console.log('Missing build for current manifest version');
+    process.exit(1);
+  }
+
   const buildFile = builds.buildFilePath(build.id);
   const filesToAdd = ['./deployments/builds/catalog.yml', buildFile];
   const commitMessage = `Generated build for ${build.version} (${build.id})`;
 
   if (!dryRun) {
-    await git.add(filesToAdd);
-    await git.commit();
+    try {
+      await git.add(filesToAdd);
+      await git.commit(commitMessage);
+    } catch (e) {
+      console.log(e);
+      process.exit(1);
+    }
   } else {
     logger.info('--dry-run passed, skipping commit.');
     logger.info(`Would have added files with commit message "${commitMessage}":`);
