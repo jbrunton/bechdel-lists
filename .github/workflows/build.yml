@@ -51,8 +51,13 @@ jobs:
 
       - name: commit
         run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
           npm run ci:build:commit
+          
           git push origin HEAD:demo-60
+          
   # deploy:
   #   runs-on: ubuntu-latest
   #   if: ${{ needs.check.outputs.deploymentRequired == true }}

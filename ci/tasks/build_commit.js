@@ -1,15 +1,10 @@
-const Git = require('simple-git/promise');
+const git = require('simple-git/promise')();
 const manifest = require('../lib/manifest');
 const builds = require('../lib/builds');
 const args = require('../lib/args');
 const logger = require('../lib/logger');
 
 const dryRun = args.boolean('dry-run');
-
-const git = Git();
-git.addConfig('user.name', 'jbrunton-ci-minion');
-git.addConfig('user.email', 'jbrunton-ci-minion@outlook.com');
-
 
 (async function() {
   const build = manifest.currentBuild;
