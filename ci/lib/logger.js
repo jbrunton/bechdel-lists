@@ -1,3 +1,5 @@
+require('colors');
+
 function indent(message) {
   return '  ' + message.replace(/\n/g, '\n  ');
 }

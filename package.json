@@ -5,6 +5,7 @@
     "ci:deploy:check": "node ci/tasks/deploy_check",
     "ci:build": "node ci/tasks/build",
     "ci:build:check": "node ci/tasks/build_check",
+    "ci:build:commit": "node ci/tasks/build_commit",
     "ci:workflows:generate": "node ci/tasks/pipelines"
   },
   "repository": {
