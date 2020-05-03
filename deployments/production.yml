@@ -1,4 +1,4 @@
-latest: f5228f6e-3136-4f3d-b0df-f227ee1774f9
+latest: 604e2b5b-ba27-47f3-b902-70cc0adbb58c
 deployments:
   - id: a1b2c3
     version: v0.0.6
@@ -18,3 +18,6 @@ deployments:
   - id: f5228f6e-3136-4f3d-b0df-f227ee1774f9
     version: v0.0.11
     timestamp: '2020-05-03T13:40:06.815Z'
+  - id: 604e2b5b-ba27-47f3-b902-70cc0adbb58c
+    version: v0.0.12
+    timestamp: '2020-05-03T14:06:35.677Z'
