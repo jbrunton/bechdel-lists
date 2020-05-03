@@ -14,7 +14,6 @@ jobs:
 
   build_check:
     runs-on: ubuntu-latest
-
     outputs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
       
@@ -34,7 +33,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    if: ${{ needs.build_check.outputs.buildRequired == true }}
+    if: ${{ needs.build_check.outputs.buildRequired == true }}    
     needs: build_check
 
     steps:
@@ -57,67 +56,3 @@ jobs:
           npm run ci:build:commit
           
           git push origin HEAD:master
-
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   if: ${{ needs.check.outputs.deploymentRequired == true }}
-  #   needs: [check, build]
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: npm install
-  #       run: npm install
-
-  #     - name: Deploy
-  #       env:
-  #         DEPLOYMENT_FILES: ${{ needs.build.outputs.deploymentFiles }}
-  #       run: echo "Running deployment with files $DEPLOYMENT_FILES"
-
-  # build:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   - name: Parse tag
-  #     run: ./ci/parse_tag.sh
-
-  #   - name: Build the Docker image
-  #     run: ./ci/build.sh
-
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-
-  #   env:
-  #     GITHUB_REF: ${{ github.ref }}
-  #     GITHUB_SHA: ${{ github.sha }}
-
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   - name: Parse tag
-  #     run: ./ci/parse_tag.sh
-
-  #   - name: Generate Deployment
-  #     run: ./ci/generate_deployment.sh
-  
-  #   - name: Deploy
-  #     uses: appleboy/ssh-action@master
-  #     env:
-  #       HOST: ${{ secrets.DEPLOY_HOST }}
-  #       USERNAME: deployer
-  #       KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
-  #       POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
-  #     with:
-  #       script: |
-  #         cd bechdel-demo
-  #         git fetch
-  #         git checkout $DEPLOYMENT_SHA
-
-  #         export POSTGRES_CONNECTION
-  #         export DEPLOYMENT_FILE
-
-  #         ./ci/deploy.sh
-  #       envs: POSTGRES_CONNECTION,DEPLOYMENT_SHA,DEPLOYMENT_FILE

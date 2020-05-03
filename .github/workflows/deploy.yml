@@ -1,0 +1,82 @@
+name: ci-deploy-production
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  FORCE_COLOR: 1
+  DEPLOYER_USER: deployer
+  DEPLOYER_SSH_KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+
+jobs:
+
+  deploy_check:
+    runs-on: ubuntu-latest
+    outputs:
+      deploymentRequired: ${{ steps.check.outputs.deploymentRequired }}
+      buildFile: ${{ steps.check.outputs.buildFile }}
+      host: ${{ steps.check.outputs.host }}
+      
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: check deployments
+        id: check
+        run: |
+          npm run ci:deploy:check -- --output-file check.env --environment production
+
+          source check.env
+          echo "::set-output name=deploymentRequired::$DEPLOYMENT_REQUIRED"
+          echo "::set-output name=buildFile::$BUILD_FILE"
+          echo "::set-output name=host::$HOST"
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ needs.deploy_check.outputs.deploymentRequired == true }}
+    needs: deploy_check
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: copy files
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ needs.deploy_check.outputs.host }}
+          USERNAME: deployer
+          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+        with:
+          source: ${{ needs.deploy_check.outputs.buildFile }}
+          overwrite: true
+          target: .
+
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        env:
+          HOST: ${{ needs.deploy_check.outputs.host }}
+          USERNAME: deployer
+          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+          POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+          BUILD_FILE: ${{ needs.deploy_check.outputs.buildFile }}
+        with:
+          script: |
+            ln -sf $BUILD_FILE docker-compose.yml
+            export POSTGRES_CONNECTION
+            docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
+          envs: POSTGRES_CONNECTION,BUILD_FILE
+
+      - name: commit
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npm run ci:deploy:commit -- --environment production
+          
+          git push origin HEAD:master
