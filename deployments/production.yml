@@ -1,4 +1,4 @@
-latest: a1b2c3
+latest: ee4e2f56-ea9f-401d-b7f6-9b48e6f8e32a
 deployments:
   - id: a1b2c3
     version: v0.0.6
