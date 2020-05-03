@@ -133,7 +133,6 @@
 
 <script>
 const axios = require('axios');
-const { Auth } = require('../../auth');
 import RatingToolTip from '../../components/RatingToolTip';
 
 export default {
@@ -161,7 +160,8 @@ export default {
     async load() {
       this.showLoadingIndicator = true;
 
-      await Auth.authenticate();
+      //TODO: reinstate this with proper authorization
+      //await Auth.authenticate();
       
       const result = await axios.get(`/api/lists/${this.$route.params.id}`);
       this.list = result.data;
