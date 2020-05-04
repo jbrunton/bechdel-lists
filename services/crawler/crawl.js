@@ -1,15 +1,18 @@
 const puppeteer = require('puppeteer');
-const argv = require('yargs').argv;
-
-const listUrl = argv.list;
-if (!listUrl) {
-  throw Error("Required --list url to be given.");
-}
+const fs = require('fs');
 
 process.on('unhandledRejection', error => {
   console.log(error);
   process.exit(1);
 });
+
+const lists = [];
+for (let year = 2009; year < 2020; ++year) {
+  lists.push({
+    year: year,
+    listUrl: `https://www.boxofficemojo.com/year/${year}/`
+  });
+}
 
 const titleIdRegex = /title\/tt(\d+)/
 const summaryHeadingSelector = '.mojo-performance-summary-table .a-section span.a-size-small';
@@ -47,24 +50,40 @@ async function getReleaseDetails(page, releaseId) {
   };
 }
 
-(async () => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+async function getListDetails(page, listUrl) {
+  console.log(`Fetching list from ${listUrl}`);
   await page.goto(listUrl);
 
-  const top100links = (await page.$$eval("a[href*='/release/rl']", links => {
+  const topLinks = (await page.$$eval("a[href*='/release/rl']", links => {
     return Array.from(links).map(link => link.getAttribute('href'))
-  })).slice(0, 5);
-
+  })).slice(0, 10);
 
   const releaseIdRegex = /release\/(rl\d+)/
-  const releaseIds = top100links.map(link => link.match(releaseIdRegex)[1]);
+  const releaseIds = topLinks.map(link => link.match(releaseIdRegex)[1]);
   console.log(releaseIds);
 
+  const movies = [];
   for (let releaseId of releaseIds) {
     const releaseDetails = await getReleaseDetails(page, releaseId);
     console.log(JSON.stringify(releaseDetails, null, 2));
+    movies.push(releaseDetails);
+  }
+  return movies;
+}
+
+(async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  const movies = [];
+  for (let { year, listUrl } of lists) {
+    const listDetails = await getListDetails(page, listUrl);
+    for (let movieDetails of listDetails) {
+      movieDetails.year = year;
+    }
+    movies.push(listDetails);
   }
 
   await browser.close();
+  fs.writeFileSync('topmovies.json', JSON.stringify(movies, null, 2));
 })();
