@@ -2,21 +2,27 @@ const Apify = require('apify');
 
 Apify.main(async () => {
     const requestQueue = await Apify.openRequestQueue();
-    await requestQueue.addRequest({ url: 'https://www.iana.org/' });
-    const pseudoUrls = [new Apify.PseudoUrl('https://www.iana.org/[.*]')];
+    await requestQueue.addRequest({ url: 'https://www.boxofficemojo.com/year/2019/' });
+    //const pseudoUrls = [new Apify.PseudoUrl('https://www.iana.org/[.*]')];
 
     const crawler = new Apify.PuppeteerCrawler({
-        headless: true,
         requestQueue,
+        headless: true,
         handlePageFunction: async ({ request, page }) => {
             const title = await page.title();
             console.log(`Title of ${request.url}: ${title}`);
-            await Apify.utils.enqueueLinks({
-                page,
-                selector: 'a',
-                pseudoUrls,
-                requestQueue,
-            });
+            const links = await page.$$eval("a[href*='/release/rl']", links => Array.from(links).map((x) => x.getAttribute('href')));
+            //const releases = Array.from(links).map((x) => x.getAttribute('href'))
+            //Array.from(document.querySelectorAll("a[href*='/release/rl']")).map((x) => x.getAttribute('href'))
+            console.log(`LINKS: ${links}`);
+            const releaseIds = links.map(link => link.match(/release\/(rl\d+)/)[1]);
+            console.log(releaseIds);
+                // await Apify.utils.enqueueLinks({
+                //     page,
+                //     selector: 'a',
+                //     pseudoUrls,
+                //     requestQueue,
+                // });
         },
         maxRequestsPerCrawl: 100,
         maxConcurrency: 10,
