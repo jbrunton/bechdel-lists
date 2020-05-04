@@ -1,5 +1,905 @@
 [
   {
+    "title": "Star Wars: Episode I - The Phantom Menace",
+    "imdbId": "0120915",
+    "boxOffice": {
+      "domestic": "$431,088,295",
+      "global": "$924,305,084"
+    },
+    "year": 1999
+  },
+  {
+    "title": "The Sixth Sense",
+    "imdbId": "0167404",
+    "boxOffice": {
+      "domestic": "$293,506,292",
+      "global": "$672,806,292"
+    },
+    "year": 1999
+  },
+  {
+    "title": "Austin Powers: The Spy Who Shagged Me",
+    "imdbId": "0145660",
+    "boxOffice": {
+      "domestic": "$206,040,086",
+      "global": "$312,016,928"
+    },
+    "year": 1999
+  },
+  {
+    "title": "Toy Story 2",
+    "imdbId": "0120363",
+    "boxOffice": {
+      "domestic": "$245,852,179",
+      "global": "$487,059,677"
+    },
+    "year": 1999
+  },
+  {
+    "title": "The Matrix",
+    "imdbId": "0133093",
+    "boxOffice": {
+      "domestic": "$171,479,930",
+      "global": "$463,517,383"
+    },
+    "year": 1999
+  },
+  {
+    "title": "Tarzan",
+    "imdbId": "0120855",
+    "boxOffice": {
+      "domestic": "$171,091,819",
+      "global": "$448,191,819"
+    },
+    "year": 1999
+  },
+  {
+    "title": "Big Daddy",
+    "imdbId": "0142342",
+    "boxOffice": {
+      "domestic": "$163,479,795",
+      "global": "$234,801,895"
+    },
+    "year": 1999
+  },
+  {
+    "title": "The Mummy",
+    "imdbId": "0120616",
+    "boxOffice": {
+      "domestic": "$155,385,488",
+      "global": "$415,933,406"
+    },
+    "year": 1999
+  },
+  {
+    "title": "Runaway Bride",
+    "imdbId": "0163187",
+    "boxOffice": {
+      "domestic": "$152,257,509",
+      "global": "$309,460,292"
+    },
+    "year": 1999
+  },
+  {
+    "title": "The Blair Witch Project",
+    "imdbId": "0185937",
+    "boxOffice": {
+      "domestic": "$140,539,099",
+      "global": "$248,639,099"
+    },
+    "year": 1999
+  },
+  {
+    "title": "How the Grinch Stole Christmas",
+    "imdbId": "0170016",
+    "boxOffice": {
+      "domestic": "$260,044,825",
+      "global": "$345,141,403"
+    },
+    "year": 2000
+  },
+  {
+    "title": "Mission: Impossible II",
+    "imdbId": "0120755",
+    "boxOffice": {
+      "domestic": "$215,409,889",
+      "global": "$546,388,108"
+    },
+    "year": 2000
+  },
+  {
+    "title": "Gladiator",
+    "imdbId": "0172495",
+    "boxOffice": {
+      "domestic": "$187,705,427",
+      "global": "$460,583,960"
+    },
+    "year": 2000
+  },
+  {
+    "title": "The Perfect Storm",
+    "imdbId": "0177971",
+    "boxOffice": {
+      "domestic": "$182,618,434",
+      "global": "$328,718,434"
+    },
+    "year": 2000
+  },
+  {
+    "title": "Meet the Parents",
+    "imdbId": "0212338",
+    "boxOffice": {
+      "domestic": "$166,244,045",
+      "global": "$330,444,045"
+    },
+    "year": 2000
+  },
+  {
+    "title": "X-Men",
+    "imdbId": "0120903",
+    "boxOffice": {
+      "domestic": "$157,299,718",
+      "global": "$296,339,528"
+    },
+    "year": 2000
+  },
+  {
+    "title": "Scary Movie",
+    "imdbId": "0175142",
+    "boxOffice": {
+      "domestic": "$157,019,771",
+      "global": "$278,019,771"
+    },
+    "year": 2000
+  },
+  {
+    "title": "What Lies Beneath",
+    "imdbId": "0161081",
+    "boxOffice": {
+      "domestic": "$155,464,351",
+      "global": "$291,420,351"
+    },
+    "year": 2000
+  },
+  {
+    "title": "Dinosaur",
+    "imdbId": "0130623",
+    "boxOffice": {
+      "domestic": "$137,748,063",
+      "global": "$349,822,765"
+    },
+    "year": 2000
+  },
+  {
+    "title": "Erin Brockovich",
+    "imdbId": "0195685",
+    "boxOffice": {
+      "domestic": "$125,595,205",
+      "global": "$256,271,286"
+    },
+    "year": 2000
+  },
+  {
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "imdbId": "0241527",
+    "boxOffice": {
+      "domestic": "$317,575,550",
+      "global": "$974,755,371"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Shrek",
+    "imdbId": "0126029",
+    "boxOffice": {
+      "domestic": "$267,665,011",
+      "global": "$484,409,218"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Monsters, Inc.",
+    "imdbId": "0198781",
+    "boxOffice": {
+      "domestic": "$255,873,250",
+      "global": "$528,773,250"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Rush Hour 2",
+    "imdbId": "0266915",
+    "boxOffice": {
+      "domestic": "$226,164,286",
+      "global": "$347,325,802"
+    },
+    "year": 2001
+  },
+  {
+    "title": "The Mummy Returns",
+    "imdbId": "0209163",
+    "boxOffice": {
+      "domestic": "$202,019,785",
+      "global": "$433,013,274"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Pearl Harbor",
+    "imdbId": "0213149",
+    "boxOffice": {
+      "domestic": "$198,542,554",
+      "global": "$449,220,945"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Jurassic Park III",
+    "imdbId": "0163025",
+    "boxOffice": {
+      "domestic": "$181,171,875",
+      "global": "$368,780,809"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Planet of the Apes",
+    "imdbId": "0133152",
+    "boxOffice": {
+      "domestic": "$180,011,740",
+      "global": "$362,211,740"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Hannibal",
+    "imdbId": "0212985",
+    "boxOffice": {
+      "domestic": "$165,092,268",
+      "global": "$351,692,268"
+    },
+    "year": 2001
+  },
+  {
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "imdbId": "0120737",
+    "boxOffice": {
+      "domestic": "$313,364,114",
+      "global": "$883,726,270"
+    },
+    "year": 2001
+  },
+  {
+    "title": "Spider-Man",
+    "imdbId": "0145487",
+    "boxOffice": {
+      "domestic": "$403,706,375",
+      "global": "$821,708,551"
+    },
+    "year": 2002
+  },
+  {
+    "title": "Star Wars: Episode II - Attack of the Clones",
+    "imdbId": "0121765",
+    "boxOffice": {
+      "domestic": "$302,191,252",
+      "global": "$645,256,452"
+    },
+    "year": 2002
+  },
+  {
+    "title": "Harry Potter and the Chamber of Secrets",
+    "imdbId": "0295297",
+    "boxOffice": {
+      "domestic": "$261,988,482",
+      "global": "$878,979,634"
+    },
+    "year": 2002
+  },
+  {
+    "title": "Signs",
+    "imdbId": "0286106",
+    "boxOffice": {
+      "domestic": "$227,966,634",
+      "global": "$408,247,917"
+    },
+    "year": 2002
+  },
+  {
+    "title": "My Big Fat Greek Wedding",
+    "imdbId": "0259446",
+    "boxOffice": {
+      "domestic": "$241,438,208",
+      "global": "$368,744,044"
+    },
+    "year": 2002
+  },
+  {
+    "title": "The Lord of the Rings: The Two Towers",
+    "imdbId": "0167261",
+    "boxOffice": {
+      "domestic": "$339,789,881",
+      "global": "$936,689,735"
+    },
+    "year": 2002
+  },
+  {
+    "title": "Austin Powers in Goldmember",
+    "imdbId": "0295178",
+    "boxOffice": {
+      "domestic": "$213,307,889",
+      "global": "$296,938,801"
+    },
+    "year": 2002
+  },
+  {
+    "title": "Men in Black II",
+    "imdbId": "0120912",
+    "boxOffice": {
+      "domestic": "$190,418,803",
+      "global": "$441,818,803"
+    },
+    "year": 2002
+  },
+  {
+    "title": "Ice Age",
+    "imdbId": "0268380",
+    "boxOffice": {
+      "domestic": "$176,387,405",
+      "global": "$383,257,136"
+    },
+    "year": 2002
+  },
+  {
+    "title": "A Beautiful Mind",
+    "imdbId": "0268978",
+    "boxOffice": {
+      "domestic": "$170,742,341",
+      "global": "$313,542,341"
+    },
+    "year": 2002
+  },
+  {
+    "title": "Finding Nemo",
+    "imdbId": "0266543",
+    "boxOffice": {
+      "domestic": "$339,714,978",
+      "global": "$871,014,978"
+    },
+    "year": 2003
+  },
+  {
+    "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
+    "imdbId": "0325980",
+    "boxOffice": {
+      "domestic": "$305,413,918",
+      "global": "$654,264,015"
+    },
+    "year": 2003
+  },
+  {
+    "title": "The Matrix Reloaded",
+    "imdbId": "0234215",
+    "boxOffice": {
+      "domestic": "$281,576,461",
+      "global": "$739,412,035"
+    },
+    "year": 2003
+  },
+  {
+    "title": "The Lord of the Rings: The Return of the King",
+    "imdbId": "0167260",
+    "boxOffice": {
+      "domestic": "$377,027,325",
+      "global": "$1,140,682,011"
+    },
+    "year": 2003
+  },
+  {
+    "title": "Bruce Almighty",
+    "imdbId": "0315327",
+    "boxOffice": {
+      "domestic": "$242,829,261",
+      "global": "$484,592,874"
+    },
+    "year": 2003
+  },
+  {
+    "title": "X2: X-Men United",
+    "imdbId": "0290334",
+    "boxOffice": {
+      "domestic": "$214,949,694",
+      "global": "$407,711,549"
+    },
+    "year": 2003
+  },
+  {
+    "title": "Elf",
+    "imdbId": "0319343",
+    "boxOffice": {
+      "domestic": "$173,398,518",
+      "global": "$220,443,451"
+    },
+    "year": 2003
+  },
+  {
+    "title": "Chicago",
+    "imdbId": "0299658",
+    "boxOffice": {
+      "domestic": "$170,687,518",
+      "global": "$306,776,732"
+    },
+    "year": 2003
+  },
+  {
+    "title": "Terminator 3: Rise of the Machines",
+    "imdbId": "0181852",
+    "boxOffice": {
+      "domestic": "$150,371,112",
+      "global": "$433,371,112"
+    },
+    "year": 2003
+  },
+  {
+    "title": "Bad Boys II",
+    "imdbId": "0172156",
+    "boxOffice": {
+      "domestic": "$138,608,444",
+      "global": "$273,339,556"
+    },
+    "year": 2003
+  },
+  {
+    "title": "Shrek 2",
+    "imdbId": "0298148",
+    "boxOffice": {
+      "domestic": "$441,226,247",
+      "global": "$928,760,770"
+    },
+    "year": 2004
+  },
+  {
+    "title": "Spider-Man 2",
+    "imdbId": "0316654",
+    "boxOffice": {
+      "domestic": "$373,585,825",
+      "global": "$788,976,453"
+    },
+    "year": 2004
+  },
+  {
+    "title": "The Passion of the Christ",
+    "imdbId": "0335345",
+    "boxOffice": {
+      "domestic": "$370,274,604",
+      "global": "$611,486,736"
+    },
+    "year": 2004
+  },
+  {
+    "title": "Harry Potter and the Prisoner of Azkaban",
+    "imdbId": "0304141",
+    "boxOffice": {
+      "domestic": "$249,541,069",
+      "global": "$795,634,069"
+    },
+    "year": 2004
+  },
+  {
+    "title": "The Incredibles",
+    "imdbId": "0317705",
+    "boxOffice": {
+      "domestic": "$261,441,092",
+      "global": "$631,442,092"
+    },
+    "year": 2004
+  },
+  {
+    "title": "The Day After Tomorrow",
+    "imdbId": "0319262",
+    "boxOffice": {
+      "domestic": "$186,740,799",
+      "global": "$552,639,571"
+    },
+    "year": 2004
+  },
+  {
+    "title": "The Bourne Supremacy",
+    "imdbId": "0372183",
+    "boxOffice": {
+      "domestic": "$176,241,941",
+      "global": "$290,633,422"
+    },
+    "year": 2004
+  },
+  {
+    "title": "Shark Tale",
+    "imdbId": "0307453",
+    "boxOffice": {
+      "domestic": "$160,861,908",
+      "global": "$374,583,879"
+    },
+    "year": 2004
+  },
+  {
+    "title": "The Polar Express",
+    "imdbId": "0338348",
+    "boxOffice": {
+      "domestic": "$162,775,358",
+      "global": "$286,000,505"
+    },
+    "year": 2004
+  },
+  {
+    "title": "National Treasure",
+    "imdbId": "0368891",
+    "boxOffice": {
+      "domestic": "$173,008,894",
+      "global": "$347,512,318"
+    },
+    "year": 2004
+  },
+  {
+    "title": "Star Wars: Episode III - Revenge of the Sith",
+    "imdbId": "0121766",
+    "boxOffice": {
+      "domestic": "$380,270,577",
+      "global": "$868,352,530"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Harry Potter and the Goblet of Fire",
+    "imdbId": "0330373",
+    "boxOffice": {
+      "domestic": "$290,013,036",
+      "global": "$895,921,036"
+    },
+    "year": 2005
+  },
+  {
+    "title": "War of the Worlds",
+    "imdbId": "0407304",
+    "boxOffice": {
+      "domestic": "$234,280,354",
+      "global": "$603,873,119"
+    },
+    "year": 2005
+  },
+  {
+    "title": "The Chronicles of Narnia: The Lion, the Witch and the Wardrobe",
+    "imdbId": "0363771",
+    "boxOffice": {
+      "domestic": "$291,710,957",
+      "global": "$745,013,115"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Wedding Crashers",
+    "imdbId": "0396269",
+    "boxOffice": {
+      "domestic": "$209,255,921",
+      "global": "$288,467,645"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Charlie and the Chocolate Factory",
+    "imdbId": "0367594",
+    "boxOffice": {
+      "domestic": "$206,459,076",
+      "global": "$474,968,763"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Batman Begins",
+    "imdbId": "0372784",
+    "boxOffice": {
+      "domestic": "$205,343,774",
+      "global": "$371,853,783"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Madagascar",
+    "imdbId": "0351283",
+    "boxOffice": {
+      "domestic": "$193,595,521",
+      "global": "$542,063,846"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Mr. & Mrs. Smith",
+    "imdbId": "0356910",
+    "boxOffice": {
+      "domestic": "$186,336,279",
+      "global": "$487,287,646"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Hitch",
+    "imdbId": "0386588",
+    "boxOffice": {
+      "domestic": "$179,495,555",
+      "global": "$371,594,210"
+    },
+    "year": 2005
+  },
+  {
+    "title": "Pirates of the Caribbean: Dead Man's Chest",
+    "imdbId": "0383574",
+    "boxOffice": {
+      "domestic": "$423,315,812",
+      "global": "$1,066,179,725"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Cars",
+    "imdbId": "0317219",
+    "boxOffice": {
+      "domestic": "$244,082,982",
+      "global": "$461,983,149"
+    },
+    "year": 2006
+  },
+  {
+    "title": "X-Men: The Last Stand",
+    "imdbId": "0376994",
+    "boxOffice": {
+      "domestic": "$234,362,462",
+      "global": "$460,435,291"
+    },
+    "year": 2006
+  },
+  {
+    "title": "The Da Vinci Code",
+    "imdbId": "0382625",
+    "boxOffice": {
+      "domestic": "$217,536,138",
+      "global": "$760,006,945"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Superman Returns",
+    "imdbId": "0348150",
+    "boxOffice": {
+      "domestic": "$200,081,192",
+      "global": "$391,081,192"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Ice Age: The Meltdown",
+    "imdbId": "0438097",
+    "boxOffice": {
+      "domestic": "$195,330,621",
+      "global": "$660,998,756"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Happy Feet",
+    "imdbId": "0366548",
+    "boxOffice": {
+      "domestic": "$198,000,317",
+      "global": "$384,335,608"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Over the Hedge",
+    "imdbId": "0327084",
+    "boxOffice": {
+      "domestic": "$155,019,340",
+      "global": "$339,795,890"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Casino Royale",
+    "imdbId": "0381061",
+    "boxOffice": {
+      "domestic": "$167,445,960",
+      "global": "$606,099,584"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Talladega Nights: The Ballad of Ricky Bobby",
+    "imdbId": "0415306",
+    "boxOffice": {
+      "domestic": "$148,213,377",
+      "global": "$163,362,095"
+    },
+    "year": 2006
+  },
+  {
+    "title": "Spider-Man 3",
+    "imdbId": "0413300",
+    "boxOffice": {
+      "domestic": "$336,530,303",
+      "global": "$894,983,373"
+    },
+    "year": 2007
+  },
+  {
+    "title": "Shrek the Third",
+    "imdbId": "0413267",
+    "boxOffice": {
+      "domestic": "$322,719,944",
+      "global": "$813,367,380"
+    },
+    "year": 2007
+  },
+  {
+    "title": "Transformers",
+    "imdbId": "0418279",
+    "boxOffice": {
+      "domestic": "$319,246,193",
+      "global": "$709,709,780"
+    },
+    "year": 2007
+  },
+  {
+    "title": "Pirates of the Caribbean: At World's End",
+    "imdbId": "0449088",
+    "boxOffice": {
+      "domestic": "$309,420,425",
+      "global": "$960,996,492"
+    },
+    "year": 2007
+  },
+  {
+    "title": "Harry Potter and the Order of the Phoenix",
+    "imdbId": "0373889",
+    "boxOffice": {
+      "domestic": "$292,004,738",
+      "global": "$941,676,843"
+    },
+    "year": 2007
+  },
+  {
+    "title": "The Bourne Ultimatum",
+    "imdbId": "0440963",
+    "boxOffice": {
+      "domestic": "$227,471,070",
+      "global": "$444,100,035"
+    },
+    "year": 2007
+  },
+  {
+    "title": "300",
+    "imdbId": "0416449",
+    "boxOffice": {
+      "domestic": "$210,614,939",
+      "global": "$456,068,181"
+    },
+    "year": 2007
+  },
+  {
+    "title": "Ratatouille",
+    "imdbId": "0382932",
+    "boxOffice": {
+      "domestic": "$206,445,654",
+      "global": "$623,726,085"
+    },
+    "year": 2007
+  },
+  {
+    "title": "I Am Legend",
+    "imdbId": "0480249",
+    "boxOffice": {
+      "domestic": "$256,393,010",
+      "global": "$585,410,052"
+    },
+    "year": 2007
+  },
+  {
+    "title": "The Simpsons Movie",
+    "imdbId": "0462538",
+    "boxOffice": {
+      "domestic": "$183,135,014",
+      "global": "$536,414,270"
+    },
+    "year": 2007
+  },
+  {
+    "title": "The Dark Knight",
+    "imdbId": "0468569",
+    "boxOffice": {
+      "domestic": "$533,345,358",
+      "global": "$1,003,045,358"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Iron Man",
+    "imdbId": "0371746",
+    "boxOffice": {
+      "domestic": "$318,604,126",
+      "global": "$585,366,247"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Indiana Jones and the Kingdom of the Crystal Skull",
+    "imdbId": "0367882",
+    "boxOffice": {
+      "domestic": "$317,101,119",
+      "global": "$790,653,942"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Hancock",
+    "imdbId": "0448157",
+    "boxOffice": {
+      "domestic": "$227,946,274",
+      "global": "$629,443,428"
+    },
+    "year": 2008
+  },
+  {
+    "title": "WALL·E",
+    "imdbId": "0910970",
+    "boxOffice": {
+      "domestic": "$223,808,164",
+      "global": "$521,311,860"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Kung Fu Panda",
+    "imdbId": "0441773",
+    "boxOffice": {
+      "domestic": "$215,434,591",
+      "global": "$631,744,560"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Madagascar: Escape 2 Africa",
+    "imdbId": "0479952",
+    "boxOffice": {
+      "domestic": "$180,010,950",
+      "global": "$603,900,354"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Twilight",
+    "imdbId": "1099212",
+    "boxOffice": {
+      "domestic": "$192,769,854",
+      "global": "$407,187,715"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Quantum of Solace",
+    "imdbId": "0830515",
+    "boxOffice": {
+      "domestic": "$168,368,427",
+      "global": "$589,580,482"
+    },
+    "year": 2008
+  },
+  {
+    "title": "Horton Hears a Who!",
+    "imdbId": "0451079",
+    "boxOffice": {
+      "domestic": "$154,529,439",
+      "global": "$298,572,799"
+    },
+    "year": 2008
+  },
+  {
     "title": "Transformers: Revenge of the Fallen",
     "imdbId": "1055369",
     "boxOffice": {

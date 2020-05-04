@@ -45,7 +45,7 @@ router.get('/top_10_ratings_by_year', async (req, res) => {
     order by year`;
   const results = await models.sequelize.query(query, { type: models.Sequelize.QueryTypes.SELECT });
   const data = [['Rating', '0', '1', '2', '3' ]];
-  for (let year = 2009; year < 2020; year++) {
+  for (let year = 1999; year < 2020; year++) {
     const row = [year.toString()];
     for (let rating = 0; rating <= 3; ++rating) {
       const result = results.find(x => x.year == year && x.rating == rating);

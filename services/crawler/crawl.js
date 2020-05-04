@@ -7,7 +7,7 @@ process.on('unhandledRejection', error => {
 });
 
 const lists = [];
-for (let year = 2009; year < 2020; ++year) {
+for (let year = 1999; year < 2020; ++year) {
   lists.push({
     year: year,
     listUrl: `https://www.boxofficemojo.com/year/${year}/`
