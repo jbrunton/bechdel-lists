@@ -26,6 +26,14 @@
         <div id="ratings_by_year_percentage"></div>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <div id="top_10_ratings_by_year"></div>
+      </v-col>
+      <v-col>
+        <div id="top_10_ratings_by_year_percentage"></div>
+      </v-col>
+    </v-row>
     </v-container>
 </template>
 
@@ -40,7 +48,7 @@ const axios = require('axios');
 
 function loadCharts() {
   google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
+  google.charts.setOnLoadCallback(drawCharts);
 }
 
 function createChart(containerId, data, options) {
@@ -50,9 +58,12 @@ function createChart(containerId, data, options) {
   chart.draw(data, options);
 }
 
-async function drawChart() {
-  const result = await axios.get('/api/charts/ratings_by_year');
-  var data = google.visualization.arrayToDataTable(result.data);
+async function drawCharts() {
+  const ratingsResult = await axios.get('/api/charts/ratings_by_year');
+  var ratingsData = google.visualization.arrayToDataTable(ratingsResult.data);
+
+  const top10RatingsResult = await axios.get('/api/charts/top_10_ratings_by_year');
+  var top10RatingsData = google.visualization.arrayToDataTable(top10RatingsResult.data);
 
   var options = {
     legend: { position: 'top', maxLines: 3 },
@@ -71,8 +82,11 @@ async function drawChart() {
     },
   };
 
-  createChart('ratings_by_year', data, options);
-  createChart('ratings_by_year_percentage', data, Object.assign(options, { isStacked: 'percent' }));
+  createChart('ratings_by_year', ratingsData, options);
+  createChart('ratings_by_year_percentage', ratingsData, Object.assign(options, { isStacked: 'percent' }));
+
+  createChart('top_10_ratings_by_year', top10RatingsData, Object.assign(options, { isStacked: true }));
+  createChart('top_10_ratings_by_year_percentage', top10RatingsData, Object.assign(options, { isStacked: 'percent' }));
 }
 export default {
   created() {
