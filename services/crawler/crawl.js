@@ -20,6 +20,8 @@ process.on('unhandledRejection', error => {
     return Array.from(links).map(link => link.getAttribute('href'))
   })).slice(0, 5);
 
+  const titleIdRegex = /title\/tt(\d+)/
+
   const releaseIdRegex = /release\/(rl\d+)/
   const releaseIds = top100links.map(link => link.match(releaseIdRegex)[1]);
   console.log(releaseIds);
@@ -33,20 +35,30 @@ process.on('unhandledRejection', error => {
     await page.goto(releaseUrl);
 
     const title = await page.$eval('h1', heading => heading.innerText);
-    console.log('title: ' + title);
     const summaryHeadings = await page.$$eval(summaryHeadingSelector, headings => {
       return Array.from(headings).map(heading => heading.innerText)
     });
-    console.log('summaryHeadings: ' + summaryHeadings);
     const summaryValues = await page.$$eval(summaryValuesSelector, headings => {
       return Array.from(headings).map(heading => heading.innerText)
     });
-    console.log('summaryValues: ' + summaryValues);
     const domesticIndex = summaryHeadings.findIndex(heading => heading.toLowerCase().includes('domestic'));
     const globalIndex = summaryHeadings.findIndex(heading => heading.toLowerCase().includes('worldwide'));
     const domesticBoxOffice = summaryValues[domesticIndex];
     const globalBoxOffice = summaryValues[globalIndex];
-    console.log(`${title} - domestic: ${domesticBoxOffice}, global: ${globalBoxOffice}`);
+
+    const titleLink = await page.$eval("a.mojo-title-link[href*='/title/tt']", link => link.getAttribute('href'));
+    const titleId = titleLink.match(titleIdRegex)[1];
+
+    const movieDetails = {
+      title: title,
+      imdbId: titleId,
+      boxOffice: {
+        domestic: domesticBoxOffice,
+        global: globalBoxOffice
+      }
+    };
+
+    console.log(JSON.stringify(movieDetails, null, 2));
   }
 
   await browser.close();
