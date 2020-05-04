@@ -54,7 +54,7 @@ function loadCharts() {
 function createChart(containerId, data, options) {
   const container = document.getElementById(containerId);
   container.style.height = (container.offsetWidth * 0.6) + 'px';
-  const chart = new google.visualization.ColumnChart(container);
+  const chart = new google.visualization.ComboChart(container);
   chart.draw(data, options);
 }
 
@@ -73,8 +73,10 @@ async function drawCharts() {
           0: { color: '#B71C1C' },
           1: { color: '#EF9A9A' },
           2: { color: '#90CAF9' },
-          3: { color: '#1565C0' }
+          3: { color: '#1565C0' },
+          4: { type: 'line', targetAxisIndex: 1, color: '#EC407A' }
     },
+    seriesType: 'bars',
     chartArea: {
       width: '85%',
       height: '80%',

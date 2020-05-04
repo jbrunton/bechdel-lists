@@ -8,13 +8,20 @@ router.get('/ratings_by_year', async (req, res) => {
   const results = await models.sequelize.query(
     'select year, rating, count(*) from "Movies" where year >= 1980 group by year, rating order by year',
     { type: models.Sequelize.QueryTypes.SELECT });
-  const data = [['Rating', '0', '1', '2', '3' ]];
+  const data = [['Rating', '0', '1', '2', '3', 'Avg' ]];
   for (let year = 1980; year < 2020; year++) {
     const row = [year.toString()];
+    const ratings = [];
     for (let rating = 0; rating <= 3; ++rating) {
-      const result = results.find((x) => x.year == year && x.rating == rating);
-      row.push(result ? parseInt(result.count) : 0);
+      const result = results.find(x => x.year == year && x.rating == rating);
+      ratings.push(result ? parseInt(result.count) : 0);
     }
+    const totalScore = ratings[1] + ratings[2] * 2 + ratings[3] * 3;
+    const totalCount = ratings.reduce((total, x) => total + x, 0);
+    const avg = totalScore / totalCount;
+    console.log('totalScore: ' + totalScore + ', ' + 'totalCount: ' + totalCount + ', avg: ' + avg);
+    row.push(...ratings);
+    row.push(avg);
     data.push(row);
   }
   res.json(data);
@@ -44,13 +51,20 @@ router.get('/top_10_ratings_by_year', async (req, res) => {
     group by year, rating
     order by year`;
   const results = await models.sequelize.query(query, { type: models.Sequelize.QueryTypes.SELECT });
-  const data = [['Rating', '0', '1', '2', '3' ]];
+  const data = [['Rating', '0', '1', '2', '3', 'Avg' ]];
   for (let year = 1999; year < 2020; year++) {
     const row = [year.toString()];
+    const ratings = [];
     for (let rating = 0; rating <= 3; ++rating) {
       const result = results.find(x => x.year == year && x.rating == rating);
-      row.push(result ? parseInt(result.count) : 0);
+      ratings.push(result ? parseInt(result.count) : 0);
     }
+    const totalScore = ratings[1] + ratings[2] * 2 + ratings[3] * 3;
+    const totalCount = ratings.reduce((total, x) => total + x, 0);
+    const avg = totalScore / totalCount;
+    console.log('totalScore: ' + totalScore + ', ' + 'totalCount: ' + totalCount + ', avg: ' + avg);
+    row.push(...ratings);
+    row.push(avg);
     data.push(row);
   }
   res.json(data);
