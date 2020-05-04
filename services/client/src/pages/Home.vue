@@ -18,5 +18,33 @@
       on the average). Bechdel scores are taken from the
       <a href="https://bechdeltest.com/api/v1/doc">bechdeltest.com API</a>.
     </p>
+    <div id="chart_div"></div>
     </v-container>
 </template>
+<script>
+/* global google */
+
+const axios = require('axios');
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+async function drawChart() {
+  const result = await axios.get('/api/charts/ratings_by_year');
+  var data = google.visualization.arrayToDataTable(result.data);
+
+  var options = {
+    width: 600,
+    height: 400,
+    legend: { position: 'top', maxLines: 3 },
+    bar: { groupWidth: '75%' },
+    isStacked: true,
+  };
+
+   var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+}
+export default {
+  
+}
+</script>
