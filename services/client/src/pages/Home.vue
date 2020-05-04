@@ -18,5 +18,61 @@
       on the average). Bechdel scores are taken from the
       <a href="https://bechdeltest.com/api/v1/doc">bechdeltest.com API</a>.
     </p>
+    <v-row>
+      <v-col>
+        <div id="ratings_by_year"></div>
+      </v-col>
+      <v-col>
+        <div id="ratings_by_year_percentage"></div>
+      </v-col>
+    </v-row>
     </v-container>
 </template>
+
+<style>
+  svg > g > g:last-child { pointer-events: none }
+</style>
+
+<script>
+/* global google */
+
+const axios = require('axios');
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function createChart(containerId, data, options) {
+  const container = document.getElementById(containerId);
+  container.style.height = (container.offsetWidth * 0.6) + 'px';
+  const chart = new google.visualization.ColumnChart(container);
+  chart.draw(data, options);
+}
+
+async function drawChart() {
+  const result = await axios.get('/api/charts/ratings_by_year');
+  var data = google.visualization.arrayToDataTable(result.data);
+
+  var options = {
+    legend: { position: 'top', maxLines: 3 },
+    bar: { groupWidth: '100%' },
+    isStacked: true,
+    series: {
+          0: { color: '#B71C1C' },
+          1: { color: '#EF9A9A' },
+          2: { color: '#90CAF9' },
+          3: { color: '#1565C0' }
+    },
+    chartArea: {
+      width: '85%',
+      height: '80%',
+      top: 20
+    },
+  };
+
+  createChart('ratings_by_year', data, options);
+  createChart('ratings_by_year_percentage', data, Object.assign(options, { isStacked: 'percent' }));
+}
+export default {
+  
+}
+</script>
