@@ -81,7 +81,7 @@ async function getListDetails(page, listUrl) {
     for (let movieDetails of listDetails) {
       movieDetails.year = year;
     }
-    movies.push(listDetails);
+    movies.push(...listDetails);
   }
 
   await browser.close();

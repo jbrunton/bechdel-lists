@@ -38,8 +38,10 @@
 
 const axios = require('axios');
 
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+function loadCharts() {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+}
 
 function createChart(containerId, data, options) {
   const container = document.getElementById(containerId);
@@ -73,6 +75,8 @@ async function drawChart() {
   createChart('ratings_by_year_percentage', data, Object.assign(options, { isStacked: 'percent' }));
 }
 export default {
-  
+  created() {
+    loadCharts();
+  }
 }
 </script>

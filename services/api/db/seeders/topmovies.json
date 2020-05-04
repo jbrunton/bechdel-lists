@@ -1,1014 +1,992 @@
 [
-  [
-    {
-      "title": "Transformers: Revenge of the Fallen",
-      "imdbId": "1055369",
-      "boxOffice": {
-        "domestic": "$402,111,870",
-        "global": "$836,303,693"
-      },
-      "year": 2009
-    },
-    {
-      "title": "Harry Potter and the Half-Blood Prince",
-      "imdbId": "0417741",
-      "boxOffice": {
-        "domestic": "$301,959,197",
-        "global": "$933,959,197"
-      },
-      "year": 2009
-    },
-    {
-      "title": "Up",
-      "imdbId": "1049413",
-      "boxOffice": {
-        "domestic": "$293,004,164",
-        "global": "$735,099,082"
-      },
-      "year": 2009
-    },
-    {
-      "title": "The Twilight Saga: New Moon",
-      "imdbId": "1259571",
-      "boxOffice": {
-        "domestic": "$296,623,634",
-        "global": "$709,827,462"
-      },
-      "year": 2009
-    },
-    {
-      "title": "Avatar",
-      "imdbId": "0499549",
-      "boxOffice": {
-        "domestic": "$749,766,139",
-        "global": "$2,744,336,793"
-      },
-      "year": 2009
-    },
-    {
-      "title": "The Hangover",
-      "imdbId": "1119646",
-      "boxOffice": {
-        "domestic": "$277,322,503",
-        "global": "$468,812,793"
-      },
-      "year": 2009
-    },
-    {
-      "title": "Star Trek",
-      "imdbId": "0796366",
-      "boxOffice": {
-        "domestic": "$257,730,019",
-        "global": "$385,680,446"
-      },
-      "year": 2009
-    },
-    {
-      "title": "Monsters vs. Aliens",
-      "imdbId": "0892782",
-      "boxOffice": {
-        "domestic": "$198,351,526",
-        "global": "$381,509,870"
-      },
-      "year": 2009
-    },
-    {
-      "title": "Ice Age: Dawn of the Dinosaurs",
-      "imdbId": "1080016",
-      "boxOffice": {
-        "domestic": "$196,573,705",
-        "global": "$886,686,817"
-      },
-      "year": 2009
-    },
-    {
-      "title": "The Blind Side",
-      "imdbId": "0878804",
-      "boxOffice": {
-        "domestic": "$255,959,475",
-        "global": "$309,208,309"
-      },
-      "year": 2009
-    }
-  ],
-  [
-    {
-      "title": "Avatar",
-      "imdbId": "0499549",
-      "boxOffice": {
-        "domestic": "$749,766,139",
-        "global": "$2,744,336,793"
-      },
-      "year": 2010
-    },
-    {
-      "title": "Toy Story 3",
-      "imdbId": "0435761",
-      "boxOffice": {
-        "domestic": "$415,004,880",
-        "global": "$1,066,969,703"
-      },
-      "year": 2010
-    },
-    {
-      "title": "Alice in Wonderland",
-      "imdbId": "1014759",
-      "boxOffice": {
-        "domestic": "$334,191,110",
-        "global": "$1,025,467,110"
-      },
-      "year": 2010
-    },
-    {
-      "title": "Iron Man 2",
-      "imdbId": "1228705",
-      "boxOffice": {
-        "domestic": "$312,433,331",
-        "global": "$623,933,331"
-      },
-      "year": 2010
-    },
-    {
-      "title": "The Twilight Saga: Eclipse",
-      "imdbId": "1325004",
-      "boxOffice": {
-        "domestic": "$300,531,751",
-        "global": "$698,491,347"
-      },
-      "year": 2010
-    },
-    {
-      "title": "Inception",
-      "imdbId": "1375666",
-      "boxOffice": {
-        "domestic": "$292,576,195",
-        "global": "$828,322,032"
-      },
-      "year": 2010
-    },
-    {
-      "title": "Harry Potter and the Deathly Hallows: Part 1",
-      "imdbId": "0926084",
-      "boxOffice": {
-        "domestic": "$295,983,305",
-        "global": "$976,536,918"
-      },
-      "year": 2010
-    },
-    {
-      "title": "Despicable Me",
-      "imdbId": "1323594",
-      "boxOffice": {
-        "domestic": "$251,513,985",
-        "global": "$543,113,985"
-      },
-      "year": 2010
-    },
-    {
-      "title": "Shrek Forever After",
-      "imdbId": "0892791",
-      "boxOffice": {
-        "domestic": "$238,736,787",
-        "global": "$752,600,867"
-      },
-      "year": 2010
-    },
-    {
-      "title": "How to Train Your Dragon",
-      "imdbId": "0892769",
-      "boxOffice": {
-        "domestic": "$217,581,231",
-        "global": "$494,878,759"
-      },
-      "year": 2010
-    }
-  ],
-  [
-    {
-      "title": "Harry Potter and the Deathly Hallows: Part 2",
-      "imdbId": "1201607",
-      "boxOffice": {
-        "domestic": "$381,011,219",
-        "global": "$1,341,511,219"
-      },
-      "year": 2011
-    },
-    {
-      "title": "Transformers: Dark of the Moon",
-      "imdbId": "1399103",
-      "boxOffice": {
-        "domestic": "$352,390,543",
-        "global": "$1,123,794,079"
-      },
-      "year": 2011
-    },
-    {
-      "title": "The Twilight Saga: Breaking Dawn - Part 1",
-      "imdbId": "1324999",
-      "boxOffice": {
-        "domestic": "$281,287,133",
-        "global": "$712,205,856"
-      },
-      "year": 2011
-    },
-    {
-      "title": "The Hangover Part II",
-      "imdbId": "1411697",
-      "boxOffice": {
-        "domestic": "$254,464,305",
-        "global": "$586,764,305"
-      },
-      "year": 2011
-    },
-    {
-      "title": "Pirates of the Caribbean: On Stranger Tides",
-      "imdbId": "1298650",
-      "boxOffice": {
-        "domestic": "$241,071,802",
-        "global": "$1,045,713,802"
-      },
-      "year": 2011
-    },
-    {
-      "title": "Fast Five",
-      "imdbId": "1596343",
-      "boxOffice": {
-        "domestic": "$209,837,675",
-        "global": "$626,137,675"
-      },
-      "year": 2011
-    },
-    {
-      "title": "Cars 2",
-      "imdbId": "1216475",
-      "boxOffice": {
-        "domestic": "$191,452,396",
-        "global": "$559,852,396"
-      },
-      "year": 2011
-    },
-    {
-      "title": "Thor",
-      "imdbId": "0800369",
-      "boxOffice": {
-        "domestic": "$181,030,624",
-        "global": "$449,326,618"
-      },
-      "year": 2011
-    },
-    {
-      "title": "Rise of the Planet of the Apes",
-      "imdbId": "1318514",
-      "boxOffice": {
-        "domestic": "$176,760,185",
-        "global": "$481,800,873"
-      },
-      "year": 2011
-    },
-    {
-      "title": "Captain America: The First Avenger",
-      "imdbId": "0458339",
-      "boxOffice": {
-        "domestic": "$176,654,505",
-        "global": "$370,569,774"
-      },
-      "year": 2011
-    }
-  ],
-  [
-    {
-      "title": "The Avengers",
-      "imdbId": "0848228",
-      "boxOffice": {
-        "domestic": "$623,357,910",
-        "global": "$1,518,812,988"
-      },
-      "year": 2012
-    },
-    {
-      "title": "The Dark Knight Rises",
-      "imdbId": "1345836",
-      "boxOffice": {
-        "domestic": "$448,139,099",
-        "global": "$1,081,041,287"
-      },
-      "year": 2012
-    },
-    {
-      "title": "The Hunger Games",
-      "imdbId": "1392170",
-      "boxOffice": {
-        "domestic": "$408,010,692",
-        "global": "$694,394,724"
-      },
-      "year": 2012
-    },
-    {
-      "title": "Skyfall",
-      "imdbId": "1074638",
-      "boxOffice": {
-        "domestic": "$304,360,277",
-        "global": "$1,108,561,013"
-      },
-      "year": 2012
-    },
-    {
-      "title": "The Twilight Saga: Breaking Dawn - Part 2",
-      "imdbId": "1673434",
-      "boxOffice": {
-        "domestic": "$292,324,737",
-        "global": "$829,746,820"
-      },
-      "year": 2012
-    },
-    {
-      "title": "The Amazing Spider-Man",
-      "imdbId": "0948470",
-      "boxOffice": {
-        "domestic": "$262,030,663",
-        "global": "$757,930,663"
-      },
-      "year": 2012
-    },
-    {
-      "title": "Brave",
-      "imdbId": "1217209",
-      "boxOffice": {
-        "domestic": "$237,283,207",
-        "global": "$538,983,207"
-      },
-      "year": 2012
-    },
-    {
-      "title": "The Hobbit: An Unexpected Journey",
-      "imdbId": "0903624",
-      "boxOffice": {
-        "domestic": "$303,003,568",
-        "global": "$1,017,003,568"
-      },
-      "year": 2012
-    },
-    {
-      "title": "Ted",
-      "imdbId": "1637725",
-      "boxOffice": {
-        "domestic": "$218,815,487",
-        "global": "$549,368,315"
-      },
-      "year": 2012
-    },
-    {
-      "title": "Madagascar 3: Europe's Most Wanted",
-      "imdbId": "1277953",
-      "boxOffice": {
-        "domestic": "$216,391,482",
-        "global": "$746,921,274"
-      },
-      "year": 2012
-    }
-  ],
-  [
-    {
-      "title": "Iron Man 3",
-      "imdbId": "1300854",
-      "boxOffice": {
-        "domestic": "$409,013,994",
-        "global": "$1,214,811,252"
-      },
-      "year": 2013
-    },
-    {
-      "title": "The Hunger Games: Catching Fire",
-      "imdbId": "1951264",
-      "boxOffice": {
-        "domestic": "$424,668,047",
-        "global": "$865,011,746"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Despicable Me 2",
-      "imdbId": "1690953",
-      "boxOffice": {
-        "domestic": "$368,065,385",
-        "global": "$970,766,005"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Man of Steel",
-      "imdbId": "0770828",
-      "boxOffice": {
-        "domestic": "$291,045,518",
-        "global": "$668,045,518"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Monsters University",
-      "imdbId": "1453405",
-      "boxOffice": {
-        "domestic": "$268,492,764",
-        "global": "$743,559,607"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Frozen",
-      "imdbId": "2294629",
-      "boxOffice": {
-        "domestic": "$400,738,009",
-        "global": "$1,280,802,282"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Gravity",
-      "imdbId": "1454468",
-      "boxOffice": {
-        "domestic": "$274,092,705",
-        "global": "$723,192,705"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Fast & Furious 6",
-      "imdbId": "1905041",
-      "boxOffice": {
-        "domestic": "$238,679,850",
-        "global": "$788,679,850"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Oz the Great and Powerful",
-      "imdbId": "1623205",
-      "boxOffice": {
-        "domestic": "$234,911,825",
-        "global": "$493,311,825"
-      },
-      "year": 2013
-    },
-    {
-      "title": "Star Trek Into Darkness",
-      "imdbId": "1408101",
-      "boxOffice": {
-        "domestic": "$228,778,661",
-        "global": "$467,365,246"
-      },
-      "year": 2013
-    }
-  ],
-  [
-    {
-      "title": "Guardians of the Galaxy",
-      "imdbId": "2015381",
-      "boxOffice": {
-        "domestic": "$333,176,600",
-        "global": "$772,776,600"
-      },
-      "year": 2014
-    },
-    {
-      "title": "The Hunger Games: Mockingjay - Part 1",
-      "imdbId": "1951265",
-      "boxOffice": {
-        "domestic": "$337,135,885",
-        "global": "$755,356,711"
-      },
-      "year": 2014
-    },
-    {
-      "title": "Captain America: The Winter Soldier",
-      "imdbId": "1843866",
-      "boxOffice": {
-        "domestic": "$259,766,572",
-        "global": "$714,421,503"
-      },
-      "year": 2014
-    },
-    {
-      "title": "The Lego Movie",
-      "imdbId": "1490017",
-      "boxOffice": {
-        "domestic": "$257,760,692",
-        "global": "$468,060,692"
-      },
-      "year": 2014
-    },
-    {
-      "title": "Transformers: Age of Extinction",
-      "imdbId": "2109248",
-      "boxOffice": {
-        "domestic": "$245,439,076",
-        "global": "$1,104,054,072"
-      },
-      "year": 2014
-    },
-    {
-      "title": "Maleficent",
-      "imdbId": "1587310",
-      "boxOffice": {
-        "domestic": "$241,410,378",
-        "global": "$758,410,378"
-      },
-      "year": 2014
-    },
-    {
-      "title": "X-Men: Days of Future Past",
-      "imdbId": "1877832",
-      "boxOffice": {
-        "domestic": "$233,921,534",
-        "global": "$746,045,700"
-      },
-      "year": 2014
-    },
-    {
-      "title": "Dawn of the Planet of the Apes",
-      "imdbId": "2103281",
-      "boxOffice": {
-        "domestic": "$208,545,589",
-        "global": "$710,644,566"
-      },
-      "year": 2014
-    },
-    {
-      "title": "Big Hero 6",
-      "imdbId": "2245084",
-      "boxOffice": {
-        "domestic": "$222,527,828",
-        "global": "$657,827,828"
-      },
-      "year": 2014
-    },
-    {
-      "title": "The Amazing Spider-Man 2",
-      "imdbId": "1872181",
-      "boxOffice": {
-        "domestic": "$202,853,933",
-        "global": "$708,982,323"
-      },
-      "year": 2014
-    }
-  ],
-  [
-    {
-      "title": "Jurassic World",
-      "imdbId": "0369610",
-      "boxOffice": {
-        "domestic": "$652,270,625",
-        "global": "$1,670,400,637"
-      },
-      "year": 2015
-    },
-    {
-      "title": "Star Wars: Episode VII - The Force Awakens",
-      "imdbId": "2488496",
-      "boxOffice": {
-        "domestic": "$936,662,225",
-        "global": "$2,068,223,624"
-      },
-      "year": 2015
-    },
-    {
-      "title": "Avengers: Age of Ultron",
-      "imdbId": "2395427",
-      "boxOffice": {
-        "domestic": "$459,005,868",
-        "global": "$1,402,805,868"
-      },
-      "year": 2015
-    },
-    {
-      "title": "Inside Out",
-      "imdbId": "2096673",
-      "boxOffice": {
-        "domestic": "$356,461,711",
-        "global": "$857,611,174"
-      },
-      "year": 2015
-    },
-    {
-      "title": "Furious 7",
-      "imdbId": "2820852",
-      "boxOffice": {
-        "domestic": "$353,007,020",
-        "global": "$1,515,047,671"
-      },
-      "year": 2015
-    },
-    {
-      "title": "American Sniper",
-      "imdbId": "2179136",
-      "boxOffice": {
-        "domestic": "$350,126,372",
-        "global": "$547,426,372"
-      },
-      "year": 2015
-    },
-    {
-      "title": "Minions",
-      "imdbId": "2293640",
-      "boxOffice": {
-        "domestic": "$336,045,770",
-        "global": "$1,159,398,397"
-      },
-      "year": 2015
-    },
-    {
-      "title": "The Hunger Games: Mockingjay - Part 2",
-      "imdbId": "1951266",
-      "boxOffice": {
-        "domestic": "$281,723,902",
-        "global": "$658,344,137"
-      },
-      "year": 2015
-    },
-    {
-      "title": "The Martian",
-      "imdbId": "3659388",
-      "boxOffice": {
-        "domestic": "$228,433,663",
-        "global": "$630,161,890"
-      },
-      "year": 2015
-    },
-    {
-      "title": "Cinderella",
-      "imdbId": "1661199",
-      "boxOffice": {
-        "domestic": "$201,151,353",
-        "global": "$542,351,353"
-      },
-      "year": 2015
-    }
-  ],
-  [
-    {
-      "title": "Finding Dory",
-      "imdbId": "2277860",
-      "boxOffice": {
-        "domestic": "$486,295,561",
-        "global": "$1,028,570,889"
-      },
-      "year": 2016
-    },
-    {
-      "title": "Rogue One: A Star Wars Story",
-      "imdbId": "3748528",
-      "boxOffice": {
-        "domestic": "$532,177,324",
-        "global": "$1,056,057,273"
-      },
-      "year": 2016
-    },
-    {
-      "title": "Captain America: Civil War",
-      "imdbId": "3498820",
-      "boxOffice": {
-        "domestic": "$408,084,349",
-        "global": "$1,153,296,293"
-      },
-      "year": 2016
-    },
-    {
-      "title": "The Secret Life of Pets",
-      "imdbId": "2709768",
-      "boxOffice": {
-        "domestic": "$368,384,330",
-        "global": "$875,457,937"
-      },
-      "year": 2016
-    },
-    {
-      "title": "The Jungle Book",
-      "imdbId": "3040964",
-      "boxOffice": {
-        "domestic": "$364,001,123",
-        "global": "$966,550,600"
-      },
-      "year": 2016
-    },
-    {
-      "title": "Deadpool",
-      "imdbId": "1431045",
-      "boxOffice": {
-        "domestic": "$363,070,709",
-        "global": "$782,612,155"
-      },
-      "year": 2016
-    },
-    {
-      "title": "Zootopia",
-      "imdbId": "2948356",
-      "boxOffice": {
-        "domestic": "$341,268,248",
-        "global": "$1,023,784,195"
-      },
-      "year": 2016
-    },
-    {
-      "title": "Batman v Superman: Dawn of Justice",
-      "imdbId": "2975590",
-      "boxOffice": {
-        "domestic": "$330,360,194",
-        "global": "$873,634,919"
-      },
-      "year": 2016
-    },
-    {
-      "title": "Suicide Squad",
-      "imdbId": "1386697",
-      "boxOffice": {
-        "domestic": "$325,100,054",
-        "global": "$746,846,894"
-      },
-      "year": 2016
-    },
-    {
-      "title": "Star Wars: Episode VII - The Force Awakens",
-      "imdbId": "2488496",
-      "boxOffice": {
-        "domestic": "$936,662,225",
-        "global": "$2,068,223,624"
-      },
-      "year": 2016
-    }
-  ],
-  [
-    {
-      "title": "Star Wars: Episode VIII - The Last Jedi",
-      "imdbId": "2527336",
-      "boxOffice": {
-        "domestic": "$620,181,382",
-        "global": "$1,332,539,889"
-      },
-      "year": 2017
-    },
-    {
-      "title": "Beauty and the Beast",
-      "imdbId": "2771200",
-      "boxOffice": {
-        "domestic": "$504,014,165",
-        "global": "$1,263,521,126"
-      },
-      "year": 2017
-    },
-    {
-      "title": "Wonder Woman",
-      "imdbId": "0451279",
-      "boxOffice": {
-        "domestic": "$412,563,408",
-        "global": "$821,847,012"
-      },
-      "year": 2017
-    },
-    {
-      "title": "Guardians of the Galaxy Vol. 2",
-      "imdbId": "3896198",
-      "boxOffice": {
-        "domestic": "$389,813,101",
-        "global": "$863,756,051"
-      },
-      "year": 2017
-    },
-    {
-      "title": "Spider-Man: Homecoming",
-      "imdbId": "2250912",
-      "boxOffice": {
-        "domestic": "$334,201,140",
-        "global": "$880,166,924"
-      },
-      "year": 2017
-    },
-    {
-      "title": "It",
-      "imdbId": "1396484",
-      "boxOffice": {
-        "domestic": "$327,481,748",
-        "global": "$700,381,748"
-      },
-      "year": 2017
-    },
-    {
-      "title": "Thor: Ragnarok",
-      "imdbId": "3501632",
-      "boxOffice": {
-        "domestic": "$315,058,289",
-        "global": "$853,977,126"
-      },
-      "year": 2017
-    },
-    {
-      "title": "Despicable Me 3",
-      "imdbId": "3469046",
-      "boxOffice": {
-        "domestic": "$264,624,300",
-        "global": "$1,034,799,409"
-      },
-      "year": 2017
-    },
-    {
-      "title": "Logan",
-      "imdbId": "3315342",
-      "boxOffice": {
-        "domestic": "$226,277,068",
-        "global": "$619,021,436"
-      },
-      "year": 2017
-    },
-    {
-      "title": "The Fate of the Furious",
-      "imdbId": "4630562",
-      "boxOffice": {
-        "domestic": "$226,008,385",
-        "global": "$1,236,005,118"
-      },
-      "year": 2017
-    }
-  ],
-  [
-    {
-      "title": "Black Panther",
-      "imdbId": "1825683",
-      "boxOffice": {
-        "domestic": "$700,059,566",
-        "global": "$1,346,913,161"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Avengers: Infinity War",
-      "imdbId": "4154756",
-      "boxOffice": {
-        "domestic": "$678,815,482",
-        "global": "$2,048,359,754"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Incredibles 2",
-      "imdbId": "3606756",
-      "boxOffice": {
-        "domestic": "$608,581,744",
-        "global": "$1,242,805,359"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Jurassic World: Fallen Kingdom",
-      "imdbId": "4881806",
-      "boxOffice": {
-        "domestic": "$417,719,760",
-        "global": "$1,308,467,944"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Deadpool 2",
-      "imdbId": "5463162",
-      "boxOffice": {
-        "domestic": "$318,491,426",
-        "global": "$734,546,611"
-      },
-      "year": 2018
-    },
-    {
-      "title": "The Grinch",
-      "imdbId": "2709692",
-      "boxOffice": {
-        "domestic": "$270,620,950",
-        "global": "$511,595,957"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Jumanji: Welcome to the Jungle",
-      "imdbId": "2283362",
-      "boxOffice": {
-        "domestic": "$404,515,480",
-        "global": "$962,077,546"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Mission: Impossible - Fallout",
-      "imdbId": "4912910",
-      "boxOffice": {
-        "domestic": "$220,159,104",
-        "global": "$791,115,104"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Ant-Man and the Wasp",
-      "imdbId": "5095030",
-      "boxOffice": {
-        "domestic": "$216,648,740",
-        "global": "$622,674,139"
-      },
-      "year": 2018
-    },
-    {
-      "title": "Solo: A Star Wars Story",
-      "imdbId": "3778644",
-      "boxOffice": {
-        "domestic": "$213,767,512",
-        "global": "$392,924,807"
-      },
-      "year": 2018
-    }
-  ],
-  [
-    {
-      "title": "Avengers: Endgame",
-      "imdbId": "4154796",
-      "boxOffice": {
-        "domestic": "$858,373,000",
-        "global": "$2,797,800,564"
-      },
-      "year": 2019
-    },
-    {
-      "title": "The Lion King",
-      "imdbId": "6105098",
-      "boxOffice": {
-        "domestic": "$543,638,043",
-        "global": "$1,656,943,394"
-      },
-      "year": 2019
-    },
-    {
-      "title": "Toy Story 4",
-      "imdbId": "1979376",
-      "boxOffice": {
-        "domestic": "$434,038,008",
-        "global": "$1,073,394,593"
-      },
-      "year": 2019
-    },
-    {
-      "title": "Frozen II",
-      "imdbId": "4520988",
-      "boxOffice": {
-        "domestic": "$477,373,578",
-        "global": "$1,450,026,933"
-      },
-      "year": 2019
-    },
-    {
-      "title": "Captain Marvel",
-      "imdbId": "4154664",
-      "boxOffice": {
-        "domestic": "$426,829,839",
-        "global": "$1,128,274,794"
-      },
-      "year": 2019
-    },
-    {
-      "title": "Star Wars: Episode IX - The Rise of Skywalker",
-      "imdbId": "2527338",
-      "boxOffice": {
-        "domestic": "$515,202,542",
-        "global": "$1,074,144,248"
-      },
-      "year": 2019
-    },
-    {
-      "title": "Spider-Man: Far from Home",
-      "imdbId": "6320628",
-      "boxOffice": {
-        "domestic": "$390,532,085",
-        "global": "$1,131,927,996"
-      },
-      "year": 2019
-    },
-    {
-      "title": "Aladdin",
-      "imdbId": "6139732",
-      "boxOffice": {
-        "domestic": "$355,559,216",
-        "global": "$1,050,693,953"
-      },
-      "year": 2019
-    },
-    {
-      "title": "Joker",
-      "imdbId": "7286456",
-      "boxOffice": {
-        "domestic": "$335,451,311",
-        "global": "$1,074,251,311"
-      },
-      "year": 2019
-    },
-    {
-      "title": "It Chapter Two",
-      "imdbId": "7349950",
-      "boxOffice": {
-        "domestic": "$211,593,228",
-        "global": "$473,093,228"
-      },
-      "year": 2019
-    }
-  ]
+  {
+    "title": "Transformers: Revenge of the Fallen",
+    "imdbId": "1055369",
+    "boxOffice": {
+      "domestic": "$402,111,870",
+      "global": "$836,303,693"
+    },
+    "year": 2009
+  },
+  {
+    "title": "Harry Potter and the Half-Blood Prince",
+    "imdbId": "0417741",
+    "boxOffice": {
+      "domestic": "$301,959,197",
+      "global": "$933,959,197"
+    },
+    "year": 2009
+  },
+  {
+    "title": "Up",
+    "imdbId": "1049413",
+    "boxOffice": {
+      "domestic": "$293,004,164",
+      "global": "$735,099,082"
+    },
+    "year": 2009
+  },
+  {
+    "title": "The Twilight Saga: New Moon",
+    "imdbId": "1259571",
+    "boxOffice": {
+      "domestic": "$296,623,634",
+      "global": "$709,827,462"
+    },
+    "year": 2009
+  },
+  {
+    "title": "Avatar",
+    "imdbId": "0499549",
+    "boxOffice": {
+      "domestic": "$749,766,139",
+      "global": "$2,744,336,793"
+    },
+    "year": 2009
+  },
+  {
+    "title": "The Hangover",
+    "imdbId": "1119646",
+    "boxOffice": {
+      "domestic": "$277,322,503",
+      "global": "$468,812,793"
+    },
+    "year": 2009
+  },
+  {
+    "title": "Star Trek",
+    "imdbId": "0796366",
+    "boxOffice": {
+      "domestic": "$257,730,019",
+      "global": "$385,680,446"
+    },
+    "year": 2009
+  },
+  {
+    "title": "Monsters vs. Aliens",
+    "imdbId": "0892782",
+    "boxOffice": {
+      "domestic": "$198,351,526",
+      "global": "$381,509,870"
+    },
+    "year": 2009
+  },
+  {
+    "title": "Ice Age: Dawn of the Dinosaurs",
+    "imdbId": "1080016",
+    "boxOffice": {
+      "domestic": "$196,573,705",
+      "global": "$886,686,817"
+    },
+    "year": 2009
+  },
+  {
+    "title": "The Blind Side",
+    "imdbId": "0878804",
+    "boxOffice": {
+      "domestic": "$255,959,475",
+      "global": "$309,208,309"
+    },
+    "year": 2009
+  },
+  {
+    "title": "Avatar",
+    "imdbId": "0499549",
+    "boxOffice": {
+      "domestic": "$749,766,139",
+      "global": "$2,744,336,793"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Toy Story 3",
+    "imdbId": "0435761",
+    "boxOffice": {
+      "domestic": "$415,004,880",
+      "global": "$1,066,969,703"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Alice in Wonderland",
+    "imdbId": "1014759",
+    "boxOffice": {
+      "domestic": "$334,191,110",
+      "global": "$1,025,467,110"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Iron Man 2",
+    "imdbId": "1228705",
+    "boxOffice": {
+      "domestic": "$312,433,331",
+      "global": "$623,933,331"
+    },
+    "year": 2010
+  },
+  {
+    "title": "The Twilight Saga: Eclipse",
+    "imdbId": "1325004",
+    "boxOffice": {
+      "domestic": "$300,531,751",
+      "global": "$698,491,347"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Inception",
+    "imdbId": "1375666",
+    "boxOffice": {
+      "domestic": "$292,576,195",
+      "global": "$828,322,032"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Harry Potter and the Deathly Hallows: Part 1",
+    "imdbId": "0926084",
+    "boxOffice": {
+      "domestic": "$295,983,305",
+      "global": "$976,536,918"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Despicable Me",
+    "imdbId": "1323594",
+    "boxOffice": {
+      "domestic": "$251,513,985",
+      "global": "$543,113,985"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Shrek Forever After",
+    "imdbId": "0892791",
+    "boxOffice": {
+      "domestic": "$238,736,787",
+      "global": "$752,600,867"
+    },
+    "year": 2010
+  },
+  {
+    "title": "How to Train Your Dragon",
+    "imdbId": "0892769",
+    "boxOffice": {
+      "domestic": "$217,581,231",
+      "global": "$494,878,759"
+    },
+    "year": 2010
+  },
+  {
+    "title": "Harry Potter and the Deathly Hallows: Part 2",
+    "imdbId": "1201607",
+    "boxOffice": {
+      "domestic": "$381,011,219",
+      "global": "$1,341,511,219"
+    },
+    "year": 2011
+  },
+  {
+    "title": "Transformers: Dark of the Moon",
+    "imdbId": "1399103",
+    "boxOffice": {
+      "domestic": "$352,390,543",
+      "global": "$1,123,794,079"
+    },
+    "year": 2011
+  },
+  {
+    "title": "The Twilight Saga: Breaking Dawn - Part 1",
+    "imdbId": "1324999",
+    "boxOffice": {
+      "domestic": "$281,287,133",
+      "global": "$712,205,856"
+    },
+    "year": 2011
+  },
+  {
+    "title": "The Hangover Part II",
+    "imdbId": "1411697",
+    "boxOffice": {
+      "domestic": "$254,464,305",
+      "global": "$586,764,305"
+    },
+    "year": 2011
+  },
+  {
+    "title": "Pirates of the Caribbean: On Stranger Tides",
+    "imdbId": "1298650",
+    "boxOffice": {
+      "domestic": "$241,071,802",
+      "global": "$1,045,713,802"
+    },
+    "year": 2011
+  },
+  {
+    "title": "Fast Five",
+    "imdbId": "1596343",
+    "boxOffice": {
+      "domestic": "$209,837,675",
+      "global": "$626,137,675"
+    },
+    "year": 2011
+  },
+  {
+    "title": "Cars 2",
+    "imdbId": "1216475",
+    "boxOffice": {
+      "domestic": "$191,452,396",
+      "global": "$559,852,396"
+    },
+    "year": 2011
+  },
+  {
+    "title": "Thor",
+    "imdbId": "0800369",
+    "boxOffice": {
+      "domestic": "$181,030,624",
+      "global": "$449,326,618"
+    },
+    "year": 2011
+  },
+  {
+    "title": "Rise of the Planet of the Apes",
+    "imdbId": "1318514",
+    "boxOffice": {
+      "domestic": "$176,760,185",
+      "global": "$481,800,873"
+    },
+    "year": 2011
+  },
+  {
+    "title": "Captain America: The First Avenger",
+    "imdbId": "0458339",
+    "boxOffice": {
+      "domestic": "$176,654,505",
+      "global": "$370,569,774"
+    },
+    "year": 2011
+  },
+  {
+    "title": "The Avengers",
+    "imdbId": "0848228",
+    "boxOffice": {
+      "domestic": "$623,357,910",
+      "global": "$1,518,812,988"
+    },
+    "year": 2012
+  },
+  {
+    "title": "The Dark Knight Rises",
+    "imdbId": "1345836",
+    "boxOffice": {
+      "domestic": "$448,139,099",
+      "global": "$1,081,041,287"
+    },
+    "year": 2012
+  },
+  {
+    "title": "The Hunger Games",
+    "imdbId": "1392170",
+    "boxOffice": {
+      "domestic": "$408,010,692",
+      "global": "$694,394,724"
+    },
+    "year": 2012
+  },
+  {
+    "title": "Skyfall",
+    "imdbId": "1074638",
+    "boxOffice": {
+      "domestic": "$304,360,277",
+      "global": "$1,108,561,013"
+    },
+    "year": 2012
+  },
+  {
+    "title": "The Twilight Saga: Breaking Dawn - Part 2",
+    "imdbId": "1673434",
+    "boxOffice": {
+      "domestic": "$292,324,737",
+      "global": "$829,746,820"
+    },
+    "year": 2012
+  },
+  {
+    "title": "The Amazing Spider-Man",
+    "imdbId": "0948470",
+    "boxOffice": {
+      "domestic": "$262,030,663",
+      "global": "$757,930,663"
+    },
+    "year": 2012
+  },
+  {
+    "title": "Brave",
+    "imdbId": "1217209",
+    "boxOffice": {
+      "domestic": "$237,283,207",
+      "global": "$538,983,207"
+    },
+    "year": 2012
+  },
+  {
+    "title": "The Hobbit: An Unexpected Journey",
+    "imdbId": "0903624",
+    "boxOffice": {
+      "domestic": "$303,003,568",
+      "global": "$1,017,003,568"
+    },
+    "year": 2012
+  },
+  {
+    "title": "Ted",
+    "imdbId": "1637725",
+    "boxOffice": {
+      "domestic": "$218,815,487",
+      "global": "$549,368,315"
+    },
+    "year": 2012
+  },
+  {
+    "title": "Madagascar 3: Europe's Most Wanted",
+    "imdbId": "1277953",
+    "boxOffice": {
+      "domestic": "$216,391,482",
+      "global": "$746,921,274"
+    },
+    "year": 2012
+  },
+  {
+    "title": "Iron Man 3",
+    "imdbId": "1300854",
+    "boxOffice": {
+      "domestic": "$409,013,994",
+      "global": "$1,214,811,252"
+    },
+    "year": 2013
+  },
+  {
+    "title": "The Hunger Games: Catching Fire",
+    "imdbId": "1951264",
+    "boxOffice": {
+      "domestic": "$424,668,047",
+      "global": "$865,011,746"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Despicable Me 2",
+    "imdbId": "1690953",
+    "boxOffice": {
+      "domestic": "$368,065,385",
+      "global": "$970,766,005"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Man of Steel",
+    "imdbId": "0770828",
+    "boxOffice": {
+      "domestic": "$291,045,518",
+      "global": "$668,045,518"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Monsters University",
+    "imdbId": "1453405",
+    "boxOffice": {
+      "domestic": "$268,492,764",
+      "global": "$743,559,607"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Frozen",
+    "imdbId": "2294629",
+    "boxOffice": {
+      "domestic": "$400,738,009",
+      "global": "$1,280,802,282"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Gravity",
+    "imdbId": "1454468",
+    "boxOffice": {
+      "domestic": "$274,092,705",
+      "global": "$723,192,705"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Fast & Furious 6",
+    "imdbId": "1905041",
+    "boxOffice": {
+      "domestic": "$238,679,850",
+      "global": "$788,679,850"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Oz the Great and Powerful",
+    "imdbId": "1623205",
+    "boxOffice": {
+      "domestic": "$234,911,825",
+      "global": "$493,311,825"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Star Trek Into Darkness",
+    "imdbId": "1408101",
+    "boxOffice": {
+      "domestic": "$228,778,661",
+      "global": "$467,365,246"
+    },
+    "year": 2013
+  },
+  {
+    "title": "Guardians of the Galaxy",
+    "imdbId": "2015381",
+    "boxOffice": {
+      "domestic": "$333,176,600",
+      "global": "$772,776,600"
+    },
+    "year": 2014
+  },
+  {
+    "title": "The Hunger Games: Mockingjay - Part 1",
+    "imdbId": "1951265",
+    "boxOffice": {
+      "domestic": "$337,135,885",
+      "global": "$755,356,711"
+    },
+    "year": 2014
+  },
+  {
+    "title": "Captain America: The Winter Soldier",
+    "imdbId": "1843866",
+    "boxOffice": {
+      "domestic": "$259,766,572",
+      "global": "$714,421,503"
+    },
+    "year": 2014
+  },
+  {
+    "title": "The Lego Movie",
+    "imdbId": "1490017",
+    "boxOffice": {
+      "domestic": "$257,760,692",
+      "global": "$468,060,692"
+    },
+    "year": 2014
+  },
+  {
+    "title": "Transformers: Age of Extinction",
+    "imdbId": "2109248",
+    "boxOffice": {
+      "domestic": "$245,439,076",
+      "global": "$1,104,054,072"
+    },
+    "year": 2014
+  },
+  {
+    "title": "Maleficent",
+    "imdbId": "1587310",
+    "boxOffice": {
+      "domestic": "$241,410,378",
+      "global": "$758,410,378"
+    },
+    "year": 2014
+  },
+  {
+    "title": "X-Men: Days of Future Past",
+    "imdbId": "1877832",
+    "boxOffice": {
+      "domestic": "$233,921,534",
+      "global": "$746,045,700"
+    },
+    "year": 2014
+  },
+  {
+    "title": "Dawn of the Planet of the Apes",
+    "imdbId": "2103281",
+    "boxOffice": {
+      "domestic": "$208,545,589",
+      "global": "$710,644,566"
+    },
+    "year": 2014
+  },
+  {
+    "title": "Big Hero 6",
+    "imdbId": "2245084",
+    "boxOffice": {
+      "domestic": "$222,527,828",
+      "global": "$657,827,828"
+    },
+    "year": 2014
+  },
+  {
+    "title": "The Amazing Spider-Man 2",
+    "imdbId": "1872181",
+    "boxOffice": {
+      "domestic": "$202,853,933",
+      "global": "$708,982,323"
+    },
+    "year": 2014
+  },
+  {
+    "title": "Jurassic World",
+    "imdbId": "0369610",
+    "boxOffice": {
+      "domestic": "$652,270,625",
+      "global": "$1,670,400,637"
+    },
+    "year": 2015
+  },
+  {
+    "title": "Star Wars: Episode VII - The Force Awakens",
+    "imdbId": "2488496",
+    "boxOffice": {
+      "domestic": "$936,662,225",
+      "global": "$2,068,223,624"
+    },
+    "year": 2015
+  },
+  {
+    "title": "Avengers: Age of Ultron",
+    "imdbId": "2395427",
+    "boxOffice": {
+      "domestic": "$459,005,868",
+      "global": "$1,402,805,868"
+    },
+    "year": 2015
+  },
+  {
+    "title": "Inside Out",
+    "imdbId": "2096673",
+    "boxOffice": {
+      "domestic": "$356,461,711",
+      "global": "$857,611,174"
+    },
+    "year": 2015
+  },
+  {
+    "title": "Furious 7",
+    "imdbId": "2820852",
+    "boxOffice": {
+      "domestic": "$353,007,020",
+      "global": "$1,515,047,671"
+    },
+    "year": 2015
+  },
+  {
+    "title": "American Sniper",
+    "imdbId": "2179136",
+    "boxOffice": {
+      "domestic": "$350,126,372",
+      "global": "$547,426,372"
+    },
+    "year": 2015
+  },
+  {
+    "title": "Minions",
+    "imdbId": "2293640",
+    "boxOffice": {
+      "domestic": "$336,045,770",
+      "global": "$1,159,398,397"
+    },
+    "year": 2015
+  },
+  {
+    "title": "The Hunger Games: Mockingjay - Part 2",
+    "imdbId": "1951266",
+    "boxOffice": {
+      "domestic": "$281,723,902",
+      "global": "$658,344,137"
+    },
+    "year": 2015
+  },
+  {
+    "title": "The Martian",
+    "imdbId": "3659388",
+    "boxOffice": {
+      "domestic": "$228,433,663",
+      "global": "$630,161,890"
+    },
+    "year": 2015
+  },
+  {
+    "title": "Cinderella",
+    "imdbId": "1661199",
+    "boxOffice": {
+      "domestic": "$201,151,353",
+      "global": "$542,351,353"
+    },
+    "year": 2015
+  },
+  {
+    "title": "Finding Dory",
+    "imdbId": "2277860",
+    "boxOffice": {
+      "domestic": "$486,295,561",
+      "global": "$1,028,570,889"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Rogue One: A Star Wars Story",
+    "imdbId": "3748528",
+    "boxOffice": {
+      "domestic": "$532,177,324",
+      "global": "$1,056,057,273"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Captain America: Civil War",
+    "imdbId": "3498820",
+    "boxOffice": {
+      "domestic": "$408,084,349",
+      "global": "$1,153,296,293"
+    },
+    "year": 2016
+  },
+  {
+    "title": "The Secret Life of Pets",
+    "imdbId": "2709768",
+    "boxOffice": {
+      "domestic": "$368,384,330",
+      "global": "$875,457,937"
+    },
+    "year": 2016
+  },
+  {
+    "title": "The Jungle Book",
+    "imdbId": "3040964",
+    "boxOffice": {
+      "domestic": "$364,001,123",
+      "global": "$966,550,600"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Deadpool",
+    "imdbId": "1431045",
+    "boxOffice": {
+      "domestic": "$363,070,709",
+      "global": "$782,612,155"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Zootopia",
+    "imdbId": "2948356",
+    "boxOffice": {
+      "domestic": "$341,268,248",
+      "global": "$1,023,784,195"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Batman v Superman: Dawn of Justice",
+    "imdbId": "2975590",
+    "boxOffice": {
+      "domestic": "$330,360,194",
+      "global": "$873,634,919"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Suicide Squad",
+    "imdbId": "1386697",
+    "boxOffice": {
+      "domestic": "$325,100,054",
+      "global": "$746,846,894"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Star Wars: Episode VII - The Force Awakens",
+    "imdbId": "2488496",
+    "boxOffice": {
+      "domestic": "$936,662,225",
+      "global": "$2,068,223,624"
+    },
+    "year": 2016
+  },
+  {
+    "title": "Star Wars: Episode VIII - The Last Jedi",
+    "imdbId": "2527336",
+    "boxOffice": {
+      "domestic": "$620,181,382",
+      "global": "$1,332,539,889"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Beauty and the Beast",
+    "imdbId": "2771200",
+    "boxOffice": {
+      "domestic": "$504,014,165",
+      "global": "$1,263,521,126"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Wonder Woman",
+    "imdbId": "0451279",
+    "boxOffice": {
+      "domestic": "$412,563,408",
+      "global": "$821,847,012"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Guardians of the Galaxy Vol. 2",
+    "imdbId": "3896198",
+    "boxOffice": {
+      "domestic": "$389,813,101",
+      "global": "$863,756,051"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Spider-Man: Homecoming",
+    "imdbId": "2250912",
+    "boxOffice": {
+      "domestic": "$334,201,140",
+      "global": "$880,166,924"
+    },
+    "year": 2017
+  },
+  {
+    "title": "It",
+    "imdbId": "1396484",
+    "boxOffice": {
+      "domestic": "$327,481,748",
+      "global": "$700,381,748"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Thor: Ragnarok",
+    "imdbId": "3501632",
+    "boxOffice": {
+      "domestic": "$315,058,289",
+      "global": "$853,977,126"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Despicable Me 3",
+    "imdbId": "3469046",
+    "boxOffice": {
+      "domestic": "$264,624,300",
+      "global": "$1,034,799,409"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Logan",
+    "imdbId": "3315342",
+    "boxOffice": {
+      "domestic": "$226,277,068",
+      "global": "$619,021,436"
+    },
+    "year": 2017
+  },
+  {
+    "title": "The Fate of the Furious",
+    "imdbId": "4630562",
+    "boxOffice": {
+      "domestic": "$226,008,385",
+      "global": "$1,236,005,118"
+    },
+    "year": 2017
+  },
+  {
+    "title": "Black Panther",
+    "imdbId": "1825683",
+    "boxOffice": {
+      "domestic": "$700,059,566",
+      "global": "$1,346,913,161"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Avengers: Infinity War",
+    "imdbId": "4154756",
+    "boxOffice": {
+      "domestic": "$678,815,482",
+      "global": "$2,048,359,754"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Incredibles 2",
+    "imdbId": "3606756",
+    "boxOffice": {
+      "domestic": "$608,581,744",
+      "global": "$1,242,805,359"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Jurassic World: Fallen Kingdom",
+    "imdbId": "4881806",
+    "boxOffice": {
+      "domestic": "$417,719,760",
+      "global": "$1,308,467,944"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Deadpool 2",
+    "imdbId": "5463162",
+    "boxOffice": {
+      "domestic": "$318,491,426",
+      "global": "$734,546,611"
+    },
+    "year": 2018
+  },
+  {
+    "title": "The Grinch",
+    "imdbId": "2709692",
+    "boxOffice": {
+      "domestic": "$270,620,950",
+      "global": "$511,595,957"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Jumanji: Welcome to the Jungle",
+    "imdbId": "2283362",
+    "boxOffice": {
+      "domestic": "$404,515,480",
+      "global": "$962,077,546"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Mission: Impossible - Fallout",
+    "imdbId": "4912910",
+    "boxOffice": {
+      "domestic": "$220,159,104",
+      "global": "$791,115,104"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Ant-Man and the Wasp",
+    "imdbId": "5095030",
+    "boxOffice": {
+      "domestic": "$216,648,740",
+      "global": "$622,674,139"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Solo: A Star Wars Story",
+    "imdbId": "3778644",
+    "boxOffice": {
+      "domestic": "$213,767,512",
+      "global": "$392,924,807"
+    },
+    "year": 2018
+  },
+  {
+    "title": "Avengers: Endgame",
+    "imdbId": "4154796",
+    "boxOffice": {
+      "domestic": "$858,373,000",
+      "global": "$2,797,800,564"
+    },
+    "year": 2019
+  },
+  {
+    "title": "The Lion King",
+    "imdbId": "6105098",
+    "boxOffice": {
+      "domestic": "$543,638,043",
+      "global": "$1,656,943,394"
+    },
+    "year": 2019
+  },
+  {
+    "title": "Toy Story 4",
+    "imdbId": "1979376",
+    "boxOffice": {
+      "domestic": "$434,038,008",
+      "global": "$1,073,394,593"
+    },
+    "year": 2019
+  },
+  {
+    "title": "Frozen II",
+    "imdbId": "4520988",
+    "boxOffice": {
+      "domestic": "$477,373,578",
+      "global": "$1,450,026,933"
+    },
+    "year": 2019
+  },
+  {
+    "title": "Captain Marvel",
+    "imdbId": "4154664",
+    "boxOffice": {
+      "domestic": "$426,829,839",
+      "global": "$1,128,274,794"
+    },
+    "year": 2019
+  },
+  {
+    "title": "Star Wars: Episode IX - The Rise of Skywalker",
+    "imdbId": "2527338",
+    "boxOffice": {
+      "domestic": "$515,202,542",
+      "global": "$1,074,144,248"
+    },
+    "year": 2019
+  },
+  {
+    "title": "Spider-Man: Far from Home",
+    "imdbId": "6320628",
+    "boxOffice": {
+      "domestic": "$390,532,085",
+      "global": "$1,131,927,996"
+    },
+    "year": 2019
+  },
+  {
+    "title": "Aladdin",
+    "imdbId": "6139732",
+    "boxOffice": {
+      "domestic": "$355,559,216",
+      "global": "$1,050,693,953"
+    },
+    "year": 2019
+  },
+  {
+    "title": "Joker",
+    "imdbId": "7286456",
+    "boxOffice": {
+      "domestic": "$335,451,311",
+      "global": "$1,074,251,311"
+    },
+    "year": 2019
+  },
+  {
+    "title": "It Chapter Two",
+    "imdbId": "7349950",
+    "boxOffice": {
+      "domestic": "$211,593,228",
+      "global": "$473,093,228"
+    },
+    "year": 2019
+  }
 ]
