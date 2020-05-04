@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "crawl": "node crawl.js"
+  },
+  "dependencies": {
+    "apify": "^0.20.3",
+    "puppeteer": "^3.0.2",
+    "yargs": "^15.3.1"
+  }
+}
