@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "crawl": "node crawl.js"
+  },
+  "dependencies": {
+    "apify": "^0.20.3"
+  }
+}
