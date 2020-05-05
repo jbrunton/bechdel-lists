@@ -5,33 +5,6 @@
 
        <v-card outlined>
     <v-toolbar flat class="grey lighten-3">
-
-      <template v-slot:extension v-if="showRatings">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip class="ma-2" color="white" v-on="on">
-              <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
-                color="grey darken-1" background-color="grey lighten-1"
-                v-model="list.averageRating" length="3"></v-rating>
-              <b class="ml-2">{{avgRating}}</b>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="list.averageRating"></RatingToolTip>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip class="ma-2" color="white" v-on="on">
-              <span class="grey--text text--darken-1">Min</span>
-              <b class="ml-2">{{minRating}}</b>
-              <span class="ml-2 mr-2">-</span>
-              <span class="grey--text text--darken-1">Max</span>
-              <b class="ml-2">{{maxRating}}</b>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="minRating"></RatingToolTip>
-        </v-tooltip>
-      </template>
-
       <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
       <v-spacer></v-spacer>
@@ -89,9 +62,47 @@
     <v-divider></v-divider>
 
     <v-card-text>
+      <v-row v-if="showRatings" class="d-flex">
+        <v-col>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-chip class="mb-4" color="grey lighten-4" v-on="on" style="display: table">
+                <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
+                  color="grey darken-1" background-color="grey lighten-1"
+                  v-model="list.averageRating" length="3"></v-rating>
+                <b class="ml-2">{{avgRating}}</b>
+              </v-chip>
+            </template>
+            <RatingToolTip :rating="list.averageRating"></RatingToolTip>
+          </v-tooltip>
 
-      <div id="histogram" />
-      <v-divider></v-divider>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-chip class="mb-4 mr-2" color="grey lighten-4" v-on="on">
+                <span class="grey--text text--darken-1">Min</span>
+                <b class="ml-2">{{minRating}}</b>
+              </v-chip>
+            </template>
+            <RatingToolTip :rating="minRating"></RatingToolTip>
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-chip class="mb-4" color="grey lighten-4" v-on="on">
+                <span class="grey--text text--darken-1">Max</span>
+                <b class="ml-2">{{maxRating}}</b>
+              </v-chip>
+            </template>
+            <RatingToolTip :rating="maxRating"></RatingToolTip>
+          </v-tooltip>
+        </v-col>
+
+        <v-col class="flex-grow-1">
+        <div id="histogram" />
+        </v-col>
+      </v-row>
+      <v-divider v-if="showRatings"></v-divider>
+      
 
       <v-list min-height="200" max-height="100%;">
         <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
@@ -265,8 +276,14 @@ export default {
       const options = {
         legend: { position: 'none' },
         hAxis: {
-          baselineColor: 'none'
-        }
+          baselineColor: 'none',
+          textPosition: 'none'
+        },
+        chartArea: {
+          width: '85%',
+          height: '90%'
+        },
+        height: 100
       };
       chart.draw(data, options);
     }
