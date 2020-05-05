@@ -40,6 +40,10 @@
           </template>
           <RatingToolTip :rating="maxRating"></RatingToolTip>
         </v-tooltip>
+
+        <v-spacer></v-spacer>
+
+        <v-switch v-model="showCharts" label="Show Charts"></v-switch>
       </template>
 
       <v-spacer></v-spacer>
@@ -110,6 +114,11 @@
 
     <v-divider v-if="showRatings"></v-divider>
 
+    <div id="charts-area" v-if="showCharts">
+      <Chart></Chart>
+    </div>
+    <v-divider v-if="showCharts"></v-divider>
+
     <v-card-text>
       <v-list min-height="200" max-height="100%;">
         <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
@@ -174,10 +183,12 @@
 
 const axios = require('axios');
 import RatingToolTip from '../../components/RatingToolTip';
+import Chart from '../../components/Chart';
 
 export default {
   components: {
-    RatingToolTip
+    RatingToolTip,
+    Chart
   },
 
   data() {
@@ -189,7 +200,8 @@ export default {
       showLoadingIndicator: false,
       showAddMovieCard: false,
       showRatings: false,
-      editMode: false
+      editMode: false,
+      showCharts: false
     }
   },
 
