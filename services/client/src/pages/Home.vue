@@ -70,10 +70,10 @@ async function drawCharts() {
     bar: { groupWidth: '100%' },
     isStacked: true,
     series: {
-          0: { color: '#B71C1C' },
-          1: { color: '#EF9A9A' },
-          2: { color: '#90CAF9' },
-          3: { color: '#1565C0' },
+          0: { color: '#C62828' }, // red darken-3
+          1: { color: '#EF9A9A' }, // red lighten-1
+          2: { color: '#90CAF9' }, // blue lighten-3
+          3: { color: '#1E88E5' }, // blue darken-1
           4: { type: 'line', targetAxisIndex: 1, color: '#EC407A' }
     },
     seriesType: 'bars',
