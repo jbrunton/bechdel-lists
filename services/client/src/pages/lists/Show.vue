@@ -115,7 +115,14 @@
     <v-divider v-if="showRatings"></v-divider>
 
     <div id="charts-area" v-if="showCharts">
-      <Chart></Chart>
+      <v-row>
+        <v-col cols="6">
+          <Chart></Chart>
+        </v-col>
+        <v-col cols="6">
+          <Chart stacked-percentage></Chart>
+        </v-col>
+      </v-row>
     </div>
     <v-divider v-if="showCharts"></v-divider>
 

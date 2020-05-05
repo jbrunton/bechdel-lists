@@ -79,7 +79,7 @@ router.delete('/:listId/movies/:imdbId', [authenticate, authorize(models.List)],
   }
 });
 
-router.get('/:listId/charts/by_year', async (req, res) => {
+router.get('/:listId/charts/count_by_year', async (req, res) => {
   if (req.list != null) {
     const query = `
       select year, rating, count(*)
@@ -90,7 +90,7 @@ router.get('/:listId/charts/by_year', async (req, res) => {
       group by year, rating
       order by year`;
     const results = await models.sequelize.query(query, { type: models.Sequelize.QueryTypes.SELECT });
-    const data = [['Rating', '0', '1', '2', '3', 'Avg' ]];
+    const data = [['Rating', '0', '1', '2', '3']];
     const minYear = Math.min(...results.map(result => result.year));
     const maxYear = Math.max(...results.map(result => result.year));
     for (let year = minYear; year <= maxYear; year++) {
@@ -100,12 +100,7 @@ router.get('/:listId/charts/by_year', async (req, res) => {
         const result = results.find(x => x.year == year && x.rating == rating);
         ratings.push(result ? parseInt(result.count) : 0);
       }
-      const totalScore = ratings[1] + ratings[2] * 2 + ratings[3] * 3;
-      const totalCount = ratings.reduce((total, x) => total + x, 0);
-      const avg = totalScore / totalCount;
-      console.log('totalScore: ' + totalScore + ', ' + 'totalCount: ' + totalCount + ', avg: ' + avg);
       row.push(...ratings);
-      row.push(avg);
       data.push(row);
     }
     res.json(data);
