@@ -101,8 +101,8 @@
 
     <v-row id="histogram-legend" v-if="showRatings">
       <v-col v-for="block in histogram" :key="block.rating">
-        <v-badge :color="block.color" :inline="true" :content="block.label"></v-badge>
-        <span class="legend-count">{{ block.count }} Movies </span>
+        <v-badge :color="block.color" :inline="true" :content="block.count.toString()"></v-badge>
+        <span class="legend-count">scored {{ block.rating }} </span>
         <span class="legend-percentage">({{ block.percentage.toFixed(1) }}%)</span>
       </v-col>
     </v-row>
@@ -151,10 +151,10 @@
     font-weight: 500;
   }
   #histogram {
-    height: 20px;
+    height: 10px;
   }
   #histogram div {
-    height: 20px;
+    height: 10px;
     vertical-align: top;
     display: inline-block;
   }
@@ -165,8 +165,7 @@
     font-weight: bold;
   }
   #histogram-legend .legend-percentage {
-    font-weight: bold;
-    color: #999;
+    color: #888;
   }
 </style>
 
