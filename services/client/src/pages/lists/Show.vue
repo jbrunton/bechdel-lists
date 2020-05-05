@@ -89,6 +89,10 @@
     <v-divider></v-divider>
 
     <v-card-text>
+
+      <div id="histogram" />
+      <v-divider></v-divider>
+
       <v-list min-height="200" max-height="100%;">
         <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
           <v-list-item-content>
@@ -126,12 +130,15 @@
 </template>
 
 <style>
-.v-chip .v-avatar {
-  font-weight: 500;
-}
+  .v-chip .v-avatar {
+    font-weight: 500;
+  }
+  svg > g > g:last-child { pointer-events: none }
 </style>
 
 <script>
+/* global google */
+
 const axios = require('axios');
 import RatingToolTip from '../../components/RatingToolTip';
 
@@ -166,6 +173,7 @@ export default {
       const result = await axios.get(`/api/lists/${this.$route.params.id}`);
       this.list = result.data;
       this.movies = this.list.Movies;
+      this.loadCharts();
       this.updateRatings();
       this.showLoadingIndicator = false;
     },
@@ -235,6 +243,21 @@ export default {
       } else {
         // ???
       }
+    },
+
+    loadCharts() {
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(this.drawCharts);
+    },
+
+    drawCharts() {
+      const container = document.getElementById('histogram');
+      const chart = new google.visualization.Histogram(container);
+      const data = [['title', 'rating']].concat(this.movies.map(movie => [movie.title, movie.rating]));
+      const options = {
+        colors: ['#C62828', '#EF9A9A', '#90CAF9', '#1E88E5']
+      };
+      chart.draw(google.visualization.arrayToDataTable(data), options);
     }
   }
 }
