@@ -7,6 +7,40 @@
     <v-toolbar flat class="grey lighten-3">
       <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
+      <template v-slot:extension v-if="showRatings">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="mr-2" color="white" v-on="on">
+              <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
+                color="grey darken-1" background-color="grey lighten-1"
+                v-model="list.averageRating" length="3"></v-rating>
+              <b class="ml-2">{{avgRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="list.averageRating"></RatingToolTip>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip class="mr-2" color="white" v-on="on">
+              <span class="grey--text text--darken-1">Min</span>
+              <b class="ml-2">{{minRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="minRating"></RatingToolTip>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-chip color="white" v-on="on">
+              <span class="grey--text text--darken-1">Max</span>
+              <b class="ml-2">{{maxRating}}</b>
+            </v-chip>
+          </template>
+          <RatingToolTip :rating="maxRating"></RatingToolTip>
+        </v-tooltip>
+      </template>
+
       <v-spacer></v-spacer>
 
       <v-tooltip bottom>
@@ -61,49 +95,21 @@
 
     <v-divider></v-divider>
 
+    <div id="histogram" v-if="showRatings">
+      <div v-for="block in histogram" :key="block.rating" :style="block.style" />
+    </div>
+
+    <v-row id="histogram-legend" v-if="showRatings">
+      <v-col v-for="block in histogram" :key="block.rating">
+        <v-badge :color="block.color" :inline="true" :content="block.label"></v-badge>
+        <span class="legend-count">{{ block.count }} Movies </span>
+        <span class="legend-percentage">({{ block.percentage.toFixed(1) }}%)</span>
+      </v-col>
+    </v-row>
+
+    <v-divider v-if="showRatings"></v-divider>
+
     <v-card-text>
-      <v-row v-if="showRatings" class="d-flex">
-        <v-col>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="mb-4" color="grey lighten-4" v-on="on" style="display: table">
-                <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
-                  color="grey darken-1" background-color="grey lighten-1"
-                  v-model="list.averageRating" length="3"></v-rating>
-                <b class="ml-2">{{avgRating}}</b>
-              </v-chip>
-            </template>
-            <RatingToolTip :rating="list.averageRating"></RatingToolTip>
-          </v-tooltip>
-
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="mb-4 mr-2" color="grey lighten-4" v-on="on">
-                <span class="grey--text text--darken-1">Min</span>
-                <b class="ml-2">{{minRating}}</b>
-              </v-chip>
-            </template>
-            <RatingToolTip :rating="minRating"></RatingToolTip>
-          </v-tooltip>
-
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-chip class="mb-4" color="grey lighten-4" v-on="on">
-                <span class="grey--text text--darken-1">Max</span>
-                <b class="ml-2">{{maxRating}}</b>
-              </v-chip>
-            </template>
-            <RatingToolTip :rating="maxRating"></RatingToolTip>
-          </v-tooltip>
-        </v-col>
-
-        <v-col class="flex-grow-1">
-        <div id="histogram" />
-        </v-col>
-      </v-row>
-      <v-divider v-if="showRatings"></v-divider>
-      
-
       <v-list min-height="200" max-height="100%;">
         <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
           <v-list-item-content>
@@ -144,11 +150,27 @@
   .v-chip .v-avatar {
     font-weight: 500;
   }
-  svg > g > g:last-child { pointer-events: none }
+  #histogram {
+    height: 20px;
+  }
+  #histogram div {
+    height: 20px;
+    vertical-align: top;
+    display: inline-block;
+  }
+
+  #histogram-legend {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  #histogram-legend .legend-percentage {
+    font-weight: bold;
+    color: #999;
+  }
 </style>
 
 <script>
-/* global google */
 
 const axios = require('axios');
 import RatingToolTip from '../../components/RatingToolTip';
@@ -162,6 +184,7 @@ export default {
     return {
       list: { title: '', movies: [] },
       movies: [],
+      histogram: [],
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
@@ -184,9 +207,28 @@ export default {
       const result = await axios.get(`/api/lists/${this.$route.params.id}`);
       this.list = result.data;
       this.movies = this.list.Movies;
-      this.loadCharts();
       this.updateRatings();
+      this.drawHistogram();
       this.showLoadingIndicator = false;
+    },
+
+    drawHistogram() {
+      this.histogram = [0, 1, 2, 3].map(rating => {
+        const count = this.movies.filter(movie => movie.rating == rating).length;
+        const percentage = count / this.movies.length * 100;
+        const colors = ['#C62828', '#EF9A9A', '#90CAF9', '#1E88E5'];
+        return {
+          rating: rating,
+          label: rating.toString(),
+          count: count,
+          percentage: percentage,
+          color: colors[rating],
+          style: {
+            width: percentage + '%',
+            'background-color': colors[rating]
+          }
+        }
+      });
     },
 
     async deleteList() {
@@ -254,39 +296,6 @@ export default {
       } else {
         // ???
       }
-    },
-
-    loadCharts() {
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(this.drawCharts);
-    },
-
-    drawCharts() {
-      const container = document.getElementById('histogram');
-      const chart = new google.visualization.ColumnChart(container);
-      const colors = ['#c62828', '#ef9a9a', '#90caf9', '#1e88e5'];
-      const ratingCounts = [0, 1, 2, 3].map(rating => [
-        rating.toString(),
-        this.movies.filter(movie => movie.rating == rating).length,
-        colors[rating]
-      ]);
-      const data = google.visualization.arrayToDataTable(
-        [['rating', 'count', { role: 'style' }]].concat(ratingCounts)
-      );
-      const options = {
-        legend: { position: 'none' },
-        hAxis: {
-          baselineColor: 'none'
-        },
-        chartArea: {
-          top: 10,
-          left: 30,
-          right: 0,
-          bottom: 20
-        },
-        height: 100
-      };
-      chart.draw(data, options);
     }
   }
 }
