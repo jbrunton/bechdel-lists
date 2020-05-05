@@ -27,19 +27,6 @@ router.get('/ratings_by_year', async (req, res) => {
   res.json(data);
 });
 
-// const groupBy = function(xs, keys, reducer) {
-//   const groups = xs.reduce(function(rv, x) {
-//     const key = keys.map(k => x[k]);
-//     (rv[key] = rv[key] || []).push(x);
-//     return rv;
-//   }, {});
-//   const result = {};
-//   const keyToObj = (key) => keys.map()
-//   for (let [key, value] of Object.entries(obj)) {
-//     result[]
-//   }
-// };
-
 router.get('/top_10_ratings_by_year', async (req, res) => {
   const list = await models.List.findOne({ where: { title: 'Global Top 10s'}, include: [models.Movie] });
   const query = `
