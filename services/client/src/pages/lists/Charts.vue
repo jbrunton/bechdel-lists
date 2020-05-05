@@ -43,8 +43,8 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text href="./charts">
-          <v-icon left>mdi-chart-timeline-variant</v-icon>View Charts
+        <v-btn text href="./">
+          <v-icon left>mdi-view-list</v-icon>View List
         </v-btn>
       </template>
 
@@ -116,7 +116,7 @@
 
     <v-divider v-if="showRatings"></v-divider>
 
-    <div id="charts-area" v-if="showCharts">
+    <div id="charts-area">
       <v-row>
         <v-col cols="6">
           <Chart title="Ratings Count By Year"
@@ -139,38 +139,6 @@
         </v-col>
       </v-row>
     </div>
-    <v-divider v-if="showCharts"></v-divider>
-
-    <v-card-text>
-      <v-list min-height="200" max-height="100%;">
-        <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
-          <v-list-item-content>
-            <v-list-item-title v-text="movie.title"></v-list-item-title>
-            <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-chip color="grey" v-show="!editMode" v-on="on">
-                  <v-rating :dense=true :small=true :readonly=true
-                    color="white" background-color="grey lighten-1"
-                    v-model="movie.rating" length="3"></v-rating>
-                  </v-chip>
-                </template>
-                <RatingToolTip :rating="movie.rating"></RatingToolTip>
-              </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on" @click="removeMovie(movie)" v-show="editMode">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-              <span>Remove Movie</span>
-            </v-tooltip>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
   </v-card>
 
     </v-col>
@@ -216,7 +184,6 @@ export default {
   data() {
     return {
       list: { title: '', movies: [] },
-      movies: [],
       histogram: [],
       query: '',
       showLoadingIndicator: false,
@@ -225,8 +192,8 @@ export default {
       editMode: false,
       showCharts: false,
 
-      countByYearData: [],
-      averageByYearData: [],
+      countByYearData: null,
+      averageByYearData: null,
       countByYearOptions: {
         series: {
               0: { color: '#C62828' }, // red darken-3
@@ -259,7 +226,7 @@ export default {
       this.movies = this.list.Movies;
       this.updateRatings();
       this.drawHistogram();
-      this.loadChartData();
+      await this.loadChartData();
       this.showLoadingIndicator = false;
     },
 

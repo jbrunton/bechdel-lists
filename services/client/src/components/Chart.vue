@@ -9,19 +9,13 @@
 <script>
 /* global google */
 
-const axios = require('axios');
-
 export default {
   props: {
     stackedPercentage: Boolean,
     chartOptions: Object,
-    dataSource: String,
+    data: Array,
     title: String,
     percentageHeight: Number
-  },
-
-  mounted() {
-    this.loadCharts();
   },
 
   methods: {
@@ -31,8 +25,7 @@ export default {
     },
 
     async drawChart() {
-      const ratingsResult = await axios.get(this.dataSource);
-      const ratingsData = google.visualization.arrayToDataTable(ratingsResult.data);
+      const dataTable = google.visualization.arrayToDataTable(this.data);
 
       const options = {
         title: this.title,
@@ -51,7 +44,15 @@ export default {
       const container = this.$el;
       container.style.height = (container.offsetWidth * (this.percentageHeight || 0.6)) + 'px';
       const chart = new google.visualization.ComboChart(container);
-      chart.draw(ratingsData, Object.assign(options, this.chartOptions));
+      chart.draw(dataTable, Object.assign(options, this.chartOptions));
+    }
+  },
+
+  watch: {
+    data: function(data) {
+      if (data != null) {
+        this.loadCharts();
+      }
     }
   }
 }
