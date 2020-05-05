@@ -276,12 +276,13 @@ export default {
       const options = {
         legend: { position: 'none' },
         hAxis: {
-          baselineColor: 'none',
-          textPosition: 'none'
+          baselineColor: 'none'
         },
         chartArea: {
-          width: '85%',
-          height: '90%'
+          top: 10,
+          left: 30,
+          right: 0,
+          bottom: 20
         },
         height: 100
       };
