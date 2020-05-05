@@ -117,10 +117,23 @@
     <div id="charts-area" v-if="showCharts">
       <v-row>
         <v-col cols="6">
-          <Chart></Chart>
+          <Chart title="Ratings Count By Year"
+            :data-source="countByYearSource"
+            :chart-options="countByYearOptions"></Chart>
         </v-col>
         <v-col cols="6">
-          <Chart stacked-percentage></Chart>
+          <Chart title="Ratings Percent By Year"
+            :data-source="countByYearSource"
+            stacked-percentage
+            :chart-options="countByYearOptions"></Chart>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <Chart title="Average Rating By Year"
+            :data-source="avgByYearSource"
+            :chart-options="avgByYearOptions"
+            percentage-height="0.3"></Chart>
         </v-col>
       </v-row>
     </div>
@@ -208,7 +221,21 @@ export default {
       showAddMovieCard: false,
       showRatings: false,
       editMode: false,
-      showCharts: false
+      showCharts: false,
+
+      countByYearOptions: {
+        series: {
+              0: { color: '#C62828' }, // red darken-3
+              1: { color: '#EF9A9A' }, // red lighten-1
+              2: { color: '#90CAF9' }, // blue lighten-3
+              3: { color: '#1E88E5' }, // blue darken-1
+        }
+      },
+      avgByYearOptions: {
+        series: {
+              0: { type: 'line', color: '#EC407A' }
+        },
+      }
     }
   },
 
@@ -223,7 +250,7 @@ export default {
       //TODO: reinstate this with proper authorization
       //await Auth.authenticate();
       
-      const result = await axios.get(`/api/lists/${this.$route.params.id}`);
+      const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       this.movies = this.list.Movies;
       this.updateRatings();
@@ -315,6 +342,20 @@ export default {
       } else {
         // ???
       }
+    }
+  },
+
+  computed: {
+    listId: function() {
+      return this.$route.params.id;
+    },
+
+    countByYearSource: function() {
+      return `/api/lists/${this.listId}/charts/count_by_year`;
+    },
+
+    avgByYearSource: function() {
+      return `/api/lists/${this.listId}/charts/avg_by_year`;
     }
   }
 }
