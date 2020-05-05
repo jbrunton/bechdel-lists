@@ -32,8 +32,8 @@ async function createLists(lists, userDetails) {
         throw new Error(`Could not find ${movieSeed.title}. Make sure you run the import-movies migration first`);
       }
       await list.addMovie(movie)
-      await list.updateDetails();
     }
+    await list.updateDetails();
   }
 }
 
