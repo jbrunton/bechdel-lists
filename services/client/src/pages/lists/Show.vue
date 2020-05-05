@@ -10,11 +10,12 @@
       <template v-slot:extension v-if="showRatings">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-chip class="mr-2" color="white" v-on="on">
+            <v-chip class="mr-2" color="white" v-on="on" style="align: flex-end;">
+              <span class="grey--text text--darken-1">Avg</span>
+              <b class="ml-2 mr-2">{{avgRating}}</b>
               <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
                 color="grey darken-1" background-color="grey lighten-1"
                 v-model="list.averageRating" length="3"></v-rating>
-              <b class="ml-2">{{avgRating}}</b>
             </v-chip>
           </template>
           <RatingToolTip :rating="list.averageRating"></RatingToolTip>
