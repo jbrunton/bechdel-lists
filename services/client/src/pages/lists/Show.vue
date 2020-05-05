@@ -252,42 +252,22 @@ export default {
 
     drawCharts() {
       const container = document.getElementById('histogram');
-      const chart = new google.visualization.Histogram(container);
+      const chart = new google.visualization.ColumnChart(container);
+      const colors = ['#c62828', '#ef9a9a', '#90caf9', '#1e88e5'];
+      const ratingCounts = [0, 1, 2, 3].map(rating => [
+        rating.toString(),
+        this.movies.filter(movie => movie.rating == rating).length,
+        colors[rating]
+      ]);
       const data = google.visualization.arrayToDataTable(
-        [['title', 'rating']].concat(this.movies.map(movie => [movie.title, movie.rating]))
+        [['rating', 'count', { role: 'style' }]].concat(ratingCounts)
       );
-      data.sort([{column: 1}]);
-      const colorMap = {};
-      [0, 1, 2, 3].forEach(rating => {
-        const indexes = data.getFilteredRows([{ column: 1, value: rating }]);
-        indexes.forEach(index => {
-          colorMap[index] = rating + 1;
-        });
-      });
       const options = {
-        colors: ['#eeeeee', '#c62828', '#ef9a9a', '#90caf9', '#1e88e5'],
-        legend: { position: 'none' }
+        legend: { position: 'none' },
+        hAxis: {
+          baselineColor: 'none'
+        }
       };
-      google.visualization.events.addListener(chart, 'ready', function () {
-        const observer = new MutationObserver(function () {
-          var index = 0;
-          Array.prototype.forEach.call(container.getElementsByTagName('rect'), function (rect) {
-            console.log(rect.getAttribute('fill'));
-            if (options.colors.indexOf(rect.getAttribute('fill')) > -1) {
-              const colorIndex = colorMap[index];
-              if (colorIndex !== undefined) {
-                rect.setAttribute('fill', options.colors[colorIndex]);
-              }
-              index++;
-            }
-          });
-        });
-        observer.observe(container, {
-          childList: true,
-          subtree: true
-        });
-      });
-
       chart.draw(data, options);
     }
   }
