@@ -24,7 +24,7 @@ This will run the app at http://localhost:3001, though you'll need to prepare a 
 
 For convenience you may wish to create a `.env` file in the project root directory. The easiest way to do this is to copy the example:
 
-    cp .env.example .env
+    cp example.env .env
 
 Then you can omit the `TAG=latest` variable for most docker commands. See below for more about the other config options.
 
