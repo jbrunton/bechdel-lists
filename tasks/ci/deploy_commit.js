@@ -21,7 +21,7 @@ const dryRun = args.boolean('dry-run');
   const deployment = deployments.updateLatest(build.version, dryRun);
 
   const filesToAdd = [deployments.manifestFile];
-  const commitMessage = `Generated deployment for ${build.version} (${deployment.id})`;
+  const commitMessage = `Deploying ${build.version} to ${envName}`;
 
   if (!dryRun) {
     try {
