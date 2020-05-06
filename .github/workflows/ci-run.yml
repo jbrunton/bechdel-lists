@@ -2,15 +2,14 @@ name: ci-run
 on:
   deployment
 
-env:
-  GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-
 jobs:
   ci-run:
     runs-on: ubuntu-latest
       
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
 
       - name: 'Deployment pending'
         uses: 'deliverybot/status@master'
@@ -25,7 +24,7 @@ jobs:
         env:
           TASK: ${{ github.event.deployment.task }}
           ENVIRONMENT: ${{ github.event.deployment.environment }}
-          PAYLOAD: ${{ github.event.deployment.payload }}
+          ARGS: ${{ github.event.deployment.payload.args }}
 
         run: |
           git config --global user.email "jbrunton-ci-minion@outlook.com"
@@ -33,7 +32,7 @@ jobs:
 
           echo "deployment - ${{ toJson(github.event.deployment) }}"
 
-          export COMMAND="npm run ${TASK} -- --environment ${ENVIRONMENT} ${PAYLOAD}"
+          export COMMAND="npm run ${TASK} -- --environment ${ENVIRONMENT} ${ARGS}"
           echo "Running ${COMMAND}"
           ${COMMAND}
 
