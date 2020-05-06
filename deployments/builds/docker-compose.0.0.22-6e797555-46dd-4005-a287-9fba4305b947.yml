@@ -1,0 +1,28 @@
+services:
+  api:
+    environment:
+      GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+      NODE_ENV: production
+      POSTGRES_CONNECTION: null
+      POSTGRES_DISABLE_SSL: null
+      SERVER_PORT: '5000'
+    image: >-
+      jbrunton/bechdel-lists-api@sha256:e5c67fb3fe47e18534e1d74c4b357211d79aac0be80e2ddc51a2e37b9a637051
+    ports:
+      - '9229:9229/tcp'
+  client:
+    environment:
+      VUE_APP_GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+    image: >-
+      jbrunton/bechdel-lists-client@sha256:79bc6ef5eb644f5bfa523867a5c877eea2dc9075b4247034beeda42a5cfdccc4
+  nginx:
+    image: >-
+      jbrunton/bechdel-lists-nginx@sha256:20c954ba6a021aab811866135764888f78690bcae3c8b48b438ce9469f908cac
+    ports:
+      - '80:80/tcp'
+      - '443:443/tcp'
+    restart: always
+    volumes:
+      - '/home/deployer/certs:/etc/nginx/certs:rw'
+version: '3.0'
+
