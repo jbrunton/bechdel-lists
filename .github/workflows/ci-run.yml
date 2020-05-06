@@ -36,16 +36,16 @@ jobs:
 
           git push origin HEAD:${GITHUB_REF}
 
-        - name: 'notify success'
-          if: success()
-          uses: 'deliverybot/status@master'
-          with:
-            state: 'success'
-            token: '${{ secrets.GITHUB_TOKEN }}'
-    
-        - name: 'notify failure'
-          if: failure()
-          uses: 'deliverybot/status@master'
-          with:
-            state: 'failure'
-            token: '${{ secrets.GITHUB_TOKEN }}'
+      - name: 'notify success'
+        if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+  
+      - name: 'notify failure'
+        if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
