@@ -1,6 +1,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const git = require('simple-git/promise')();
+const { v4: uuid } = require('uuid');
 const logger = require('../lib/logger');
 
 const catalogPath = './deployments/builds/catalog.yml';
@@ -17,8 +18,8 @@ function buildFilePath(buildId) {
   return `./deployments/builds/docker-compose.${buildId}.yml`;
 }
 
-function createBuildId(version, buildSha, date) {
-  return `${version}-${buildSha}-${date.getTime()}`;
+function createBuildId(version) {
+  return `${version}-${uuid()}`;
 }
 
 function findById(buildId) {
@@ -31,8 +32,7 @@ function findByVersion(version) {
 
 async function create(version, dryRun, imageTag) {
   const buildSha = await git.revparse(['--short', 'HEAD']);
-  const date = new Date();
-  const buildId = createBuildId(version, buildSha, date);
+  const buildId = createBuildId(version);
 
   if (buildsById[buildId]) {
     console.log(`Build with id ${buildId} already exists.`.red);
@@ -46,10 +46,10 @@ async function create(version, dryRun, imageTag) {
 
   const build = {
     id: buildId,
-    imageTag: imageTag || buildId,
     version: version,
     buildSha: buildSha,
-    timestamp: date.toISOString()
+    imageTag: imageTag || buildId,
+    timestamp: (new Date()).toISOString()
   };
 
   catalog.builds.push(build);
