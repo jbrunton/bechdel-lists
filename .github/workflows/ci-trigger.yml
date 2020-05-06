@@ -1,0 +1,13 @@
+name: ci-trigger
+on:
+  deployment
+
+jobs:
+  update_manifest:
+    runs-on: ubuntu-latest
+      
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: update manifest
+        run: echo ${GITHUB_REF}
