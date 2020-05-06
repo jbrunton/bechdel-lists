@@ -24,3 +24,23 @@ builds:
     version: v0.0.14
     buildSha: bb0352f
     timestamp: '2020-05-05T19:04:31.302Z'
+  - id: v0.0.15-8b2ae69-1588759959201
+    imageTag: v0.0.15-8b2ae69-1588759959201
+    version: v0.0.15
+    buildSha: 8b2ae69
+    timestamp: '2020-05-06T10:12:39.201Z'
+  - id: v0.0.16-187726e-1588771389706
+    imageTag: v0.0.16-187726e-1588771389706
+    version: v0.0.16
+    buildSha: 187726e
+    timestamp: '2020-05-06T13:23:09.706Z'
+  - id: v0.0.17-68dcdbd-1588772982966
+    imageTag: v0.0.17-68dcdbd-1588772982966
+    version: v0.0.17
+    buildSha: 68dcdbd
+    timestamp: '2020-05-06T13:49:42.966Z'
+  - id: v0.0.18-7e41436f-0e3b-4dc1-b299-1ec433f5846a
+    version: v0.0.18
+    buildSha: b6371b9
+    imageTag: v0.0.18-7e41436f-0e3b-4dc1-b299-1ec433f5846a
+    timestamp: '2020-05-06T15:41:30.215Z'
