@@ -22,13 +22,11 @@ This will run the app at http://localhost:3001, though you'll need to prepare a 
 
 ### Configuring your development environment
 
-For convenience you may wish to create a `.env` file in the project root directory like this:
+For convenience you may wish to create a `.env` file in the project root directory. The easiest way to do this is to copy the example:
 
-    TAG=latest
-    SEED_USER_EMAIL=my.email@example.com
-    SEED_USER_NAME=My Name
+    cp example.env .env
 
-Then you can omit the `TAG=latest` variable for most docker commands. See below for more about the seed and other config options.
+Then you can omit the `TAG=latest` variable for most docker commands. See below for more about the other config options.
 
 ### Database preparation
 
@@ -75,8 +73,10 @@ If you wish to test the usual authentication endpoints with Postman you'll need 
 
 ### Testing production builds
 
-If you want to run the app locally in production mode (e.g. to test docker-compose files or a production build of the client app), then you'll need to ensure docker-compose uses only the production `docker-compose.yml` file (without the development overrides):
+If you want to run the app locally in production mode (e.g. to test docker-compose files or a production build of the client app), then you'll need to ensure docker-compose uses only the production `docker-compose.yml` file (without the development overrides). You'll also need to provude some arguments to the nginx build:
 
+    export NGINX_LISTEN_ENV=development
+    export NGINX_CERTS_DIR=./services/nginx
     docker-compose -f docker-compose.yml up
 
 To run a particular production instance, add the TAG variable:
@@ -85,8 +85,9 @@ To run a particular production instance, add the TAG variable:
 
 (You can also set the `COMPOSE_FILE` environment variable to save repeating the file. See the [docs](https://docs.docker.com/compose/reference/envvars/#compose_file).)
 
-To test anything that requires a database connection you'll need to use your own database, as docker-compose won't run its own postgres container in production. You can specify a database with the POSTGRES_CONNECTION environment variable:
+To test anything that requires a database connection you'll need to use your own database, as docker-compose won't run its own postgres container in production. You can specify a database with the POSTGRES_CONNECTION environment variable, and you'll likely need to disable SSL checks:
 
+    export POSTGRES_DISABLE_SSL=1
     export POSTGRES_CONNECTION=postgres://my_user:my_password@host.docker.internal:5432/my_test_db
     docker-compose -f docker-compose.yml up
 

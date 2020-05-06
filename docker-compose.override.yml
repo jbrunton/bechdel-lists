@@ -28,7 +28,8 @@ services:
   nginx:
     image: 'bechdel-lists-nginx'
     build:
-      dockerfile: Dockerfile.dev
+      args:
+        listen_env: development
     ports:
       - "${NGINX_LOCAL_PORT:-3001}:80"
     volumes:
