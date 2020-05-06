@@ -27,5 +27,7 @@ services:
       - ./services/client:/app
   nginx:
     image: 'bechdel-lists-nginx'
+    build:
+      dockerfile: Dockerfile.dev
     ports:
       - "${NGINX_LOCAL_PORT:-3001}:80"
