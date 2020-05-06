@@ -11,6 +11,11 @@ if (!showAll) {
 
 const sortedBuilds = [...builds.catalog.builds].sort(build => -Date.parse(build.timestamp));
 const buildsToShow = showAll ? sortedBuilds : sortedBuilds.slice(0, MAX_BUILDS);
-buildsToShow.forEach((build, index) => {
-  logger.log(`${index}: ${build.version} (commit: ${build.buildSha}, time: ${new Date(build.timestamp).toLocaleString()})`);
+const buildInfo = buildsToShow.map(build => {
+  return {
+    version: build.version,
+    time: new Date(build.timestamp).toLocaleString(),
+    commit: build.buildSha
+  };
 });
+console.table(buildInfo);
