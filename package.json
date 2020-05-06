@@ -1,6 +1,10 @@
 {
   "name": "bechdel-demo",
   "scripts": {
+    "version:bump": "node tasks/version/version_bump",
+    "version:list": "node tasks/version/version_list",
+    "deploy": "node tasks/deploy/deploy.js",
+    "ci:version:bump": "node tasks/ci/version_bump",
     "ci:build": "node tasks/ci/build",
     "ci:build:check": "node tasks/ci/build_check",
     "ci:build:commit": "node tasks/ci/build_commit",
@@ -17,6 +21,7 @@
     "colors": "^1.4.0",
     "js-yaml": "^3.13.1",
     "mustache": "^4.0.1",
+    "semver": "^7.3.2",
     "simple-git": "^2.3.0",
     "tmp": "^0.2.1",
     "uuid": "^8.0.0",
