@@ -1,4 +1,4 @@
-latest: 14a2d450-1b16-4783-b715-38ce7a561861
+latest: e218fcdb-90e7-4394-a4bc-1b2b30be9a95
 deployments:
   - id: a1b2c3
     version: v0.0.6
@@ -39,3 +39,6 @@ deployments:
   - id: 14a2d450-1b16-4783-b715-38ce7a561861
     version: v0.0.18
     timestamp: '2020-05-06T15:52:07.995Z'
+  - id: e218fcdb-90e7-4394-a4bc-1b2b30be9a95
+    version: v0.0.17
+    timestamp: '2020-05-06T15:55:34.019Z'
