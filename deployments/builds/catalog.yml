@@ -34,3 +34,8 @@ builds:
     version: v0.0.16
     buildSha: 187726e
     timestamp: '2020-05-06T13:23:09.706Z'
+  - id: v0.0.17-68dcdbd-1588772982966
+    imageTag: v0.0.17-68dcdbd-1588772982966
+    version: v0.0.17
+    buildSha: 68dcdbd
+    timestamp: '2020-05-06T13:49:42.966Z'
