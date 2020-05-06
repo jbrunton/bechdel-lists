@@ -9,6 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: 'Deployment pending'
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
       - name: npm install
         run: npm install
 
@@ -29,3 +35,17 @@ jobs:
           ${COMMAND}
 
           git push origin HEAD:${GITHUB_REF}
+
+        - name: 'notify success'
+          if: success()
+          uses: 'deliverybot/status@master'
+          with:
+            state: 'success'
+            token: '${{ secrets.GITHUB_TOKEN }}'
+    
+        - name: 'notify failure'
+          if: failure()
+          uses: 'deliverybot/status@master'
+          with:
+            state: 'failure'
+            token: '${{ secrets.GITHUB_TOKEN }}'
