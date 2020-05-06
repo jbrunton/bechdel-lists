@@ -1,4 +1,4 @@
-latest: 48469e49-e29e-438f-bc9a-f576b752a28d
+latest: 14a2d450-1b16-4783-b715-38ce7a561861
 deployments:
   - id: a1b2c3
     version: v0.0.6
@@ -36,3 +36,6 @@ deployments:
   - id: 48469e49-e29e-438f-bc9a-f576b752a28d
     version: v0.0.17
     timestamp: '2020-05-06T13:55:09.357Z'
+  - id: 14a2d450-1b16-4783-b715-38ce7a561861
+    version: v0.0.18
+    timestamp: '2020-05-06T15:52:07.995Z'
