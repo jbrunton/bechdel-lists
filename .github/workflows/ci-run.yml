@@ -14,4 +14,5 @@ jobs:
           COMMAND: ${{ github.event.deployment.command }}"
         run: |
           echo "Running npm run ${COMMAND}"
+          echo "deployment - ${{ toJson(github.event.deployment) }}"
           echo "payload - ${{ toJson(github.event.deployment.payload) }}"
