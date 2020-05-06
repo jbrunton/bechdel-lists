@@ -1,4 +1,4 @@
-latest: 957c52f2-de06-4ec3-ac9e-e4d46f903092
+latest: 46dacdef-8b68-489e-b32f-9ec72692273c
 deployments:
   - id: a1b2c3
     version: v0.0.6
@@ -30,3 +30,6 @@ deployments:
   - id: 957c52f2-de06-4ec3-ac9e-e4d46f903092
     version: v0.0.15
     timestamp: '2020-05-06T10:20:23.757Z'
+  - id: 46dacdef-8b68-489e-b32f-9ec72692273c
+    version: v0.0.16
+    timestamp: '2020-05-06T13:29:41.984Z'
