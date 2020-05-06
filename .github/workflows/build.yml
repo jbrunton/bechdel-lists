@@ -3,7 +3,7 @@ name: ci-build
 on:
   push:
     branches:
-      - master
+      - demo-83
 
 env:
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
