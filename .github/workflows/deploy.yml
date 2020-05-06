@@ -57,6 +57,15 @@ jobs:
           overwrite: true
           target: .
 
+      - name: commit
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npm run ci:deploy:commit -- --environment production
+          
+          git push origin HEAD:master
+
       - name: deploy
         uses: appleboy/ssh-action@master
         env:
@@ -72,12 +81,3 @@ jobs:
             docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
             docker-compose run api npm run db:migrate
           envs: POSTGRES_CONNECTION,BUILD_FILE
-
-      - name: commit
-        run: |
-          git config --global user.email "jbrunton-ci-minion@outlook.com"
-          git config --global user.name "jbrunton-ci-minion"
-          
-          npm run ci:deploy:commit -- --environment production
-          
-          git push origin HEAD:master
