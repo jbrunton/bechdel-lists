@@ -21,6 +21,10 @@ function infoBlock(message) {
   log('');
 }
 
+function error(message) {
+  console.log(message.red);
+}
+
 const dockerLogger = {
   log(message) {
     write(message.yellow, { indent: true });
@@ -32,5 +36,6 @@ module.exports = {
   write: write,
   log: log,
   info: info,
-  infoBlock: infoBlock
+  infoBlock: infoBlock,
+  error: error
 }
