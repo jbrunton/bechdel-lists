@@ -8,7 +8,7 @@ services:
     ports:
       - 80:80
       - 443:443
-    volumns:
+    volumes:
       - /home/deployer/certs:/etc/nginx/certs
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
