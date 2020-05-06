@@ -70,6 +70,7 @@ jobs:
             ln -sf $BUILD_FILE docker-compose.yml
             export POSTGRES_CONNECTION
             docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
+            docker-compose run api npm run db:migrate
           envs: POSTGRES_CONNECTION,BUILD_FILE
 
       - name: commit
