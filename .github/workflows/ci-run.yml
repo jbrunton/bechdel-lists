@@ -1,15 +1,17 @@
-name: ci-trigger
+name: ci-run
 on:
   deployment
 
 jobs:
-  update_manifest:
+  ci-run:
     runs-on: ubuntu-latest
       
     steps:
       - uses: actions/checkout@v2
 
-      - name: update manifest
+      - name: run command
+        env:
+          COMMAND: ${{ github.event.deployment.payload.command }}"
         run: |
-          echo ${GITHUB_REF}
+          echo "Running npm run ${COMMAND}"
           echo "payload - ${{ toJson(github.event.deployment.payload) }}"
