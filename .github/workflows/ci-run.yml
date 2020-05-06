@@ -11,8 +11,16 @@ jobs:
 
       - name: run command
         env:
-          COMMAND: ${{ github.event.deployment.command }}"
+          TASK: ${{ github.event.deployment.task }}
+          ENVIRONMENT: ${{ github.event.deployment.environment }}
+          PAYLOAD: ${{ github.event.deployment.payload }}
+
         run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+
+          export COMMAND="npm run ${TASK} -- --environment ${ENVIRONMENT} ${PAYLOAD}"
           echo "Running npm run ${COMMAND}"
-          echo "deployment - ${{ toJson(github.event.deployment) }}"
-          echo "payload - ${{ toJson(github.event.deployment.payload) }}"
+          ${COMMAND}
+
+          git push origin HEAD:${GITHUB_REF}
