@@ -27,5 +27,9 @@ services:
       - ./services/client:/app
   nginx:
     image: 'bechdel-lists-nginx'
+    build:
+      dockerfile: Dockerfile.dev
     ports:
       - "${NGINX_LOCAL_PORT:-3001}:80"
+    volumes:
+      - ./services/nginx:/etc/nginx/certs # hack to prevent missing path errors in lieu of a production compose file.
