@@ -6,12 +6,12 @@ services:
     build:
       context: ./services/nginx
       args:
-        listen_env: ${NGINX_LISTEN_ENV?}
+        listen_env: ${NGINX_LISTEN_ENV:-production}
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ${NGINX_CERTS_DIR?}:/etc/nginx/certs
+      - ${NGINX_CERTS_DIR:-/home/deployer/certs}:/etc/nginx/certs
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
     build:
