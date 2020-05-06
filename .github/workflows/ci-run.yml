@@ -2,6 +2,9 @@ name: ci-run
 on:
   deployment
 
+env:
+  GITHUB_TOKEN: ${{ env.CI_MINION_ACCESS_TOKEN }}
+
 jobs:
   ci-run:
     runs-on: ubuntu-latest
