@@ -52,7 +52,7 @@ async function create(version, dryRun, imageTag) {
     timestamp: (new Date()).toISOString()
   };
 
-  catalog.builds.push(build);
+  catalog.builds.unshift(build);
   if (!dryRun) {
     fs.writeFileSync(catalogPath, yaml.safeDump(catalog));
     console.log('Added build to catalog.');
@@ -69,5 +69,6 @@ module.exports = {
   findById: findById,
   findByVersion: findByVersion,
   buildFilePath: buildFilePath,
-  create: create
+  create: create,
+  catalog: catalog
 };

@@ -30,7 +30,7 @@ class Deployments {
       timestamp: new Date().toISOString()
     };
     
-    this.manifest.deployments.push(deployment);
+    this.manifest.deployments.unshift(deployment);
     this.manifest.latest = deployment.id;
     if (!dryRun) {
       fs.writeFileSync(this.manifestFile, yaml.safeDump(this.manifest));
