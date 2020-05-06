@@ -10,4 +10,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: update manifest
-        run: echo ${GITHUB_REF}
+        env:
+          DEPLOYMENT_ID: ${{ deployment.id }}
+          PAYLOAD_ENVIRONMENT: ${{ payload.environment }}
+        run: |
+          echo ${GITHUB_REF}
+          echo ${DEPLOYMENT_ID}
+          echo ${PAYLOAD_ENVIRONMENT}
