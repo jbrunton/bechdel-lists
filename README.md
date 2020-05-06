@@ -75,8 +75,10 @@ If you wish to test the usual authentication endpoints with Postman you'll need 
 
 ### Testing production builds
 
-If you want to run the app locally in production mode (e.g. to test docker-compose files or a production build of the client app), then you'll need to ensure docker-compose uses only the production `docker-compose.yml` file (without the development overrides):
+If you want to run the app locally in production mode (e.g. to test docker-compose files or a production build of the client app), then you'll need to ensure docker-compose uses only the production `docker-compose.yml` file (without the development overrides). You'll also need to provude some arguments to the nginx build:
 
+    export NGINX_LISTEN_ENV=development
+    export NGINX_CERTS_DIR=./services/nginx
     docker-compose -f docker-compose.yml up
 
 To run a particular production instance, add the TAG variable:

@@ -1,3 +1,17 @@
+function productionSslOptions() {
+  const disableSsl = ['true', '1'].includes(process.env.POSTGRES_DISABLE_SSL);
+  if (disableSsl) {
+    console.warn('WARNING: Postgres SSL disabled. This should never happen in production.');
+    // This is necessary for testing production builds locally.
+    return null;
+  } else {
+    return {
+      require: true,
+      rejectUnauthorized: false
+    };
+  }
+}
+
 module.exports = {
   development: {
     url: process.env.POSTGRES_CONNECTION,
@@ -21,10 +35,7 @@ module.exports = {
     url: process.env.POSTGRES_CONNECTION,
     operatorsAliases: false,
     dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
+      ssl: productionSslOptions()
     }
   }
 };
