@@ -9,11 +9,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: npm install
+        run: npm install
+
       - name: run command
         env:
           TASK: ${{ github.event.deployment.task }}
           ENVIRONMENT: ${{ github.event.deployment.environment }}
           PAYLOAD: ${{ toJson(github.event.deployment.payload) }}
+          ARGS: ${{ github.event.deployment.payload.args }}
 
         run: |
           git config --global user.email "jbrunton-ci-minion@outlook.com"
@@ -21,7 +25,7 @@ jobs:
 
           echo "deployment - ${{ toJson(github.event.deployment) }}"
 
-          export COMMAND="npm run ${TASK} -- --environment ${ENVIRONMENT} ${PAYLOAD}"
+          export COMMAND="npm run ${TASK} -- --environment ${ENVIRONMENT} ${ARGS}"
           echo "Running npm run ${COMMAND}"
           ${COMMAND}
 
