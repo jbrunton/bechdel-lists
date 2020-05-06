@@ -16,7 +16,7 @@ const dryRun = args.boolean('dry-run');
 
   const buildFile = builds.buildFilePath(build.id);
   const filesToAdd = ['./deployments/builds/catalog.yml', buildFile];
-  const commitMessage = `Generated build for ${build.version} (${build.id})`;
+  const commitMessage = `Generated build for ${build.version}`;
 
   if (!dryRun) {
     try {
