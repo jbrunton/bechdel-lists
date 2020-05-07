@@ -45,8 +45,8 @@ jobs:
           BUILD_VERSION: ${{ matrix.version }}
         run: npx ci generate ${TASK}-payload $BUILD_VERSION $ENVIRONMENT
 
-      - name: create deployment
+      - name: start deployment
         env:
           PAYLOAD: ${{ steps.payload.outputs.payload }}
           GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-        run: npx ci deploy "$PAYLOAD"
+        run: echo '${PAYLOAD}' | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
