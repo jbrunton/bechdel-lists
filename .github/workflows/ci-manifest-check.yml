@@ -10,7 +10,8 @@ jobs:
   manifest_check:
     runs-on: ubuntu-latest
     outputs:
-      jobsMatrix: ${{ steps.check.outputs.jobsMatrix }}
+      buildMatrix: ${{ steps.check.outputs.buildMatrix }}
+      deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
       
     steps:
       - uses: actions/checkout@v2
@@ -20,14 +21,27 @@ jobs:
 
       - name: check manifest
         id: check
-        run: echo "::set-output name=jobsMatrix::{\"include\":[{\"type\":\"build\",\"environment\":\"ci-build\"},{\"type\":\"deployment\",\"environment\":\"production\"}]}"
+        run: |
+          echo "::set-output name=buildMatrix::{\"include\":[{\"version\":\"0.12.0\"}]}"
+          echo "::set-output name=deploymentMatrix::{\"include\":[{\"environment\":\"production\",\"version\":\"0.11.1\"}]}"
 
-  start:
+  build:
     needs: manifest_check
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(needs.manifest_check.outputs.jobsMatrix) }}
+      matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
     env:
       matrix: ${{ toJson(matrix) }}
     steps:
     - run: echo $MATRIX
+
+  deploy:
+    needs: manifest_check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
+    env:
+      matrix: ${{ toJson(matrix) }}
+    steps:
+    - run: echo $MATRIX
+  
