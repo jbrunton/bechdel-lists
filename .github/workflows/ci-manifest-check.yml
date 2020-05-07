@@ -33,8 +33,13 @@ jobs:
       matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
     env:
       MATRIX: ${{ toJson(matrix) }}
+      BUILD_VERSION: ${{ matrix.version }}
     steps:
-    - run: echo $MATRIX
+    - name: generate payload
+      id: payload
+      run: npx ci generate build payload $BUILD_VERSION
+    - name: create deployment
+      run: npx ci create deployment "${{ steps.payload.outputs.payload }}"
 
   deploy:
     needs: manifest_check
