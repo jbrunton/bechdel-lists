@@ -19,7 +19,7 @@ async function deploy() {
   }
 
   if (environment.version) {
-    console.info(`${environment} is on ${environment.version}, deploying ${version}.`);
+    console.info(`${envName} is on ${environment.version}, deploying ${version}.`);
   } else {
     console.info(`First time deploy for ${envName}, deploying ${version}.`);
   }
