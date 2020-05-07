@@ -1,0 +1,31 @@
+name: ci-manifest-check
+
+on:
+  push:
+    branches:
+      - demo-90
+
+jobs:
+
+  manifest_check:
+    runs-on: ubuntu-latest
+    outputs:
+      deployJobs: ${{ steps.check.outputs.jobsMatrix }}
+      
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: check manifest
+        id: check
+        run: echo "::set-output name=jobsMatrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+
+  create_deployment:
+    needs: manifest_check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.manifest_check.outputs.jobsMatrix) }}
+    steps:
+    - run: echo ${{ toJson(matrix) }}
