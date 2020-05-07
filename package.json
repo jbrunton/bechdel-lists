@@ -3,6 +3,7 @@
   "scripts": {
     "version:bump": "node tasks/version/bump",
     "version:list": "node tasks/version/list",
+    "version:info": "node tasks/deploy/status.js",
     "deploy": "node tasks/deploy/deploy.js",
     "ci:version:bump": "node tasks/ci/version_bump",
     "ci:build": "node tasks/ci/build",
