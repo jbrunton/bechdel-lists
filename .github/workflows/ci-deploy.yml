@@ -10,11 +10,12 @@ env:
 jobs:
 
   configure:
-    - name: 'Deployment pending'
-      uses: 'deliverybot/status@master'
-      with:
-        state: 'pending'
-        token: '${{ secrets.GITHUB_TOKEN }}'
+    steps:
+      - name: 'Deployment pending'
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
 
   build:
     if: ${{ github.event.deployment.task == 'build' }}
