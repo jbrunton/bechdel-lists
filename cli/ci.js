@@ -12,7 +12,7 @@ if (!process.env.CI) {
 sywac.command('check manifest', {
   desc: 'Check for any builds required',
   run: async (argv, context) => {
-    console.log(`::set-output name=buildMatrix::{\"include\":[{\"version\":\"0.12.0\"}]}`);
+    console.log(`::set-output name=buildMatrix::{"include":[{"version":"0.12.0"}]}`);
   }
 })
 
