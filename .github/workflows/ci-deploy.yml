@@ -9,22 +9,46 @@ env:
   
 jobs:
 
-  build:
-    if: ${{ github.event.deployment.task == 'build' }}
+  configure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Deployment pending'
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+  run:    
+    needs: configure
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: 'build'
+        if: ${{ github.event.deployment.task == 'build' }}
         run: echo "Running build for ${GITHUB_REF}, ${DEPLOYMENT}"
 
-  deploy:
-    if: ${{ github.event.deployment.task == 'deploy' }}
+      - name: 'deploy'
+        if: ${{ github.event.deployment.task == 'deploy' }}
+        run: echo "Running deployment for ${GITHUB_REF}, ${DEPLOYMENT}"
+
+  update_deployment:
+    needs: run
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 'notify success'
+        if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
 
-      - name: 'deploy'
-        run: echo "Running deployment for ${GITHUB_REF}, ${DEPLOYMENT}"
+      - name: 'notify failure'
+        if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
