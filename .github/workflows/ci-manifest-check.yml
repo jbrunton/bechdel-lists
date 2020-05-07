@@ -32,6 +32,8 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
     steps:
+    - name: npm install
+      run: npm install
     - name: generate payload
       id: payload
       env:
