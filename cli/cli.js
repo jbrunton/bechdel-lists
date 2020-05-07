@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-console.log('hi from cli');
-
 const sywac = require('sywac');
 const axios = require('axios');
 const yaml = require('js-yaml');
+const colors = require('colors/safe');
 
 async function fetchManifest() {
   const manifestUrl = 'https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/manifest.yml';
@@ -27,13 +26,26 @@ sywac
       const manifest = await fetchManifest();
       if (argv.environment) {
         const environment = manifest.environments[argv.environment];
+        if (!environment) {
+          throw new Error(`Unknown environment ${argv.environment}`);
+        }
+
+        console.log(colors.bold('Environment info'));
         const deployments = await fetchDeployments(argv.environment);
         const latestDeployment = deployments.deployments.find(deployment => deployment.id == deployments.latest);
         console.table({
           version: environment.version,
-          deployed: new Date(latestDeployment.timestamp).toLocaleString(),
           host: environment.host
         });
+
+        console.log(colors.bold('Recent deployments'));
+        console.table(deployments.deployments.slice(0, 5).map(deployment => {
+          return {
+            version: deployment.version,
+            timestamp: new Date(deployment.timestamp).toLocaleString(),
+            id: deployment.id
+          };
+        }));
       } else {
         const envInfo = Object.entries(manifest.environments).map(([envName, envInfo]) => {
           return Object.assign({ name: envName }, envInfo);

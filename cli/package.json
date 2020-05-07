@@ -4,6 +4,7 @@
     "ci": "./ci.js"
   },
   "dependencies": {
+    "colors": "^1.4.0",
     "sywac": "^1.3.0"
   }
 }
