@@ -54,6 +54,25 @@ sywac
       }
     }
   })
+  .command('create build [version]', {
+    desc: 'Create a new build.',
+    paramsDescription: [null, 'The version name for the new build. Leave blank to use --inc'],
+    setup: sywac => {
+      sywac
+        .string('-i, --inc [component]', {
+          desc: 'Increment the build number'
+        })
+        .check((argv, context) => {
+          if (!argv.version && argv.inc == undefined) {
+            return context.cliMessage('Required either version or --inc parameter');
+          }
+        })
+    },
+    run: async (argv, context) => {
+      const version = argv.version;
+      console.log('Create build: ' + version);
+    }
+  })
 .showHelpByDefault();
 
 async function main() {
