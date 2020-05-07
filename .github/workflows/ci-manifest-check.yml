@@ -31,15 +31,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
-    env:
-      MATRIX: ${{ toJson(matrix) }}
-      BUILD_VERSION: ${{ matrix.version }}
     steps:
     - name: generate payload
       id: payload
-      run: npx ci generate build payload $BUILD_VERSION
+      env:
+        BUILD_VERSION: ${{ matrix.version }}
+      run: npx ci generate build-payload $BUILD_VERSION
     - name: create deployment
-      run: npx ci create deployment "${{ steps.payload.outputs.payload }}"
+      env:
+        PAYLOAD: ${{ toJson(steps.payload.outputs.payload) }}
+      run: npx ci deploy "$PAYLOAD"
 
   deploy:
     needs: manifest_check
