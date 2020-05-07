@@ -14,7 +14,7 @@ sywac.command('check manifest', {
   run: async (argv, context) => {
     const deploymentMatrix = {
       include: [
-        { environment: production, version: '0.11.1' }
+        { environment: 'production', version: '0.11.1' }
       ]
     };
     console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`)
