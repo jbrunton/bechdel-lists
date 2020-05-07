@@ -1,5 +1,8 @@
-latest: e218fcdb-90e7-4394-a4bc-1b2b30be9a95
+latest: 215de762-f34f-47af-ac5d-3991537e8de5
 deployments:
+  - id: 215de762-f34f-47af-ac5d-3991537e8de5
+    version: 0.0.19
+    timestamp: '2020-05-07T08:36:58.680Z'
   - id: a1b2c3
     version: v0.0.6
     timestamp: ...
