@@ -31,36 +31,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
+
     steps:
       - uses: actions/checkout@v2
 
       - name: npm install
         run: npm install
 
-      - name: hub example
-        shell: bash
-        run: hub pr list  # list pull requests in the current repo
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
       - name: generate payload
         id: payload
         env:
+          TASK: ${{ matrix.task }}
+          ENVIRONMENT: ${{ matrix.environment }}
           BUILD_VERSION: ${{ matrix.version }}
-        run: npx ci generate build-payload $BUILD_VERSION
+        run: npx ci generate ${TASK}-payload $BUILD_VERSION $ENVIRONMENT
 
       - name: create deployment
         env:
           PAYLOAD: ${{ steps.payload.outputs.payload }}
           GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
         run: npx ci deploy "$PAYLOAD"
-  deploy:
-    needs: manifest_check
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
-    env:
-      MATRIX: ${{ toJson(matrix) }}
-    steps:
-    - run: echo $MATRIX
-  
