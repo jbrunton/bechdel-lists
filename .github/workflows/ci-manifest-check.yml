@@ -13,7 +13,6 @@ jobs:
   manifest_check:
     runs-on: ubuntu-latest
     outputs:
-      buildMatrix: ${{ steps.check.outputs.buildMatrix }}
       deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
       
     steps:
@@ -26,29 +25,28 @@ jobs:
         id: check
         run: npx ci check manifest
   
-  build:
-    needs: manifest_check
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
-    steps:
-    - name: generate payload
-      id: payload
-      env:
-        BUILD_VERSION: ${{ matrix.version }}
-      run: npx ci generate build-payload $BUILD_VERSION
-    - name: create deployment
-      env:
-        PAYLOAD: ${{ toJson(steps.payload.outputs.payload) }}
-      run: npx ci deploy "$PAYLOAD"
-
-  deploy:
+  start:
     needs: manifest_check
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
-    env:
-      MATRIX: ${{ toJson(matrix) }}
+
     steps:
-    - run: echo $MATRIX
-  
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: generate payload
+        id: payload
+        env:
+          TASK: ${{ matrix.task }}
+          ENVIRONMENT: ${{ matrix.environment }}
+          BUILD_VERSION: ${{ matrix.version }}
+        run: npx ci generate ${TASK}-payload $BUILD_VERSION $ENVIRONMENT
+
+      - name: create deployment
+        env:
+          PAYLOAD: ${{ steps.payload.outputs.payload }}
+          GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+        run: npx ci deploy "$PAYLOAD"
