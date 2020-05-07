@@ -35,7 +35,7 @@ sywac.command('generate <subcommand> [args]', {
         run: (argv, context) => {
           const payload = {
             ref: process.env.GITHUB_REF || 'master',
-            environment: 'build',
+            environment: `build ${argv.version}`,
             task: 'build',
             description: 'Trigger build',
             payload: {
@@ -51,7 +51,7 @@ sywac.command('generate <subcommand> [args]', {
         run: (argv, context) => {
           const payload = {
             ref: process.env.GITHUB_REF || 'master',
-            environment: argv.environment,
+            environment: `${argv.environment} (${argv.version})`,
             task: 'deploy',
             description: 'Trigger deployment',
             payload: {
