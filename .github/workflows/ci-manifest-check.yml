@@ -53,7 +53,7 @@ jobs:
         env:
           PAYLOAD: ${{ toJson(steps.payload.outputs.payload) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx ci deploy "$PAYLOAD"
+        run: npx ci deploy $PAYLOAD
 
   deploy:
     needs: manifest_check
