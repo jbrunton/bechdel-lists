@@ -41,8 +41,9 @@ jobs:
         id: payload
         env:
           BUILD_VERSION: ${{ matrix.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx ci generate build-payload $BUILD_VERSION
-        
+
       - name: create deployment
         env:
           PAYLOAD: ${{ toJson(steps.payload.outputs.payload) }}
