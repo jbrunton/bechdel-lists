@@ -24,17 +24,15 @@ jobs:
 
       - name: check manifest
         id: check
-        run: |
-          npx ci check manifest
-          echo "::set-output name=deploymentMatrix::{\"include\":[{\"environment\":\"production\",\"version\":\"0.11.1\"}]}"
-
+        run: npx ci check manifest
+  
   build:
     needs: manifest_check
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
     env:
-      matrix: ${{ toJson(matrix) }}
+      MATRIX: ${{ toJson(matrix) }}
     steps:
     - run: echo $MATRIX
 
@@ -44,7 +42,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
     env:
-      matrix: ${{ toJson(matrix) }}
+      MATRIX: ${{ toJson(matrix) }}
     steps:
     - run: echo $MATRIX
   
