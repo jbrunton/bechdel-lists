@@ -10,6 +10,8 @@ env:
 jobs:
 
   configure:
+    runs-on: ubuntu-latest
+
     steps:
       - name: 'Deployment pending'
         uses: 'deliverybot/status@master'
@@ -39,6 +41,7 @@ jobs:
 
   update_status:
     needs: [ build, deploy ]
+    runs-on: ubuntu-latest
 
     steps:
       - name: 'notify success'
