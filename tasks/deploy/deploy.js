@@ -47,7 +47,7 @@ async function triggerDeploy() {
     task: "ci:deploy",
     description: "Trigger ci:deploy",
     payload: {
-      args: `--version '${version}' --environment ${envName}`
+      args: `--deploy-version '${version}' --environment ${envName}`
     },
     required_contexts: []
   };
