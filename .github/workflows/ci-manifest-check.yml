@@ -1,0 +1,48 @@
+name: ci-manifest-check
+
+on:
+  push:
+    branches:
+      - demo-90
+
+env:
+  CI: 1
+
+jobs:
+
+  manifest_check:
+    runs-on: ubuntu-latest
+    outputs:
+      buildMatrix: ${{ steps.check.outputs.buildMatrix }}
+      deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
+      
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: check manifest
+        id: check
+        run: npx ci check manifest
+  
+  build:
+    needs: manifest_check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
+    env:
+      MATRIX: ${{ toJson(matrix) }}
+    steps:
+    - run: echo $MATRIX
+
+  deploy:
+    needs: manifest_check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
+    env:
+      MATRIX: ${{ toJson(matrix) }}
+    steps:
+    - run: echo $MATRIX
+  

@@ -1,0 +1,25 @@
+name: ci-deploy
+
+env:
+  CI: 1
+  DEPLOYMENT: ${{ toJson(github.event.deployment) }}
+  
+jobs:
+
+  build:
+    if: ${{ github.event.deployment.task == 'build' }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'build'
+        run: echo "Running build for ${GITHUB_REF}, ${DEPLOYMENT}"
+
+  deploy:
+    if: ${{ github.event.deployment.task == 'deploy' }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'deploy'
+        run: echo "Running deployment for ${GITHUB_REF}, ${DEPLOYMENT}"
