@@ -43,11 +43,11 @@ async function triggerDeploy() {
   const version = await getVersion();
   const payload = {
     ref: "master",
-    environment: "ci-run",
+    environment: envName,
     task: "ci:deploy",
     description: "Trigger ci:deploy",
     payload: {
-      args: `--deploy-version '${version}' --environment ${envName}`
+      args: `--deploy-version '${version}'`
     },
     required_contexts: []
   };
