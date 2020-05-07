@@ -51,10 +51,9 @@ jobs:
 
       - name: create deployment
         env:
-          PAYLOAD: ${{ toJson(steps.payload.outputs.payload) }}
+          PAYLOAD: ${{ steps.payload.outputs.payload }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx ci deploy $PAYLOAD
-
   deploy:
     needs: manifest_check
     runs-on: ubuntu-latest
