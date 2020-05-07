@@ -20,12 +20,14 @@ jobs:
 
       - name: check manifest
         id: check
-        run: echo "::set-output name=jobsMatrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+        run: echo "::set-output name=jobsMatrix::{\"include\":[{\"type\":\"build\",\"environment\":\"ci-build\"},{\"type\":\"deployment\",\"environment\":\"production\"}]}"
 
-  create_deployment:
+  start:
     needs: manifest_check
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.jobsMatrix) }}
+    env:
+      matrix: ${{ toJson(matrix) }}
     steps:
-    - run: echo ${{ toJson(matrix) }}
+    - run: echo $MATRIX
