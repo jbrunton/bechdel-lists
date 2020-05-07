@@ -1,9 +1,7 @@
 {
   "bin": {
-    "ci": "./index.js"
-  },
-  "scripts": {
-    "ci": "./index.js"
+    "cli": "./cli.js",
+    "ci": "./ci.js"
   },
   "dependencies": {
     "sywac": "^1.3.0"

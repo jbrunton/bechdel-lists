@@ -2,6 +2,8 @@
 
 const sywac = require('sywac');
 
+console.log('hi from ci');
+
 if (!process.env.CI) {
   console.log("This script is intended to be run on a CI environment. Set CI=1 to override.");
   process.exit(1);
