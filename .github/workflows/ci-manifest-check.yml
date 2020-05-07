@@ -13,7 +13,6 @@ jobs:
   manifest_check:
     runs-on: ubuntu-latest
     outputs:
-      buildMatrix: ${{ steps.check.outputs.buildMatrix }}
       deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
       
     steps:
@@ -26,11 +25,11 @@ jobs:
         id: check
         run: npx ci check manifest
   
-  build:
+  start:
     needs: manifest_check
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
+      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
 
     steps:
       - uses: actions/checkout@v2
