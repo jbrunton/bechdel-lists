@@ -36,6 +36,7 @@ sywac.command('generate <subcommand> [args]', {
             payload: {
               buildVersion: argv.version
             },
+            auto_merge: false,
             required_contexts: []
           };
           console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
@@ -52,6 +53,7 @@ sywac.command('generate <subcommand> [args]', {
             payload: {
               buildVersion: argv.version
             },
+            auto_merge: false,
             required_contexts: []
           };
           console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
