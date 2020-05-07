@@ -10,7 +10,7 @@ jobs:
   manifest_check:
     runs-on: ubuntu-latest
     outputs:
-      deployJobs: ${{ steps.check.outputs.jobsMatrix }}
+      jobsMatrix: ${{ steps.check.outputs.jobsMatrix }}
       
     steps:
       - uses: actions/checkout@v2
