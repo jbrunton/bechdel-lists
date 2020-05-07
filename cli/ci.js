@@ -12,6 +12,12 @@ if (!process.env.CI) {
 sywac.command('check manifest', {
   desc: 'Check for any builds required',
   run: async (argv, context) => {
+    const deploymentMatrix = {
+      include: [
+        { environment: production, version: '0.11.1' }
+      ]
+    };
+    console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`)
     console.log(`::set-output name=buildMatrix::{"include":[{"version":"0.12.0"}]}`);
   }
 })
