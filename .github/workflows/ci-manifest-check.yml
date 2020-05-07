@@ -5,6 +5,9 @@ on:
     branches:
       - demo-90
 
+env:
+  CI: 1
+
 jobs:
 
   manifest_check:
@@ -22,7 +25,7 @@ jobs:
       - name: check manifest
         id: check
         run: |
-          echo "::set-output name=buildMatrix::{\"include\":[{\"version\":\"0.12.0\"}]}"
+          npx ci check manifest
           echo "::set-output name=deploymentMatrix::{\"include\":[{\"environment\":\"production\",\"version\":\"0.11.1\"}]}"
 
   build:
