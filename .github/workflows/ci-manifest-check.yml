@@ -32,17 +32,21 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.buildMatrix) }}
     steps:
-    - name: npm install
-      run: npm install
-    - name: generate payload
-      id: payload
-      env:
-        BUILD_VERSION: ${{ matrix.version }}
-      run: npx ci generate build-payload $BUILD_VERSION
-    - name: create deployment
-      env:
-        PAYLOAD: ${{ toJson(steps.payload.outputs.payload) }}
-      run: npx ci deploy "$PAYLOAD"
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: generate payload
+        id: payload
+        env:
+          BUILD_VERSION: ${{ matrix.version }}
+        run: npx ci generate build-payload $BUILD_VERSION
+        
+      - name: create deployment
+        env:
+          PAYLOAD: ${{ toJson(steps.payload.outputs.payload) }}
+        run: npx ci deploy "$PAYLOAD"
 
   deploy:
     needs: manifest_check
