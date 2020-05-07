@@ -19,28 +19,23 @@ jobs:
           state: 'pending'
           token: '${{ secrets.GITHUB_TOKEN }}'
 
-  build:
-    if: ${{ github.event.deployment.task == 'build' }}
+  run:    
+    needs: configure
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: 'build'
+        if: ${{ github.event.deployment.task == 'build' }}
         run: echo "Running build for ${GITHUB_REF}, ${DEPLOYMENT}"
 
-  deploy:
-    if: ${{ github.event.deployment.task == 'deploy' }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
       - name: 'deploy'
+        if: ${{ github.event.deployment.task == 'deploy' }}
         run: echo "Running deployment for ${GITHUB_REF}, ${DEPLOYMENT}"
 
-  update_status:
-    needs: [ build, deploy ]
+  update_deployment:
+    needs: run
     runs-on: ubuntu-latest
 
     steps:
