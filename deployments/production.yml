@@ -1,5 +1,8 @@
-latest: 215de762-f34f-47af-ac5d-3991537e8de5
+latest: 4688a870-4d97-49a8-8320-dde14def087f
 deployments:
+  - id: 4688a870-4d97-49a8-8320-dde14def087f
+    version: 0.0.20
+    timestamp: '2020-05-08T14:09:42.933Z'
   - id: 215de762-f34f-47af-ac5d-3991537e8de5
     version: 0.0.19
     timestamp: '2020-05-07T08:36:58.680Z'
