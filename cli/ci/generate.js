@@ -27,10 +27,10 @@ module.exports = {
             // ]
           };
           if (tasks.length > 0) {
-            console.log(`::set-output name=deploymentsRequired::1"`);
-            console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`);
+            console.log('::set-output name=deploymentsRequired::1');
+            console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}`);
           } else {
-            console.log(`::set-output name=deploymentsRequired::0"`);
+            console.log('::set-output name=deploymentsRequired::0');
           }
         }
       })
