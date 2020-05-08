@@ -75,28 +75,37 @@ jobs:
       - name: npm install
         run: npm install
 
-      - name: 'deploy'
-        run: npx ci deploy
+      - name: deployment info
+        id: deployment_info
+        env:
+          ENVIRONMENT: ${{ github.event.deployment.environment }}
+        run: npx ci generate deployment-info $ENVIRONMENT
+
+      - name: check outputs
+        env:
+          HOST: ${{ steps.deployment_info.outputs.host }}
+          BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
+        run: echo "HOST: ${HOST}, BUILD_FILE: ${BUILD_FILE}"
 
       - name: copy files
         uses: appleboy/scp-action@master
         env:
-          HOST: ${{ needs.deploy_check.outputs.host }}
+          HOST: ${{ steps.deployment_info.outputs.host }}
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
-          source: ${{ needs.deploy_check.outputs.buildFile }}
+          source: ${{ steps.deployment_info.outputs.buildFile }}
           overwrite: true
           target: .
 
       - name: deploy
         uses: appleboy/ssh-action@master
         env:
-          HOST: ${{ needs.deploy_check.outputs.host }}
+          HOST: ${{ needs.deployment_info.outputs.host }}
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
           POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
-          BUILD_FILE: ${{ needs.deploy_check.outputs.buildFile }}
+          BUILD_FILE: ${{ needs.deployment_info.outputs.buildFile }}
         with:
           script: |
             ln -sf $BUILD_FILE docker-compose.yml

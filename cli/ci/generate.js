@@ -1,5 +1,6 @@
 const manifest = require('../lib/manifest');
 const Deployments = require('../lib/deployments');
+const builds = require('../lib/builds');
 
 module.exports = {
   aliases: ['generate <subcommand> [args]'],
@@ -44,6 +45,17 @@ module.exports = {
           } else {
             console.log('::set-output name=deploymentsRequired::0');
           }
+        }
+      })
+      .command('deployment-info <environment>', {
+        desc: 'Generate deployment info for the given environment',
+        run: (argv, context) => {
+          const envName = argv.environment;
+          const envManifest = manifest.environments[envName];
+          const build = builds.findByVersion(envManifest.version);
+          const buildFile = builds.buildFilePath(build.id);
+          console.log(`::set-output name=host=${envManifest.host}`);
+          console.log(`::set-output name=buildFile=${buildFile}`);
         }
       })
       .command('build-payload', {
