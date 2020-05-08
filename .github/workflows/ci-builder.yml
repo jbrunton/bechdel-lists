@@ -152,4 +152,4 @@ jobs:
           
           npx ci update-manifest $VERSION $ENVIRONMENT
           
-          git push origin HEAD:demo-94
+          git push origin HEAD:master
