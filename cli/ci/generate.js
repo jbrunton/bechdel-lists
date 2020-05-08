@@ -14,7 +14,7 @@ module.exports = {
           const buildVersion = manifest.version;
           if (!buildExists) {
             console.log(`Build required for version ${buildVersion}.`);
-            tasks.push({ task: 'build', version: buildVersion });
+            tasks.push({ task: 'build' });
           } else {
             console.log(`Found build for version ${buildVersion}: ${JSON.stringify(manifest.currentBuild)}`);
           }
@@ -34,7 +34,7 @@ module.exports = {
         run: (argv, context) => {
           const payload = {
             ref: process.env.GITHUB_REF || 'master',
-            environment: `build ${argv.version}`,
+            environment: 'build',
             task: 'build',
             description: 'Trigger build',
             payload: {
