@@ -140,17 +140,35 @@ sywac
 
       const command = `echo '${JSON.stringify(payload)}' | hub api "repos/jbrunton/bechdel-demo/deployments" --input -`;
       console.log('command: ' + command);
-      try {
-        await exec(command, process.env);
-      } catch (e) {
-        console.log(e);
-      }
+      await exec(command, process.env);
     },
     setup: sywac => {
       sywac 
         .boolean('--major')
         .boolean('--minor')
         .boolean('--patch')
+    }
+  })
+  .command('deploy <version> <environment>', {
+    run: async (argv, context) => {
+      const manifest = await fetchManifest();
+      const currentVersion = manifest.environments[argv.environment].version;
+      const nextVersion = argv.version;
+      console.log(`currentVersion: ${currentVersion}, nextVersion: ${nextVersion}`);
+
+      const payload = {
+        ref: 'master',
+        environment: 'update_manifest',
+        task: 'update_manifest',
+        description: 'New version',
+        auto_merge: false,
+        payload: { version: nextVersion, environment: argv.environment },
+        required_contexts:[]
+      };
+
+      const command = `echo '${JSON.stringify(payload)}' | hub api "repos/jbrunton/bechdel-demo/deployments" --input -`;
+      console.log('command: ' + command);
+      await exec(command, process.env);
     }
   })
   .showHelpByDefault();
