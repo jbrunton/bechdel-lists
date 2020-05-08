@@ -122,7 +122,7 @@ sywac
           return 'patch';
         }
       
-        return 'minor';
+        throw new Error("Version or --major, --minor, -patch required.");
       }
       const manifest = await fetchManifest();
       const currentVersion = manifest.version;
