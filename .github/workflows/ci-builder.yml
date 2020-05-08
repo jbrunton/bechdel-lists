@@ -140,4 +140,10 @@ jobs:
       ENVIRONMENT: ${{ github.event.deployment.payload.environment }}
       VERSION: ${{ github.event.deployment.payload.version }}
 
-    run: npx ci update-manifest $VERSION $ENVIRONMENT
+    run: |
+      git config --global user.email "jbrunton-ci-minion@outlook.com"
+      git config --global user.name "jbrunton-ci-minion"
+      
+      npx ci update-manifest $VERSION $ENVIRONMENT
+      
+      git push origin HEAD:master
