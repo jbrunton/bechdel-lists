@@ -3,7 +3,7 @@ name: ci-manifest-check
 on:
   push:
     branches:
-      - demo-91
+      - master
 
 env:
   CI: 1
