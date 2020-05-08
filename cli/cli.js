@@ -6,6 +6,7 @@ const yaml = require('js-yaml');
 const colors = require('colors/safe');
 const semver = require('semver');
 const { exec } = require('child_process');
+const chalk = require('chalk');
 
 async function fetchManifest() {
   const manifestUrl = 'https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/manifest.yml';
@@ -172,6 +173,27 @@ sywac
     }
   })
   .showHelpByDefault();
+
+  const command = s => chalk.green.bold(s);
+  const arg = s => chalk.yellow.bold(s);
+
+  sywac.style({
+    group: str => chalk.bold(str),
+
+    usagePrefix: s => chalk.bold(s.slice(0, 6)) + ' ' + chalk.grey.bold(s.slice(7)),
+    usageCommandPlaceholder: s => command(s),
+    usagePositionals: s => arg(s),
+    usageArgsPlaceholder: s => arg(s),
+    usageOptionsPlaceholder: s => arg(s),
+
+    flags: (s, type) => {
+      if (type.datatype === 'command') {
+        s = s.split(' ')
+        return command(s[0]) + (s[1] ? ' ' + arg(s.slice(1).join(' ')) : '')
+      }
+      return arg(s);
+    }
+  });
 
 async function main() {
   await sywac.parseAndExit();
