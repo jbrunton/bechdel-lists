@@ -75,8 +75,8 @@ sywac
       }
     }
   })
-  .command('list <subcommand> [args]', {
-    ignore: ['<subcommand>', '[args]'],
+  .command('list <builds|deployments> [args]', {
+    ignore: ['<builds|deployments>', '[args]'],
     desc: 'List builds or deployments',
     setup: sywac => {
       sywac
