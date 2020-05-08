@@ -13,8 +13,9 @@ sywac
   .command(require('./ci/commit'))
   .command(require('./ci/update_manifest'))
   .boolean('--dry-run', {
-    desc: "Avoid committing, saving or pushing any changes. Potential changes will be logged to the console instead."
+    desc: "Prevent saving, committing or pushing any changes."
   })
+  .style(require('./lib/style'))
   .showHelpByDefault();
 
 async function main() {
