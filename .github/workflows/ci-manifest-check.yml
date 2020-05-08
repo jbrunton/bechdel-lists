@@ -44,8 +44,7 @@ jobs:
         env:
           TASK: ${{ matrix.task }}
           ENVIRONMENT: ${{ matrix.environment }}
-          BUILD_VERSION: ${{ matrix.version }}
-        run: npx ci generate ${TASK}-payload $BUILD_VERSION $ENVIRONMENT
+        run: npx ci generate ${TASK}-payload $ENVIRONMENT
 
       - name: start deployment workflow
         env:

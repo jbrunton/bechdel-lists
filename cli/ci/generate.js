@@ -72,17 +72,14 @@ module.exports = {
           console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
         }
       })
-      .command('deploy-payload <version> <environment>', {
-        desc: 'Generate a deployment payload to deploy <version> to <environment>',
+      .command('deploy-payload <environment>', {
+        desc: 'Generate a deployment payload to deploy to <environment>',
         run: (argv, context) => {
           const payload = {
             ref: process.env.GITHUB_REF || 'master',
             environment: argv.environment,
             task: 'deploy',
             description: 'Trigger deployment',
-            payload: {
-              buildVersion: argv.version
-            },
             auto_merge: false,
             required_contexts: []
           };
