@@ -2,8 +2,7 @@ const { fetchManifest, fetchDeployments, formatTimestamp } = require('../lib/uti
 const chalk = require('chalk');
 
 module.exports = {
-  flags: 'inspect <environment>',
-  ignore: ['<environment>'],
+  flags: 'inspect',
   desc: 'Display information about the environment',
   setup: sywac => {
     sywac.positional('<environment>', { type: 'environment', strict: true });

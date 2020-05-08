@@ -3,32 +3,30 @@
 const sywac = require('sywac');
 const Type = require('sywac/types/type')
 const chalk = require('chalk');
-const { fetchManifest } = require('./lib/utils');
+const cache = require('./lib/manifest_cache');
 
 class TypeEnvironment extends Type {
   get datatype () {
     return 'environment';
   }
   async validateValue (value) {
-    const manifest = await fetchManifest();
-    this._environments = Object.keys(manifest.environments).concat('staging');
-    return this._environments.includes(value);
+    const manifest = await cache.getManifest(true);
+    const environments = Object.keys(manifest.environments);
+    return environments.includes(value);
   }
   buildInvalidMessage (context, msgAndArgs) {
     super.buildInvalidMessage(context, msgAndArgs);
-    if (this._environments) {
-      msgAndArgs.msg += ` Valid options: ${this._environments.map(e => chalk.green.inverse(e)).join(', ')}.`;
-    }
+    const manifest = cache.getCachedManifest(true);
+    const environments = Object.keys(manifest.environments);
+    msgAndArgs.msg += ` Valid options: ${environments.map(e => chalk.green.inverse(e)).join(', ')}.`;
   }
 }
 
 sywac
-  .registerFactory('environment', opts => {
-    console.log('environment used')
-    return new TypeEnvironment(opts)
-  })
+  .registerFactory('environment', opts => new TypeEnvironment(opts))
   .commandDirectory('./cli')
   .showHelpByDefault()
+  .help('-h, --help')
   .style(require('./lib/style'));
 
 async function main() {
