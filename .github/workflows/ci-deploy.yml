@@ -27,7 +27,16 @@ jobs:
         run: npm install
 
       - name: 'build'
-        run: npx ci create build --dry-run
+        run: npx ci create build
+
+      - name: 'commit'
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npx ci commit build
+          
+          git push origin HEAD:master
 
       - name: 'notify success'
         if: success()
