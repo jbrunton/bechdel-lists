@@ -3,7 +3,7 @@ const Deployments = require('../lib/deployments');
 const builds = require('../lib/builds');
 
 module.exports = {
-  aliases: ['generate <subcommand> [args]'],
+  flags: 'generate <subcommand> [args]',
   ignore: ['<subcommand>', '[args]'],
   setup: sywac => {
     sywac

@@ -6,7 +6,7 @@ const manifest = require('../lib/manifest');
 const chalk = require('chalk');
 
 module.exports = {
-  aliases: ['create <subcommand> [args]'],
+  flags: 'create <subcommand> [args]',
   ignore: ['<subcommand>', '[args]'],
   setup: sywac => {
     sywac

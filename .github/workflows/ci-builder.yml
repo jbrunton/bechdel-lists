@@ -131,3 +131,19 @@ jobs:
         with:
           state: 'failure'
           token: '${{ secrets.GITHUB_TOKEN }}'
+
+  update_manifest:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'update_manifest' }}
+
+    env:
+      ENVIRONMENT: ${{ github.event.deployment.payload.environment }}
+      VERSION: ${{ github.event.deployment.payload.version }}
+
+    run: |
+      git config --global user.email "jbrunton-ci-minion@outlook.com"
+      git config --global user.name "jbrunton-ci-minion"
+      
+      npx ci update-manifest $VERSION $ENVIRONMENT
+      
+      git push origin HEAD:demo-94
