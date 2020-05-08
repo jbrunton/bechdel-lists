@@ -137,6 +137,7 @@ jobs:
     if: ${{ github.event.deployment.task == 'update_manifest' }}
 
     steps:
+      - uses: actions/checkout@v2
 
       - name: npm install
         run: npm install
