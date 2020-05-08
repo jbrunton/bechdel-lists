@@ -26,7 +26,12 @@ module.exports = {
             //   { task: 'deploy', environment: 'production', version: '0.11.1' },
             // ]
           };
-          console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`);
+          if (tasks.length > 0) {
+            console.log(`::set-output name=deploymentsRequired::1"`);
+            console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`);
+          } else {
+            console.log(`::set-output name=deploymentsRequired::0"`);
+          }
         }
       })
       .command('build-payload', {

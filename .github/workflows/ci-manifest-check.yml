@@ -13,6 +13,7 @@ jobs:
   manifest_check:
     runs-on: ubuntu-latest
     outputs:
+      deploymentsRequired: ${{ steps.check.outputs.deploymentsRequired }}
       deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
       
     steps:
@@ -27,6 +28,7 @@ jobs:
   
   start:
     needs: manifest_check
+    if: needs.manifest_check.outputs.deploymentsRequired == true
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
