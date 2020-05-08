@@ -5,7 +5,7 @@ const builds = require('../lib/builds');
 const git = require('simple-git/promise')();
 
 module.exports = {
-  aliases: ['commit <subcommand>'],
+  flags: 'commit <subcommand>',
   ignore: ['<subcommand>'],
   setup: sywac => {
     sywac

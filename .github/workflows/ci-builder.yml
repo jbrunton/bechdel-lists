@@ -131,3 +131,13 @@ jobs:
         with:
           state: 'failure'
           token: '${{ secrets.GITHUB_TOKEN }}'
+
+  update_manifest:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'update_manifest' }}
+
+    env:
+      ENVIRONMENT: ${{ github.event.deployment.payload.environment }}
+      VERSION: ${{ github.event.deployment.payload.version }}
+
+    run: npx ci update-manifest $VERSION $ENVIRONMENT
