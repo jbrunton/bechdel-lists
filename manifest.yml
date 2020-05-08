@@ -3,6 +3,6 @@ environments:
   production:
     host: bechdel-lists.jbrunton.com
     version: 0.0.20
-  staging:
-    version: v0.0.10
+  # staging:
+  #   version: v0.0.10
 
