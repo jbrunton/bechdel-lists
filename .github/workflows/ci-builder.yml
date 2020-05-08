@@ -101,11 +101,11 @@ jobs:
       - name: deploy
         uses: appleboy/ssh-action@master
         env:
-          HOST: ${{ needs.deployment_info.outputs.host }}
+          HOST: ${{ steps.deployment_info.outputs.host }}
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
           POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
-          BUILD_FILE: ${{ needs.deployment_info.outputs.buildFile }}
+          BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
         with:
           script: |
             ln -sf $BUILD_FILE docker-compose.yml
