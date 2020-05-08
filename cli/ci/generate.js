@@ -1,3 +1,5 @@
+const manifest = require('../lib/manifest');
+
 module.exports = {
   aliases: ['generate <subcommand> [args]'],
   ignore: ['<subcommand>', '[args]'],
@@ -6,11 +8,23 @@ module.exports = {
       .command('deployment-matrix', {
         desc: 'Generate a deployment jobs matrix for any deployment jobs required',
         run: async (argv, context) => {
+          const tasks = [];
+
+          const buildExists = !!manifest.currentBuild;
+          const buildVersion = manifest.version;
+          if (!buildExists) {
+            console.log(`Build required for version ${buildVersion}.`);
+            tasks.push({ task: 'build', version: buildVersion });
+          } else {
+            console.log(`Found build for version ${buildVersion}: ${JSON.stringify(manifest.currentBuild)}`);
+          }
+
           const deploymentMatrix = {
-            include: [
-              { task: 'build', version: '0.12.0' },
-              { task: 'deploy', environment: 'production', version: '0.11.1' },
-            ]
+            include: tasks
+            // include: [
+            //   { task: 'build', version: '0.12.0' },
+            //   { task: 'deploy', environment: 'production', version: '0.11.1' },
+            // ]
           };
           console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`);
         }
