@@ -54,6 +54,8 @@ module.exports = {
             process.exit(1);
           }
         
+          deployments.updateLatest(build.version, dryRun);
+
           const filesToAdd = [deployments.manifestFile];
           const commitMessage = `Deploying ${build.version} to ${envName}`;
         
