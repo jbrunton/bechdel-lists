@@ -8,38 +8,6 @@ const semver = require('semver');
 const { exec } = require('child_process');
 const chalk = require('chalk');
 
-async function fetchManifest() {
-  const manifestUrl = 'https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/manifest.yml';
-  const manifestFile = await axios.get(manifestUrl);
-  const manifest = yaml.safeLoad(manifestFile.data);
-  return manifest;
-}
-
-async function fetchDeployments(environment) {
-  const manifestUrl = `https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/deployments/${environment}.yml`;
-  const manifestFile = await axios.get(manifestUrl);
-  const manifest = yaml.safeLoad(manifestFile.data);
-  return manifest;
-}
-
-async function fetchBuilds() {
-  const manifestUrl = `https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/deployments/builds/catalog.yml`;
-  const manifestFile = await axios.get(manifestUrl);
-  const manifest = yaml.safeLoad(manifestFile.data);
-  return manifest;
-}
-
-function formatTimestamp(timestamp) {
-  const options = {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric'
-  };
-  return new Date(timestamp).toLocaleString('en', options);
-}
 
 sywac
   .command('info [environment]', {
@@ -75,40 +43,7 @@ sywac
       }
     }
   })
-  .command('list <builds|deployments> [args]', {
-    ignore: ['<builds|deployments>', '[args]'],
-    desc: 'List builds or deployments',
-    setup: sywac => {
-      sywac
-        .command('builds', {
-          desc: 'List available builds',
-          run: async (argv, context) => {
-            const catalog = await fetchBuilds();
-            const builds = catalog.builds.map(build => {
-              return {
-                version: build.version,
-                buildSha: build.buildSha,
-                timestamp: new Date(build.timestamp).toLocaleString(),
-              }
-            });
-            console.table(builds);
-          }
-        })
-        .command('deployments <environment>', {
-          desc: 'List deployments for the environment',
-          run: async (argv, context) => {
-            const deployments = await fetchDeployments(argv.environment);
-            console.table(deployments.deployments.slice(0, 10).map(deployment => {
-              return {
-                version: deployment.version,
-                timestamp: formatTimestamp(deployment.timestamp),
-                id: deployment.id
-              };
-            }));
-          }
-        })
-    }
-  })
+  .command(require('./cli/list'))
   .command('new-version [version]', {
     run: async (argv, context) => {
       function releaseType() {
