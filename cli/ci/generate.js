@@ -29,17 +29,14 @@ module.exports = {
           console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`);
         }
       })
-      .command('build-payload <version>', {
-        desc: 'Generate a deployment payload to create a build for <version>',
+      .command('build-payload', {
+        desc: 'Generate a deployment payload to create a build',
         run: (argv, context) => {
           const payload = {
             ref: process.env.GITHUB_REF || 'master',
             environment: 'build',
             task: 'build',
             description: 'Trigger build',
-            payload: {
-              buildVersion: argv.version
-            },
             auto_merge: false,
             required_contexts: []
           };
