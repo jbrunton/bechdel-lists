@@ -5,6 +5,7 @@ on:
 
 env:
   CI: 1
+  FORCE_COLOR: 1
   DEPLOYMENT: ${{ toJson(github.event.deployment) }}
   
 jobs:
@@ -26,7 +27,7 @@ jobs:
         run: npm install
 
       - name: 'build'
-        run: npx ci build
+        run: npx ci create build --dry-run
 
       - name: 'notify success'
         if: success()
