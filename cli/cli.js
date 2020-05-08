@@ -19,6 +19,25 @@ async function fetchDeployments(environment) {
   return manifest;
 }
 
+async function fetchBuilds() {
+  const manifestUrl = `https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/deployments/builds/catalog.yml`;
+  const manifestFile = await axios.get(manifestUrl);
+  const manifest = yaml.safeLoad(manifestFile.data);
+  return manifest;
+}
+
+function formatTimestamp(timestamp) {
+  const options = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  };
+  return new Date(timestamp).toLocaleString('en', options);
+}
+
 sywac
   .command('info [environment]', {
     desc: 'Display information from the manifest',
@@ -41,7 +60,7 @@ sywac
         console.table(deployments.deployments.slice(0, 5).map(deployment => {
           return {
             version: deployment.version,
-            timestamp: new Date(deployment.timestamp).toLocaleString(),
+            timestamp: formatTimestamp(deployment.timestamp),
             id: deployment.id
           };
         }));
@@ -51,6 +70,40 @@ sywac
         });
         console.table(envInfo, ['name', 'version', 'host']);
       }
+    }
+  })
+  .command('list <subcommand> [args]', {
+    ignore: ['<subcommand>', '[args]'],
+    desc: 'List builds or deployments',
+    setup: sywac => {
+      sywac
+        .command('builds', {
+          desc: 'List available builds',
+          run: async (argv, context) => {
+            const catalog = await fetchBuilds();
+            const builds = catalog.builds.map(build => {
+              return {
+                version: build.version,
+                buildSha: build.buildSha,
+                timestamp: new Date(build.timestamp).toLocaleString(),
+              }
+            });
+            console.table(builds);
+          }
+        })
+        .command('deployments <environment>', {
+          desc: 'List deployments for the environment',
+          run: async (argv, context) => {
+            const deployments = await fetchDeployments(argv.environment);
+            console.table(deployments.deployments.slice(0, 10).map(deployment => {
+              return {
+                version: deployment.version,
+                timestamp: formatTimestamp(deployment.timestamp),
+                id: deployment.id
+              };
+            }));
+          }
+        })
     }
   })
 .showHelpByDefault();
