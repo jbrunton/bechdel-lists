@@ -4,10 +4,14 @@ on:
   deployment
 
 env:
+  DEPLOYMENT: ${{ toJson(github.event.deployment) }}
+
+  DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+  DOCKER_USERNAME: jbrunton
+
   CI: 1
   FORCE_COLOR: 1
-  DEPLOYMENT: ${{ toJson(github.event.deployment) }}
-  
+
 jobs:
 
   build:
@@ -25,6 +29,9 @@ jobs:
       
       - name: npm install
         run: npm install
+
+      - name: docker login
+        run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       - name: 'build'
         run: npx ci create build
