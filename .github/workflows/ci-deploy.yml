@@ -9,15 +9,99 @@ env:
   
 jobs:
 
-  configure:
+  build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'build' }}
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: 'Deployment pending'
         uses: 'deliverybot/status@master'
         with:
           state: 'pending'
           token: '${{ secrets.GITHUB_TOKEN }}'
+      
+      - name: npm install
+        run: npm install
+
+      - name: 'build'
+        run: npx ci build
+
+      - name: 'notify success'
+        if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'notify failure'
+        if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'deploy' }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Deployment pending'
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+      
+      - name: npm install
+        run: npm install
+
+      - name: 'deploy'
+        run: npx ci deploy
+
+      - name: copy files
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ needs.deploy_check.outputs.host }}
+          USERNAME: deployer
+          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+        with:
+          source: ${{ needs.deploy_check.outputs.buildFile }}
+          overwrite: true
+          target: .
+
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        env:
+          HOST: ${{ needs.deploy_check.outputs.host }}
+          USERNAME: deployer
+          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+          POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+          BUILD_FILE: ${{ needs.deploy_check.outputs.buildFile }}
+        with:
+          script: |
+            ln -sf $BUILD_FILE docker-compose.yml
+            export POSTGRES_CONNECTION
+            docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
+            docker-compose run api npm run db:migrate
+          envs: POSTGRES_CONNECTION,BUILD_FILE
+
+      - name: 'notify success'
+        if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'notify failure'
+        if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
 
   run:    
     needs: configure
@@ -28,7 +112,7 @@ jobs:
 
       - name: 'build'
         if: ${{ github.event.deployment.task == 'build' }}
-        run: echo "Running build for ${GITHUB_REF}, ${DEPLOYMENT}"
+        run: npx ci build
 
       - name: 'deploy'
         if: ${{ github.event.deployment.task == 'deploy' }}

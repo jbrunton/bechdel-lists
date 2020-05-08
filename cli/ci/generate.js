@@ -1,4 +1,5 @@
 module.exports = {
+  aliases: ['generate <subcommand> [args]'],
   ignore: ['<subcommand>', '[args]'],
   setup: sywac => {
     sywac

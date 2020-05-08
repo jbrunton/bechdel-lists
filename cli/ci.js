@@ -8,7 +8,8 @@ if (!process.env.CI) {
 }
 
 sywac
-  .command('generate <subcommand> [args]', require('./ci/generate'))
+  .command(require('./ci/generate'))
+  .command(require('./ci/create'))
   .boolean('--dry-run', {
     desc: "Avoid committing, saving or pushing any changes. Potential changes will be logged to the console instead."
   })

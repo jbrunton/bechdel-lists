@@ -80,3 +80,6 @@ async function main() {
 }
 
 main();
+
+require('colors');
+console.log('hi'.yellow);
