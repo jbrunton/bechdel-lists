@@ -1,5 +1,8 @@
-latest: 4688a870-4d97-49a8-8320-dde14def087f
+latest: b3077644-1dac-447f-8092-1de2c054d344
 deployments:
+  - id: b3077644-1dac-447f-8092-1de2c054d344
+    version: 0.0.21
+    timestamp: '2020-05-08T14:19:13.712Z'
   - id: 4688a870-4d97-49a8-8320-dde14def087f
     version: 0.0.20
     timestamp: '2020-05-08T14:09:42.933Z'
