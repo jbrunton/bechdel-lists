@@ -138,6 +138,9 @@ jobs:
 
     steps:
 
+      - name: npm install
+        run: npm install
+
       - name: Update manifest
         env:
           ENVIRONMENT: ${{ github.event.deployment.payload.environment }}
