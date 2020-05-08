@@ -4,41 +4,107 @@ on:
   deployment
 
 env:
-  CI: 1
   DEPLOYMENT: ${{ toJson(github.event.deployment) }}
-  
+
+  DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+  DOCKER_USERNAME: jbrunton
+
+  CI: 1
+  FORCE_COLOR: 1
+
 jobs:
 
-  configure:
+  build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'build' }}
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: 'Deployment pending'
         uses: 'deliverybot/status@master'
         with:
           state: 'pending'
           token: '${{ secrets.GITHUB_TOKEN }}'
+      
+      - name: npm install
+        run: npm install
 
-  run:    
-    needs: configure
+      - name: docker login
+        run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      - name: 'build'
+        run: npx ci create build
+
+      - name: 'commit'
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npx ci commit build
+          
+          git push origin HEAD:master
+
+      - name: 'notify success'
+        if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'notify failure'
+        if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+  deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'deploy' }}
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: 'build'
-        if: ${{ github.event.deployment.task == 'build' }}
-        run: echo "Running build for ${GITHUB_REF}, ${DEPLOYMENT}"
+      - name: 'Deployment pending'
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+      
+      - name: npm install
+        run: npm install
 
       - name: 'deploy'
-        if: ${{ github.event.deployment.task == 'deploy' }}
-        run: echo "Running deployment for ${GITHUB_REF}, ${DEPLOYMENT}"
+        run: npx ci deploy
 
-  update_deployment:
-    needs: run
-    runs-on: ubuntu-latest
+      - name: copy files
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ needs.deploy_check.outputs.host }}
+          USERNAME: deployer
+          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+        with:
+          source: ${{ needs.deploy_check.outputs.buildFile }}
+          overwrite: true
+          target: .
 
-    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        env:
+          HOST: ${{ needs.deploy_check.outputs.host }}
+          USERNAME: deployer
+          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+          POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+          BUILD_FILE: ${{ needs.deploy_check.outputs.buildFile }}
+        with:
+          script: |
+            ln -sf $BUILD_FILE docker-compose.yml
+            export POSTGRES_CONNECTION
+            docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
+            docker-compose run api npm run db:migrate
+          envs: POSTGRES_CONNECTION,BUILD_FILE
+
       - name: 'notify success'
         if: success()
         uses: 'deliverybot/status@master'
