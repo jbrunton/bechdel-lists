@@ -27,7 +27,7 @@ jobs:
   
   start:
     needs: manifest_check
-    if: ${{ toJson(needs.manifest_check.outputs.deploymentMatrix.include) != '[]' }}
+    if: false
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
