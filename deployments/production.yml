@@ -1,5 +1,8 @@
-latest: b3077644-1dac-447f-8092-1de2c054d344
+latest: 8e8d79e8-ee07-4ec1-88d8-fef891afa445
 deployments:
+  - id: 8e8d79e8-ee07-4ec1-88d8-fef891afa445
+    version: 0.0.27
+    timestamp: '2020-05-08T17:15:04.312Z'
   - id: b3077644-1dac-447f-8092-1de2c054d344
     version: 0.0.21
     timestamp: '2020-05-08T14:19:13.712Z'
