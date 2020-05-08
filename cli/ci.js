@@ -10,6 +10,7 @@ if (!process.env.CI) {
 sywac
   .command(require('./ci/generate'))
   .command(require('./ci/create'))
+  .command(require('./ci/commit'))
   .boolean('--dry-run', {
     desc: "Avoid committing, saving or pushing any changes. Potential changes will be logged to the console instead."
   })
