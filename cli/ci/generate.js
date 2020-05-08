@@ -1,4 +1,5 @@
 const manifest = require('../lib/manifest');
+const Deployments = require('../lib/deployments');
 
 module.exports = {
   aliases: ['generate <subcommand> [args]'],
@@ -19,12 +20,23 @@ module.exports = {
             console.log(`Found build for version ${buildVersion}: ${JSON.stringify(manifest.currentBuild)}`);
           }
 
+          for (let [envName, envManifest] of Object.entries(manifest.environments)) {
+            const deployments = new Deployments(envName);
+            const latestDeployment = deployments.getLatest();
+            const latestVersion = latestDeployment ? latestDeployment.version : null;
+
+            console.log(`envName: ${envName}, manifest: ${JSON.stringify(envManifest)}`);
+            console.log(`Manifest version for ${envName} is ${envManifest.version}, latest deployed version is ${latestVersion}`);
+            if (envManifest.version != latestVersion) {
+              console.log('Deployed version out of date, deployment required.');
+              tasks.push({ task: 'deploy', environment: envName });
+            } else {
+              console.log('Versions match, skipping deployment');
+            }
+          }
+
           const deploymentMatrix = {
             include: tasks
-            // include: [
-            //   { task: 'build', version: '0.12.0' },
-            //   { task: 'deploy', environment: 'production', version: '0.11.1' },
-            // ]
           };
           if (tasks.length > 0) {
             console.log('::set-output name=deploymentsRequired::1');
