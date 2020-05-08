@@ -138,6 +138,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
 
       - name: npm install
         run: npm install
