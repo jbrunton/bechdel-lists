@@ -102,38 +102,3 @@ jobs:
         with:
           state: 'failure'
           token: '${{ secrets.GITHUB_TOKEN }}'
-
-
-  run:    
-    needs: configure
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: 'build'
-        if: ${{ github.event.deployment.task == 'build' }}
-        run: npx ci build
-
-      - name: 'deploy'
-        if: ${{ github.event.deployment.task == 'deploy' }}
-        run: echo "Running deployment for ${GITHUB_REF}, ${DEPLOYMENT}"
-
-  update_deployment:
-    needs: run
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 'notify success'
-        if: success()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: 'notify failure'
-        if: failure()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'failure'
-          token: '${{ secrets.GITHUB_TOKEN }}'
