@@ -1,4 +1,4 @@
-name: ci-deploy
+name: ci-builder
 
 on:
   deployment
