@@ -10,37 +10,30 @@ const chalk = require('chalk');
 
 
 sywac
-  .command('info [environment]', {
+  .command('info <environment>', {
     desc: 'Display information from the manifest',
     run: async (argv, context) => {
       const manifest = await fetchManifest();
-      if (argv.environment) {
-        const environment = manifest.environments[argv.environment];
-        if (!environment) {
-          throw new Error(`Unknown environment ${argv.environment}`);
-        }
-
-        console.log(colors.bold('Environment info'));
-        const deployments = await fetchDeployments(argv.environment);
-        console.table({
-          version: environment.version,
-          host: environment.host
-        });
-
-        console.log(colors.bold('Recent deployments'));
-        console.table(deployments.deployments.slice(0, 5).map(deployment => {
-          return {
-            version: deployment.version,
-            timestamp: formatTimestamp(deployment.timestamp),
-            id: deployment.id
-          };
-        }));
-      } else {
-        const envInfo = Object.entries(manifest.environments).map(([envName, envInfo]) => {
-          return Object.assign({ name: envName }, envInfo);
-        });
-        console.table(envInfo, ['name', 'version', 'host']);
+      const environment = manifest.environments[argv.environment];
+      if (!environment) {
+        throw new Error(`Unknown environment ${argv.environment}`);
       }
+
+      console.log(colors.bold('Environment info'));
+      const deployments = await fetchDeployments(argv.environment);
+      console.table({
+        version: environment.version,
+        host: environment.host
+      });
+
+      console.log(colors.bold('Recent deployments'));
+      console.table(deployments.deployments.slice(0, 5).map(deployment => {
+        return {
+          version: deployment.version,
+          timestamp: formatTimestamp(deployment.timestamp),
+          id: deployment.id
+        };
+      }));    
     }
   })
   .command(require('./cli/list'))

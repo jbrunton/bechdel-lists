@@ -1,8 +1,8 @@
-const { formatTimestamp, fetchBuilds, fetchDeployments } = require('../lib/utils');
+const { formatTimestamp, fetchBuilds, fetchDeployments, fetchManifest } = require('../lib/utils');
 
 module.exports = {
-  flags: 'list <builds|deployments> [args]',
-  ignore: ['<builds|deployments>', '[args]'],
+  flags: 'list <builds|deployments|environments> [args]',
+  ignore: ['<builds|deployments|environments>', '[args]'],
   desc: 'List builds or deployments',
   setup: sywac => {
     sywac
@@ -31,6 +31,16 @@ module.exports = {
               id: deployment.id
             };
           }));
+        }
+      })
+      .command('environments', {
+        desc: 'List environments',
+        run: async (argv, context) => {
+          const manifest = await fetchManifest();
+          const envInfo = Object.entries(manifest.environments).map(([envName, envInfo]) => {
+            return Object.assign({ name: envName }, envInfo);
+          });
+          console.table(envInfo, ['name', 'version', 'host']);
         }
       })
   }
