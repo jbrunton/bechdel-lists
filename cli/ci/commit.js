@@ -1,7 +1,7 @@
 const logger = require('../lib/logger');
 const manifest = require('../lib/manifest');
 const builds = require('../lib/builds');
-const git = require('simple-git');
+const git = require('simple-git/promise')();
 
 module.exports = {
   aliases: ['commit <subcommand>'],
