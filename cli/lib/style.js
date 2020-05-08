@@ -2,6 +2,7 @@ const chalk = require('chalk');
 
 const command = s => chalk.green.bold(s);
 const arg = s => chalk.yellow.bold(s);
+const error = s => chalk.red(s);
 
 module.exports = {
   group: str => chalk.bold(str),
@@ -22,5 +23,10 @@ module.exports = {
     return arg(s);
   },
 
-  hints: s => chalk.grey(s)
+  hints: s => chalk.grey(s),
+
+  flagsError: s => error(s),
+  descError: s => error(s),
+  hintsError: s => error(s),
+  messages: s => error(chalk.bold(s))
 };
