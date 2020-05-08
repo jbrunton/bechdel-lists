@@ -54,8 +54,8 @@ module.exports = {
           const envManifest = manifest.environments[envName];
           const build = builds.findByVersion(envManifest.version);
           const buildFile = builds.buildFilePath(build.id);
-          console.log(`::set-output name=host=${envManifest.host}`);
-          console.log(`::set-output name=buildFile=${buildFile}`);
+          console.log(`::set-output name=host::${envManifest.host}`);
+          console.log(`::set-output name=buildFile::${buildFile}`);
         }
       })
       .command('build-payload', {
