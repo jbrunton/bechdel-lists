@@ -48,5 +48,11 @@ module.exports = {
       .boolean('--skip-build', { desc: 'Skip the docker-compose build step' })
       .boolean('--skip-push', { desc: 'Skip the docker-compose push step' })
       .string('--image-tag', { desc: 'Use an existing docker image tag' });
+    
+    sywac.command('deploy <environment>', {
+      desc: 'Create a new deployment for the the given environment',
+      run: async (argv, context) => {
+      }
+    });
   }
 };
