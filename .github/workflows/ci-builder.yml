@@ -85,7 +85,7 @@ jobs:
         env:
           HOST: ${{ steps.deployment_info.outputs.host }}
           BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
-        run: echo "HOST: ${HOST}, BUILD_FILE: ${BUILD_FILE}"
+        run: echo "HOST ${HOST}, BUILD_FILE ${BUILD_FILE}"
 
       - name: copy files
         uses: appleboy/scp-action@master
