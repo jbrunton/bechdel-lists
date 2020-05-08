@@ -8,23 +8,22 @@ if (!process.env.CI) {
   process.exit(1);
 }
 
-sywac.command('check manifest', {
-  desc: 'Check for any builds required',
-  run: async (argv, context) => {
-    const deploymentMatrix = {
-      include: [
-        { task: 'build', version: '0.12.0' },
-        { task: 'deploy', environment: 'production', version: '0.11.1' },
-      ]
-    };
-    console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`);
-  }
-});
-
 sywac.command('generate <subcommand> [args]', {
   ignore: ['<subcommand>', '[args]'],
   setup: sywac => {
     sywac
+      .command('deployment-matrix', {
+        desc: 'Generate a deployment jobs matrix for any deployment jobs required',
+        run: async (argv, context) => {
+          const deploymentMatrix = {
+            include: [
+              { task: 'build', version: '0.12.0' },
+              { task: 'deploy', environment: 'production', version: '0.11.1' },
+            ]
+          };
+          console.log(`::set-output name=deploymentMatrix::${JSON.stringify(deploymentMatrix)}}"`);
+        }
+      })
       .command('build-payload <version>', {
         desc: 'Generate a deployment payload to create a build for <version>',
         run: (argv, context) => {
