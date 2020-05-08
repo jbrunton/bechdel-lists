@@ -63,6 +63,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.deployment.task == 'deploy' }}
 
+    env:
+      ENVIRONMENT: ${{ github.event.deployment.environment }}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -77,8 +80,6 @@ jobs:
 
       - name: deployment info
         id: deployment_info
-        env:
-          ENVIRONMENT: ${{ github.event.deployment.environment }}
         run: npx ci generate deployment-info $ENVIRONMENT
 
       - name: check outputs
@@ -97,6 +98,15 @@ jobs:
           source: ${{ steps.deployment_info.outputs.buildFile }}
           overwrite: true
           target: .
+
+      - name: 'commit'
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npx ci commit deployment $ENVIRONMENT
+          
+          git push origin HEAD:master
 
       - name: deploy
         uses: appleboy/ssh-action@master
