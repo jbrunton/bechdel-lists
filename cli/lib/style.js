@@ -6,7 +6,9 @@ const arg = s => chalk.yellow.bold(s);
 module.exports = {
   group: str => chalk.bold(str),
 
-  usagePrefix: s => chalk.bold(s.slice(0, 6)) + ' ' + chalk.grey.bold(s.slice(7)),
+  usagePrefix: (s) => {
+    return chalk.bold(s.slice(0, 6)) + ' ' + command((s.slice(7)))
+  },
   usageCommandPlaceholder: s => command(s),
   usagePositionals: s => arg(s),
   usageArgsPlaceholder: s => arg(s),

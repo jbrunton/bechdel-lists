@@ -4,7 +4,7 @@ const sywac = require('sywac');
 const axios = require('axios');
 const yaml = require('js-yaml');
 const colors = require('colors/safe');
-const semver = require('semver');
+
 const { exec } = require('child_process');
 const chalk = require('chalk');
 
@@ -37,47 +37,7 @@ sywac
     }
   })
   .command(require('./cli/list'))
-  .command('new-version [version]', {
-    run: async (argv, context) => {
-      function releaseType() {
-        if (argv.major) {
-          return 'major';
-        }
-        if (argv.minor) {
-          return 'minor';
-        };
-        if (argv.patch) {
-          return 'patch';
-        }
-      
-        throw new Error("Version or --major, --minor, -patch required.");
-      }
-      const manifest = await fetchManifest();
-      const currentVersion = manifest.version;
-      const nextVersion = argv.version ? argv.version : semver.inc(currentVersion, releaseType());
-      console.log(`currentVersion: ${currentVersion}, nextVersion: ${nextVersion}`);
-
-      const payload = {
-        ref: 'master',
-        environment: 'update_manifest',
-        task: 'update_manifest',
-        description: 'New version',
-        auto_merge: false,
-        payload: { version: nextVersion },
-        required_contexts:[]
-      };
-
-      const command = `echo '${JSON.stringify(payload)}' | hub api "repos/jbrunton/bechdel-demo/deployments" --input -`;
-      console.log('command: ' + command);
-      await exec(command, process.env);
-    },
-    setup: sywac => {
-      sywac 
-        .boolean('--major')
-        .boolean('--minor')
-        .boolean('--patch')
-    }
-  })
+  .command(require('./cli/new_version'))
   .command(require('./cli/deploy'))
   .showHelpByDefault();
 
