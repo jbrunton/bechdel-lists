@@ -36,5 +36,4 @@ jobs:
       - name: integration tests
         run: |
           docker-compose up -d
-          docker-compose run npm run test:integration
-
+          docker-compose run api npm run test:integration
