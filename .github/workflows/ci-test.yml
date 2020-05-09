@@ -11,19 +11,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      WORKSPACE: ${{ github.workspace }}
+
     steps:
       - uses: actions/checkout@v2
 
       - name: npm install
-        run: npm install
+        run: |
+          cd ${WORKSPACE}/services/api
+          npm install
 
       - name: unit tests
         run: |
-          cd services/api
+          cd ${WORKSPACE}/services/api
           npm run test:unit
       
+      - name: build
+      run: docker-compose build
+  
       - name: integration tests
-        run: |
-          docker-compose up -d
-          docker-compose run npm run test:integration
+      run: |
+        docker-compose up -d
+        docker-compose run npm run test:integration
 
