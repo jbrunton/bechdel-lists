@@ -1,9 +1,6 @@
 name: ci-builder
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 env:
   CI: 1
