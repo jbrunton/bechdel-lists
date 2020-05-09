@@ -1,14 +1,14 @@
 const Type = require('sywac/types/type')
 const chalk = require('chalk');
 const semver = require('semver');
-const cache = require('./manifest_cache');
+const manifests = require('./manifests');
 
 class TypeEnvironment extends Type {
   get datatype () {
     return 'environment';
   }
   async validateValue (value) {
-    const manifest = await cache.getManifest(true);
+    const manifest = await manifests.remote.getManifest();
     this._environments = Object.keys(manifest.environments);
     return this._environments.includes(value);
   }
@@ -28,7 +28,7 @@ class TypeVersion extends Type {
       return false;
     }
 
-    const catalog = await cache.getBuilds(true);
+    const catalog = await manifests.remote.getBuilds();
     const build = catalog.builds.find(build => build.version == value);
     this._buildExists = build != null;
 
