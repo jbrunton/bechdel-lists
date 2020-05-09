@@ -5,20 +5,16 @@ on: push
 env:
   CI: 1
   FORCE_COLOR: 1
+  WORKSPACE: ${{ github.workspace }}
+
 
 jobs:
 
-  test:
+  unit_test:
     runs-on: ubuntu-latest
-
-    env:
-      WORKSPACE: ${{ github.workspace }}
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: configure environment
-        run: echo "TAG=latest" > .env
 
       - name: npm install
         run: |
@@ -29,11 +25,22 @@ jobs:
         run: |
           cd ${WORKSPACE}/services/api
           npm run test:unit
+  
+  integration_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
       
+      - name: configure environment
+        run: echo "TAG=latest" > .env
+
       - name: build
         run: docker-compose build
   
       - name: integration tests
         run: |
           docker-compose up -d
+          docker-compose run api npm run db:test:create
+          docker-compose run api npm run db:test:migrate
           docker-compose run api npm run test:integration
