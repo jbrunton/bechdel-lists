@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       ratings: [
-        { rating: 0, selected: true, description: 'Fewer than two named women' },
+        { rating: 0, description: 'Fewer than two named women' },
         { rating: 1, description: 'Has at least two named women in it' },
         { rating: 2, description: 'Who talk to each other' },
         { rating: 3, description: 'About something besides a man' }
