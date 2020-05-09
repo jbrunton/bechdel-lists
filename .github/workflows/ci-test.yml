@@ -1,0 +1,32 @@
+name: ci-builder
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  CI: 1
+  FORCE_COLOR: 1
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: unit tests
+        run: |
+          cd services/api
+          npm run test:unit
+      
+      - name: integration tests
+        run: |
+          docker-compose up -d
+          docker-compose run npm run test:integration
+
