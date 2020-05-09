@@ -9,20 +9,20 @@ module.exports = {
         desc: 'Generate a deployment jobs matrix for any deployment jobs required',
         run: async (argv, context) => {
           const tasks = [];          
-          const manifest = manifests.local.getManifest();
+          const manifest = await manifests.local.getManifest();
           console.log(JSON.stringify(manifest));
-          const buildExists = !!manifests.local.getCurrentBuild();
+          const currentBuild = await manifests.local.getCurrentBuild();
+          const buildExists = !!currentBuild;
           const buildVersion = manifest.version;
           if (!buildExists) {
             console.log(`Build required for version ${buildVersion}.`);
             tasks.push({ task: 'build' });
           } else {
-            console.log(`Found build for version ${buildVersion}: ${JSON.stringify(manifest.currentBuild)}`);
+            console.log(`Found build for version ${buildVersion}: ${JSON.stringify(currentBuild)}`);
           }
 
           for (let [envName, envManifest] of Object.entries(manifest.environments)) {
-            const deployments = new Deployments(envName);
-            const latestDeployment = deployments.getLatest();
+            const latestDeployment = await manifests.local.getLatestDeployment(envName);
             const latestVersion = latestDeployment ? latestDeployment.version : null;
 
             console.log(`envName: ${envName}, manifest: ${JSON.stringify(envManifest)}`);
@@ -48,8 +48,8 @@ module.exports = {
       })
       .command('deployment-info <environment>', {
         desc: 'Generate deployment info for the given environment',
-        run: (argv, context) => {
-          const manifest = manifests.local.getManifest();
+        run: async (argv, context) => {
+          const manifest = await manifests.local.getManifest();
           const envName = argv.environment;
           const envManifest = manifest.environments[envName];
           const build = manifests.local.findBuild(envManifest.version);

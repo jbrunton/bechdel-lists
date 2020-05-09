@@ -34,8 +34,8 @@ class ManifestCache {
     return this.findBuild(manifest.version);
   }
 
-  async getLatestDeployment() {
-    const catalog = await this.getDeploymentsCatalog();
+  async getLatestDeployment(environment) {
+    const catalog = await this.getDeploymentsCatalog(environment);
     return catalog.deployments.find(deployment => deployment.id == catalog.latest);
   }
 
