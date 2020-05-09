@@ -28,7 +28,7 @@ class TypeVersion extends Type {
       return false;
     }
 
-    const catalog = await manifests.remote.getBuilds();
+    const catalog = await manifests.remote.getBuildsCatalog();
     const build = catalog.builds.find(build => build.version == value);
     this._buildExists = build != null;
 
