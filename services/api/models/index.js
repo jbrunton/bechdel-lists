@@ -8,9 +8,11 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/database.js')[env];
 const db = {};
 
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
 let sequelize;
 if (typeof config.url === 'string' && config.url.length > 0) {
-  console.log('Connecting to DB with connection string');
+  console.log('Connecting to DB with connection string: ' + config.url);
   sequelize = new Sequelize(config.url, config);
 } else {
   console.log('Connecting to DB with config');
