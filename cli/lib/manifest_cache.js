@@ -26,7 +26,7 @@ function getCachedManifest(remote) {
 }
 
 async function getBuilds(remote) {
-  return await this.cacheLookup(remote, buildsPath);
+  return await cacheLookup(remote, buildsPath);
 }
 
 function getCachedBuilds(remote) {
@@ -34,7 +34,7 @@ function getCachedBuilds(remote) {
 }
 
 async function getDeployments(environment, remote) {
-  return await this.cacheLookup(remote, deploymentsPath(environment));
+  return await cacheLookup(remote, deploymentsPath(environment));
 }
 
 function getCachedDeployments(environment, remote) {
