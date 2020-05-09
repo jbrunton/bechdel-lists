@@ -17,6 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: configure environment
+        run: echo "TAG=latest" > .env
+
       - name: npm install
         run: |
           cd ${WORKSPACE}/services/api
