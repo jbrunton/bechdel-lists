@@ -12,7 +12,7 @@ module.exports = {
         desc: 'Commit changes to the build catalog',
         run: async (argv, context) => {
           const dryRun = argv['dry-run'];
-          const build = manifests.local.getCurrentBuild();
+          const build = await manifests.local.getCurrentBuild();
 
           if (!build) {
             throw new Error('Missing build for current manifest version');
@@ -37,16 +37,16 @@ module.exports = {
         run: async (argv, context) => {
           const envName = argv.environment;
           const dryRun = argv['dry-run'];
-          const deployments = manifests.local.getDeploymentsCatalog(envName);
-          console.log(JSON.stringify(manifest));
-          const envManifest = manifests.getManifest().environments[envName];
-          const build = envManifest.build;
+          const deployments = await manifests.local.getDeploymentsCatalog(envName);
+          const manifest = await manifests.local.getManifest();
+          const envManifest = manifest.environments[envName];
+          const build = await manifests.local.findBuild(envManifest.version);
         
           if (!build) {
             throw new Error('Missing build for current manifest version');
           }
         
-          manifests.createDeployment(build.version, dryRun);
+          await manifests.createDeployment(envName, build.version, dryRun);
 
           const filesToAdd = [deployments.manifestFile];
           const commitMessage = `Deploying ${build.version} to ${envName}`;

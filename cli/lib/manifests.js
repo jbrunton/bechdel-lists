@@ -116,14 +116,14 @@ async function createBuild(version, dryRun, imageTag) {
   return build;
 }
 
-function createDeployment(version, dryRun) {
+async function createDeployment(environment, version, dryRun) {
   const deployment = {
     id: uuid(),
     version: version,
     timestamp: new Date().toISOString()
   };
   
-  const catalog = localCache.getDeploymentsCatalog();
+  const catalog = await localCache.getDeploymentsCatalog(environment);
   catalog.deployments.unshift(deployment);
   catalog.latest = deployment.id;
   if (!dryRun) {
