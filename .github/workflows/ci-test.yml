@@ -1,4 +1,4 @@
-name: ci-builder
+name: ci-test
 
 on: push
 
@@ -28,10 +28,10 @@ jobs:
           npm run test:unit
       
       - name: build
-      run: docker-compose build
+        run: docker-compose build
   
       - name: integration tests
-      run: |
-        docker-compose up -d
-        docker-compose run npm run test:integration
+        run: |
+          docker-compose up -d
+          docker-compose run npm run test:integration
 
