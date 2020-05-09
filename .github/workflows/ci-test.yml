@@ -44,6 +44,10 @@ jobs:
       #     docker-compose run api npm run db:test:create
       #     docker-compose run api npm run test:integration
 
-  ci_test:
+  ci_tests_passed:
     needs: [unit_test, integration_test]
     runs-on: ubuntu-latest
+
+    steps:
+      - name: success
+        run: echo "Tests passed"
