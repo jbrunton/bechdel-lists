@@ -23,9 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     return user;
   };
 
+  User.prototype.getExcludingPII = function() {
+    const { name, email, ...excludingPII } = this.get();
+    return excludingPII;
+  }
+
   User.prototype.logEvent = function logEvent(message) {
-    const { name, email, ...excludingPII } = this.get()
-    const userAsString = JSON.stringify(excludingPII);
+    const userAsString = JSON.stringify(this.getExcludingPII());
     console.log(`${message}: ${userAsString}`);
   }
 

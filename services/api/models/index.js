@@ -10,7 +10,7 @@ const db = {};
 
 let sequelize;
 if (typeof config.url === 'string' && config.url.length > 0) {
-  console.log('Connecting to DB with connection string');
+  console.log('Connecting to DB with connection string: ' + config.url);
   sequelize = new Sequelize(config.url, config);
 } else {
   console.log('Connecting to DB with config');
