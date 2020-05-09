@@ -1,12 +1,13 @@
-const { fetchManifest } = require('../lib/utils');
-const { exec } = require('../lib/child_process');
 const semver = require('semver');
+
+const manifests = require('../lib/manifests');
+const { exec } = require('../lib/child_process');
 
 module.exports = {
   flags: 'new-version [version]',
   run: async (argv, context) => {
     const dryRun = argv['dry-run'];
-    const manifest = await fetchManifest();
+    const manifest = await manifests.remote.getManifest();
     const currentVersion = manifest.version;
     const nextVersion = argv.version ? argv.version : semver.inc(currentVersion, releaseType(argv));
     console.log(`currentVersion: ${currentVersion}, nextVersion: ${nextVersion}`);

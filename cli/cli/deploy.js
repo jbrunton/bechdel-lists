@@ -1,5 +1,5 @@
-const { fetchManifest } = require('../lib/utils');
 const { exec } = require('../lib/child_process');
+const manifests = require('../lib/manifests');
 
 module.exports = {
   flags: 'deploy <version> <environment>',
@@ -11,7 +11,7 @@ module.exports = {
   run: async (argv, context) => {
     const dryRun = argv['dry-run'];
 
-    const manifest = await fetchManifest();
+    const manifest = await manifests.remote.getManifest();
     const currentVersion = manifest.environments[argv.environment].version;
     const nextVersion = argv.version;
     console.log(`currentVersion: ${currentVersion}, nextVersion: ${nextVersion}`);

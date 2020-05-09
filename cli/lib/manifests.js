@@ -16,12 +16,27 @@ class ManifestCache {
     return await this._cacheLookup(manifestPath);
   }
 
-  async getBuilds() {
+  async getBuildsCatalog() {
     return await this._cacheLookup(buildsPath);
   }
 
-  async getDeployments(environment) {
+  async getDeploymentsCatalog(environment) {
     return await this._cacheLookup(deploymentsPath(environment));
+  }
+
+  async findBuild(version) {
+    const catalog = await this.getBuildsCatalog();
+    return catalog.builds.find(build => build.version == version)
+  }
+
+  async getCurrentBuild() {
+    const manifest = await this.getManifest();
+    return this.findBuild(manifest.version);
+  }
+
+  async getLatestDeployment() {
+    const catalog = await this.getDeploymentsCatalog();
+    return catalog.deployments.find(deployment => deployment.id == catalog.latest);
   }
 
   async _cacheLookup(path) {
@@ -61,4 +76,8 @@ function createBuild(version) {
 
 function createDeployment() {
 
+}
+
+function buildFilePath(version) {
+  return `./deployments/builds/docker-compose.${buildId}.yml`
 }
