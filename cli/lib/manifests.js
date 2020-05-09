@@ -3,8 +3,8 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 
 const manifestPath = 'manifest.yml';
-const buildsPath = 'deployments/builds/catalog.yml';
-const deploymentsPath = environment => `deployments/${environment}.yml`;
+const buildsCatalogPath = 'deployments/builds/catalog.yml';
+const deploymentsCatalogPath = environment => `deployments/${environment}.yml`;
 
 class ManifestCache {
   constructor(remote) {
@@ -17,11 +17,11 @@ class ManifestCache {
   }
 
   async getBuildsCatalog() {
-    return await this._cacheLookup(buildsPath);
+    return await this._cacheLookup(buildsCatalogPath);
   }
 
   async getDeploymentsCatalog(environment) {
-    return await this._cacheLookup(deploymentsPath(environment));
+    return await this._cacheLookup(deploymentsCatalogPath(environment));
   }
 
   async findBuild(version) {
@@ -53,11 +53,15 @@ class ManifestCache {
   }
 }
 
+const remoteCache = new ManifestCache(true);
+const localCache = new ManifestCache(false);
+
 module.exports = {
-  remote: new ManifestCache(true),
-  local: new ManifestCache(false),
+  remote: remoteCache,
+  local: localCache,
   createBuild: createBuild,
-  createDeployment, createDeployment
+  createDeployment, createDeployment,
+  buildFilePath: buildFilePath
 };
 
 async function loadRemoteYaml(path) {
@@ -70,12 +74,54 @@ function loadLocalYaml(path) {
   return yaml.safeLoad(fs.readFileSync(`./${path}`, 'utf8'));
 }
 
-function createBuild(version) {
+async function createBuild(version, dryRun, imageTag) {
+  const buildSha = await git.revparse(['--short', 'HEAD']);
+  const buildId = `${version}-${uuid()}`;
 
+  if (localCache.findBuild(version)) {
+    throw new Error(`Build for version ${version} already exists.`);
+  }
+
+  const build = {
+    id: buildId,
+    version: version,
+    buildSha: buildSha,
+    imageTag: imageTag || buildId,
+    timestamp: (new Date()).toISOString()
+  };
+
+  catalog.builds.unshift(build);
+  if (!dryRun) {
+    fs.writeFileSync(buildsCatalogPath, yaml.safeDump(catalog));
+    console.log('Added build to catalog.');
+  } else {
+    logger.info('--dry-run passed, skipping adding build to catalog');
+    logger.info('Would have added:');
+    logger.infoBlock(yaml.safeDump(build));
+  }
+
+  return build;
 }
 
-function createDeployment() {
+function createDeployment(version, dryRun) {
+  const deployment = {
+    id: uuid(),
+    version: version,
+    timestamp: new Date().toISOString()
+  };
+  
+  const catalog = localCache.getDeploymentsCatalog();
+  catalog.deployments.unshift(deployment);
+  catalog.latest = deployment.id;
+  if (!dryRun) {
+    fs.writeFileSync(deploymentsCatalogPath, yaml.safeDump(catalog));
+    console.log('Added build to catalog.');
+  } else {
+    logger.info('--dry-run passed, skipping adding deployment to catalog. Would have added:');
+    logger.infoBlock(yaml.safeDump(deployment));
+  }
 
+  return deployment;
 }
 
 function buildFilePath(version) {
