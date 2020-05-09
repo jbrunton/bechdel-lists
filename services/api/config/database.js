@@ -33,10 +33,6 @@ module.exports = {
     dialect: 'postgres',
     operatorsAliases: false
   },
-  unit: {
-    host: '<invalid db>',
-    dialect: 'postgres',
-  },
   production: {
     url: process.env.POSTGRES_CONNECTION,
     operatorsAliases: false,

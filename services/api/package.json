@@ -12,6 +12,8 @@
     "debug": "NODE_ENV=development nodemon --inspect=0.0.0.0:9229 run.js",
     "start": "node run.js",
     "test": "jest",
+    "test:unit": "jest -c jest.config.unit.js",
+    "test:integration": "jest -c jest.config.integration.js",
     "db:drop": "npx sequelize-cli db:drop",
     "db:create": "npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
