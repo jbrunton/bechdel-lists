@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "chalk": "^4.0.0",
+    "cli-table3": "^0.6.0",
     "colors": "^1.4.0",
     "semver": "^7.3.2",
     "simple-git": "^2.4.0",
