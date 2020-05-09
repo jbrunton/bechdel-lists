@@ -25,6 +25,7 @@ jobs:
       - name: client
         run: |
           cd ${WORKSPACE}/services/client
+          npm install
           npm run test:unit
 
   integration_tests:
