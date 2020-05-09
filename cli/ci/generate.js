@@ -1,6 +1,4 @@
-const manifest = require('../lib/manifest');
-const Deployments = require('../lib/deployments');
-const builds = require('../lib/builds');
+const manifests = require('../lib/manifests');
 
 module.exports = {
   flags: 'generate <subcommand> [args]',
@@ -10,9 +8,10 @@ module.exports = {
       .command('deployment-matrix', {
         desc: 'Generate a deployment jobs matrix for any deployment jobs required',
         run: async (argv, context) => {
-          const tasks = [];
-
-          const buildExists = !!manifest.currentBuild;
+          const tasks = [];          
+          const manifest = manifests.local.getManifest();
+          console.log(JSON.stringify(manifest));
+          const buildExists = !!manifests.local.getCurrentBuild();
           const buildVersion = manifest.version;
           if (!buildExists) {
             console.log(`Build required for version ${buildVersion}.`);
@@ -50,10 +49,11 @@ module.exports = {
       .command('deployment-info <environment>', {
         desc: 'Generate deployment info for the given environment',
         run: (argv, context) => {
+          const manifest = manifests.local.getManifest();
           const envName = argv.environment;
           const envManifest = manifest.environments[envName];
-          const build = builds.findByVersion(envManifest.version);
-          const buildFile = builds.buildFilePath(build.id);
+          const build = manifests.local.findBuild(envManifest.version);
+          const buildFile = manifests.buildFilePath(build.id);
           console.log(`::set-output name=host::${envManifest.host}`);
           console.log(`::set-output name=buildFile::${buildFile}`);
         }

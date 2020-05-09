@@ -59,6 +59,9 @@ const localCache = new ManifestCache(false);
 module.exports = {
   remote: remoteCache,
   local: localCache,
+  manifestPath: manifestPath,
+  buildsCatalogPath: buildsCatalogPath,
+  deploymentsCatalogPath: deploymentsCatalogPath,
   createBuild: createBuild,
   createDeployment, createDeployment,
   buildFilePath: buildFilePath
@@ -124,6 +127,6 @@ function createDeployment(version, dryRun) {
   return deployment;
 }
 
-function buildFilePath(version) {
+function buildFilePath(buildId) {
   return `./deployments/builds/docker-compose.${buildId}.yml`
 }
