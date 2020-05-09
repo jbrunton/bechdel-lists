@@ -22,9 +22,9 @@ function createBuildId(version) {
   return `${version}-${uuid()}`;
 }
 
-function findById(buildId) {
-  return buildsById[buildId];
-}
+// function findById(buildId) {
+//   return buildsById[buildId];
+// }
 
 function findByVersion(version) {
   return buildsByVersion[version];
@@ -66,7 +66,7 @@ async function create(version, dryRun, imageTag) {
 }
 
 module.exports = {
-  findById: findById,
+  // findById: findById,
   findByVersion: findByVersion,
   buildFilePath: buildFilePath,
   create: create,

@@ -40,7 +40,6 @@ function formatTable(data, styles, options) {
   });
   const colAligns = {};
   header.forEach((col, index) => {
-    console.log('col: ' + col + ', index: ' + index);
     if (col.content == 'version') {
       colAligns[index] = 'right';
     }
