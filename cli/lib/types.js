@@ -37,7 +37,7 @@ class TypeVersion extends Type {
   buildInvalidMessage (context, msgAndArgs) {
     super.buildInvalidMessage(context, msgAndArgs);
     if (!this._validSemver) {
-      msgAndArgs.msg += ` Invalid format: versions should be in semver form or "latest".`;
+      msgAndArgs.msg += ` Versions should be in semver format or "latest".`;
     } else if (!this._buildExists) {
       msgAndArgs.msg += ` Could not find build for that version name.`;
       console.log(JSON.stringify(msgAndArgs));

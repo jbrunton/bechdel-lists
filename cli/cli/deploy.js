@@ -2,13 +2,12 @@ const { fetchManifest } = require('../lib/utils');
 const { exec } = require('../lib/child_process');
 
 module.exports = {
-  flags: 'deploy',
+  flags: 'deploy <version> <environment>',
   desc: 'Deploy build <version> to <environment>',
-  setup: sywac => {
-    sywac
-      .positional('<version>', { type: 'version', strict: true })
-      .positional('<environment>', { type: 'environment', strict: true });
-  },
+  params: [
+    { type: 'version', strict: true },
+    { type: 'environment', strict: true }
+  ],
   run: async (argv, context) => {
     const dryRun = argv['dry-run'];
 

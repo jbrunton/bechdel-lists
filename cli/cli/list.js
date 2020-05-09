@@ -22,6 +22,9 @@ module.exports = {
       })
       .command('deployments <environment>', {
         desc: 'List deployments for the environment',
+        params: [
+          { type: 'environment', strict: true }
+        ],
         run: async (argv, context) => {
           const deployments = await fetchDeployments(argv.environment);
           console.table(deployments.deployments.slice(0, 10).map(deployment => {
