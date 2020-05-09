@@ -5,10 +5,7 @@ const chalk = require('chalk');
 
 module.exports = {
   formatTimestamp: formatTimestamp,
-  formatTable: formatTable,
-  fetchManifest: fetchManifest,
-  fetchBuilds: fetchBuilds,
-  fetchDeployments: fetchDeployments
+  formatTable: formatTable
 };
 
 function formatTimestamp(timestamp) {
@@ -51,25 +48,4 @@ function formatTable(data, styles, options) {
   }, options));
   table.push(...rows);
   return table.toString();
-}
-
-async function fetchManifest() {
-  const manifestUrl = 'https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/manifest.yml';
-  const manifestFile = await axios.get(manifestUrl);
-  const manifest = yaml.safeLoad(manifestFile.data);
-  return manifest;
-}
-
-async function fetchDeployments(environment) {
-  const manifestUrl = `https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/deployments/${environment}.yml`;
-  const manifestFile = await axios.get(manifestUrl);
-  const manifest = yaml.safeLoad(manifestFile.data);
-  return manifest;
-}
-
-async function fetchBuilds() {
-  const manifestUrl = `https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/deployments/builds/catalog.yml`;
-  const manifestFile = await axios.get(manifestUrl);
-  const manifest = yaml.safeLoad(manifestFile.data);
-  return manifest;
 }
