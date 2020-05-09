@@ -35,11 +35,15 @@ jobs:
       - name: configure environment
         run: echo "TAG=latest" > .env
 
-      - name: build
-        run: docker-compose build
+      # - name: build
+      #   run: docker-compose build
   
-      - name: integration tests
-        run: |
-          docker-compose up -d
-          docker-compose run api npm run db:test:create
-          docker-compose run api npm run test:integration
+      # - name: integration tests
+      #   run: |
+      #     docker-compose up -d
+      #     docker-compose run api npm run db:test:create
+      #     docker-compose run api npm run test:integration
+
+  ci_test:
+    needs: [unit_test, integration_test]
+    runs-on: ubuntu-latest
