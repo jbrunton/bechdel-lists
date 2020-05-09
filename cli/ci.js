@@ -15,8 +15,9 @@ sywac
   .boolean('--dry-run', {
     desc: "Prevent saving, committing or pushing any changes."
   })
-  .style(require('./lib/style'))
-  .showHelpByDefault();
+  .showHelpByDefault()
+  .help('-h, --help')
+  .style(require('./lib/style'));
 
 async function main() {
   await sywac.parseAndExit();

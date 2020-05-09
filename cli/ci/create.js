@@ -13,7 +13,7 @@ module.exports = {
       .command('build', {
         desc: 'Create a new build for the current manifest version',
         run: async (argv, context) => {
-          const buildVersion = manifests.local.getManifest().version;
+          const buildVersion = await manifests.local.getManifestVersion();
           const dryRun = argv['dry-run'],
             skipBuild = argv['skip-build'],
             skipPush = argv['skip-push'];

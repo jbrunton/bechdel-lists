@@ -1,6 +1,10 @@
 const axios = require('axios');
 const yaml = require('js-yaml');
 const fs = require('fs');
+const git = require('simple-git/promise')();
+const { v4: uuid } = require('uuid');
+
+const logger = require('./logger');
 
 const manifestPath = 'manifest.yml';
 const buildsCatalogPath = 'deployments/builds/catalog.yml';
@@ -14,6 +18,11 @@ class ManifestCache {
 
   async getManifest() {
     return await this._cacheLookup(manifestPath);
+  }
+
+  async getManifestVersion() {
+    const manifest = await this.getManifest();
+    return manifest.version;
   }
 
   async getBuildsCatalog() {
@@ -81,7 +90,7 @@ async function createBuild(version, dryRun, imageTag) {
   const buildSha = await git.revparse(['--short', 'HEAD']);
   const buildId = `${version}-${uuid()}`;
 
-  if (localCache.findBuild(version)) {
+  if (await localCache.findBuild(version)) {
     throw new Error(`Build for version ${version} already exists.`);
   }
 
@@ -93,6 +102,7 @@ async function createBuild(version, dryRun, imageTag) {
     timestamp: (new Date()).toISOString()
   };
 
+  const catalog = await localCache.getBuildsCatalog();
   catalog.builds.unshift(build);
   if (!dryRun) {
     fs.writeFileSync(buildsCatalogPath, yaml.safeDump(catalog));
