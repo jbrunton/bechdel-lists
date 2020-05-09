@@ -1,38 +1,5 @@
-const { table } = require('table');
-const Table = require('cli-table3');
 const chalk = require('chalk');
-const { formatTimestamp, fetchBuilds, fetchDeployments, fetchManifest } = require('../lib/utils');
-
-const defaultConfig = {
-  drawHorizontalLine: (index, size) => [0, 1, size].includes(index),
-  columnDefault: {
-    paddingLeft: 2,
-    paddingRight: 2
-  }
-};
-
-const defaultStyles = {
-  compact: true,
-  head: [],
-  paddingLeft: 2,
-  paddingRight: 2,
-  border: ['black']
-};
-
-function printTable(data, styles, options) {
-  const header = Object.keys(data[0]).map(s => ({ hAlign: 'center', content: s }));
-  const rows = data.map(x => {
-    return Object.values(x).map((v, index) => {
-      return index == 0 ? chalk.green(v) : chalk.yellow(v);
-    });
-  });
-  const table = new Table(Object.assign({
-    head: header,
-    style: Object.assign(defaultStyles, styles)
-  }, options));
-  table.push(...rows);
-  console.log(table.toString());
-}
+const { formatTimestamp, formatTable, fetchBuilds, fetchDeployments, fetchManifest } = require('../lib/utils');
 
 module.exports = {
   flags: 'list <builds|deployments|environments> [args]',
@@ -51,7 +18,7 @@ module.exports = {
               timestamp: formatTimestamp(build.timestamp),
             }
           });
-          printTable(builds, null, { colAligns: ['right'] });
+          console.log(formatTable(builds));
         }
       })
       .command('deployments <environment>', {
@@ -61,23 +28,28 @@ module.exports = {
         ],
         run: async (argv, context) => {
           const deployments = await fetchDeployments(argv.environment);
-          console.table(deployments.deployments.slice(0, 10).map(deployment => {
+          const tableData = deployments.deployments.slice(0, 10).map(deployment => {
             return {
               version: deployment.version,
               timestamp: formatTimestamp(deployment.timestamp),
               id: deployment.id
             };
-          }));
+          });
+          console.log(formatTable(tableData));
         }
       })
       .command('environments', {
         desc: 'List environments',
         run: async (argv, context) => {
           const manifest = await fetchManifest();
-          const envInfo = Object.entries(manifest.environments).map(([envName, envInfo]) => {
-            return Object.assign({ name: envName }, envInfo);
+          const tableData = Object.entries(manifest.environments).map(([envName, envInfo]) => {
+            return {
+              name: envName,
+              version: envInfo.version,
+              host: envInfo.host
+            };
           });
-          console.table(envInfo, ['name', 'version', 'host']);
+          console.log(formatTable(tableData));
         }
       })
   }

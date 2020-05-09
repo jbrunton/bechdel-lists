@@ -1,4 +1,4 @@
-const { fetchManifest, fetchDeployments, formatTimestamp } = require('../lib/utils');
+const { fetchManifest, fetchDeployments, formatTimestamp, formatTable } = require('../lib/utils');
 const chalk = require('chalk');
 
 module.exports = {
@@ -16,18 +16,19 @@ module.exports = {
 
     console.log(chalk.bold('Environment info'));
     const deployments = await fetchDeployments(argv.environment);
-    console.table({
+    console.log(formatTable([{
       version: environment.version,
       host: environment.host
-    });
+    }]));
 
     console.log(chalk.bold('Recent deployments'));
-    console.table(deployments.deployments.slice(0, 5).map(deployment => {
+    const deploymentInfo = deployments.deployments.slice(0, 5).map(deployment => {
       return {
         version: deployment.version,
         timestamp: formatTimestamp(deployment.timestamp),
         id: deployment.id
       };
-    }));    
+    });
+    console.log(formatTable(deploymentInfo));
   }
 }
