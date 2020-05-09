@@ -45,7 +45,7 @@ jobs:
       #     docker-compose run api npm run test:integration
 
   all_tests:
-    needs: [unit_test, integration_test]
+    needs: [unit_tests, integration_tests]
     runs-on: ubuntu-latest
 
     steps:
