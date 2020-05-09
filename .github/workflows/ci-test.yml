@@ -10,7 +10,7 @@ env:
 
 jobs:
 
-  unit_test:
+  unit_tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +26,7 @@ jobs:
           cd ${WORKSPACE}/services/api
           npm run test:unit
   
-  integration_test:
+  integration_tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -44,10 +44,10 @@ jobs:
       #     docker-compose run api npm run db:test:create
       #     docker-compose run api npm run test:integration
 
-  ci_tests_passed:
+  all_tests:
     needs: [unit_test, integration_test]
     runs-on: ubuntu-latest
 
     steps:
       - name: success
-        run: echo "Tests passed"
+        run: echo "All tests passed"
