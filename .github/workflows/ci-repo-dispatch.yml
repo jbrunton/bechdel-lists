@@ -1,0 +1,13 @@
+on: repository_dispatch
+  types: [tests-passed]
+
+jobs:
+
+  log_event:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: echo event
+        env:
+          EVENT: ${{ github.event }}
+        run: echo "$EVENT"

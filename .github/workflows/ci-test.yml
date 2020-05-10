@@ -25,24 +25,34 @@ jobs:
           SERVICE: ${{ matrix.service }}
         run: ./ci/unit_test.sh
 
-  integration_tests:
+  # integration_tests:
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       service: ['api', 'client']
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: copy .env
+  #       run: cp ci/ci.env .env
+
+  #     - name: build
+  #       run: docker-compose build
+
+  #     - name: run
+  #       env:
+  #         SERVICE: ${{ matrix.service }}
+  #       run: ./ci/integration_tests/${SERVICE}.sh
+  
+  notify_tests_passed:
+    needs: [unit_tests]
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        service: ['api', 'client']
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: copy .env
-        run: cp ci/ci.env .env
-
-      - name: build
-        run: docker-compose build
-
-      - name: run
-        env:
-          SERVICE: ${{ matrix.service }}
-        run: ./ci/integration_tests/${SERVICE}.sh
-  
+      - name: Notify tests passed
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+          event-type: tests-passed
