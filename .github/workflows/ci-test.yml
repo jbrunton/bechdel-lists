@@ -23,10 +23,7 @@ jobs:
       - name: run
         env:
           SERVICE: ${{ matrix.service }}
-        run: |
-          cd ${WORKSPACE}/services/${SERVICE}
-          npm install
-          npm run test:unit
+        run: ./ci/unit_tsts.sh
 
   integration_tests:
     runs-on: ubuntu-latest
@@ -50,4 +47,10 @@ jobs:
         run: |
           docker-compose up -d
           docker-compose run api npm run db:test:create
-          ./ci/integration_tests/${SERVICE}.sh
+
+          if [ "$SERVICE" = 'client' ]
+          then
+            cd ./ser
+          else
+            echo "running $SERVICE"
+          fi
