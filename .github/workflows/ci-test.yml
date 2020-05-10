@@ -53,7 +53,7 @@ jobs:
     steps:
       - name: log branch
         env:
-          EVENT: ${{ toJson(event) }}
+          EVENT: ${{ toJson(github.event) }}
         run: echo "$EVENT"
 
       - name: Trigger manifest check
