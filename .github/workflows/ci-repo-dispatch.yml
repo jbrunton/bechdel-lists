@@ -12,5 +12,5 @@ jobs:
     steps:
       - name: echo event
         env:
-          EVENT: ${{ github.event }}
+          EVENT: ${{ toJson(github.event) }}
         run: echo "$EVENT"
