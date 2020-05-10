@@ -52,7 +52,9 @@ jobs:
 
     steps:
       - name: log branch
-        run: echo "${{ github.event.branch }}"
+        env:
+          EVENT: ${{ toJson(event) }}
+        run: echo "$EVENT"
 
       - name: Trigger manifest check
         if: github.event.branch == 'master'
