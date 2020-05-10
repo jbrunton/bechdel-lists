@@ -58,33 +58,5 @@ module.exports = {
           console.log(`::set-output name=buildFile::${buildFile}`);
         }
       })
-      .command('build-payload', {
-        desc: 'Generate a deployment payload to create a build',
-        run: (argv, context) => {
-          const payload = {
-            ref: process.env.GITHUB_REF || 'master',
-            environment: 'build',
-            task: 'build',
-            description: 'Trigger build',
-            auto_merge: false,
-            required_contexts: []
-          };
-          console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
-        }
-      })
-      .command('deploy-payload <environment>', {
-        desc: 'Generate a deployment payload to deploy to <environment>',
-        run: (argv, context) => {
-          const payload = {
-            ref: process.env.GITHUB_REF || 'master',
-            environment: argv.environment,
-            task: 'deploy',
-            description: 'Trigger deployment',
-            auto_merge: false,
-            required_contexts: []
-          };
-          console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
-        }
-      });
   }
 };

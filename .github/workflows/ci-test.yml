@@ -46,14 +46,45 @@ jobs:
   #         SERVICE: ${{ matrix.service }}
   #       run: ./ci/integration_tests/${SERVICE}.sh
   
-  trigger_manifest_check:
-    needs: [unit_tests]
+  manifest_check:
+    if: github.event.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    outputs:
+      deploymentsRequired: ${{ steps.check.outputs.deploymentsRequired }}
+      deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
+      
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: check manifest
+        id: check
+        run: npx ci generate deployment-matrix
+  
+  dispatch:
+    needs: manifest_check
+    if: needs.manifest_check.outputs.deploymentsRequired == true
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
 
     steps:
-      - name: Trigger manifest check
-        if: github.event.ref == 'refs/heads/master'
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-          event-type: manifest-check
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: generate payload
+        id: payload
+        env:
+          TASK: ${{ matrix.task }}
+          ENVIRONMENT: ${{ matrix.environment }}
+        run: npx ci generate ${TASK}-payload $ENVIRONMENT
+
+      - name: start deployment workflow
+        env:
+          PAYLOAD: ${{ steps.payload.outputs.payload }}
+          GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+        run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
