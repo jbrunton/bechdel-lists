@@ -1,0 +1,13 @@
+on:
+  status
+
+jobs:
+
+  log_event:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: log event
+        env:
+          EVENT: ${{ toJson(github.event) }}
+        run: echo "event: ${EVENT"
