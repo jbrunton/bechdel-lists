@@ -56,3 +56,4 @@ jobs:
         with:
           token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
           event-type: tests-passed
+          client-payload: '{ "ref": "${{ github.ref }}" }'
