@@ -13,35 +13,36 @@ jobs:
   unit_tests:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        service: ['api', 'client']
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: api
-        run: |
-          cd ${WORKSPACE}/services/api
-          npm install
-          npm run test:unit
-
-      - name: client
-        run: |
-          cd ${WORKSPACE}/services/client
-          npm install
-          npm run test:unit
+      - name: run
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/unit_test.sh
 
   integration_tests:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        service: ['api', 'client']
+
     steps:
       - uses: actions/checkout@v2
-      
-      - name: configure environment
-        run: echo "TAG=latest" > .env
+
+      - name: copy .env
+        run: cp ci/ci.env .env
 
       - name: build
         run: docker-compose build
+
+      - name: run
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/integration_tests/${SERVICE}.sh
   
-      - name: integration tests
-        run: |
-          docker-compose up -d
-          docker-compose run api npm run db:test:create
-          docker-compose run api npm run test:integration
