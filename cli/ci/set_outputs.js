@@ -1,26 +1,27 @@
 const manifests = require('../lib/manifests');
 
 module.exports = {
-  flags: 'generate <subcommand> [args]',
+  flags: 'set-outputs <subcommand> [args]',
   ignore: ['<subcommand>', '[args]'],
   setup: sywac => {
     sywac
-      .command('deployment-matrix', {
+      .command('manifest-checks', {
         desc: 'Generate a deployment jobs matrix for any deployment jobs required',
         run: async (argv, context) => {
-          const tasks = [];          
           const manifest = await manifests.local.getManifest();
-          console.log(JSON.stringify(manifest));
+
           const currentBuild = await manifests.local.getCurrentBuild();
           const buildExists = !!currentBuild;
           const buildVersion = manifest.version;
           if (!buildExists) {
             console.log(`Build required for version ${buildVersion}.`);
-            tasks.push({ task: 'build' });
+            console.log('::set-output name=buildRequired::1');
           } else {
             console.log(`Found build for version ${buildVersion}: ${JSON.stringify(currentBuild)}`);
+            console.log('::set-output name=buildRequired::0');
           }
 
+          const deployments = [];
           for (let [envName, envManifest] of Object.entries(manifest.environments)) {
             const latestDeployment = await manifests.local.getLatestDeployment(envName);
             const latestVersion = latestDeployment ? latestDeployment.version : null;
@@ -29,14 +30,14 @@ module.exports = {
             console.log(`Manifest version for ${envName} is ${envManifest.version}, latest deployed version is ${latestVersion}`);
             if (envManifest.version != latestVersion) {
               console.log('Deployed version out of date, deployment required.');
-              tasks.push({ task: 'deploy', environment: envName });
+              deployments.push({ environment: envName });
             } else {
               console.log('Versions match, skipping deployment');
             }
           }
 
           const deploymentMatrix = {
-            include: tasks
+            include: deployments
           };
           if (tasks.length > 0) {
             console.log('::set-output name=deploymentsRequired::1');
@@ -58,5 +59,18 @@ module.exports = {
           console.log(`::set-output name=buildFile::${buildFile}`);
         }
       })
+    .command('deploy-payload <environment>', {
+      desc: 'Generate a deployment payload to deploy to <environment>',
+        run: (argv, context) => {
+        const payload = {
+          ref: process.env.GITHUB_REF || 'master',
+          environment: argv.environment,
+          description: 'Trigger deployment',
+          auto_merge: false,
+          required_contexts: []
+        };
+        console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
+      }
+    });
   }
 };

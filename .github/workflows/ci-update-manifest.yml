@@ -1,0 +1,40 @@
+name: ci-update-manifest
+
+on:
+  repository_dispatch:
+    events: [update_manifest]
+
+env:
+  DEPLOYMENT: ${{ toJson(github.event.deployment) }}
+
+  DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+  DOCKER_USERNAME: jbrunton
+
+  CI: 1
+  FORCE_COLOR: 1
+
+jobs:
+
+  update_manifest:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'update_manifest' }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+
+      - name: npm install
+        run: npm install
+
+      - name: Update manifest
+        env:
+          ENVIRONMENT: ${{ github.event.deployment.payload.environment }}
+          VERSION: ${{ github.event.deployment.payload.version }}    
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npx ci update-manifest $VERSION $ENVIRONMENT
+          
+          git push origin HEAD:master

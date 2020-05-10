@@ -8,7 +8,7 @@ if (!process.env.CI) {
 }
 
 sywac
-  .command(require('./ci/generate'))
+  .command(require('./ci/set_outputs'))
   .command(require('./ci/create'))
   .command(require('./ci/commit'))
   .command(require('./ci/update_manifest'))
