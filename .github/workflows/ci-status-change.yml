@@ -10,4 +10,4 @@ jobs:
       - name: log event
         env:
           EVENT: ${{ toJson(github.event) }}
-        run: echo "event: ${EVENT"
+        run: echo "event: ${EVENT}"
