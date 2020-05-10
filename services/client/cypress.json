@@ -2,6 +2,5 @@
   "integrationFolder": "./tests/integration/tests",
   "fixturesFolder": "./tests/integration/fixtures",
   "pluginsFile": "./tests/integration/plugins/index.js",
-  "supportFile": "./tests/integration/support/index.js",
-  "testFiles": "**/actions.spec.js"
+  "supportFile": "./tests/integration/support/index.js"
 }
