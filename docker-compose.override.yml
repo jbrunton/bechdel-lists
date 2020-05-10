@@ -34,3 +34,25 @@ services:
       - "${NGINX_LOCAL_PORT:-3001}:80"
     volumes:
       - ./services/nginx:/etc/nginx/certs # hack to prevent missing path errors in lieu of a production compose file.
+  cypress:
+    image: 'cypress'
+    build:
+      context: ./services/client
+      dockerfile: $PWD/services/cypress/Dockerfile
+    depends_on:
+      - client
+      - api
+    # environment:
+    #   - CYPRESS_baseUrl=http://web
+    #command: npx cypress run
+    # mount the host directory e2e/cypress and the file e2e/cypress.json as
+    # volumes within the container
+    # this means that:
+    #  1. anything that Cypress writes to these folders (e.g., screenshots,
+    #     videos) appears also on the Docker host's filesystem
+    #  2. any change that the developer applies to Cypress files on the host
+    #     machine immediately takes effect within the e2e container (no docker
+    #     rebuild required).
+    volumes:
+      - ./services/client:/app
+      - ./services/client/cypress.json:/app/cypress.json
