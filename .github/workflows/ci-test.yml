@@ -25,29 +25,29 @@ jobs:
           SERVICE: ${{ matrix.service }}
         run: ./ci/unit_test.sh
 
-  integration_tests:
-    runs-on: ubuntu-latest
+  # integration_tests:
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        service: ['api', 'client']
+  #   strategy:
+  #     matrix:
+  #       service: ['api', 'client']
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: copy .env
-        run: cp ci/ci.env .env
+  #     - name: copy .env
+  #       run: cp ci/ci.env .env
 
-      - name: build
-        run: docker-compose build
+  #     - name: build
+  #       run: docker-compose build
 
-      - name: run
-        env:
-          SERVICE: ${{ matrix.service }}
-        run: ./ci/integration_tests/${SERVICE}.sh
+  #     - name: run
+  #       env:
+  #         SERVICE: ${{ matrix.service }}
+  #       run: ./ci/integration_tests/${SERVICE}.sh
   
   trigger_manifest_check:
-    needs: [unit_tests, integration_tests]
+    needs: [unit_tests]
     runs-on: ubuntu-latest
 
     steps:
