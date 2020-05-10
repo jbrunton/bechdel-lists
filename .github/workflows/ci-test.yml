@@ -51,13 +51,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: log branch
-        env:
-          EVENT: ${{ toJson(github.event) }}
-        run: echo "$EVENT"
-
       - name: Trigger manifest check
-        if: github.event.branch == 'master'
+        if: github.event.ref == 'refs/heads/master'
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
