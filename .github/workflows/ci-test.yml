@@ -45,5 +45,5 @@ jobs:
           docker-compose up -d
           docker-compose run api npm run db:test:create
           docker-compose run api npm run test:integration
-          docker run -it -v $PWD:/e2e -w /e2e cypress/included:3.3.1
+          docker run -v $PWD:/e2e -w /e2e cypress/included:3.3.1
   
