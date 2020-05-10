@@ -25,35 +25,35 @@ jobs:
           SERVICE: ${{ matrix.service }}
         run: ./ci/unit_test.sh
 
-  # integration_tests:
-  #   runs-on: ubuntu-latest
+  integration_tests:
+    runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       service: ['api', 'client']
+    strategy:
+      matrix:
+        service: ['api', 'client']
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: copy .env
-  #       run: cp ci/ci.env .env
+      - name: copy .env
+        run: cp ci/ci.env .env
 
-  #     - name: build
-  #       run: docker-compose build
+      - name: build
+        run: docker-compose build
 
-  #     - name: run
-  #       env:
-  #         SERVICE: ${{ matrix.service }}
-  #       run: ./ci/integration_tests/${SERVICE}.sh
+      - name: run
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/integration_tests/${SERVICE}.sh
   
-  notify_tests_passed:
-    needs: [unit_tests]
+  trigger_manifest_check:
+    if: github.event.branch == 'master'
+    needs: [unit_tests, integration_tests]
     runs-on: ubuntu-latest
 
     steps:
-      - name: Notify tests passed
+      - name: Trigger manifest check
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-          event-type: tests-passed
-          client-payload: '{ "ref": "${{ github.ref }}" }'
+          event-type: manifest-check
