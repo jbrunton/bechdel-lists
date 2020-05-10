@@ -45,6 +45,8 @@ jobs:
         run: docker-compose build
 
       - name: run
+        env:
+          SERVICE: ${{ matrix.service }}
         run: |
           docker-compose up -d
           docker-compose run api npm run db:test:create
