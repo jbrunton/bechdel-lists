@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve --port 5001",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
+    "test:integration": "npx cypress run",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

@@ -44,3 +44,4 @@ jobs:
           docker-compose up -d
           docker-compose run api npm run db:test:create
           docker-compose run api npm run test:integration
+          docker-compose run client npm run test:integration
