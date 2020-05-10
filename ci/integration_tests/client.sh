@@ -1,4 +1,7 @@
 #!/bin/bash
 set -e
 
-docker run -v ${WORKSPACE}/services/client/:/e2e -w /e2e cypress/included:4.5.0
+export CLIENT_DIR=${WORKSPACE}/services/client
+cd $CLIENT_DIR
+npm install
+docker run -v $CLIENT_DIR:/e2e -w /e2e cypress/included:4.5.0
