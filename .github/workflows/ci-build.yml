@@ -1,6 +1,11 @@
 name: ci-build
 
-on: push
+on:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - 'deployments/**'
 
 env:
   CI: 1
