@@ -1,5 +1,8 @@
-latest: 8349ad69-7c51-4a9d-9e25-19cbd4e5923f
+latest: 64f23574-6cea-4201-a8e8-516f6204d0eb
 deployments:
+  - id: 64f23574-6cea-4201-a8e8-516f6204d0eb
+    version: 0.0.30
+    timestamp: '2020-05-11T23:02:50.792Z'
   - id: 8349ad69-7c51-4a9d-9e25-19cbd4e5923f
     version: 0.0.29
     timestamp: '2020-05-11T21:43:04.962Z'
