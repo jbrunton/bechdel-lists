@@ -84,7 +84,7 @@ jobs:
 
       - name: deployment info
         id: deployment_info
-        run: npx ci generate deployment-info $ENVIRONMENT
+        run: npx ci set-outputs deployment-info $ENVIRONMENT
 
       - name: copy files
         uses: appleboy/scp-action@master
