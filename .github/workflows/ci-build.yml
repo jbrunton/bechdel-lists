@@ -1,6 +1,9 @@
 name: ci-build
 
-on: push
+on:
+  push:
+    paths-ignore:
+      - 'deployments/**'
 
 env:
   CI: 1
