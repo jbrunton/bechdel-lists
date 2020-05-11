@@ -71,7 +71,7 @@ jobs:
   build:
     needs: manifest_check
     runs-on: ubuntu-latest
-    if: ${{ needs.manifest_check.outputs.buildRequired }}
+    if: ${{ needs.manifest_check.outputs.buildRequired == true }}
     env:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       DOCKER_USERNAME: jbrunton
