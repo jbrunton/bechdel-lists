@@ -6,7 +6,7 @@ env:
   CI: 1
   FORCE_COLOR: 1
   WORKSPACE: ${{ github.workspace }}
-
+  SERVICES: "['api', 'client']"
 
 jobs:
 
@@ -32,22 +32,32 @@ jobs:
         with:
           path: build
           key: build-${{ github.sha }}
+
+  unit_tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service: ${{ fromJson($SERVICES) }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: run unit tests
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/unit_test.sh
     
-  test:
+  integration_tests:
     needs: build
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        service: ['api', 'client']
+        service: ${{ fromJson($SERVICES) }}
 
     steps:
       - uses: actions/checkout@v2
-
-      # - name: run unit tests
-      #   env:
-      #     SERVICE: ${{ matrix.service }}
-      #   run: ./ci/unit_test.sh
 
       - name: fetch cached images
         uses: actions/cache@v1
