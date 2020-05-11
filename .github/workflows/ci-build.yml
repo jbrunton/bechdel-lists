@@ -31,7 +31,8 @@ jobs:
           path: docker-images
           key: build-${{ github.sha }}
     
-  tests:
+  test:
+    needs: build
     runs-on: ubuntu-latest
 
     strategy:
