@@ -9,7 +9,7 @@ env:
 
 jobs:
 
-  debug_build:
+  build_debug:
     runs-on: ubuntu-latest
 
     steps:
@@ -48,7 +48,7 @@ jobs:
         run: ./ci/unit_test.sh
     
   integration_tests:
-    needs: debug_build
+    needs: build_debug
     runs-on: ubuntu-latest
 
     strategy:
@@ -92,7 +92,7 @@ jobs:
           npm install
           npx ci set-outputs manifest-checks
 
-  release_build:
+  build_release:
     needs: manifest_check
     runs-on: ubuntu-latest
     if: ${{ needs.manifest_check.outputs.buildsRequired }}
