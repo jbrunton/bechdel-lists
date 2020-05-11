@@ -4,6 +4,8 @@ on:
   deployment
 
 env:
+  DEPLOYMENT: ${{ toJson(github.event.deployment) }}
+
   DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
   DOCKER_USERNAME: jbrunton
 
@@ -11,8 +13,54 @@ env:
   FORCE_COLOR: 1
 
 jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'build' }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Deployment pending'
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'pending'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+      
+      - name: npm install
+        run: npm install
+
+      - name: docker login
+        run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      - name: 'build'
+        run: npx ci create build
+
+      - name: 'commit'
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npx ci commit build
+          
+          git push origin HEAD:master
+      - name: 'notify success'
+        if: success()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'success'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: 'notify failure'
+        if: failure()
+        uses: 'deliverybot/status@master'
+        with:
+          state: 'failure'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
   deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'deploy' }}
 
     env:
       ENVIRONMENT: ${{ github.event.deployment.environment }}
@@ -31,7 +79,7 @@ jobs:
 
       - name: deployment info
         id: deployment_info
-        run: npx ci set-outputs deployment-info $ENVIRONMENT
+        run: npx ci generate deployment-info $ENVIRONMENT
 
       - name: copy files
         uses: appleboy/scp-action@master
@@ -82,3 +130,27 @@ jobs:
         with:
           state: 'failure'
           token: '${{ secrets.GITHUB_TOKEN }}'
+
+  update_manifest:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment.task == 'update_manifest' }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+
+      - name: npm install
+        run: npm install
+
+      - name: Update manifest
+        env:
+          ENVIRONMENT: ${{ github.event.deployment.payload.environment }}
+          VERSION: ${{ github.event.deployment.payload.version }}    
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+          
+          npx ci update-manifest $VERSION $ENVIRONMENT
+          
+          git push origin HEAD:master
