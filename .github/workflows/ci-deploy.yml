@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+          token: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}
 
       - name: 'Deployment pending'
         uses: 'deliverybot/status@master'
@@ -46,7 +46,7 @@ jobs:
           npx ci commit build
           
           git push origin HEAD:master
-          
+
       - name: 'notify success'
         if: success()
         uses: 'deliverybot/status@master'
@@ -71,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+          token: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}
 
       - name: 'Deployment pending'
         uses: 'deliverybot/status@master'
@@ -143,7 +143,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+          token: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}
 
       - name: npm install
         run: npm install
