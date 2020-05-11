@@ -1,7 +1,11 @@
 FROM node:alpine as builder
 WORKDIR '/app'
-# TODO: use docker-compose to build and remove this
-ENV VUE_APP_GOOGLE_CLIENT_ID=729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+
+ARG google_client_id
+ENV VUE_APP_GOOGLE_CLIENT_ID=$google_client_id
+ARG build_version
+ENV VUE_APP_BUILD_VERSION=$build_version
+
 COPY ./package.json ./
 RUN npm install
 COPY . .
