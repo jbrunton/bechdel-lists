@@ -48,7 +48,7 @@ module.exports = {
         
           await manifests.createDeployment(envName, build.version, dryRun);
 
-          const filesToAdd = [deployments.manifestFile];
+          const filesToAdd = [manifests.manifestPath, manifests.deploymentsCatalogPath(envName)];
           const commitMessage = `Deploying ${build.version} to ${envName}`;
         
           if (!dryRun) {
