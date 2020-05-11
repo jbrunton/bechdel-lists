@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        service: ${{ fromJson($SERVICES) }}
+        service: ${{ fromJson(env.SERVICES) }}
 
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +54,7 @@ jobs:
 
     strategy:
       matrix:
-        service: ${{ fromJson($SERVICES) }}
+        service: ${{ fromJson(env.SERVICES) }}
 
     steps:
       - uses: actions/checkout@v2
