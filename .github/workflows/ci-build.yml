@@ -9,111 +9,88 @@ env:
 
 jobs:
 
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: copy .env
-        run: cp ci/ci.env .env
- 
-      - name: build
-        run: docker-compose build
-
-      - name: save images
-        run: |
-          export IMAGES=$(docker-compose config | awk '{if ($1 == "image:" && $2 ~ /^bechdel-lists/) print $2;}')
-          docker save -o build/docker-images.tar $IMAGES
-
-      - name: cache images
-        uses: actions/cache@v1
-        with:
-          path: build
-          key: build-${{ github.sha }}
-
-  unit_tests:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        service: [api, client]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: run unit tests
-        env:
-          SERVICE: ${{ matrix.service }}
-        run: ./ci/unit_test.sh
-    
-  integration_tests:
-    needs: build
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        service: [api, client]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: fetch cached images
-        uses: actions/cache@v1
-        with:
-          path: build
-          key: build-${{ github.sha }}
-
-      - name: load cached images
-        run: docker load -i build/docker-images.tar
-
-      - name: copy .env
-        run: cp ci/ci.env .env
-
-      - name: run
-        env:
-          SERVICE: ${{ matrix.service }}
-        run: ./ci/integration_tests/${SERVICE}.sh
-
-  # integration_tests:
+  # debug_build:
   #   runs-on: ubuntu-latest
-
-  #   strategy:
-  #     matrix:
-  #       service: ['api', 'client']
 
   #   steps:
   #     - uses: actions/checkout@v2
 
   #     - name: copy .env
   #       run: cp ci/ci.env .env
-
+ 
   #     - name: build
   #       run: docker-compose build
+
+  #     - name: save images
+  #       run: |
+  #         export IMAGES=$(docker-compose config | awk '{if ($1 == "image:" && $2 ~ /^bechdel-lists/) print $2;}')
+  #         docker save -o build/docker-images.tar $IMAGES
+
+  #     - name: cache images
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: build
+  #         key: build-${{ github.sha }}
+
+  # unit_tests:
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       service: [api, client]
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: run unit tests
+  #       env:
+  #         SERVICE: ${{ matrix.service }}
+  #       run: ./ci/unit_test.sh
+    
+  # integration_tests:
+  #   needs: debug_build
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       service: [api, client]
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: fetch cached images
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: build
+  #         key: build-${{ github.sha }}
+
+  #     - name: load cached images
+  #       run: docker load -i build/docker-images.tar
+
+  #     - name: copy .env
+  #       run: cp ci/ci.env .env
 
   #     - name: run
   #       env:
   #         SERVICE: ${{ matrix.service }}
   #       run: ./ci/integration_tests/${SERVICE}.sh
-  
-  # manifest_check:
-  #   if: github.event.ref == 'refs/heads/master'
-  #   needs: [unit_tests]
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     buildRequired: ${{ steps.check.outputs.buildRequired }}
-  #     deploymentsRequired: ${{ steps.check.outputs.deploymentsRequired }}
-  #     deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
+
+  manifest_check:
+    #needs: [unit_tests, integration_tests]
+    runs-on: ubuntu-latest
+    outputs:
+      buildRequired: ${{ steps.check.outputs.buildRequired }}
+      deploymentsRequired: ${{ steps.check.outputs.deploymentsRequired }}
+      deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
       
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: npm install
-  #       run: npm install
-
-  #     - name: check manifest
-  #       id: check
-  #       run: npx ci set-outputs manifest-checks
+      - name: check manifest
+        if: github.event.ref == 'refs/heads/master'
+        run: |
+          npm install
+          npx ci set-outputs manifest-checks
 
   # build:
   #   needs: [manifest_check]
