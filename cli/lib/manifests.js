@@ -127,7 +127,7 @@ async function createDeployment(environment, version, dryRun) {
   catalog.deployments.unshift(deployment);
   catalog.latest = deployment.id;
   if (!dryRun) {
-    fs.writeFileSync(deploymentsCatalogPath, yaml.safeDump(catalog));
+    fs.writeFileSync(deploymentsCatalogPath(environment), yaml.safeDump(catalog));
     console.log('Added build to catalog.');
   } else {
     logger.info('--dry-run passed, skipping adding deployment to catalog. Would have added:');
