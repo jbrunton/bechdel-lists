@@ -19,23 +19,18 @@ jobs:
       - name: copy .env
         run: cp ci/ci.env .env
  
-      - name: log images
-        run: echo $(docker-compose config | awk '{if ($1 == "image:") print $2;}')
-
       - name: build
-        run: |
-          docker-compose build
-          docker images
+        run: docker-compose build
 
       - name: save images
         run: |
-          docker images
-          docker save -o build/docker-images.tar $(docker-compose config | awk '{if ($1 == "image:") print $2;}')
+          export IMAGES=$(docker-compose config | awk '{if ($1 == "image:" && $2 ~ /^bechdel-lists/) print $2;}')
+          docker save -o build/docker-images.tar $IMAGES
 
       - name: cache images
         uses: actions/cache@v1
         with:
-          path: docker-images
+          path: build
           key: build-${{ github.sha }}
     
   test:
@@ -49,15 +44,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: run unit tests
-        env:
-          SERVICE: ${{ matrix.service }}
-        run: ./ci/unit_test.sh
+      # - name: run unit tests
+      #   env:
+      #     SERVICE: ${{ matrix.service }}
+      #   run: ./ci/unit_test.sh
 
       - name: fetch cached images
         uses: actions/cache@v1
         with:
-          path: docker-images
+          path: build
           key: build-${{ github.sha }}
 
       - name: load cached images
