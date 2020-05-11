@@ -104,7 +104,7 @@ jobs:
   build_release:
     needs: manifest_check
     runs-on: ubuntu-latest
-    if: ${{ needs.manifest_check.outputs.buildsRequired }}
+    if: ${{ needs.manifest_check.outputs.buildRequired }}
 
     steps:
       - uses: actions/checkout@v2
