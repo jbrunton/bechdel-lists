@@ -1,5 +1,7 @@
 # Bechdel Lists
 
+[![Build Status](https://github.com/jbrunton/bechdel-demo/workflows/ci-build/badge.svg?branch=master)](https://github.com/jbrunton/bechdel-demo/actions?query=branch%3Amaster+workflow%3Aci-build)
+
 ## What is this?
 
 A small project that will (eventually) demo the following:
