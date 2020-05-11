@@ -9,74 +9,74 @@ env:
 
 jobs:
 
-  # debug_build:
-  #   runs-on: ubuntu-latest
+  debug_build:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: copy .env
-  #       run: cp ci/ci.env .env
+      - name: copy .env
+        run: cp ci/ci.env .env
  
-  #     - name: build
-  #       run: docker-compose build
+      - name: build
+        run: docker-compose build
 
-  #     - name: save images
-  #       run: |
-  #         export IMAGES=$(docker-compose config | awk '{if ($1 == "image:" && $2 ~ /^bechdel-lists/) print $2;}')
-  #         docker save -o build/docker-images.tar $IMAGES
+      - name: save images
+        run: |
+          export IMAGES=$(docker-compose config | awk '{if ($1 == "image:" && $2 ~ /^bechdel-lists/) print $2;}')
+          docker save -o build/docker-images.tar $IMAGES
 
-  #     - name: cache images
-  #       uses: actions/cache@v1
-  #       with:
-  #         path: build
-  #         key: build-${{ github.sha }}
+      - name: cache images
+        uses: actions/cache@v1
+        with:
+          path: build
+          key: build-${{ github.sha }}
 
-  # unit_tests:
-  #   runs-on: ubuntu-latest
+  unit_tests:
+    runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       service: [api, client]
+    strategy:
+      matrix:
+        service: [api, client]
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: run unit tests
-  #       env:
-  #         SERVICE: ${{ matrix.service }}
-  #       run: ./ci/unit_test.sh
+      - name: run unit tests
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/unit_test.sh
     
-  # integration_tests:
-  #   needs: debug_build
-  #   runs-on: ubuntu-latest
+  integration_tests:
+    needs: debug_build
+    runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       service: [api, client]
+    strategy:
+      matrix:
+        service: [api, client]
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: fetch cached images
-  #       uses: actions/cache@v1
-  #       with:
-  #         path: build
-  #         key: build-${{ github.sha }}
+      - name: fetch cached images
+        uses: actions/cache@v1
+        with:
+          path: build
+          key: build-${{ github.sha }}
 
-  #     - name: load cached images
-  #       run: docker load -i build/docker-images.tar
+      - name: load cached images
+        run: docker load -i build/docker-images.tar
 
-  #     - name: copy .env
-  #       run: cp ci/ci.env .env
+      - name: copy .env
+        run: cp ci/ci.env .env
 
-  #     - name: run
-  #       env:
-  #         SERVICE: ${{ matrix.service }}
-  #       run: ./ci/integration_tests/${SERVICE}.sh
+      - name: run
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/integration_tests/${SERVICE}.sh
 
   manifest_check:
-    #needs: [unit_tests, integration_tests]
+    needs: [unit_tests, integration_tests]
     runs-on: ubuntu-latest
     outputs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
@@ -92,54 +92,54 @@ jobs:
           npm install
           npx ci set-outputs manifest-checks
 
-  # build:
-  #   needs: [manifest_check]
-  #   runs-on: ubuntu-latest
-  #   if: ${{ needs.manifest_check.outputs.buildsRequired }}
+  release_build:
+    needs: manifest_check
+    runs-on: ubuntu-latest
+    if: ${{ needs.manifest_check.outputs.buildsRequired }}
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
       
-  #     - name: npm install
-  #       run: npm install
+      - name: npm install
+        run: npm install
 
-  #     - name: docker login
-  #       run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - name: docker login
+        run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-  #     - name: 'build'
-  #       run: npx ci create build
+      - name: 'build'
+        run: npx ci create build
 
-  #     - name: 'commit'
-  #       run: |
-  #         git config --global user.email "jbrunton-ci-minion@outlook.com"
-  #         git config --global user.name "jbrunton-ci-minion"
+      - name: 'commit'
+        run: |
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
           
-  #         npx ci commit build
+          npx ci commit build
           
-  #         git push origin HEAD:master
+          git push origin HEAD:master
   
-  # deploy:
-  #   needs: manifest_check
-  #   if: needs.manifest_check.outputs.deploymentsRequired == true
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
+  deploy:
+    needs: manifest_check
+    if: needs.manifest_check.outputs.deploymentsRequired == true
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: npm install
-  #       run: npm install
+      - name: npm install
+        run: npm install
 
-  #     - name: generate payload
-  #       id: payload
-  #       env:
-  #         TASK: ${{ matrix.task }}
-  #         ENVIRONMENT: ${{ matrix.environment }}
-  #       run: npx ci set-outputs deploy-payload $ENVIRONMENT
+      - name: generate payload
+        id: payload
+        env:
+          TASK: ${{ matrix.task }}
+          ENVIRONMENT: ${{ matrix.environment }}
+        run: npx ci set-outputs deploy-payload $ENVIRONMENT
 
-  #     - name: start deployment workflow
-  #       env:
-  #         PAYLOAD: ${{ steps.payload.outputs.payload }}
-  #         GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-  #       run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
+      - name: start deployment workflow
+        env:
+          PAYLOAD: ${{ steps.payload.outputs.payload }}
+          GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+        run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
