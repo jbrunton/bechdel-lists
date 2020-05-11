@@ -6,7 +6,6 @@ env:
   CI: 1
   FORCE_COLOR: 1
   WORKSPACE: ${{ github.workspace }}
-  SERVICES: "['api', 'client']"
 
 jobs:
 
@@ -38,7 +37,7 @@ jobs:
 
     strategy:
       matrix:
-        service: ${{ fromJson(env.SERVICES) }}
+        service: [api, client]
 
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +53,7 @@ jobs:
 
     strategy:
       matrix:
-        service: ${{ fromJson(env.SERVICES) }}
+        service: [api, client]
 
     steps:
       - uses: actions/checkout@v2
