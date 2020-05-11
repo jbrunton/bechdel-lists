@@ -1,4 +1,4 @@
-name: ci-builder
+name: ci-deploy
 
 on:
   deployment
@@ -44,7 +44,6 @@ jobs:
           npx ci commit build
           
           git push origin HEAD:master
-
       - name: 'notify success'
         if: success()
         uses: 'deliverybot/status@master'

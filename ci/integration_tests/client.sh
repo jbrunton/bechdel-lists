@@ -7,5 +7,5 @@ cd $CLIENT_DIR
 npm install
 
 cd $WORKSPACE
-docker-compose up -d
+docker-compose up -d --no-build
 docker run -v $CLIENT_DIR:/e2e -w /e2e cypress/included:4.5.0
