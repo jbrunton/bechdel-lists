@@ -1,5 +1,8 @@
-latest: f73472f3-b43d-4439-8364-791048d6fc30
+latest: 8349ad69-7c51-4a9d-9e25-19cbd4e5923f
 deployments:
+  - id: 8349ad69-7c51-4a9d-9e25-19cbd4e5923f
+    version: 0.0.29
+    timestamp: '2020-05-11T21:43:04.962Z'
   - id: f73472f3-b43d-4439-8364-791048d6fc30
     version: 0.0.28
     timestamp: '2020-05-11T17:13:05.684Z'
