@@ -30,7 +30,7 @@ module.exports = {
             console.log(`Manifest version for ${envName} is ${envManifest.version}, latest deployed version is ${latestVersion}`);
             if (envManifest.version != latestVersion) {
               console.log('Deployed version out of date, deployment required.');
-              tasks.push({ task: 'build', environment: envName });
+              tasks.push({ task: 'deploy', environment: envName });
             } else {
               console.log('Versions match, skipping deployment');
             }
@@ -53,24 +53,27 @@ module.exports = {
           const manifest = await manifests.local.getManifest();
           const envName = argv.environment;
           const envManifest = manifest.environments[envName];
-          const build = manifests.local.findBuild(envManifest.version);
+          const build = await manifests.local.findBuild(envManifest.version);
+          if (!build) {
+            throw new Error(`Unable to find build for version ${envManifest.version}`);
+          }
           const buildFile = manifests.buildFilePath(build.id);
           console.log(`::set-output name=host::${envManifest.host}`);
           console.log(`::set-output name=buildFile::${buildFile}`);
         }
       })
-    .command('deploy-payload <environment>', {
-      desc: 'Generate a deployment payload to deploy to <environment>',
-        run: (argv, context) => {
-        const payload = {
-          ref: process.env.GITHUB_REF || 'master',
-          environment: argv.environment,
-          description: 'Trigger deployment',
-          auto_merge: false,
-          required_contexts: []
-        };
-        console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
-      }
-    });
+      .command('deploy-payload <environment>', {
+        desc: 'Generate a deployment payload to deploy to <environment>',
+          run: (argv, context) => {
+          const payload = {
+            ref: process.env.GITHUB_REF || 'master',
+            environment: argv.environment,
+            description: 'Trigger deployment',
+            auto_merge: false,
+            required_contexts: []
+          };
+          console.log(`::set-output name=payload::${JSON.stringify(payload)}`);
+        }
+      });
   }
 };
