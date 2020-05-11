@@ -24,7 +24,7 @@ module.exports = {
 
           const build = await manifests.createBuild(buildVersion, dryRun, imageTag);
           const buildId = build.id;
-          const compose = new Compose(build.imageTag);
+          const compose = new Compose(build.imageTag, buildVersion);
           
           if (!skipBuild) {
             await compose.build(logger.dockerLogger);

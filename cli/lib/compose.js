@@ -12,12 +12,13 @@ function removeBuildContexts(config) {
 }
 
 class Compose {
-  constructor(tag) {
+  constructor(tag, buildVersion) {
     this.tag = tag;
     this.execOpts = {
       env: Object.assign({
         'TAG': this.tag,
-        'COMPOSE_FILE': 'docker-compose.yml'
+        'COMPOSE_FILE': 'docker-compose.yml',
+        'BUILD_VERSION': buildVersion
       }, process.env)
     };
   }
