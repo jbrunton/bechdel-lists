@@ -41,6 +41,11 @@
         <div id="app">
           <router-view/>
         </div>
+        <v-footer absolute class="font-weight-medium">
+          <v-col class="text-center" cols="12">
+            Bechdel Lists v{{ buildVersion }}
+          </v-col>
+        </v-footer>
       </v-container>
     </v-content>
   </v-app>
@@ -57,7 +62,8 @@ export default {
 
   data() {
     return {
-      signedIn: false
+      signedIn: false,
+      buildVersion: process.env.VUE_APP_BUILD_VERSION
     };
   },
 

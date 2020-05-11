@@ -105,13 +105,15 @@ jobs:
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
           POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
           BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
+          BUILD_VERSION: ${{ steps.deployment_info.outputs.buildVersion }}
         with:
           script: |
             ln -sf $BUILD_FILE docker-compose.yml
+            export BUILD_VERSION
             export POSTGRES_CONNECTION
             docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
             docker-compose run api npm run db:migrate
-          envs: POSTGRES_CONNECTION,BUILD_FILE
+          envs: POSTGRES_CONNECTION,BUILD_FILE,BUILD_VERSION
 
       - name: 'commit'
         run: |

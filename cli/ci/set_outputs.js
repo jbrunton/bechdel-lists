@@ -59,6 +59,7 @@ module.exports = {
           }
           const buildFile = manifests.buildFilePath(build.id);
           console.log(`::set-output name=host::${envManifest.host}`);
+          console.log(`::set-output name=buildVersion::${envManifest.version}`);
           console.log(`::set-output name=buildFile::${buildFile}`);
         }
       })
