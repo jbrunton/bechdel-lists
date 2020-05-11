@@ -92,6 +92,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: check manifest
+        id: check
         if: github.event.ref == 'refs/heads/master'
         run: |
           npm install
