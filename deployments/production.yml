@@ -1,5 +1,8 @@
-latest: 8e8d79e8-ee07-4ec1-88d8-fef891afa445
+latest: f73472f3-b43d-4439-8364-791048d6fc30
 deployments:
+  - id: f73472f3-b43d-4439-8364-791048d6fc30
+    version: 0.0.28
+    timestamp: '2020-05-11T17:13:05.684Z'
   - id: 8e8d79e8-ee07-4ec1-88d8-fef891afa445
     version: 0.0.27
     timestamp: '2020-05-08T17:15:04.312Z'
