@@ -18,7 +18,10 @@ jobs:
 
       - name: copy .env
         run: cp ci/ci.env .env
-  
+ 
+      - name: log images
+        run: echo $(docker-compose config | awk '{if ($1 == "image:") print $2;}')
+
       - name: build
         run: docker-compose build
 
