@@ -21,7 +21,7 @@ module.exports = {
             console.log('::set-output name=buildRequired::0');
           }
 
-          const deployments = [];
+          const tasks = [];
           for (let [envName, envManifest] of Object.entries(manifest.environments)) {
             const latestDeployment = await manifests.local.getLatestDeployment(envName);
             const latestVersion = latestDeployment ? latestDeployment.version : null;
@@ -30,14 +30,14 @@ module.exports = {
             console.log(`Manifest version for ${envName} is ${envManifest.version}, latest deployed version is ${latestVersion}`);
             if (envManifest.version != latestVersion) {
               console.log('Deployed version out of date, deployment required.');
-              deployments.push({ task: 'build', environment: envName });
+              tasks.push({ task: 'build', environment: envName });
             } else {
               console.log('Versions match, skipping deployment');
             }
           }
 
           const deploymentMatrix = {
-            include: deployments
+            include: tasks
           };
           if (tasks.length > 0) {
             console.log('::set-output name=deploymentsRequired::1');
