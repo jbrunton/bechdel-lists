@@ -29,8 +29,7 @@ const routes = [
   {
     path: '/my/lists',
     name: 'MyLists',
-    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/MyLists.vue'),
-    meta: { authenticate: true }
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/MyLists.vue')
   },
   {
     path: '/:parentTab/lists/:id',
@@ -72,7 +71,7 @@ router.beforeEach(async (to, from, next) => {
       next();
     }
   } else {
-    if (to.matched.some(route => route.meta.authenticate)) {
+    if (to.matched.some(route => route.meta.authenticate) || to.path.startsWith('/my/')) {
       next({ path: '/signin', query: { redirectTo: to.path } });
     } else {
       next();
