@@ -50,17 +50,7 @@
 
 
             <v-card-text v-else key="list">
-              <v-list class="mb-4 mt-2">
-                <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="list.title"></v-list-item-title>
-                    <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <Rating v-bind:rating="list.averageRating" :showScore="true" />
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list>
+              <ListIndex v-bind:lists="lists" />
             </v-card-text>
         </v-slide-y-transition>
       </v-card>
@@ -72,11 +62,11 @@
 <script>
 const axios = require('axios');
 const { Auth } = require('../../auth');
-import Rating from '@/components/Rating';
+import ListIndex from '@/components/ListIndex';
 
 export default {
   components: {
-    Rating: Rating
+    ListIndex
   },
 
   data() {

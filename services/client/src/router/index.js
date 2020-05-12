@@ -15,23 +15,33 @@ const routes = [
     component: () => import(/* webpackChunkName: "profile" */ '../pages/Profile.vue')
   },
   {
-    path: '/browse',
-    name: 'Browse',
+    path: '/browse/lists',
+    name: 'BrowseLists',
     component: () => import(/* webpackChunkName: "browse" */ '../pages/lists/Browse.vue')
   },
   {
-    path: '/lists',
+    path: '/my/lists',
     name: 'MyLists',
-    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Index.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/MyLists.vue')
   },
   {
-    path: '/lists/:id',
-    name: 'ShowList',
+    path: '/browse/lists/:id',
+    name: 'BrowseList',
     component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Show.vue')
   },
   {
-    path: '/lists/:id/charts',
-    name: 'ShowListCharts',
+    path: '/my/lists/:id',
+    name: 'MyList',
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Show.vue')
+  },
+  {
+    path: '/browse/lists/:id/charts',
+    name: 'BrowseListCharts',
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Charts.vue')
+  },
+  {
+    path: '/my/lists/:id/charts',
+    name: 'MyListCharts',
     component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Charts.vue')
   },
   {
