@@ -43,7 +43,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text :to="{ name: 'ShowList', params: { id: listId }}">
+        <v-btn text :to="{ name: 'List', params: { id: listId, parentTab: $route.params.parentTab }}">
           <v-icon left>mdi-view-list</v-icon>View List
         </v-btn>
       </template>

@@ -1,6 +1,6 @@
 <template>
   <v-list class="mb-4 mt-2">
-    <v-list-item v-for="list in lists" :key="list.id" :to="{ name: 'BrowseList', params: { id: list.id }}">
+    <v-list-item v-for="list in lists" :key="list.id" :to="{ name: 'List', params: { id: list.id, parentTab: parentTab }}">
       <v-list-item-content>
         <v-list-item-title class="primary--text" v-text="list.title"></v-list-item-title>
         <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
@@ -17,7 +17,8 @@ import Rating from '@/components/Rating';
 
 export default {
   props: {
-    lists: Array
+    lists: Array,
+    parentTab: String
   },
   components: {
     Rating    

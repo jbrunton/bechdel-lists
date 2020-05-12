@@ -12,7 +12,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text :to="{ name: 'ShowListCharts', params: { id: listId }}">
+        <v-btn text :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
           <v-icon left>mdi-chart-timeline-variant</v-icon>View Charts
         </v-btn>
       </template>

@@ -21,7 +21,7 @@
 
         <v-slide-y-transition mode="out-in">           
           <v-card-text>
-            <ListIndex v-bind:lists="lists" />
+            <ListIndex v-bind:lists="lists" parentTab="browse" />
           </v-card-text>
         </v-slide-y-transition>
       </v-card>
