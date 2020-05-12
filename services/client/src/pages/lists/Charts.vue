@@ -43,7 +43,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text href="./">
+        <v-btn text :to="{ name: 'ShowList', params: { id: listId }}">
           <v-icon left>mdi-view-list</v-icon>View List
         </v-btn>
       </template>
