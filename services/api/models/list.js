@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: DataTypes.STRING,
-    averageRating: DataTypes.FLOAT
+    averageRating: DataTypes.FLOAT,
+    minRating: DataTypes.INTEGER,
+    maxRating: DataTypes.INTEGER
   }, {});
 
   List.associate = function(models) {
@@ -24,8 +26,12 @@ module.exports = (sequelize, DataTypes) => {
     const ratings = movies.map((movie) => movie.rating).filter(x => x === 0 || x);
     if (ratings.length > 0) {
       this.averageRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+      this.minRating = Math.min(...ratings);
+      this.maxRating = Math.max(...ratings);
     } else {
       this.averageRating = null;
+      this.minRating = null;
+      this.maxRating = null;
     }
   
     if (movies.length == 0) {
