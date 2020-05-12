@@ -6,17 +6,9 @@
         <v-card outlined>
           <v-toolbar flat color="grey lighten-3">
             <v-toolbar-title>My Profile</v-toolbar-title>
-
-            <v-progress-linear
-              :active="loading"
-              :indeterminate=true
-              absolute
-              bottom
-              color="deep-purple accent-4"
-            ></v-progress-linear>
           </v-toolbar>
-          <v-card-text>
 
+          <v-card-text>
             <v-list>
               <v-subheader>Profile</v-subheader>
               <v-list-item>
@@ -32,7 +24,6 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list>
-
           </v-card-text>
         </v-card>
 
@@ -42,35 +33,13 @@
 </template>
 
 <script>
-import { Auth } from '../auth';
-
 export default {
   data() {
+    const user = this.$route.meta.user;
     return {
-      name: '',
-      email: '',
-      loading: false
+      name: user.name,
+      email: user.email
     };
-  },
-
-  created() {
-    this.load();
-  },
-
-  methods: {
-    async load() {
-      this.loading = true;
-
-      try {
-        const user = await Auth.authenticate();
-        this.name = user.name;
-        this.email = user.email;
-      } catch {
-        window.location = '/';
-      }
-      
-      this.loading = false;
-    }
   }
 }
 </script>
