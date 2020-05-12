@@ -27,12 +27,12 @@ const routes = [
   {
     path: '/lists/:id',
     name: 'ShowList',
-    component: () => import(/* webpackChunkName: "showList" */ '../pages/lists/Show.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Show.vue')
   },
   {
     path: '/lists/:id/charts',
     name: 'ShowListCharts',
-    component: () => import(/* webpackChunkName: "showList" */ '../pages/lists/Charts.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Charts.vue')
   },
   {
     path: '/search',
