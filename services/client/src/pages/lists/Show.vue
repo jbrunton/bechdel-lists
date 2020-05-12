@@ -12,7 +12,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text href="./charts">
+        <v-btn text :to="{ name: 'ShowListCharts', params: { id: listId }}">
           <v-icon left>mdi-chart-timeline-variant</v-icon>View Charts
         </v-btn>
       </template>
