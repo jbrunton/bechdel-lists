@@ -8,38 +8,7 @@
       <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
       <template v-slot:extension v-if="showRatings">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip class="mr-2" color="white" v-on="on" style="align: flex-end;">
-              <span class="grey--text text--darken-1">Avg</span>
-              <b class="ml-2 mr-2">{{avgRating}}</b>
-              <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
-                color="grey darken-1" background-color="grey lighten-1"
-                v-model="list.averageRating" length="3"></v-rating>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="list.averageRating"></RatingToolTip>
-        </v-tooltip>
-
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip class="mr-2" color="white" v-on="on">
-              <span class="grey--text text--darken-1">Min</span>
-              <b class="ml-2">{{minRating}}</b>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="minRating"></RatingToolTip>
-        </v-tooltip>
-
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip color="white" v-on="on">
-              <span class="grey--text text--darken-1">Max</span>
-              <b class="ml-2">{{maxRating}}</b>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="maxRating"></RatingToolTip>
-        </v-tooltip>
+        <ListRatings v-bind:list="list" />
 
         <v-spacer></v-spacer>
 
@@ -143,13 +112,13 @@
 <script>
 
 const axios = require('axios');
-import RatingToolTip from '../../components/RatingToolTip';
+import ListRatings from '../../components/ListRatings';
 import ListHistogram from '../../components/ListHistogram';
 import Rating from '@/components/Rating';
 
 export default {
   components: {
-    RatingToolTip,
+    ListRatings,
     ListHistogram,
     Rating
   },
