@@ -114,16 +114,7 @@
             <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-chip color="grey" v-show="!editMode" v-on="on">
-                  <v-rating :dense=true :small=true :readonly=true
-                    color="white" background-color="grey lighten-1"
-                    v-model="movie.rating" length="3"></v-rating>
-                  </v-chip>
-                </template>
-                <RatingToolTip :rating="movie.rating"></RatingToolTip>
-              </v-tooltip>
+            <Rating v-bind:rating="movie.rating" />
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on" @click="removeMovie(movie)" v-show="editMode">
@@ -154,11 +145,13 @@
 const axios = require('axios');
 import RatingToolTip from '../../components/RatingToolTip';
 import ListHistogram from '../../components/ListHistogram';
+import Rating from '@/components/Rating';
 
 export default {
   components: {
     RatingToolTip,
-    ListHistogram
+    ListHistogram,
+    Rating
   },
 
   data() {

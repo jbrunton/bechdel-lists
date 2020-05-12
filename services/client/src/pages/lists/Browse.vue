@@ -28,17 +28,7 @@
                     <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }" v-if="list.averageRating != null">
-                        <v-chip color="grey" v-on="on">
-                          <v-rating :dense=true :small=true :half-increments=true :readonly=true
-                          color="white" background-color="grey lighten-1"
-                          v-model="list.averageRating" length="3"></v-rating>
-                          <b class="ml-2 white--text" v-text="list.averageRating.toFixed(1)"></b>
-                        </v-chip>
-                      </template>
-                    <RatingToolTip :rating="list.averageRating"></RatingToolTip>
-                  </v-tooltip>
+                    <Rating v-bind:rating="list.averageRating" :showScore="true" />
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
@@ -52,11 +42,11 @@
 
 <script>
 const axios = require('axios');
-import RatingToolTip from '../../components/RatingToolTip';
+import Rating from '../../components/Rating';
 
 export default {
   components: {
-    RatingToolTip
+    Rating
   },
 
   data() {
