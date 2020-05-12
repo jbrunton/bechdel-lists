@@ -31,13 +31,17 @@ async function signOut() {
   location.reload();
 }
 
-async function signIn() {
+async function signIn(redirectPath) {
   const auth2 = gapi.auth2.getAuthInstance();
   const googleUser = await auth2.signIn();
   await verifyUser(googleUser);
 
-  // so that components which use the authorize() method will correctly reload
-  location.reload();
+  if (redirectPath) {
+    location.replace(location.origin + redirectPath);
+  } else {
+    // so that components which use the authorize() method will correctly reload
+    location.reload();
+  }
 }
 
 async function verifyUser(googleUser) {

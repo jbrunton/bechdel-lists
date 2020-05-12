@@ -32,6 +32,10 @@ import { Auth } from '../auth';
 import Cookies from 'js-cookie';
 
 export default {
+  props: {
+    redirect: String
+  },
+
   data() {
     const assumedUserName = Cookies.get('user');
     const assumeSignedIn = !!assumedUserName;
@@ -71,7 +75,7 @@ export default {
 
     async signIn() {
       this.loading = true;
-      Auth.signIn();
+      Auth.signIn(this.redirect);
     },
 
     profileClicked() {
