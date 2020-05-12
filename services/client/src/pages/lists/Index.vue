@@ -16,7 +16,15 @@
             <v-toolbar-title :key="showAddListItem">
                   {{ showAddListItem ? 'New List' : 'My Lists' }}
             </v-toolbar-title>  
-          </v-fade-transition>                
+          </v-fade-transition>        
+
+          <v-spacer></v-spacer>
+
+          <v-fade-transition mode="out-in">
+            <v-btn text @click="showAddListItem = true" v-if="!showAddListItem">
+              <v-icon left color="pink">mdi-plus-circle</v-icon>New
+            </v-btn>
+          </v-fade-transition>
 
           <v-progress-linear
             :active="showLoadingIndicator"
@@ -53,19 +61,6 @@
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
-              <v-fab-transition appear>
-                <v-btn
-                  color="pink"
-                  fab
-                  dark
-                  absolute
-                  bottom
-                  right
-                  @click="showAddListItem = true"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </v-fab-transition>
             </v-card-text>
         </v-slide-y-transition>
       </v-card>
