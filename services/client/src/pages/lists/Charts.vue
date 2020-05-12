@@ -125,7 +125,7 @@
           <Chart title="Average Rating By Year"
             :data="averageByYearData"
             :chart-options="avgByYearOptions"
-            percentage-height="0.3"></Chart>
+            :percentage-height="0.3"></Chart>
         </v-col>
       </v-row>
     </div>
@@ -159,6 +159,7 @@ export default {
   data() {
     return {
       list: { title: '', movies: [] },
+      movies: [],
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
