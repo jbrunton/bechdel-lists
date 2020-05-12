@@ -102,17 +102,7 @@
 
     <v-divider></v-divider>
 
-    <div id="histogram" v-if="showRatings">
-      <div v-for="block in histogram" :key="block.rating" :style="block.style" />
-    </div>
-
-    <v-row id="histogram-legend" v-if="showRatings">
-      <v-col v-for="block in histogram" :key="block.rating">
-        <v-badge :color="block.color" :inline="true" :content="block.count.toString()"></v-badge>
-        <span class="legend-count">scored {{ block.rating }} </span>
-        <span class="legend-percentage">({{ block.percentage.toFixed(1) }}%)</span>
-      </v-col>
-    </v-row>
+    <ListHistogram v-bind:movies="movies" />
 
     <v-divider v-if="showRatings"></v-divider>
 
@@ -150,23 +140,6 @@
   .v-chip .v-avatar {
     font-weight: 500;
   }
-  #histogram {
-    height: 10px;
-  }
-  #histogram div {
-    height: 10px;
-    vertical-align: top;
-    display: inline-block;
-  }
-
-  #histogram-legend {
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  #histogram-legend .legend-percentage {
-    color: #888;
-  }
 </style>
 
 <script>
@@ -174,17 +147,18 @@
 const axios = require('axios');
 import RatingToolTip from '../../components/RatingToolTip';
 import Chart from '../../components/Chart';
+import ListHistogram from '../../components/ListHistogram';
 
 export default {
   components: {
     RatingToolTip,
-    Chart
+    Chart,
+    ListHistogram
   },
 
   data() {
     return {
       list: { title: '', movies: [] },
-      histogram: [],
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
@@ -225,28 +199,8 @@ export default {
       this.list = result.data;
       this.movies = this.list.Movies;
       this.updateRatings();
-      this.drawHistogram();
       await this.loadChartData();
       this.showLoadingIndicator = false;
-    },
-
-    drawHistogram() {
-      this.histogram = [0, 1, 2, 3].map(rating => {
-        const count = this.movies.filter(movie => movie.rating == rating).length;
-        const percentage = count / this.movies.length * 100;
-        const colors = ['#C62828', '#EF9A9A', '#90CAF9', '#1E88E5'];
-        return {
-          rating: rating,
-          label: rating.toString(),
-          count: count,
-          percentage: percentage,
-          color: colors[rating],
-          style: {
-            width: percentage + '%',
-            'background-color': colors[rating]
-          }
-        }
-      });
     },
 
     async loadChartData() {
