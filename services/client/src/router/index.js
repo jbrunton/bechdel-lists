@@ -17,7 +17,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "signin" */ '../pages/SignIn.vue')
   },
   {
-    path: '/profile',
+    path: '/my/profile',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '../pages/Profile.vue')
   },
@@ -30,9 +30,7 @@ const routes = [
     path: '/my/lists',
     name: 'MyLists',
     component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/MyLists.vue'),
-    meta: {
-      authenticate: true
-    }
+    meta: { authenticate: true }
   },
   {
     path: '/:parentTab/lists/:id',
@@ -65,15 +63,20 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.matched.some(route => route.meta.authenticate)) {
-    const { signedIn } = await Auth.getStatus();
-    if (signedIn) {
-      next();
+  const { signedIn, user } = await Auth.getStatus();
+  if (signedIn) {
+    if (!to.meta.user) {
+      to.meta.user = user;
+      next(to);  
     } else {
-      next({ path: '/signin', query: { redirectTo: to.path } });
+      next();
     }
   } else {
-    next();
+    if (to.matched.some(route => route.meta.authenticate)) {
+      next({ path: '/signin', query: { redirectTo: to.path } });
+    } else {
+      next();
+    }
   }
 });
 

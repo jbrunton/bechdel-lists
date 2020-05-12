@@ -32,10 +32,6 @@ import { Auth } from '../auth';
 import Cookies from 'js-cookie';
 
 export default {
-  props: {
-    redirect: String
-  },
-
   data() {
     const assumedUserName = Cookies.get('user');
     const assumeSignedIn = !!assumedUserName;
@@ -62,6 +58,7 @@ export default {
         if (this.assumeSignedIn) {
           // an edge case: in case the user signs out with Google but the call to /api/auth/signout fails (which would
           // leave the user cookie intact)
+          // TODO: should this be moved to Auth methods?
           Cookies.remove('user');
           location.reload();
         }
@@ -75,7 +72,7 @@ export default {
 
     async signIn() {
       this.loading = true;
-      Auth.signIn(this.redirect);
+      Auth.signIn();
     },
 
     profileClicked() {

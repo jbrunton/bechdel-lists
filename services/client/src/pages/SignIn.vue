@@ -3,23 +3,49 @@
     <v-row justify="center">
       <v-col cols="10">
         <v-banner single-line>
-          <v-avatar slot="icon" color="pink" size="40">
+          <v-avatar slot="icon" color="primary" size="40">
             <v-icon icon="mdi-lock" color="white">mdi-lock</v-icon>
           </v-avatar>
-          You need to sign in to view this page.
+          {{ message }}
         </v-banner>
-        <SignIn v-bind:redirect="$route.query.redirectTo" />
+        <div class="text-center ma-8">
+        <v-btn dark color="pink" @click="signInClicked">
+          Sign In
+        </v-btn>
+        </div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import SignIn from '@/components/SignIn';
+import { Auth } from '@/auth';
 
 export default {
-  components: {
-    SignIn
+  data() {
+    if (this.$route.query.redirectTo) {
+      return {
+        message: 'You need to sign in to view this page.',
+        redirect: this.$route.query.redirectTo
+      };
+    } else {
+      return {
+        message: 'Sign in to continue.',
+        redirect: '/my/lists'
+      };
+    }
+  },
+
+  mounted() {
+    if (this.$route.meta.user) {
+      location.replace(location.origin + this.redirect);
+    }
+  },
+
+  methods: {
+    signInClicked() {
+      Auth.signIn(this.redirect);
+    }
   }
 }
 </script>
