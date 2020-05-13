@@ -159,10 +159,6 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-
-      //TODO: reinstate this with proper authorization
-      //await Auth.authenticate();
-      
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       this.movies = this.list.Movies;

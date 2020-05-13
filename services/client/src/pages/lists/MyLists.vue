@@ -59,7 +59,6 @@
 
 <script>
 const axios = require('axios');
-const { Auth } = require('../../auth');
 import ListIndex from '@/components/ListIndex';
 
 export default {
@@ -83,10 +82,7 @@ export default {
   methods: {
     async load() {
       this.lists = [];
-      this.showLoadingIndicator = true;
-
-      await Auth.authenticate();
-      
+      this.showLoadingIndicator = true;      
       const result = await axios.get('/api/lists');
       this.lists = result.data;
       this.showLoadingIndicator = false;
