@@ -2,13 +2,8 @@
  <v-container>
     <v-row justify="center">
       <v-col cols="10">
-       <v-card outlined>
-        <v-toolbar flat color="grey lighten-3">                
-          <v-fade-transition mode="out-in">
-            <v-toolbar-title>
-                  Browse
-            </v-toolbar-title>  
-          </v-fade-transition>                
+        <v-toolbar flat color="grey lighten-4">                
+          <v-toolbar-title>Browse</v-toolbar-title>  
 
           <v-progress-linear
             :active="showLoadingIndicator"
@@ -19,12 +14,7 @@
           ></v-progress-linear>
         </v-toolbar>
 
-        <v-slide-y-transition mode="out-in">           
-          <v-card-text>
-            <ListIndex v-bind:lists="lists" parentTab="browse" />
-          </v-card-text>
-        </v-slide-y-transition>
-      </v-card>
+        <ListIndex v-bind:lists="lists" parentTab="browse" />
       </v-col>
     </v-row>
   </v-container>
