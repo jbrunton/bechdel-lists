@@ -1,0 +1,90 @@
+[
+  {
+    "title": "Star Wars: Episode VII - The Force Awakens",
+    "imdbId": "2488496",
+    "boxOffice": {
+      "domestic": "$936,662,225",
+      "global": "$2,068,223,624"
+    }
+  },
+  {
+    "title": "Star Wars: Episode VIII - The Last Jedi",
+    "imdbId": "2527336",
+    "boxOffice": {
+      "domestic": "$620,181,382",
+      "global": "$1,332,539,889"
+    }
+  },
+  {
+    "title": "Rogue One: A Star Wars Story",
+    "imdbId": "3748528",
+    "boxOffice": {
+      "domestic": "$532,177,324",
+      "global": "$1,056,057,273"
+    }
+  },
+  {
+    "title": "Star Wars: Episode IX - The Rise of Skywalker",
+    "imdbId": "2527338",
+    "boxOffice": {
+      "domestic": "$515,202,542",
+      "global": "$1,074,144,248"
+    }
+  },
+  {
+    "title": "Star Wars: Episode I - The Phantom Menace",
+    "imdbId": "0120915",
+    "boxOffice": {
+      "domestic": "$431,088,295",
+      "global": "$924,305,084"
+    }
+  },
+  {
+    "title": "Star Wars: Episode III - Revenge of the Sith",
+    "imdbId": "0121766",
+    "boxOffice": {
+      "domestic": "$380,270,577",
+      "global": "$868,352,530"
+    }
+  },
+  {
+    "title": "Star Wars: Episode IV - A New Hope",
+    "imdbId": "0076759",
+    "boxOffice": {
+      "domestic": "$307,263,857",
+      "global": "$503,015,849"
+    }
+  },
+  {
+    "title": "Star Wars: Episode II - Attack of the Clones",
+    "imdbId": "0121765",
+    "boxOffice": {
+      "domestic": "$302,191,252",
+      "global": "$645,256,452"
+    }
+  },
+  {
+    "title": "Star Wars: Episode VI - Return of the Jedi",
+    "imdbId": "0086190",
+    "boxOffice": {
+      "domestic": "$252,583,617",
+      "global": "$374,593,074"
+    }
+  },
+  {
+    "title": "Solo: A Star Wars Story",
+    "imdbId": "3778644",
+    "boxOffice": {
+      "domestic": "$213,767,512",
+      "global": "$392,924,807"
+    }
+  },
+  {
+    "title": "Star Wars: Episode V - The Empire Strikes Back",
+    "imdbId": "0080684",
+    "boxOffice": {
+      "domestic": "$209,398,025",
+      "global": "$400,083,259"
+    }
+  }
+]

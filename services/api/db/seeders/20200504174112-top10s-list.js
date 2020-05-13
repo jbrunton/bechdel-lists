@@ -12,10 +12,10 @@ async function createUser(details) {
   return await models.User.findOrCreateByEmail(details.email, details.name);
 }
 
-async function createList(seedData) {
+async function createList(seedData, title) {
   const user = await createUser(demoUserDetails);
   const list = await models.List.create({
-    title: 'Global Top 10s',
+    title: title,
     UserId: user.id
   });
 
@@ -32,8 +32,17 @@ async function createList(seedData) {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
-      const seedData = JSON.parse(fs.readFileSync('./db/seeders/topmovies.json', 'utf8'));
-      await createList(seedData);
+      const top10sData = JSON.parse(fs.readFileSync('./db/seeders/topmovies.json', 'utf8'));
+      await createList(top10sData, 'Global Top 10s');
+
+      const starWarsData = JSON.parse(fs.readFileSync('./db/seeders/starwars.json', 'utf8'));
+      await createList(starWarsData, 'Star Wars');
+
+      const mcuData = JSON.parse(fs.readFileSync('./db/seeders/mcu.json', 'utf8'));
+      await createList(mcuData, 'Marvel Cinematic Universe');
+
+      const pixarData = JSON.parse(fs.readFileSync('./db/seeders/pixar.json', 'utf8'));
+      await createList(pixarData, 'Pixar');
     } catch (e) {
       console.log(e);
     }
