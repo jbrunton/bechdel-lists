@@ -18,6 +18,10 @@
               <v-slide-y-transition mode="out-in">
                 <ListRatings v-bind:list="list" v-if="showRatings && !editMode" key='ratings' />
 
+                <span v-if="editMode == 'delete'" key='delete'>
+                  Are you sure you want to delete '{{ list.title }}'?
+                </span>
+
                 <form v-if="editMode == 'add'" key='add' style="width: 100%;">
                   <v-text-field
                     prepend-icon="mdi-magnify"
@@ -40,7 +44,7 @@
 
             <v-spacer v-if="isOwner"></v-spacer>
             <span v-if="isOwner">
-              <IconButton text="Delete List" icon="mdi-delete" @click="deleteListDialog = true" />              
+              <IconButton text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
               <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
               <IconButton text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
             </span>
@@ -59,7 +63,12 @@
           </v-slide-y-transition>
 
           <v-slide-y-transition mode="out-in">
-            <v-list min-height="200" max-height="100%;" v-if="editMode != 'add'">
+
+            <v-row justify="center" class="mt-4" v-if="editMode == 'delete'" key='delete'>
+              <v-btn color="red" dark @click="deleteList">Delete List</v-btn>
+            </v-row>
+
+            <v-list min-height="200" max-height="100%;" v-if="!editMode" key='list'>
               <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
                 <v-list-item-content>
                   <v-list-item-title v-text="movie.title"></v-list-item-title>
@@ -82,39 +91,6 @@
 
       </v-col>
     </v-row>
-
-    <v-dialog
-      v-model="deleteListDialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="headline">Delete list?</v-card-title>
-
-        <v-card-text>
-          Are you sure you want to delete {{ list.title }}?
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="deleteListDialog = false"
-          >
-            Cancel
-          </v-btn>
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="deleteList"
-          >
-            Confirm
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
@@ -238,8 +214,10 @@ export default {
         return 'Add a movie';
       } else if (this.editMode == 'edit') {
         return 'Edit list';
+      } else if (this.editMode == 'delete') {
+        return 'Delete list';
       }
-      return '';
+      return null;
     }
   }
 }
