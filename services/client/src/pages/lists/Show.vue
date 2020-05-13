@@ -11,39 +11,16 @@
               <ListRatings v-bind:list="list" />
 
               <v-spacer></v-spacer>
-
-              <v-tooltip bottom v-if="isOwner">
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on" @click="deleteListClicked">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-              <span>Delete List</span>
-            </v-tooltip>
-
-            <v-tooltip bottom v-if="isOwner">
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on" @click="showAddMovieCardClicked">
-                  <v-icon>mdi-plus-circle</v-icon>
-                </v-btn>
-              </template>
-              <span>Add Movie</span>
-            </v-tooltip> 
-
-            <v-tooltip bottom v-if="isOwner">
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on" @click="editMode = !editMode">
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </template>
-              <span>Edit</span>
-            </v-tooltip> 
+              
+              <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
+              <IconButton v-if="isOwner" text="Add Movie" icon="mdi-plus-circle" @click="showAddMovieCardClicked" />              
+              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = !editMode" />
             </template>
 
             <v-spacer></v-spacer>
 
-            <v-btn text :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
-              <v-icon left>mdi-chart-timeline-variant</v-icon>View Charts
+            <v-btn text class="primary--text" :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
+              <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
             </v-btn>
             
             <v-progress-linear
@@ -113,6 +90,7 @@
 const axios = require('axios');
 import ListRatings from '../../components/ListRatings';
 import ListHistogram from '../../components/ListHistogram';
+import IconButton from '@/components/ToolBarIconButton';
 import Rating from '@/components/Rating';
 import { Auth } from '@/auth';
 
@@ -120,7 +98,8 @@ export default {
   components: {
     ListRatings,
     ListHistogram,
-    Rating
+    Rating,
+    IconButton
   },
 
   data() {
