@@ -7,8 +7,8 @@
           <v-toolbar flat class="grey lighten-3">
             <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
-            <template v-slot:extension v-if="showRatings">
-              <ListRatings v-bind:list="list" />
+            <template v-slot:extension v-if="showRatings || isOwner">
+              <ListRatings v-bind:list="list" v-if="showRatings" />
 
               <v-spacer></v-spacer>
 
@@ -49,7 +49,7 @@
 
           <ListHistogram v-bind:movies="list.Movies" />
 
-          <v-divider v-if="showRatings"></v-divider>
+          <v-divider></v-divider>
 
           <v-card-text>
             <v-list min-height="200" max-height="100%;">
@@ -108,7 +108,6 @@ export default {
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
-      showRatings: false,
       editMode: false,
       isOwner: false
     }
@@ -122,11 +121,8 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
-      this.showRatings = this.list.averageRating != null;
-
       this.showLoadingIndicator = false;
     },
 
@@ -195,6 +191,9 @@ export default {
   computed: {
     listId: function() {
       return this.$route.params.id;
+    },
+    showRatings: function() {
+      return !!this.list.averageRating;
     }
   }
 }
