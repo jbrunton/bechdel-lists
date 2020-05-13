@@ -1,16 +1,11 @@
-const models = require.main.require('./models');
+const authorization = require.main.require('./app/usecases/authorization');
 
 module.exports = function(prototype) {
   return function(req, res, next) {
-    if (prototype == models.List) {
-      if (req.user) {
-        if (req.list && req.list.UserId == req.user.id) {
-          return next();
-        }
-      }
-      res.send(401);
+    if (authorization.isOwner(prototype, req)) {
+      return next();
     } else {
-      throw Error("Unexpected prototype: " + prototype.name);
+      return res.send(401);
     }
   };
 };

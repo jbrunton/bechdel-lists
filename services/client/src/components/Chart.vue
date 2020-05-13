@@ -33,6 +33,7 @@ export default {
         bar: { groupWidth: '100%' },
         isStacked: this.stackedPercentage ? 'percent' : true,
         seriesType: 'bars',
+        interpolateNulls: true,
         chartArea: {
           left: 40,
           right: 40,

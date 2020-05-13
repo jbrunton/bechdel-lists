@@ -1,105 +1,81 @@
 <template>
   <v-container>
-  <v-row justify="center">
-    <v-col cols="10">
+    <v-row justify="center">
+      <v-col cols="10">
+        <v-card outlined>
 
-       <v-card outlined>
-    <v-toolbar flat class="grey lighten-3">
-      <v-toolbar-title v-text="list.title"></v-toolbar-title> 
+          <v-toolbar flat class="grey lighten-3">
+            <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
-      <template v-slot:extension v-if="showRatings">
-        <ListRatings v-bind:list="list" />
+            <template v-slot:extension v-if="showRatings || isOwner">
+              <ListRatings v-bind:list="list" v-if="showRatings" />
 
-        <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
 
-        <v-btn text :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
-          <v-icon left>mdi-chart-timeline-variant</v-icon>View Charts
-        </v-btn>
-      </template>
+              <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
+              <IconButton v-if="isOwner" text="Add Movie" icon="mdi-plus-circle" @click="showAddMovieCardClicked" />              
+              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = !editMode" />
+            </template>
 
-      <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="deleteListClicked">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        </template>
-        <span>Delete List</span>
-      </v-tooltip>
+            <v-btn text class="primary--text" :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
+              <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
+            </v-btn>
+            
+            <v-progress-linear
+              :active="showLoadingIndicator"
+              :indeterminate="showLoadingIndicator"
+              absolute
+              bottom
+              color="deep-purple accent-4"
+            ></v-progress-linear>
+          </v-toolbar>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="showAddMovieCardClicked">
-            <v-icon>mdi-plus-circle</v-icon>
-          </v-btn>
-        </template>
-        <span>Add Movie</span>
-      </v-tooltip> 
+          <v-card-text v-show="showAddMovieCard">
+            <form>
+              <v-text-field
+                prepend-icon="mdi-magnify"
+                single-line
+                label="Search"
+                v-model="query"
+                @change="search"
+              ></v-text-field>
+              <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
+            </form>
+          </v-card-text>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="editMode = !editMode">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-        </template>
-        <span>Edit</span>
-      </v-tooltip> 
+          <v-divider></v-divider>
 
-      
-      <v-progress-linear
-        :active="showLoadingIndicator"
-        :indeterminate="showLoadingIndicator"
-        absolute
-        bottom
-        color="deep-purple accent-4"
-      ></v-progress-linear>
-    </v-toolbar>
+          <ListHistogram v-bind:movies="list.Movies" />
 
-    <v-card-text v-show="showAddMovieCard">
-      <form>
-        <v-text-field
-          prepend-icon="mdi-magnify"
-          single-line
-          label="Search"
-          v-model="query"
-          @change="search"
-        ></v-text-field>
-        <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
-      </form>
-    </v-card-text>
+          <v-divider></v-divider>
 
-    <v-divider></v-divider>
+          <v-card-text>
+            <v-list min-height="200" max-height="100%;">
+              <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
+                <v-list-item-content>
+                  <v-list-item-title v-text="movie.title"></v-list-item-title>
+                  <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <Rating v-bind:rating="movie.rating" v-if="!editMode" />
+                  <v-tooltip bottom v-if="editMode">
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon v-on="on" @click="removeMovie(movie)">
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Remove Movie</span>
+                  </v-tooltip>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
 
-    <ListHistogram v-bind:movies="movies" />
-
-    <v-divider v-if="showRatings"></v-divider>
-
-    <v-card-text>
-      <v-list min-height="200" max-height="100%;">
-        <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
-          <v-list-item-content>
-            <v-list-item-title v-text="movie.title"></v-list-item-title>
-            <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <Rating v-bind:rating="movie.rating" />
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on" @click="removeMovie(movie)" v-show="editMode">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-              <span>Remove Movie</span>
-            </v-tooltip>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
-  </v-card>
-
-    </v-col>
-  </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -114,46 +90,32 @@
 const axios = require('axios');
 import ListRatings from '../../components/ListRatings';
 import ListHistogram from '../../components/ListHistogram';
+import IconButton from '@/components/toolbar/IconButton';
 import Rating from '@/components/Rating';
+import { Auth } from '@/auth';
 
 export default {
   components: {
     ListRatings,
     ListHistogram,
-    Rating
+    Rating,
+    IconButton
   },
 
   data() {
     return {
-      list: { title: '', movies: [] },
-      movies: [],
+      list: {},
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
-      showRatings: false,
       editMode: false,
-      showCharts: false,
-
-      countByYearData: [],
-      averageByYearData: [],
-      countByYearOptions: {
-        series: {
-              0: { color: '#C62828' }, // red darken-3
-              1: { color: '#EF9A9A' }, // red lighten-1
-              2: { color: '#90CAF9' }, // blue lighten-3
-              3: { color: '#1E88E5' }, // blue darken-1
-        }
-      },
-      avgByYearOptions: {
-        series: {
-              0: { type: 'line', color: '#EC407A' }
-        },
-      }
+      isOwner: false
     }
   },
 
   created () {
     this.load();
+    this.authorize();
   },
 
   methods: {
@@ -161,22 +123,17 @@ export default {
       this.showLoadingIndicator = true;
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
-      this.movies = this.list.Movies;
-      this.updateRatings();
-      this.loadChartData();
       this.showLoadingIndicator = false;
     },
 
-    async loadChartData() {
-      const result = await axios.get(`/api/lists/${this.listId}/charts/by_year`);
-      this.countByYearData = result.data.ratingsData;
-      this.averageByYearData = result.data.averageData;
+    async authorize() {
+      this.isOwner = await Auth.isOwner('list', this.listId);
     },
 
     async deleteList() {
       this.showLoadingIndicator = true;
       await axios.delete(`/api/lists/${this.listId}`);
-      this.showLoadingIndicator = true;
+      this.showLoadingIndicator = false;
       this.listId = null;
     },
 
@@ -209,16 +166,6 @@ export default {
       this.load();
     },
 
-    updateRatings() {
-      const ratings = this.movies.map((movie) => movie.rating).filter(x => x === 0 || x);
-      this.showRatings = ratings.length > 0;
-      if (this.showRatings) {
-        this.minRating = Math.min(...ratings);
-        this.maxRating = Math.max(...ratings);
-        this.avgRating = this.list.averageRating.toFixed(1);
-      }
-    },
-
     deleteListClicked() {
       this.deleteList();
     },
@@ -244,6 +191,9 @@ export default {
   computed: {
     listId: function() {
       return this.$route.params.id;
+    },
+    showRatings: function() {
+      return !!this.list.averageRating;
     }
   }
 }

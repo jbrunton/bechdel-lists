@@ -82,6 +82,11 @@ async function authenticate() {
   }
 }
 
+async function isOwner(type, id) {
+  const response = await axios.get(`/api/auth/authorize/${type}/${id}`);
+  return response.data.isOwner;
+}
+
 export const Auth = {
   getStatus() {
     return authStatus;
@@ -89,5 +94,6 @@ export const Auth = {
   getAssumedStatus: getAssumedStatus,
   authenticate: authenticate,
   signIn: signIn,
-  signOut: signOut
+  signOut: signOut,
+  isOwner: isOwner
 };

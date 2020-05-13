@@ -1,11 +1,16 @@
 const express = require('express');
 const models = require.main.require('./models');
 const { OAuth2Client } = require('google-auth-library');
+const authenticate = require.main.require('./app/middleware/authenticate');
+const listParam = require.main.require('./app/middleware/list_param');
+const authorization = require.main.require('./app/usecases/authorization');
+
 
 const clientId = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(clientId);
 
 const router = express.Router();
-const client = new OAuth2Client(clientId);
+router.param('listId', listParam);
 
 router.post('/signin', async (req, res) => {
   try {
@@ -29,6 +34,11 @@ router.post('/signout', async (req, res) => {
   await req.session.destroy()
   res.clearCookie('user', { httpOnly: false });
   res.send(200);
+});
+
+router.get('/authorize/list/:listId', authenticate, (req, res) => {
+  const isOwner = authorization.isOwner(models.List, req);
+  return res.json({ isOwner: isOwner });
 });
 
 module.exports = {
