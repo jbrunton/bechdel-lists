@@ -19,7 +19,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="isOwner">
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on" @click="deleteListClicked">
             <v-icon>mdi-delete</v-icon>
@@ -28,7 +28,7 @@
         <span>Delete List</span>
       </v-tooltip>
 
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="isOwner">
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on" @click="showAddMovieCardClicked">
             <v-icon>mdi-plus-circle</v-icon>
@@ -37,7 +37,7 @@
         <span>Add Movie</span>
       </v-tooltip> 
 
-      <v-tooltip bottom>
+      <v-tooltip bottom v-if="isOwner">
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on" @click="editMode = !editMode">
             <v-icon>mdi-pencil</v-icon>
@@ -115,6 +115,7 @@ const axios = require('axios');
 import ListRatings from '../../components/ListRatings';
 import ListHistogram from '../../components/ListHistogram';
 import Rating from '@/components/Rating';
+import { Auth } from '@/auth';
 
 export default {
   components: {
@@ -133,6 +134,7 @@ export default {
       showRatings: false,
       editMode: false,
       showCharts: false,
+      isOwner: false,
 
       countByYearData: [],
       averageByYearData: [],
@@ -154,6 +156,7 @@ export default {
 
   created () {
     this.load();
+    this.authorize();
   },
 
   methods: {
@@ -165,6 +168,10 @@ export default {
       this.updateRatings();
       this.loadChartData();
       this.showLoadingIndicator = false;
+    },
+
+    async authorize() {
+      this.isOwner = await Auth.isOwner('list', this.listId);
     },
 
     async loadChartData() {
