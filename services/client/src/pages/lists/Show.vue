@@ -36,15 +36,17 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn text class="primary--text" v-if="!editMode"
-              :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}"
-            >
-              <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
-            </v-btn>
+            <v-fade-transition>
+              <v-btn text class="primary--text" v-if="!editMode" :key="editMode"
+                :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}"
+              >
+                <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
+              </v-btn>
+            </v-fade-transition>
 
             <v-spacer v-if="isOwner"></v-spacer>
             <span v-if="isOwner">
-              <IconButton text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
+              <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
               <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
               <IconButton text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
             </span>
