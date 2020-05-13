@@ -4,22 +4,34 @@
       <v-col cols="10">
         <v-card outlined>
 
-          <v-toolbar flat class="grey lighten-3">
-            <v-toolbar-title v-text="list.title"></v-toolbar-title> 
+          <v-toolbar flat :color="editMode ? 'grey darken-3' : 'grey lighten-3'" :dark="!!editMode">
+            <v-btn icon v-if="editMode" @click="editMode = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
 
-            <template v-slot:extension v-if="showRatings || isOwner">
-              <ListRatings v-bind:list="list" v-if="showRatings" />
+            <v-fade-transition mode="out-in">
+              <v-toolbar-title :key="editMode">
+                {{ title }}
+              </v-toolbar-title>  
+            </v-fade-transition>
+
+            <template v-slot:extension v-if="(showRatings || isOwner)">
+              <v-fade-transition mode="out-in">
+                <ListRatings v-bind:list="list" v-if="showRatings && !editMode" />
+              </v-fade-transition>
 
               <v-spacer></v-spacer>
 
               <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
-              <IconButton v-if="isOwner" text="Add Movie" icon="mdi-plus-circle" @click="showAddMovieCardClicked" />              
-              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = !editMode" />
+              <IconButton v-if="isOwner" v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
+              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
             </template>
 
             <v-spacer></v-spacer>
 
-            <v-btn text class="primary--text" :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
+            <v-btn text class="primary--text" v-if="!editMode"
+              :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}"
+            >
               <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
             </v-btn>
             
@@ -32,46 +44,48 @@
             ></v-progress-linear>
           </v-toolbar>
 
-          <v-card-text v-show="showAddMovieCard">
-            <form>
-              <v-text-field
-                prepend-icon="mdi-magnify"
-                single-line
-                label="Search"
-                v-model="query"
-                @change="search"
-              ></v-text-field>
-              <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
-            </form>
-          </v-card-text>
+          <v-divider></v-divider>
+
+          <ListHistogram v-bind:movies="list.Movies" v-if="!editMode" />
 
           <v-divider></v-divider>
 
-          <ListHistogram v-bind:movies="list.Movies" />
+          <v-slide-y-transition mode="out-in">
+            <v-card-text v-if="editMode == 'add'" key="addMovie">
+              <form>
+                <v-text-field
+                  prepend-icon="mdi-magnify"
+                  single-line
+                  label="Search"
+                  v-model="query"
+                  @change="search"
+                ></v-text-field>
+                <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
+              </form>
+            </v-card-text>
 
-          <v-divider></v-divider>
-
-          <v-card-text>
-            <v-list min-height="200" max-height="100%;">
-              <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
-                <v-list-item-content>
-                  <v-list-item-title v-text="movie.title"></v-list-item-title>
-                  <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-action>
-                  <Rating v-bind:rating="movie.rating" v-if="!editMode" />
-                  <v-tooltip bottom v-if="editMode">
-                    <template v-slot:activator="{ on }">
-                      <v-btn icon v-on="on" @click="removeMovie(movie)">
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Remove Movie</span>
-                  </v-tooltip>
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
+            <v-card-text v-if="editMode != 'add'" key="list">
+              <v-list min-height="200" max-height="100%;">
+                <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
+                  <v-list-item-content>
+                    <v-list-item-title v-text="movie.title"></v-list-item-title>
+                    <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <Rating v-bind:rating="movie.rating" v-if="!editMode" />
+                    <v-tooltip bottom v-if="editMode">
+                      <template v-slot:activator="{ on }">
+                        <v-btn icon v-on="on" @click="removeMovie(movie)">
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Remove Movie</span>
+                    </v-tooltip>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list>
+            </v-card-text>
+          </v-slide-y-transition>
 
         </v-card>
       </v-col>
@@ -107,7 +121,6 @@ export default {
       list: {},
       query: '',
       showLoadingIndicator: false,
-      showAddMovieCard: false,
       editMode: false,
       isOwner: false
     }
@@ -194,6 +207,16 @@ export default {
     },
     showRatings: function() {
       return !!this.list.averageRating;
+    },
+    title: function() {
+      if (!this.editMode) {
+        return this.list.title;
+      } else if (this.editMode == 'add') {
+        return 'Add a movie';
+      } else if (this.editMode == 'edit') {
+        return 'Edit list';
+      }
+      return '';
     }
   }
 }
