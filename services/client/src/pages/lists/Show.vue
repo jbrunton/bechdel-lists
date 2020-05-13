@@ -78,15 +78,15 @@
               <v-btn color="red" dark @click="deleteList">Delete List</v-btn>
             </v-row>
 
-            <v-list min-height="200" max-height="100%;" v-if="!editMode || editMode == 'edit'" :key="editMode">
-              <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
+            <v-list min-height="200" max-height="100%;" v-if="editMode != 'delete'" :key="editMode">
+              <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
                 <v-list-item-content>
                   <v-list-item-title v-text="movie.title"></v-list-item-title>
                   <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <Rating v-bind:rating="movie.rating" v-if="!editMode" />
-                  <v-tooltip bottom v-if="editMode">
+                  <Rating v-bind:rating="movie.rating" v-if="editMode != 'edit'" />
+                  <v-tooltip bottom v-if="editMode == 'edit'">
                     <template v-slot:activator="{ on }">
                       <v-btn icon v-on="on" @click="removeMovie(movie)">
                         <v-icon>mdi-delete</v-icon>
@@ -129,11 +129,14 @@ export default {
 
   data() {
     return {
-      list: {},
-      query: '',
-      showLoadingIndicator: false,
-      editMode: false,
+      list: { title: '', Movies: [] },
       isOwner: false,
+      showLoadingIndicator: false,
+
+      editMode: false,
+      query: '',
+      searchResults: [],
+      
       deleteListDialog: false
     }
   },
@@ -163,14 +166,12 @@ export default {
       this.$router.push({ name: 'MyLists' });
     },
 
-    async search() {
-      this.movies = [];
-      
+    async search() {      
       if (this.query.length >= 3) {
         this.showLoadingIndicator = true;
 
         const result = await axios.get(`/api/search?query=${this.query}`);
-        this.movies = result.data;
+        this.searchResults = result.data;
         this.showLoadingIndicator = false;
       } else {
         this.showLoadingIndicator = false;
@@ -179,9 +180,8 @@ export default {
 
     async addMovie(movie) {
       this.showLoadingIndicator = true;
-      this.showAddMovieCard = false;
+      this.editMode = false;
       await axios.post(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
-      this.$emit('list-updated');
       this.load();
     },
 
@@ -202,7 +202,7 @@ export default {
     },
 
     movieClicked(movie) {
-      if (this.showAddMovieCard) {
+      if (this.editMode == 'add') {
         this.addMovie(movie);
       } else {
         // ???
@@ -228,6 +228,13 @@ export default {
         return 'Delete list';
       }
       return null;
+    },
+    movies: function() {
+      if (this.editMode == 'add') {
+        return this.searchResults;
+      } else {
+        return this.list.Movies;
+      }
     }
   }
 }
