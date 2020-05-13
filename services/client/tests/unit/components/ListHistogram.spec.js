@@ -25,10 +25,13 @@ describe('ListHistogram.vue', () => {
         }
       }
     });
-    const expectedCounts = ['scored 0  (0.0%)', 'scored 1  (25.0%)', 'scored 2  (50.0%)', 'scored 3  (25.0%)'];
-    expectedCounts.forEach(expectedCount => {
-      expect(wrapper.text()).toEqual(expect.stringContaining(expectedCount));
-    });
+    const expectedText = [
+      '0 scored 0  (0.0%)',
+      '1 scored 1  (25.0%)',
+      '2 scored 2  (50.0%)',
+      '1 scored 3  (25.0%)'
+    ].join('');
+    expect(wrapper.text()).toEqual(expectedText);
   })
 
   it("renders histogram block widths in proportion to the weight of the rating", () => {
@@ -38,13 +41,10 @@ describe('ListHistogram.vue', () => {
       }
     });
     const expectedWidths = ['0%', '25%', '50%', '25%']
-    expectedWidths.forEach((expectedWidth, index) => {
-      const style = wrapper
-        .find('#histogram')
-        .findAll('#histogram div')
-        .at(index).attributes().style;
-      expect(style).toEqual(expect.stringContaining(`width: ${expectedWidth}`));
-    });
+    const actualWidths = wrapper
+      .findAll('#histogram div').wrappers
+      .map(div => div.attributes().style.match(/width: ([^\;]+)/)[1]);
+    expect(actualWidths).toEqual(expectedWidths);
   });
 
   it("doesn't render anything if the list is empty", () => {

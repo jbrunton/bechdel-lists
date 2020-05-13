@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showHistogram">
+  <div v-if="showHistogram" id="histogram-container">
     <div id="histogram">
       <div v-for="block in histogram" :key="block.rating" :style="block.style" />
     </div>
@@ -15,6 +15,10 @@
 </template>
 
 <style scoped>
+  #histogram-container {
+    background-color:#fbfbfb;
+    border-bottom: solid 1px #f5f5f5;
+  }
   #histogram {
     height: 10px;
   }

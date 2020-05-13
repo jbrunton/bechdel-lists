@@ -2,26 +2,62 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="10">
-        <v-card outlined>
+          
+          <v-toolbar flat :color="editMode ? 'pink' : 'grey lighten-4'" :dark="!!editMode">
+            <v-btn icon v-if="editMode" @click="editMode = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
 
-          <v-toolbar flat class="grey lighten-3">
-            <v-toolbar-title v-text="list.title"></v-toolbar-title> 
+            <v-fade-transition mode="out-in">
+              <v-toolbar-title :key="editMode">
+                {{ title }}
+              </v-toolbar-title>  
+            </v-fade-transition>
 
-            <template v-slot:extension v-if="showRatings || isOwner">
-              <ListRatings v-bind:list="list" v-if="showRatings" />
+            <template v-slot:extension v-if="showRatings || editMode">
+              <v-slide-y-transition mode="out-in">
+                <ListRatings v-bind:list="list" v-if="showRatings && !editMode" key='ratings' />
 
-              <v-spacer></v-spacer>
+                <span v-if="editMode == 'delete'" key='delete'>
+                  Are you sure you want to delete '{{ list.title }}'?
+                </span>
 
-              <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
-              <IconButton v-if="isOwner" text="Add Movie" icon="mdi-plus-circle" @click="showAddMovieCardClicked" />              
-              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = !editMode" />
+                <form v-if="editMode == 'add'" key='add' style="width: 100%;">
+                  <v-text-field
+                    prepend-icon="mdi-magnify"
+                    single-line
+                    label="Search"
+                    v-model="query"
+                    v-debounce:200="search"
+                  ></v-text-field>
+                </form>
+
+                <form v-if="editMode == 'edit'" key='edit' style="width: 100%;">
+                  <v-text-field
+                    single-line
+                    label="Title"
+                    v-model="list.title"
+                  ></v-text-field>
+                </form>
+              </v-slide-y-transition>
             </template>
 
             <v-spacer></v-spacer>
 
-            <v-btn text class="primary--text" :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
-              <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
-            </v-btn>
+            <v-fade-transition>
+              <v-btn text class="primary--text" v-if="!editMode" :key="editMode"
+                :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}"
+              >
+                <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
+              </v-btn>
+            </v-fade-transition>
+
+            <v-spacer v-if="isOwner"></v-spacer>
+            <span v-if="isOwner">
+              <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
+              <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
+              <IconButton v-bind:selected="editMode == 'edit'" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+            </span>
             
             <v-progress-linear
               :active="showLoadingIndicator"
@@ -32,35 +68,25 @@
             ></v-progress-linear>
           </v-toolbar>
 
-          <v-card-text v-show="showAddMovieCard">
-            <form>
-              <v-text-field
-                prepend-icon="mdi-magnify"
-                single-line
-                label="Search"
-                v-model="query"
-                @change="search"
-              ></v-text-field>
-              <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
-            </form>
-          </v-card-text>
+          <v-slide-y-transition mode="out-in">
+            <ListHistogram v-bind:movies="list.Movies" v-if="!editMode" key='histogram' />
+          </v-slide-y-transition>
 
-          <v-divider></v-divider>
+          <v-slide-y-transition mode="out-in">
 
-          <ListHistogram v-bind:movies="list.Movies" />
+            <v-row justify="center" class="mt-4" v-if="editMode == 'delete'" key='delete-form'>
+              <v-btn color="red" dark @click="deleteList">Delete List</v-btn>
+            </v-row>
 
-          <v-divider></v-divider>
-
-          <v-card-text>
-            <v-list min-height="200" max-height="100%;">
-              <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
+            <v-list min-height="200" max-height="100%;" v-if="editMode != 'delete'" :key="editMode">
+              <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
                 <v-list-item-content>
                   <v-list-item-title v-text="movie.title"></v-list-item-title>
                   <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <Rating v-bind:rating="movie.rating" v-if="!editMode" />
-                  <v-tooltip bottom v-if="editMode">
+                  <Rating v-bind:rating="movie.rating" v-if="editMode != 'edit'" />
+                  <v-tooltip bottom v-if="editMode == 'edit'">
                     <template v-slot:activator="{ on }">
                       <v-btn icon v-on="on" @click="removeMovie(movie)">
                         <v-icon>mdi-delete</v-icon>
@@ -71,9 +97,8 @@
                 </v-list-item-action>
               </v-list-item>
             </v-list>
-          </v-card-text>
+          </v-slide-y-transition>
 
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -104,12 +129,15 @@ export default {
 
   data() {
     return {
-      list: {},
-      query: '',
+      list: { title: '', Movies: [] },
+      isOwner: false,
       showLoadingIndicator: false,
-      showAddMovieCard: false,
+
       editMode: false,
-      isOwner: false
+      query: '',
+      searchResults: [],
+      
+      deleteListDialog: false
     }
   },
 
@@ -131,20 +159,18 @@ export default {
     },
 
     async deleteList() {
+      this.deleteListDialog = false;
       this.showLoadingIndicator = true;
       await axios.delete(`/api/lists/${this.listId}`);
       this.showLoadingIndicator = false;
-      this.listId = null;
+      this.$router.push({ name: 'MyLists' });
     },
 
-    async search() {
-      this.movies = [];
-      
+    async search() {      
       if (this.query.length >= 3) {
         this.showLoadingIndicator = true;
-
         const result = await axios.get(`/api/search?query=${this.query}`);
-        this.movies = result.data;
+        this.searchResults = result.data;
         this.showLoadingIndicator = false;
       } else {
         this.showLoadingIndicator = false;
@@ -153,9 +179,8 @@ export default {
 
     async addMovie(movie) {
       this.showLoadingIndicator = true;
-      this.showAddMovieCard = false;
+      this.editMode = false;
       await axios.post(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
-      this.$emit('list-updated');
       this.load();
     },
 
@@ -164,10 +189,6 @@ export default {
       await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
       this.$emit('list-updated');
       this.load();
-    },
-
-    deleteListClicked() {
-      this.deleteList();
     },
 
     showAddMovieCardClicked() {
@@ -180,7 +201,7 @@ export default {
     },
 
     movieClicked(movie) {
-      if (this.showAddMovieCard) {
+      if (this.editMode == 'add') {
         this.addMovie(movie);
       } else {
         // ???
@@ -194,6 +215,25 @@ export default {
     },
     showRatings: function() {
       return !!this.list.averageRating;
+    },
+    title: function() {
+      if (!this.editMode) {
+        return this.list.title;
+      } else if (this.editMode == 'add') {
+        return 'Add a movie';
+      } else if (this.editMode == 'edit') {
+        return 'Edit list';
+      } else if (this.editMode == 'delete') {
+        return 'Delete list';
+      }
+      return null;
+    },
+    movies: function() {
+      if (this.editMode == 'add') {
+        return this.searchResults;
+      } else {
+        return this.list.Movies;
+      }
     }
   }
 }

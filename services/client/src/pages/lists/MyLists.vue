@@ -2,8 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="10">
-        <v-card outlined>
-          <v-toolbar flat :color="showAddListItem ? 'grey darken-3' : 'grey lighten-3'" :dark="showAddListItem">
+          <v-toolbar flat :color="showAddListItem ? 'pink' : 'grey lighten-4'" :dark="showAddListItem">
             <v-btn
               v-if="showAddListItem"
               icon
@@ -47,11 +46,8 @@
               </form>
             </v-card-text>
 
-            <v-card-text v-else key="list">
-              <ListIndex v-bind:lists="lists" parentTab="my" />
-            </v-card-text>
+            <ListIndex v-bind:lists="lists" parentTab="my" key="list" />
           </v-slide-y-transition>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>

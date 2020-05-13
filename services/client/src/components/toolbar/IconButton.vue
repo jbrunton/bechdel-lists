@@ -2,7 +2,7 @@
   <span>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" @click="$emit('click')">
+        <v-btn icon v-on="on" @click="$emit('click')" v-bind:disabled="selected">
           <v-icon>{{icon}}</v-icon>
         </v-btn>
       </template>
@@ -15,7 +15,8 @@
 export default {
   props: {
     text: String,
-    icon: String
-  }  
+    icon: String,
+    selected: Boolean
+  }
 }
 </script>

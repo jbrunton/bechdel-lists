@@ -3,29 +3,25 @@
     <v-row justify="center">
       <v-col cols="10">
 
-        <v-card outlined>
-          <v-toolbar flat color="grey lighten-3">
-            <v-toolbar-title>My Profile</v-toolbar-title>
-          </v-toolbar>
+        <v-toolbar flat color="grey lighten-4">
+          <v-toolbar-title>My Profile</v-toolbar-title>
+        </v-toolbar>
 
-          <v-card-text>
-            <v-list>
-              <v-subheader>Profile</v-subheader>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title v-text="name"></v-list-item-title>
-                  <v-list-item-subtitle>Name</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title v-text="email"></v-list-item-title>
-                  <v-list-item-subtitle>Email</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
+        <v-list>
+          <v-subheader>Profile</v-subheader>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-subtitle>Name</v-list-item-subtitle>
+              <v-list-item-title v-text="name"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-subtitle>Email</v-list-item-subtitle>
+              <v-list-item-title v-text="email"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
 
       </v-col>
     </v-row>
