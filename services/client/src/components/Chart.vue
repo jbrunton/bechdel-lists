@@ -36,7 +36,7 @@ export default {
         interpolateNulls: true,
         chartArea: {
           left: 40,
-          right: 40,
+          right: 5,
           top: 40,
           bottom: 40
         },

@@ -40,11 +40,9 @@
 
             <v-spacer></v-spacer>
 
-                          <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
-              <IconButton v-if="isOwner" v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
-              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
-
-
+            <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
+            <IconButton v-if="isOwner" v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
+            <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
             
             <v-progress-linear
               :active="showLoadingIndicator"
@@ -55,32 +53,30 @@
             ></v-progress-linear>
           </v-toolbar>
 
-          <v-card outlined v-if="!editMode">
-
-          <ListHistogram v-bind:movies="list.Movies" />
-
-          </v-card>
+          <v-slide-y-transition mode="out-in">
+            <ListHistogram v-bind:movies="list.Movies" v-if="!editMode" />
+          </v-slide-y-transition>
 
           <v-slide-y-transition mode="out-in">
-              <v-list min-height="200" max-height="100%;" v-if="editMode != 'add'">
-                <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="movie.title"></v-list-item-title>
-                    <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <Rating v-bind:rating="movie.rating" v-if="!editMode" />
-                    <v-tooltip bottom v-if="editMode">
-                      <template v-slot:activator="{ on }">
-                        <v-btn icon v-on="on" @click="removeMovie(movie)">
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Remove Movie</span>
-                    </v-tooltip>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list>
+            <v-list min-height="200" max-height="100%;" v-if="editMode != 'add'">
+              <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
+                <v-list-item-content>
+                  <v-list-item-title v-text="movie.title"></v-list-item-title>
+                  <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <Rating v-bind:rating="movie.rating" v-if="!editMode" />
+                  <v-tooltip bottom v-if="editMode">
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon v-on="on" @click="removeMovie(movie)">
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Remove Movie</span>
+                  </v-tooltip>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
           </v-slide-y-transition>
 
       </v-col>

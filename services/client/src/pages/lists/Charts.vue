@@ -2,9 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="10">
-        <v-card outlined>
-
-          <v-toolbar flat class="grey lighten-3">
+          <v-toolbar flat class="grey lighten-4">
             <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
             <template v-slot:extension v-if="showRatings">
@@ -26,11 +24,7 @@
             ></v-progress-linear>
           </v-toolbar>
 
-          <v-divider></v-divider>
-
           <ListHistogram v-bind:movies="list.Movies" />
-
-          <v-divider></v-divider>
 
           <div id="charts-area">
             <v-row>
@@ -55,8 +49,6 @@
               </v-col>
             </v-row>
           </div>
-
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
