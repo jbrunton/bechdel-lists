@@ -26,19 +26,6 @@
             ></v-progress-linear>
           </v-toolbar>
 
-          <v-card-text v-show="showAddMovieCard">
-            <form>
-              <v-text-field
-                prepend-icon="mdi-magnify"
-                single-line
-                label="Search"
-                v-model="query"
-                @change="search"
-              ></v-text-field>
-              <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
-            </form>
-          </v-card-text>
-
           <v-divider></v-divider>
 
           <ListHistogram v-bind:movies="movies" />
@@ -99,13 +86,9 @@ export default {
     return {
       list: { title: '', movies: [] },
       movies: [],
-      query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
       showRatings: false,
-      editMode: false,
-      showCharts: false,
-
       countByYearData: null,
       averageByYearData: null,
       countByYearOptions: {
@@ -135,7 +118,7 @@ export default {
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       this.movies = this.list.Movies;
-      this.updateRatings();
+      this.showRatings = this.list.averageRating != null;
       await this.loadChartData();
       this.showLoadingIndicator = false;
     },
@@ -144,73 +127,7 @@ export default {
       const result = await axios.get(`/api/lists/${this.listId}/charts/by_year`);
       this.countByYearData = result.data.ratingsData;
       this.averageByYearData = result.data.averageData;
-    },
-
-    async deleteList() {
-      this.showLoadingIndicator = true;
-      await axios.delete(`/api/lists/${this.listId}`);
-      this.showLoadingIndicator = true;
-      this.listId = null;
-    },
-
-    async search() {
-      this.movies = [];
-      
-      if (this.query.length >= 3) {
-        this.showLoadingIndicator = true;
-
-        const result = await axios.get(`/api/search?query=${this.query}`);
-        this.movies = result.data;
-        this.showLoadingIndicator = false;
-      } else {
-        this.showLoadingIndicator = false;
-      }
-    },
-
-    async addMovie(movie) {
-      this.showLoadingIndicator = true;
-      this.showAddMovieCard = false;
-      await axios.post(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
-      this.$emit('list-updated');
-      this.load();
-    },
-
-    async removeMovie(movie) {
-      this.showLoadingIndicator = true;
-      await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
-      this.$emit('list-updated');
-      this.load();
-    },
-
-    updateRatings() {
-      const ratings = this.movies.map((movie) => movie.rating).filter(x => x === 0 || x);
-      this.showRatings = ratings.length > 0;
-      if (this.showRatings) {
-        this.minRating = Math.min(...ratings);
-        this.maxRating = Math.max(...ratings);
-        this.avgRating = this.list.averageRating.toFixed(1);
-      }
-    },
-
-    deleteListClicked() {
-      this.deleteList();
-    },
-
-    showAddMovieCardClicked() {
-      this.showAddMovieCard = true;
-    },
-
-    hideAddMovieCardClicked() {
-      this.showAddMovieCard = false;
-      this.load();
-    },
-
-    movieClicked(movie) {
-      if (this.showAddMovieCard) {
-        this.addMovie(movie);
-      } else {
-        // ???
-      }
+      console.log(this.averageByYearData);
     }
   },
 
