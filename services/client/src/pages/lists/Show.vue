@@ -40,7 +40,7 @@
 
             <v-spacer v-if="isOwner"></v-spacer>
             <span v-if="isOwner">
-              <IconButton text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
+              <IconButton text="Delete List" icon="mdi-delete" @click="deleteListDialog = true" />              
               <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
               <IconButton text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
             </span>
@@ -82,6 +82,39 @@
 
       </v-col>
     </v-row>
+
+    <v-dialog
+      v-model="deleteListDialog"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">Delete list?</v-card-title>
+
+        <v-card-text>
+          Are you sure you want to delete {{ list.title }}?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deleteListDialog = false"
+          >
+            Cancel
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deleteList"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -114,7 +147,8 @@ export default {
       query: '',
       showLoadingIndicator: false,
       editMode: false,
-      isOwner: false
+      isOwner: false,
+      deleteListDialog: false
     }
   },
 
@@ -136,10 +170,11 @@ export default {
     },
 
     async deleteList() {
+      this.deleteListDialog = false;
       this.showLoadingIndicator = true;
       await axios.delete(`/api/lists/${this.listId}`);
       this.showLoadingIndicator = false;
-      this.listId = null;
+      this.$router.push({ name: 'MyLists' });
     },
 
     async search() {
@@ -169,10 +204,6 @@ export default {
       await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
       this.$emit('list-updated');
       this.load();
-    },
-
-    deleteListClicked() {
-      this.deleteList();
     },
 
     showAddMovieCardClicked() {
