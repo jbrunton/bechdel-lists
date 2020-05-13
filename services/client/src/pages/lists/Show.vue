@@ -31,6 +31,14 @@
                     @change="search"
                   ></v-text-field>
                 </form>
+
+                <form v-if="editMode == 'edit'" key='edit' style="width: 100%;">
+                  <v-text-field
+                    single-line
+                    label="Title"
+                    v-model="list.title"
+                  ></v-text-field>
+                </form>
               </v-slide-y-transition>
             </template>
 
@@ -48,7 +56,7 @@
             <span v-if="isOwner">
               <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
               <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
-              <IconButton text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+              <IconButton v-bind:selected="editMode == 'edit'" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
             </span>
             
             <v-progress-linear
@@ -61,16 +69,16 @@
           </v-toolbar>
 
           <v-slide-y-transition mode="out-in">
-            <ListHistogram v-bind:movies="list.Movies" v-if="!editMode" />
+            <ListHistogram v-bind:movies="list.Movies" v-if="!editMode" key='histogram' />
           </v-slide-y-transition>
 
           <v-slide-y-transition mode="out-in">
 
-            <v-row justify="center" class="mt-4" v-if="editMode == 'delete'" key='delete'>
+            <v-row justify="center" class="mt-4" v-if="editMode == 'delete'" key='delete-form'>
               <v-btn color="red" dark @click="deleteList">Delete List</v-btn>
             </v-row>
 
-            <v-list min-height="200" max-height="100%;" v-if="!editMode" key='list'>
+            <v-list min-height="200" max-height="100%;" v-if="!editMode || editMode == 'edit'" :key="editMode">
               <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
                 <v-list-item-content>
                   <v-list-item-title v-text="movie.title"></v-list-item-title>
