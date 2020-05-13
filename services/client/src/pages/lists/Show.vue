@@ -28,7 +28,7 @@
                     single-line
                     label="Search"
                     v-model="query"
-                    @change="search"
+                    v-debounce:200="search"
                   ></v-text-field>
                 </form>
 
@@ -169,7 +169,6 @@ export default {
     async search() {      
       if (this.query.length >= 3) {
         this.showLoadingIndicator = true;
-
         const result = await axios.get(`/api/search?query=${this.query}`);
         this.searchResults = result.data;
         this.showLoadingIndicator = false;
