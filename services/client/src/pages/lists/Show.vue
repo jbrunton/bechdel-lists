@@ -111,24 +111,7 @@ export default {
       showAddMovieCard: false,
       showRatings: false,
       editMode: false,
-      showCharts: false,
-      isOwner: false,
-
-      countByYearData: [],
-      averageByYearData: [],
-      countByYearOptions: {
-        series: {
-              0: { color: '#C62828' }, // red darken-3
-              1: { color: '#EF9A9A' }, // red lighten-1
-              2: { color: '#90CAF9' }, // blue lighten-3
-              3: { color: '#1E88E5' }, // blue darken-1
-        }
-      },
-      avgByYearOptions: {
-        series: {
-              0: { type: 'line', color: '#EC407A' }
-        },
-      }
+      isOwner: false
     }
   },
 
@@ -142,20 +125,13 @@ export default {
       this.showLoadingIndicator = true;
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
+      this.showRatings = this.list.averageRating != null;
       this.movies = this.list.Movies;
-      this.updateRatings();
-      this.loadChartData();
       this.showLoadingIndicator = false;
     },
 
     async authorize() {
       this.isOwner = await Auth.isOwner('list', this.listId);
-    },
-
-    async loadChartData() {
-      const result = await axios.get(`/api/lists/${this.listId}/charts/by_year`);
-      this.countByYearData = result.data.ratingsData;
-      this.averageByYearData = result.data.averageData;
     },
 
     async deleteList() {
@@ -192,16 +168,6 @@ export default {
       await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
       this.$emit('list-updated');
       this.load();
-    },
-
-    updateRatings() {
-      const ratings = this.movies.map((movie) => movie.rating).filter(x => x === 0 || x);
-      this.showRatings = ratings.length > 0;
-      if (this.showRatings) {
-        this.minRating = Math.min(...ratings);
-        this.maxRating = Math.max(...ratings);
-        this.avgRating = this.list.averageRating.toFixed(1);
-      }
     },
 
     deleteListClicked() {
