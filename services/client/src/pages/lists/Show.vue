@@ -38,11 +38,12 @@
               <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
             </v-btn>
 
-            <v-spacer></v-spacer>
-
-            <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
-            <IconButton v-if="isOwner" v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
-            <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+            <v-spacer v-if="isOwner"></v-spacer>
+            <span v-if="isOwner">
+              <IconButton text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
+              <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
+              <IconButton text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+            </span>
             
             <v-progress-linear
               :active="showLoadingIndicator"
