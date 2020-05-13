@@ -11,7 +11,7 @@
               <ListRatings v-bind:list="list" />
 
               <v-spacer></v-spacer>
-              
+
               <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
               <IconButton v-if="isOwner" text="Add Movie" icon="mdi-plus-circle" @click="showAddMovieCardClicked" />              
               <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = !editMode" />
@@ -90,7 +90,7 @@
 const axios = require('axios');
 import ListRatings from '../../components/ListRatings';
 import ListHistogram from '../../components/ListHistogram';
-import IconButton from '@/components/ToolBarIconButton';
+import IconButton from '@/components/toolbar/IconButton';
 import Rating from '@/components/Rating';
 import { Auth } from '@/auth';
 

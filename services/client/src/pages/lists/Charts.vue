@@ -1,138 +1,77 @@
 <template>
   <v-container>
-  <v-row justify="center">
-    <v-col cols="10">
+    <v-row justify="center">
+      <v-col cols="10">
+        <v-card outlined>
 
-       <v-card outlined>
-    <v-toolbar flat class="grey lighten-3">
-      <v-toolbar-title v-text="list.title"></v-toolbar-title> 
+          <v-toolbar flat class="grey lighten-3">
+            <v-toolbar-title v-text="list.title"></v-toolbar-title> 
 
-      <template v-slot:extension v-if="showRatings">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip class="mr-2" color="white" v-on="on" style="align: flex-end;">
-              <span class="grey--text text--darken-1">Avg</span>
-              <b class="ml-2 mr-2">{{avgRating}}</b>
-              <v-rating :dense=true :small=true :half-increments="true" :readonly="true" :hover="false"
-                color="grey darken-1" background-color="grey lighten-1"
-                v-model="list.averageRating" length="3"></v-rating>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="list.averageRating"></RatingToolTip>
-        </v-tooltip>
+            <template v-slot:extension v-if="showRatings">
+              <ListRatings v-bind:list="list" />
+            </template>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip class="mr-2" color="white" v-on="on">
-              <span class="grey--text text--darken-1">Min</span>
-              <b class="ml-2">{{minRating}}</b>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="minRating"></RatingToolTip>
-        </v-tooltip>
+            <v-spacer></v-spacer>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-chip color="white" v-on="on">
-              <span class="grey--text text--darken-1">Max</span>
-              <b class="ml-2">{{maxRating}}</b>
-            </v-chip>
-          </template>
-          <RatingToolTip :rating="maxRating"></RatingToolTip>
-        </v-tooltip>
+            <v-btn text class="primary--text" :href="listUrl">
+              <v-icon left color="pink">mdi-view-list</v-icon>View List
+            </v-btn>
 
-        <v-spacer></v-spacer>
+            <v-progress-linear
+              :active="showLoadingIndicator"
+              :indeterminate="showLoadingIndicator"
+              absolute
+              bottom
+              color="deep-purple accent-4"
+            ></v-progress-linear>
+          </v-toolbar>
 
-        <v-btn text :to="{ name: 'List', params: { id: listId, parentTab: $route.params.parentTab }}">
-          <v-icon left>mdi-view-list</v-icon>View List
-        </v-btn>
-      </template>
+          <v-card-text v-show="showAddMovieCard">
+            <form>
+              <v-text-field
+                prepend-icon="mdi-magnify"
+                single-line
+                label="Search"
+                v-model="query"
+                @change="search"
+              ></v-text-field>
+              <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
+            </form>
+          </v-card-text>
 
-      <v-spacer></v-spacer>
+          <v-divider></v-divider>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="deleteListClicked">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        </template>
-        <span>Delete List</span>
-      </v-tooltip>
+          <ListHistogram v-bind:movies="movies" />
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="showAddMovieCardClicked">
-            <v-icon>mdi-plus-circle</v-icon>
-          </v-btn>
-        </template>
-        <span>Add Movie</span>
-      </v-tooltip> 
+          <v-divider v-if="showRatings"></v-divider>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="editMode = !editMode">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-        </template>
-        <span>Edit</span>
-      </v-tooltip> 
+          <div id="charts-area">
+            <v-row>
+              <v-col cols="6">
+                <Chart title="Ratings Count By Year"
+                  :data="countByYearData"
+                  :chart-options="countByYearOptions"></Chart>
+              </v-col>
+              <v-col cols="6">
+                <Chart title="Ratings Percent By Year"
+                  :data="countByYearData"
+                  stacked-percentage
+                  :chart-options="countByYearOptions"></Chart>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <Chart title="Average Rating By Year"
+                  :data="averageByYearData"
+                  :chart-options="avgByYearOptions"
+                  :percentage-height="0.3"></Chart>
+              </v-col>
+            </v-row>
+          </div>
 
-      
-      <v-progress-linear
-        :active="showLoadingIndicator"
-        :indeterminate="showLoadingIndicator"
-        absolute
-        bottom
-        color="deep-purple accent-4"
-      ></v-progress-linear>
-    </v-toolbar>
-
-    <v-card-text v-show="showAddMovieCard">
-      <form>
-        <v-text-field
-          prepend-icon="mdi-magnify"
-          single-line
-          label="Search"
-          v-model="query"
-          @change="search"
-        ></v-text-field>
-        <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
-      </form>
-    </v-card-text>
-
-    <v-divider></v-divider>
-
-    <ListHistogram v-bind:movies="movies" />
-
-    <v-divider v-if="showRatings"></v-divider>
-
-    <div id="charts-area">
-      <v-row>
-        <v-col cols="6">
-          <Chart title="Ratings Count By Year"
-            :data="countByYearData"
-            :chart-options="countByYearOptions"></Chart>
-        </v-col>
-        <v-col cols="6">
-          <Chart title="Ratings Percent By Year"
-            :data="countByYearData"
-            stacked-percentage
-            :chart-options="countByYearOptions"></Chart>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <Chart title="Average Rating By Year"
-            :data="averageByYearData"
-            :chart-options="avgByYearOptions"
-            :percentage-height="0.3"></Chart>
-        </v-col>
-      </v-row>
-    </div>
-  </v-card>
-
-    </v-col>
-  </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -145,13 +84,13 @@
 <script>
 
 const axios = require('axios');
-import RatingToolTip from '../../components/RatingToolTip';
+import ListRatings from '../../components/ListRatings';
 import Chart from '../../components/Chart';
 import ListHistogram from '../../components/ListHistogram';
 
 export default {
   components: {
-    RatingToolTip,
+    ListRatings,
     Chart,
     ListHistogram
   },
@@ -278,6 +217,9 @@ export default {
   computed: {
     listId: function() {
       return this.$route.params.id;
+    },
+    listUrl: function() {
+      return this.$router.resolve({ name: 'List', params: { id: this.listId, parentTab: this.$route.params.parentTab }}).href;
     }
   }
 }
