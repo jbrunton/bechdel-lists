@@ -29,8 +29,8 @@
       <template v-slot:extension>
         <v-container>
         <v-tabs align-with-title background-color="primary" :optional="true">
-          <v-tab id="menu-browse" to="/browse/lists">Browse</v-tab>
-          <v-tab id="menu-lists" to="/my/lists" v-if="signedIn">My Lists</v-tab>
+          <v-tab id="menu-browse" :to="{ name: 'BrowseLists' }">Browse</v-tab>
+          <v-tab id="menu-lists" :to="{ name: 'MyLists' }" v-if="signedIn">My Lists</v-tab>
         </v-tabs>
         </v-container>
       </template>
