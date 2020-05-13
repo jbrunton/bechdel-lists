@@ -2,9 +2,8 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="10">
-        <v-card outlined>
-
-          <v-toolbar flat :color="editMode ? 'grey darken-3' : 'grey lighten-3'" :dark="!!editMode">
+          
+          <v-toolbar flat :color="editMode ? 'pink' : 'grey lighten-4'" :dark="!!editMode">
             <v-btn icon v-if="editMode" @click="editMode = false">
               <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -15,16 +14,20 @@
               </v-toolbar-title>  
             </v-fade-transition>
 
-            <template v-slot:extension v-if="(showRatings || isOwner)">
-              <v-fade-transition mode="out-in">
-                <ListRatings v-bind:list="list" v-if="showRatings && !editMode" />
-              </v-fade-transition>
+            <template v-slot:extension v-if="showRatings || editMode">
+              <v-slide-y-transition mode="out-in">
+                <ListRatings v-bind:list="list" v-if="showRatings && !editMode" key='ratings' />
 
-              <v-spacer></v-spacer>
-
-              <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
-              <IconButton v-if="isOwner" v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
-              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+                <form v-if="editMode == 'add'" key='add' style="width: 100%;">
+                  <v-text-field
+                    prepend-icon="mdi-magnify"
+                    single-line
+                    label="Search"
+                    v-model="query"
+                    @change="search"
+                  ></v-text-field>
+                </form>
+              </v-slide-y-transition>
             </template>
 
             <v-spacer></v-spacer>
@@ -34,6 +37,14 @@
             >
               <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
             </v-btn>
+
+            <v-spacer></v-spacer>
+
+                          <IconButton v-if="isOwner" text="Delete List" icon="mdi-delete" @click="deleteListClicked" />              
+              <IconButton v-if="isOwner" v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
+              <IconButton v-if="isOwner" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+
+
             
             <v-progress-linear
               :active="showLoadingIndicator"
@@ -44,28 +55,14 @@
             ></v-progress-linear>
           </v-toolbar>
 
-          <v-divider></v-divider>
+          <v-card outlined v-if="!editMode">
 
-          <ListHistogram v-bind:movies="list.Movies" v-if="!editMode" />
+          <ListHistogram v-bind:movies="list.Movies" />
 
-          <v-divider></v-divider>
+          </v-card>
 
           <v-slide-y-transition mode="out-in">
-            <v-card-text v-if="editMode == 'add'" key="addMovie">
-              <form>
-                <v-text-field
-                  prepend-icon="mdi-magnify"
-                  single-line
-                  label="Search"
-                  v-model="query"
-                  @change="search"
-                ></v-text-field>
-                <v-btn class="mr-4" @click="hideAddMovieCardClicked">cancel</v-btn>
-              </form>
-            </v-card-text>
-
-            <v-card-text v-if="editMode != 'add'" key="list">
-              <v-list min-height="200" max-height="100%;">
+              <v-list min-height="200" max-height="100%;" v-if="editMode != 'add'">
                 <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
                   <v-list-item-content>
                     <v-list-item-title v-text="movie.title"></v-list-item-title>
@@ -84,10 +81,8 @@
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
-            </v-card-text>
           </v-slide-y-transition>
 
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
