@@ -47,13 +47,13 @@
 
           <v-divider></v-divider>
 
-          <ListHistogram v-bind:movies="movies" />
+          <ListHistogram v-bind:movies="list.Movies" />
 
           <v-divider v-if="showRatings"></v-divider>
 
           <v-card-text>
             <v-list min-height="200" max-height="100%;">
-              <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
+              <v-list-item v-for="movie in list.Movies" :key="movie.id" @click="movieClicked(movie)">
                 <v-list-item-content>
                   <v-list-item-title v-text="movie.title"></v-list-item-title>
                   <v-list-item-subtitle v-text="movie.year"></v-list-item-subtitle>
@@ -104,8 +104,7 @@ export default {
 
   data() {
     return {
-      list: { title: '', movies: [] },
-      movies: [],
+      list: {},
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
@@ -123,10 +122,11 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
+
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       this.showRatings = this.list.averageRating != null;
-      this.movies = this.list.Movies;
+
       this.showLoadingIndicator = false;
     },
 
@@ -137,7 +137,7 @@ export default {
     async deleteList() {
       this.showLoadingIndicator = true;
       await axios.delete(`/api/lists/${this.listId}`);
-      this.showLoadingIndicator = true;
+      this.showLoadingIndicator = false;
       this.listId = null;
     },
 

@@ -28,7 +28,7 @@
 
           <v-divider></v-divider>
 
-          <ListHistogram v-bind:movies="movies" />
+          <ListHistogram v-bind:movies="list.Movies" />
 
           <v-divider v-if="showRatings"></v-divider>
 
@@ -84,10 +84,8 @@ export default {
 
   data() {
     return {
-      list: { title: '', movies: [] },
-      movies: [],
+      list: {},
       showLoadingIndicator: false,
-      showAddMovieCard: false,
       showRatings: false,
       countByYearData: null,
       averageByYearData: null,
@@ -117,9 +115,9 @@ export default {
       
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
-      this.movies = this.list.Movies;
       this.showRatings = this.list.averageRating != null;
       await this.loadChartData();
+
       this.showLoadingIndicator = false;
     },
 
@@ -127,7 +125,6 @@ export default {
       const result = await axios.get(`/api/lists/${this.listId}/charts/by_year`);
       this.countByYearData = result.data.ratingsData;
       this.averageByYearData = result.data.averageData;
-      console.log(this.averageByYearData);
     }
   },
 
