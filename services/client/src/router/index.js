@@ -62,20 +62,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const requireAuth = to.matched.some(route => route.meta.requireAuth) || to.path.startsWith('/my/');
   const { signedIn, user } = await Auth.getStatus();
-  if (signedIn) {
-    if (!to.meta.user) {
-      to.meta.user = user;
-      next(to);  
-    } else {
-      next();
-    }
+  if (signedIn && !to.meta.user) {
+    to.meta.user = user;
+    next(to);  
+  } else if (!signedIn && requireAuth) {
+    next({ path: '/signin', query: { redirectTo: to.path } });
   } else {
-    if (to.matched.some(route => route.meta.authenticate) || to.path.startsWith('/my/')) {
-      next({ path: '/signin', query: { redirectTo: to.path } });
-    } else {
-      next();
-    }
+    next();
   }
 });
 
