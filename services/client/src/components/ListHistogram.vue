@@ -6,9 +6,13 @@
 
     <v-row id="histogram-legend">
       <v-col v-for="block in histogram" :key="block.rating">
-        <v-badge :color="block.color" :inline="true" :content="block.count.toString()"></v-badge>
-        <span class="legend-count">scored {{ block.rating }} </span>
-        <span class="legend-percentage">({{ block.percentage.toFixed(1) }}%)</span>
+        <RatingToolTip :rating="block.rating">
+          <span class="legend-info">
+            <v-badge :color="block.color" :inline="true" :content="block.count.toString()"></v-badge>
+            <span class="legend-count">scored {{ block.rating }} </span>
+            <span class="legend-percentage">({{ block.percentage.toFixed(1) }}%)</span>
+          </span>
+        </RatingToolTip>
       </v-col>
     </v-row>
   </div>
@@ -36,12 +40,20 @@
   #histogram-legend .legend-percentage {
     color: #888;
   }
+  .legend-info {
+    cursor: default;
+  }
 </style>
 
 <script>
+import RatingToolTip from '@/components/RatingToolTip';
+
 export default {
   props: {
     movies: Array
+  },
+  components: {
+    RatingToolTip
   },
   computed: {
     showHistogram() {
