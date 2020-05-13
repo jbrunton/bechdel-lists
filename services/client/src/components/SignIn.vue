@@ -29,13 +29,10 @@
 
 <script>
 import { Auth } from '../auth';
-import Cookies from 'js-cookie';
 
 export default {
   data() {
-    const assumedUserName = Cookies.get('user');
-    const assumeSignedIn = !!assumedUserName;
-
+    const { assumeSignedIn, assumedUserName } = Auth.getAssumedStatus();
     return {
       signedIn: assumeSignedIn,
       signedInUser: assumedUserName,
@@ -54,13 +51,6 @@ export default {
       if (status.signedIn) {
         this.signedIn = true;
         this.signedInUser = status.user.name;
-      } else {
-        if (this.assumeSignedIn) {
-          // an edge case: in case the user signs out with Google but the call to /api/auth/signout fails (which would
-          // leave the user cookie intact)
-          Cookies.remove('user');
-          location.reload();
-        }
       }
     },
 

@@ -29,8 +29,8 @@
       <template v-slot:extension>
         <v-container>
         <v-tabs align-with-title background-color="primary" :optional="true">
-          <v-tab id="menu-browse" to="/browse">Browse</v-tab>
-          <v-tab id="menu-lists" to="/lists" v-if="signedIn">My Lists</v-tab>
+          <v-tab id="menu-browse" :to="{ name: 'BrowseLists' }">Browse</v-tab>
+          <v-tab id="menu-lists" :to="{ name: 'MyLists' }" v-if="signedIn">My Lists</v-tab>
         </v-tabs>
         </v-container>
       </template>
@@ -41,13 +41,16 @@
         <div id="app">
           <router-view/>
         </div>
-        <v-footer absolute class="font-weight-medium">
-          <v-col class="text-center" cols="12">
-            Bechdel Lists v{{ buildVersion }}
-          </v-col>
-        </v-footer>
       </v-container>
     </v-content>
+
+    <v-footer absolute app>
+      <v-row justify="center" no-gutters>
+        <span class="ma-2">
+          Bechdel Lists v{{ buildVersion }}
+        </span>
+      </v-row>
+    </v-footer>
   </v-app>
 </template>
 

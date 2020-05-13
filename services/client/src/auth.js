@@ -1,6 +1,7 @@
 /* global gapi */
 
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const GoogleParams = {
   client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
@@ -8,6 +9,15 @@ const GoogleParams = {
   scope: 'email profile',
   response_type: 'code'
 };
+
+function getAssumedStatus() {
+  const assumedUserName = Cookies.get('user');
+  const assumeSignedIn = !!assumedUserName;
+  return {
+    assumeSignedIn: assumeSignedIn,
+    assumedUserName: assumedUserName
+  }
+}
 
 const authStatus = new Promise(function(resolve) {
   gapi.load('auth2', async function() {
@@ -17,6 +27,14 @@ const authStatus = new Promise(function(resolve) {
       const user = await verifyUser(googleUser);
       resolve({ signedIn: true, user: user });
     } else {
+      const { assumeSignedIn } = getAssumedStatus();
+      if (assumeSignedIn) {
+        // An edge case: in case the user signs out with Google but the call to /api/auth/signout fails (which would
+        // leave the user cookie intact).
+        // You can test by simply setting a cookie in the console: `document.cookie = "user=John Doe";`
+        Cookies.remove('user');
+        location.reload();
+      }
       resolve({ signedIn: false });
     }
   });
@@ -31,13 +49,17 @@ async function signOut() {
   location.reload();
 }
 
-async function signIn() {
+async function signIn(redirectPath) {
   const auth2 = gapi.auth2.getAuthInstance();
   const googleUser = await auth2.signIn();
   await verifyUser(googleUser);
 
-  // so that components which use the authorize() method will correctly reload
-  location.reload();
+  if (redirectPath) {
+    location.replace(location.origin + redirectPath);
+  } else {
+    // so that components which use the authorize() method will correctly reload
+    location.reload();
+  }
 }
 
 async function verifyUser(googleUser) {
@@ -64,6 +86,7 @@ export const Auth = {
   getStatus() {
     return authStatus;
   },
+  getAssumedStatus: getAssumedStatus,
   authenticate: authenticate,
   signIn: signIn,
   signOut: signOut

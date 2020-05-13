@@ -20,19 +20,9 @@
         </v-toolbar>
 
         <v-slide-y-transition mode="out-in">           
-            <v-card-text>
-              <v-list class="mb-4 mt-2">
-                <v-list-item v-for="list in lists" :key="list.id" @click="listClicked(list)">
-                  <v-list-item-content>
-                    <v-list-item-title v-text="list.title"></v-list-item-title>
-                    <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <Rating v-bind:rating="list.averageRating" :showScore="true" />
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list>
-            </v-card-text>
+          <v-card-text>
+            <ListIndex v-bind:lists="lists" parentTab="browse" />
+          </v-card-text>
         </v-slide-y-transition>
       </v-card>
       </v-col>
@@ -42,19 +32,17 @@
 
 <script>
 const axios = require('axios');
-import Rating from '../../components/Rating';
+import ListIndex from '@/components/ListIndex';
 
 export default {
   components: {
-    Rating
+    ListIndex
   },
 
   data() {
     return {
       lists: [],
-      showLoadingIndicator: false,
-      showAddListItem: false,
-      newListTitle: ""
+      showLoadingIndicator: false
     }
   },
 
@@ -70,18 +58,6 @@ export default {
       const result = await axios.get('/api/lists/browse');
       this.lists = result.data;
       this.showLoadingIndicator = false;
-    },
-
-    showAddListItemClicked() {
-      this.showAddListItem = true;
-    },
-
-    hideAddListItemClicked() {
-      this.showAddListItem = false;
-    },
-
-    listClicked(list) {
-      this.$router.push({ name: 'ShowList', params: { id: list.id }})
     }
   }
 }

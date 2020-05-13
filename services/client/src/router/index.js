@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import { Auth } from '@/auth';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -10,28 +12,33 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ '../pages/Home.vue')
   },
   {
-    path: '/profile',
+    path: '/signin',
+    name: 'SignIn',
+    component: () => import(/* webpackChunkName: "signin" */ '../pages/SignIn.vue')
+  },
+  {
+    path: '/my/profile',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '../pages/Profile.vue')
   },
   {
-    path: '/browse',
-    name: 'Browse',
+    path: '/browse/lists',
+    name: 'BrowseLists',
     component: () => import(/* webpackChunkName: "browse" */ '../pages/lists/Browse.vue')
   },
   {
-    path: '/lists',
+    path: '/my/lists',
     name: 'MyLists',
-    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Index.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/MyLists.vue')
   },
   {
-    path: '/lists/:id',
-    name: 'ShowList',
+    path: '/:parentTab/lists/:id',
+    name: 'List',
     component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Show.vue')
   },
   {
-    path: '/lists/:id/charts',
-    name: 'ShowListCharts',
+    path: '/:parentTab/lists/:id/charts',
+    name: 'ListCharts',
     component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Charts.vue')
   },
   {
@@ -52,6 +59,19 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
+
+router.beforeEach(async (to, from, next) => {
+  const requireAuth = to.matched.some(route => route.meta.requireAuth) || to.path.startsWith('/my/');
+  const { signedIn, user } = await Auth.getStatus();
+  if (signedIn && !to.meta.user) {
+    to.meta.user = user;
+    next(to);  
+  } else if (!signedIn && requireAuth) {
+    next({ path: '/signin', query: { redirectTo: to.path } });
+  } else {
+    next();
+  }
+});
 
 export default router

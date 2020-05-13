@@ -6,6 +6,7 @@ router.post('/signin', async (req, res) => {
   const user = await models.User.findOne({ where: { email: req.body.email } });
   if (user) {
     req.session.userId = user.id;
+    res.cookie('user', user.name, { httpOnly: false });
     res.json(user);
   } else {
     res.send(404);
@@ -14,7 +15,10 @@ router.post('/signin', async (req, res) => {
 
 router.post('/signout', async (req, res) => {
   req.session.destroy(function() {
-    res.clearCookie('connect.sid', { path: '/' }).send(200);
+    res
+      .clearCookie('connect.sid', { path: '/' })
+      .clearCookie('user', { httpOnly: false })
+      .send(200);
   });
 });
 

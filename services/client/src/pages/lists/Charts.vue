@@ -43,7 +43,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text :to="{ name: 'ShowList', params: { id: listId }}">
+        <v-btn text :to="{ name: 'List', params: { id: listId, parentTab: $route.params.parentTab }}">
           <v-icon left>mdi-view-list</v-icon>View List
         </v-btn>
       </template>
@@ -125,7 +125,7 @@
           <Chart title="Average Rating By Year"
             :data="averageByYearData"
             :chart-options="avgByYearOptions"
-            percentage-height="0.3"></Chart>
+            :percentage-height="0.3"></Chart>
         </v-col>
       </v-row>
     </div>
@@ -159,6 +159,7 @@ export default {
   data() {
     return {
       list: { title: '', movies: [] },
+      movies: [],
       query: '',
       showLoadingIndicator: false,
       showAddMovieCard: false,
@@ -191,9 +192,6 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-
-      //TODO: reinstate this with proper authorization
-      //await Auth.authenticate();
       
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;

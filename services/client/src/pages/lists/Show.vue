@@ -12,7 +12,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text :to="{ name: 'ShowListCharts', params: { id: listId }}">
+        <v-btn text :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}">
           <v-icon left>mdi-chart-timeline-variant</v-icon>View Charts
         </v-btn>
       </template>
@@ -159,10 +159,6 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-
-      //TODO: reinstate this with proper authorization
-      //await Auth.authenticate();
-      
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       this.movies = this.list.Movies;
