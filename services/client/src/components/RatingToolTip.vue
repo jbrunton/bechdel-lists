@@ -1,12 +1,21 @@
 <template>
-  <ul style="list-style-type: none;" class="pa-0">
-    <li v-for="r in ratings" v-bind:key="r.key">
-      <v-rating class="d-inline mr-2"
-        :readonly=true :value="r.rating" :dense=true :small=true length="3"
-        color="white" background-color="grey lighten-1"></v-rating>
-      <span v-bind:class="{ selected: shouldSelect(r.rating) }" v-text="r.description"></span>
-    </li>
-  </ul>
+  <v-tooltip bottom color="grey darken-3">
+    <template v-slot:activator="{ on }">
+      <span v-on="on">
+        <slot></slot>
+      </span>
+    </template>
+    <ul style="list-style-type: none;" class="pa-0">
+      <li v-for="r in ratings" v-bind:key="r.key">
+        <v-rating class="d-inline mr-2"
+          :readonly=true :value="r.rating" :dense=true :small=true length="3"
+          color="white" background-color="grey lighten-1"></v-rating>
+        <span
+          v-bind:class="{ selected: shouldSelect(r.rating) }"
+          v-text="r.description"></span>
+      </li>
+    </ul>
+  </v-tooltip>
 </template>
 
 <style scoped>
