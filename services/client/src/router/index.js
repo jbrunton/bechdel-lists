@@ -9,7 +9,7 @@ function getParentRoute(parentTab) {
   if (parentTab == 'my') {
     return { name: 'MyLists' };
   } else if (parentTab == 'browse') {
-    return { name: 'Browse' };
+    return { name: 'BrowseLists' };
   } else {
     throw new Error(`Unexpected parent tab: ${parentTab}`);
   }
