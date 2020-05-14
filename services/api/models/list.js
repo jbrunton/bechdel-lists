@@ -20,19 +20,30 @@ module.exports = (sequelize, DataTypes) => {
     List.belongsTo(models.User);
   };
 
+  List.statsFor = function(movies) {
+    const ratings = movies.map((movie) => movie.rating).filter(x => x === 0 || x);
+    if (ratings.length > 0) {
+      return {
+        averageRating: ratings.reduce((a, b) => a + b, 0) / ratings.length,
+        minRating: Math.min(...ratings),
+        maxRating: Math.max(...ratings)
+      };
+    } else {
+      return {
+        averageRating: null,
+        minRating: null,
+        maxRating: null
+      };
+    }
+  }
+
   List.prototype.updateDetails = async function() {
     const movies = await this.getMovies();
     
-    const ratings = movies.map((movie) => movie.rating).filter(x => x === 0 || x);
-    if (ratings.length > 0) {
-      this.averageRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-      this.minRating = Math.min(...ratings);
-      this.maxRating = Math.max(...ratings);
-    } else {
-      this.averageRating = null;
-      this.minRating = null;
-      this.maxRating = null;
-    }
+    const stats = List.statsFor(movies);
+    this.averageRating = stats.averageRating;
+    this.minRating = stats.minRating;
+    this.maxRating = stats.maxRating;
   
     if (movies.length == 0) {
       this.description = null;
