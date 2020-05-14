@@ -26,7 +26,7 @@
     "db:reset": "npm run db:drop && npm run db:create && npm run db:migrate && npm run db:seed",
     "db:test:reset": "NODE_ENV=test npm run db:drop && npm run db:create && npm run db:migrate",
     "tmdb:genres:import": "node scripts/import_genres.js",
-    "db:export": "node scripts/export_db.js"
+    "db:export": "node scripts/db_export.js"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
