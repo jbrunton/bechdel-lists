@@ -11,8 +11,8 @@ module.exports = {
     const date = new Date();
     for (let movie of db.movies) {
       movie.createdAt = movie.updatedAt = date;
-      movieGenres[movie.imdbId] = movie.genres;
-      delete movie.genres;
+      movieGenres[movie.imdbId] = movie.genreIds;
+      delete movie.genreIds;
     }
     for (let genre of db.genres) {
       genre.createdAt = genre.updatedAt = date;

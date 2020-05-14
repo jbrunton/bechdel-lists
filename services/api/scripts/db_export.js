@@ -16,7 +16,7 @@ async function main() {
       imdbId: movie.imdbId,
       year: movie.year,
       rating: movie.rating,
-      genres: movie.Genres.map(genre => genre.tmdbId)
+      genreIds: movie.Genres.map(genre => genre.tmdbId)
     }))
   }));
 }
