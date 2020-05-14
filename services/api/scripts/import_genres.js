@@ -25,12 +25,21 @@ async function importGenres() {
 }
 
 async function updateGenres() {
-  const movies = (await models.Movie.findAll()).slice(0, 10);
-  for (let movie of movies) {
-    console.log('imdbId: ' + movie.imdbId);
+  const movies = (await models.Movie.findAll({ include: [models.Genre] }));
+  const indexes = Array.from({length: movies.length}, (_, i) => i);
+  console.log(indexes);
+  for (let index of indexes) {
+    const movie = movies[index];
+    const progress = (index / movies.length) * 100;
+    console.log(`Importing genres for ${movie.title} (${progress.toFixed(1)}%)`);
     const externalData = await moviedb.find({ id: `tt${movie.imdbId}`, external_source: 'imdb_id' });
-    console.log('genre info for ' + movie.title + ' : ' + JSON.stringify(externalData.movie_results[0].genre_ids));
-  }
+    const tmdbGenreIds = externalData.movie_results.length > 0 ? externalData.movie_results[0].genre_ids : []
+    const genres = await models.Genre.findAll({ where: { tmdbId: tmdbGenreIds.map(x => x.toString()) } });
+    for (let genre of genres) {
+      console.log(`Adding genre ${genre.name} to ${movie.title}`);
+      await movie.addGenre(genre);
+    }
+  };
 }
 
 async function main() {

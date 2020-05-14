@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Movie.associate = function(models) {
     Movie.belongsToMany(models.List, {through: 'ListEntry'});
+    Movie.belongsToMany(models.Genre, {through: 'MovieGenres'});
   };
 
   return Movie;
