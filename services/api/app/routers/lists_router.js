@@ -1,6 +1,5 @@
 
 const express = require('express');
-const axios = require('axios');
 const models = require.main.require('./models');
 const authenticate = require.main.require('./app/middleware/authenticate');
 const authorize = require.main.require('./app/middleware/authorize');
