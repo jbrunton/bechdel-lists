@@ -8,12 +8,18 @@ const demoUserDetails = {
   userName: process.env.SEED_USER_NAME || 'Demo User'
 };
 
+const testUserDetails = {
+  email: 'test.user@example.com',
+  name: 'Test User'
+};
+
 async function createUser(details) {
   return await models.User.findOrCreateByEmail(details.email, details.name);
 }
 
-async function createList(seedData, title) {
-  const user = await createUser(demoUserDetails);
+async function createList(title, fileName, userDetails) {
+  const seedData = JSON.parse(fs.readFileSync(`./db/seeders/${fileName}`, 'utf8'));
+  const user = await createUser(userDetails);
   const list = await models.List.create({
     title: title,
     UserId: user.id
@@ -32,22 +38,19 @@ async function createList(seedData, title) {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
-      const top10sData = JSON.parse(fs.readFileSync('./db/seeders/topmovies.json', 'utf8'));
-      await createList(top10sData, 'Global Top 10s');
-
-      const starWarsData = JSON.parse(fs.readFileSync('./db/seeders/starwars.json', 'utf8'));
-      await createList(starWarsData, 'Star Wars');
-
-      const mcuData = JSON.parse(fs.readFileSync('./db/seeders/mcu.json', 'utf8'));
-      await createList(mcuData, 'Marvel Cinematic Universe');
-
-      const pixarData = JSON.parse(fs.readFileSync('./db/seeders/pixar.json', 'utf8'));
-      await createList(pixarData, 'Pixar');
+      await createList('Global Top 10s 1999-2019', 'topmovies.json', demoUserDetails);
+      await createList('Star Wars', 'starwars.json', demoUserDetails);
+      await createList('Marvel Cinematic Universe', 'mcu.json', demoUserDetails);
+      await createList('Pixar', 'pixar.json', demoUserDetails);
+      await createList('James Bond', 'bond.json', testUserDetails);
     } catch (e) {
       console.log(e);
     }
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('ListEntries', null, {});
+    await queryInterface.bulkDelete('Lists', null, {});
+    await queryInterface.bulkDelete('Users', null, {});
   }
 };

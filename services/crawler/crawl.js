@@ -7,12 +7,13 @@ process.on('unhandledRejection', error => {
 });
 
 const lists = [];
-for (let year = 1999; year < 2020; ++year) {
-  lists.push({
-    year: year,
-    listUrl: `https://www.boxofficemojo.com/year/${year}/`
-  });
-}
+lists.push({ listUrl: 'https://www.boxofficemojo.com/franchise/fr2605158149/'});
+// for (let year = 1999; year < 2020; ++year) {
+//   lists.push({
+//     year: year,
+//     listUrl: `https://www.boxofficemojo.com/year/${year}/`
+//   });
+// }
 
 const titleIdRegex = /title\/tt(\d+)/
 const summaryHeadingSelector = '.mojo-performance-summary-table .a-section span.a-size-small';
@@ -56,7 +57,7 @@ async function getListDetails(page, listUrl) {
 
   const topLinks = (await page.$$eval("a[href*='/release/rl']", links => {
     return Array.from(links).map(link => link.getAttribute('href'))
-  })).slice(0, 10);
+  })).slice(0, 25);
 
   const releaseIdRegex = /release\/(rl\d+)/
   const releaseIds = topLinks.map(link => link.match(releaseIdRegex)[1]);
