@@ -7,6 +7,14 @@
 
             <template v-slot:extension v-if="showRatings">
               <ListRatings v-bind:list="list" />
+              <v-spacer></v-spacer>
+              <v-select
+                v-model="selectedGenre"
+                :items="genres"
+                :item-text="function (item) { return item.name }"
+                :item-value="function (item) { return item.id }"
+                label="Filter"
+              ></v-select>
             </template>
 
             <v-spacer></v-spacer>
@@ -77,6 +85,8 @@ export default {
   data() {
     return {
       list: {},
+      genres: [],
+      selectedGenre: null,
       showLoadingIndicator: false,
       countByYearData: null,
       averageByYearData: null,
@@ -106,6 +116,7 @@ export default {
       const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       await this.loadChartData();
+      await this.loadGenres();
       this.showLoadingIndicator = false;
     },
 
@@ -113,6 +124,30 @@ export default {
       const result = await axios.get(`/api/lists/${this.listId}/charts/by_year`);
       this.countByYearData = result.data.ratingsData;
       this.averageByYearData = result.data.averageData;
+    },
+
+    async loadGenres() {
+      const result = await axios.get(`/api/genres`);
+      this.genres = [{ name: '(None)', id: null }].concat(result.data);
+    }
+  },
+
+  watch: {
+    selectedGenre: async function(genreId) {
+      this.showLoadingIndicator = true;
+      const query = genreId ? `?genreId=${genreId}` : '';
+      const url = `/api/lists/${this.listId}${query}`;
+      const result = await axios.get(url);
+      this.list = result.data;
+      
+      const chartsResult = await axios.get(`/api/lists/${this.listId}/charts/by_year${query}`);
+      this.countByYearData = chartsResult.data.ratingsData;
+      this.averageByYearData = chartsResult.data.averageData;
+      
+      // await this.loadChartData();
+      // await this.loadGenres();
+      //this.list = result.data;
+      this.showLoadingIndicator = false;
     }
   },
 

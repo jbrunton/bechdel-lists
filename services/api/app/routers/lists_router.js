@@ -40,6 +40,10 @@ router.post('/', authenticate, async (req, res) => {
 // TODO: reinstate [authenticate, authorize(models.List)] based on public flag
 router.get('/:listId', async (req, res) => {
   if (req.list != null) {
+    if (req.query.genreId) {
+      const stats = models.List.statsFor(req.list.Movies);
+      Object.assign(req.list, stats);
+    }
     res.json(req.list);
   } else {
     res.send(404)
@@ -81,7 +85,7 @@ router.delete('/:listId/movies/:imdbId', [authenticate, authorize(models.List)],
 
 router.get('/:listId/charts/by_year', async (req, res) => {
   if (req.list != null) {
-    const data = await charts.groupByYear(req.list);
+    const data = await charts.groupByYear(req);
     res.json(data);
   } else {
     res.send(404)
