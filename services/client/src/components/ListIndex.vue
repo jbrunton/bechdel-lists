@@ -5,7 +5,11 @@
         <v-list-item-title class="primary--text" v-text="list.title"></v-list-item-title>
         <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
       </v-list-item-content>
-      <v-list-item-action>
+      <v-list-item-action class="d-flex flex-row align-center">
+        <v-btn icon class="mr-4"
+        :to="{ name: 'ListCharts', params: { id: list.id, parentTab: parentTab }}">
+          <v-icon color="pink">mdi-chart-timeline-variant</v-icon>
+        </v-btn>
         <Rating v-bind:rating="list.averageRating" :showScore="true" />
       </v-list-item-action>
     </v-list-item>
