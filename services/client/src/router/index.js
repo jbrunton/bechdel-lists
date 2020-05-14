@@ -45,6 +45,11 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: () => import(/* webpackChunkName: "search" */ '../pages/Search.vue')
+  },
+  {
+    path: '*',
+    name: '404',
+    component: () => import(/* webpackChunkName: "404" */ '../pages/404.vue')
   }
 ]
 
@@ -63,12 +68,13 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   const requireAuth = to.matched.some(route => route.meta.requireAuth) || to.path.startsWith('/my/');
-  const { signedIn, user } = await Auth.getStatus();
-  if (signedIn && !to.meta.user) {
-    to.meta.user = user;
-    next(to);  
-  } else if (!signedIn && requireAuth) {
-    next({ path: '/signin', query: { redirectTo: to.path } });
+  if (requireAuth) {
+    const { signedIn } = await Auth.getStatus();
+    if (!signedIn) {
+      next({ path: '/signin', query: { redirectTo: to.path } });
+    } else {
+      next();
+    }
   } else {
     next();
   }
