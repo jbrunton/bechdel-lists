@@ -36,15 +36,20 @@ export default {
     }
   },
 
-  mounted() {
-    if (this.$route.meta.user) {
-      location.replace(location.origin + this.redirect);
-    }
+  created() {
+    this.checkAuthStatus();
   },
 
   methods: {
     signInClicked() {
       Auth.signIn(this.redirect);
+    },
+
+    async checkAuthStatus() {
+      const { signedIn } = await Auth.getStatus();
+      if (signedIn) {
+        location.replace(location.origin + this.redirect);
+      }
     }
   }
 }
