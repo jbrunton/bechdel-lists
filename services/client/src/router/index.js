@@ -5,6 +5,16 @@ import { Auth } from '@/auth';
 
 Vue.use(VueRouter)
 
+function getParentRoute(parentTab) {
+  if (parentTab == 'my') {
+    return { name: 'MyLists' };
+  } else if (parentTab == 'browse') {
+    return { name: 'Browse' };
+  } else {
+    throw new Error(`Unexpected parent tab: ${parentTab}`);
+  }
+}
+
 const routes = [
   {
     path: '/',
@@ -24,22 +34,50 @@ const routes = [
   {
     path: '/browse/lists',
     name: 'BrowseLists',
-    component: () => import(/* webpackChunkName: "browse" */ '../pages/lists/Browse.vue')
+    component: () => import(/* webpackChunkName: "browse" */ '../pages/lists/Browse.vue'),
+    meta: {
+      breadcrumb: {
+        text: 'Browse'
+      }
+    }
   },
   {
     path: '/my/lists',
     name: 'MyLists',
-    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/MyLists.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/MyLists.vue'),
+    meta: {
+      breadcrumb: {
+        text: 'My Lists'
+      }
+    }
   },
   {
     path: '/:parentTab/lists/:id',
     name: 'List',
-    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Show.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Show.vue'),
+    meta: {
+      breadcrumb: (route, params) => {
+        const parentTab = route.params.parentTab;
+        return {
+          text: params.list.title,
+          parent: getParentRoute(parentTab)
+        }
+      }
+    }
   },
   {
     path: '/:parentTab/lists/:id/charts',
     name: 'ListCharts',
-    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Charts.vue')
+    component: () => import(/* webpackChunkName: "lists" */ '../pages/lists/Charts.vue'),
+    meta: {
+      breadcrumb: (route) => {
+        const parentTab = route.params.parentTab;
+        return {
+          text: 'Charts',
+          parent: { name: 'List', params: { parentTab: parentTab} }
+        }
+      }
+    }
   },
   {
     path: '/search',

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <Breadcrumbs :params="{ list: list }" />
     <v-row justify="center">
       <v-col cols="10">
           <v-toolbar flat class="grey lighten-4">
