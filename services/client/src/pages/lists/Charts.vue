@@ -9,7 +9,7 @@
               <ListRatings v-bind:list="list" />
               <v-spacer></v-spacer>
               <v-select
-                v-model="selectedGenres"
+                v-model="selectedGenre"
                 :items="genres"
                 :item-text="function (item) { return item.name }"
                 :item-value="function (item) { return item.id }"
@@ -86,7 +86,7 @@ export default {
     return {
       list: {},
       genres: [],
-      selectedGenres: [],
+      selectedGenre: null,
       showLoadingIndicator: false,
       countByYearData: null,
       averageByYearData: null,
@@ -128,7 +128,23 @@ export default {
 
     async loadGenres() {
       const result = await axios.get(`/api/genres`);
-      this.genres = result.data;
+      this.genres = [{ name: '(None)', id: null }].concat(result.data);
+    }
+  },
+
+  watch: {
+    selectedGenre: async function(genreId) {
+      this.showLoadingIndicator = true;
+      const query = genreId ? `?genreId=${genreId}` : '';
+      const url = `/api/lists/${this.listId}${query}`;
+      console.log(url);
+      const result = await axios.get(url);
+      this.list = result.data;
+      console.log(result.data.Movies.length + ' movies selected');
+      // await this.loadChartData();
+      // await this.loadGenres();
+      //this.list = result.data;
+      this.showLoadingIndicator = false;
     }
   },
 
