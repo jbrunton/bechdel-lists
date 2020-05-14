@@ -1,5 +1,8 @@
-latest: 5bd33900-08a8-4daa-b133-4f6c5a907d1d
+latest: ff13db9d-aa8e-4cd7-a178-2bd5ef1e9cfb
 deployments:
+  - id: ff13db9d-aa8e-4cd7-a178-2bd5ef1e9cfb
+    version: 0.0.33
+    timestamp: '2020-05-14T22:03:25.931Z'
   - id: 5bd33900-08a8-4daa-b133-4f6c5a907d1d
     version: 0.0.32
     timestamp: '2020-05-13T16:47:40.995Z'
