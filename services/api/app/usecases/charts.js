@@ -4,8 +4,8 @@ module.exports = {
   groupByYear: groupByYear
 };
 
-async function groupByYear(list) {
-  const results = await queryRatingsByYear(list);
+async function groupByYear(req) {
+  const results = await queryRatingsByYear(req);
 
   const ratingsData = [['Year', '0', '1', '2', '3']];
   const averageData = [['Year', 'Average']];
@@ -25,17 +25,24 @@ async function groupByYear(list) {
   };
 }
 
-async function queryRatingsByYear(list) {
+async function queryRatingsByYear(req) {
+  const genreFilterJoin = req.query.genreId
+    ? `inner join "MovieGenres" mg on mg."MovieId" = m.id`
+    : '';
+  const genreFilterWhere = req.query.genreId
+    ? `and mg."GenreId" = :genreId`
+    : '';
   const query = `
     select year, rating, count(*)
     from "Movies" m
     inner join "ListEntries" e on e."MovieId" = m.id
     inner join "Lists" l on l.id = e."ListId"
-    where l.id = :listId
+    ${genreFilterJoin}
+    where l.id = :listId ${genreFilterWhere}
     group by year, rating
     order by year`;
   const results = await models.sequelize.query(query, {
-    replacements: { listId: list.id },
+    replacements: { listId: req.params.listId, genreId: req.query.genreId },
     type: models.Sequelize.QueryTypes.SELECT
   });
   return results;

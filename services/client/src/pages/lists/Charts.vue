@@ -137,10 +137,13 @@ export default {
       this.showLoadingIndicator = true;
       const query = genreId ? `?genreId=${genreId}` : '';
       const url = `/api/lists/${this.listId}${query}`;
-      console.log(url);
       const result = await axios.get(url);
       this.list = result.data;
-      console.log(result.data.Movies.length + ' movies selected');
+      
+      const chartsResult = await axios.get(`/api/lists/${this.listId}/charts/by_year${query}`);
+      this.countByYearData = chartsResult.data.ratingsData;
+      this.averageByYearData = chartsResult.data.averageData;
+      
       // await this.loadChartData();
       // await this.loadGenres();
       //this.list = result.data;

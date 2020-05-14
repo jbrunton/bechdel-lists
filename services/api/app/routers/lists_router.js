@@ -81,7 +81,7 @@ router.delete('/:listId/movies/:imdbId', [authenticate, authorize(models.List)],
 
 router.get('/:listId/charts/by_year', async (req, res) => {
   if (req.list != null) {
-    const data = await charts.groupByYear(req.list);
+    const data = await charts.groupByYear(req);
     res.json(data);
   } else {
     res.send(404)
