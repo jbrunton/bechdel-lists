@@ -11,7 +11,7 @@
               <v-select
                 v-model="selectedGenre"
                 :items="genres"
-                :item-text="function (item) { return item.name }"
+                :item-text="function (item) { return `${item.name} (${item.count})` }"
                 :item-value="function (item) { return item.id }"
                 label="Filter"
               ></v-select>
@@ -127,8 +127,8 @@ export default {
     },
 
     async loadGenres() {
-      const result = await axios.get(`/api/genres`);
-      this.genres = [{ name: '(None)', id: null }].concat(result.data);
+      const result = await axios.get(`/api/lists/${this.listId}/genres`);
+      this.genres = [{ name: 'All', id: null, count: this.list.Movies.length }].concat(result.data);
     }
   },
 

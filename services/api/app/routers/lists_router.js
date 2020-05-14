@@ -50,6 +50,27 @@ router.get('/:listId', async (req, res) => {
   }
 });
 
+// TODO: reinstate [authenticate, authorize(models.List)] based on public flag
+router.get('/:listId/genres', async (req, res) => {
+  if (req.list != null) {
+    const query = `
+      select g.id, g.name, count(*)
+      from "ListEntries" e
+      inner join "MovieGenres" x on x."MovieId" = e."MovieId"
+      inner join "Genres" g on g.id = x."GenreId"
+      where e."ListId" = :listId
+      group by g.id, g.name
+      order by count(*) desc`;
+    const results = await models.sequelize.query(query, {
+        replacements: { listId: req.params.listId },
+        type: models.Sequelize.QueryTypes.SELECT
+      });
+    res.json(results);
+  } else {
+    res.send(404)
+  }
+});
+
 router.delete('/:listId', [authenticate, authorize(models.List)], async (req, res) => {
   if (req.list != null) {
     await req.list.destroy();
