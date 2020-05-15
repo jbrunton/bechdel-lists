@@ -98,3 +98,16 @@ To test anything that requires a database connection you'll need to use your own
 (The above example assumes a local database running on your development machine.)
 
 You can create and configure the database as usual (i.e. with `docker-compose run api npm run db:create`, etc).
+
+### Automated tests
+
+Unit tests for a service can be executed from within the service directory. For example:
+
+    cd services/client
+    npm run test:unit
+
+Integration tests must be run from within the container for the service, and moreover may require creation of the test database on first time use:
+
+    docker-compose run api npm run db:test:create
+    docker-compose run api npm run test:integration
+
