@@ -1,0 +1,178 @@
+[
+  {
+    "title": "Incredibles 2",
+    "imdbId": "3606756",
+    "boxOffice": {
+      "domestic": "$608,581,744",
+      "global": "$1,242,805,359"
+    }
+  },
+  {
+    "title": "Finding Dory",
+    "imdbId": "2277860",
+    "boxOffice": {
+      "domestic": "$486,295,561",
+      "global": "$1,028,570,889"
+    }
+  },
+  {
+    "title": "Toy Story 4",
+    "imdbId": "1979376",
+    "boxOffice": {
+      "domestic": "$434,038,008",
+      "global": "$1,073,394,593"
+    }
+  },
+  {
+    "title": "Toy Story 3",
+    "imdbId": "0435761",
+    "boxOffice": {
+      "domestic": "$415,004,880",
+      "global": "$1,066,969,703"
+    }
+  },
+  {
+    "title": "Inside Out",
+    "imdbId": "2096673",
+    "boxOffice": {
+      "domestic": "$356,461,711",
+      "global": "$857,611,174"
+    }
+  },
+  {
+    "title": "Finding Nemo",
+    "imdbId": "0266543",
+    "boxOffice": {
+      "domestic": "$339,714,978",
+      "global": "$871,014,978"
+    }
+  },
+  {
+    "title": "Up",
+    "imdbId": "1049413",
+    "boxOffice": {
+      "domestic": "$293,004,164",
+      "global": "$735,099,082"
+    }
+  },
+  {
+    "title": "Monsters University",
+    "imdbId": "1453405",
+    "boxOffice": {
+      "domestic": "$268,492,764",
+      "global": "$743,559,607"
+    }
+  },
+  {
+    "title": "The Incredibles",
+    "imdbId": "0317705",
+    "boxOffice": {
+      "domestic": "$261,441,092",
+      "global": "$631,442,092"
+    }
+  },
+  {
+    "title": "Monsters, Inc.",
+    "imdbId": "0198781",
+    "boxOffice": {
+      "domestic": "$255,873,250",
+      "global": "$528,773,250"
+    }
+  },
+  {
+    "title": "Toy Story 2",
+    "imdbId": "0120363",
+    "boxOffice": {
+      "domestic": "$245,852,179",
+      "global": "$487,059,677"
+    }
+  },
+  {
+    "title": "Cars",
+    "imdbId": "0317219",
+    "boxOffice": {
+      "domestic": "$244,082,982",
+      "global": "$461,983,149"
+    }
+  },
+  {
+    "title": "Brave",
+    "imdbId": "1217209",
+    "boxOffice": {
+      "domestic": "$237,283,207",
+      "global": "$538,983,207"
+    }
+  },
+  {
+    "title": "WALL·E",
+    "imdbId": "0910970",
+    "boxOffice": {
+      "domestic": "$223,808,164",
+      "global": "$521,311,860"
+    }
+  },
+  {
+    "title": "Coco",
+    "imdbId": "2380307",
+    "boxOffice": {
+      "domestic": "$209,726,015",
+      "global": "$807,082,196"
+    }
+  },
+  {
+    "title": "Ratatouille",
+    "imdbId": "0382932",
+    "boxOffice": {
+      "domestic": "$206,445,654",
+      "global": "$623,726,085"
+    }
+  },
+  {
+    "title": "Toy Story",
+    "imdbId": "0114709",
+    "boxOffice": {
+      "domestic": "$191,796,233",
+      "global": "$363,007,140"
+    }
+  },
+  {
+    "title": "Cars 2",
+    "imdbId": "1216475",
+    "boxOffice": {
+      "domestic": "$191,452,396",
+      "global": "$559,852,396"
+    }
+  },
+  {
+    "title": "A Bug's Life",
+    "imdbId": "0120623",
+    "boxOffice": {
+      "domestic": "$162,798,565",
+      "global": "$363,258,859"
+    }
+  },
+  {
+    "title": "Cars 3",
+    "imdbId": "3606752",
+    "boxOffice": {
+      "domestic": "$152,901,115",
+      "global": "$383,930,656"
+    }
+  },
+  {
+    "title": "The Good Dinosaur",
+    "imdbId": "1979388",
+    "boxOffice": {
+      "domestic": "$123,087,120",
+      "global": "$332,207,671"
+    }
+  },
+  {
+    "title": "Onward",
+    "imdbId": "7146812",
+    "boxOffice": {
+      "domestic": "$61,555,145",
+      "global": "$103,181,419"
+    }
+  }
+]

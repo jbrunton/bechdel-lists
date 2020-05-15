@@ -15,13 +15,6 @@ ActiveRecord::Schema.define(version: 2020_05_15_150457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "list_entries", id: false, force: :cascade do |t|
-    t.bigint "list_id"
-    t.bigint "movie_id"
-    t.index ["list_id"], name: "index_list_entries_on_list_id"
-    t.index ["movie_id"], name: "index_list_entries_on_movie_id"
-  end
-
   create_table "lists", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -32,6 +25,13 @@ ActiveRecord::Schema.define(version: 2020_05_15_150457) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_lists_on_user_id"
+  end
+
+  create_table "lists_movies", id: false, force: :cascade do |t|
+    t.bigint "list_id"
+    t.bigint "movie_id"
+    t.index ["list_id"], name: "index_lists_movies_on_list_id"
+    t.index ["movie_id"], name: "index_lists_movies_on_movie_id"
   end
 
   create_table "movies", force: :cascade do |t|
