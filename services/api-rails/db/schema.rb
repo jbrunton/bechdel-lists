@@ -10,63 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_15_134238) do
+ActiveRecord::Schema.define(version: 2020_05_15_150457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "Genres", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "tmdbId", limit: 255
-    t.datetime "createdAt", null: false
-    t.datetime "updatedAt", null: false
-    t.index ["tmdbId"], name: "Genres_tmdbId_key", unique: true
+  create_table "list_entries", id: false, force: :cascade do |t|
+    t.bigint "list_id"
+    t.bigint "movie_id"
+    t.index ["list_id"], name: "index_list_entries_on_list_id"
+    t.index ["movie_id"], name: "index_list_entries_on_movie_id"
   end
 
-  create_table "ListEntries", primary_key: ["ListId", "MovieId"], force: :cascade do |t|
-    t.integer "ListId", null: false
-    t.integer "MovieId", null: false
-    t.datetime "createdAt", null: false
-    t.datetime "updatedAt", null: false
+  create_table "lists", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.float "average_rating"
+    t.integer "min_rating"
+    t.integer "max_rating"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
-  create_table "Lists", id: :serial, force: :cascade do |t|
-    t.string "title", limit: 255
-    t.string "description", limit: 255
-    t.float "averageRating"
-    t.datetime "createdAt", null: false
-    t.datetime "updatedAt", null: false
-    t.integer "UserId", null: false
-    t.integer "minRating"
-    t.integer "maxRating"
-  end
-
-  create_table "MovieGenres", primary_key: ["MovieId", "GenreId"], force: :cascade do |t|
-    t.integer "MovieId", null: false
-    t.integer "GenreId", null: false
-    t.datetime "createdAt", null: false
-    t.datetime "updatedAt", null: false
-  end
-
-  create_table "Movies", id: :serial, force: :cascade do |t|
-    t.string "title", limit: 255
-    t.string "imdbId", limit: 255
+  create_table "movies", force: :cascade do |t|
+    t.string "title"
+    t.string "imdb_id"
     t.integer "year"
     t.integer "rating"
-    t.datetime "createdAt", null: false
-    t.datetime "updatedAt", null: false
-    t.index ["imdbId"], name: "Movies_imdbId_key", unique: true
-  end
-
-  create_table "SequelizeMeta", primary_key: "name", id: :string, limit: 255, force: :cascade do |t|
-  end
-
-  create_table "Users", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "email", limit: 255, null: false
-    t.datetime "createdAt", null: false
-    t.datetime "updatedAt", null: false
-    t.index ["email"], name: "Users_email_key", unique: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -76,5 +50,5 @@ ActiveRecord::Schema.define(version: 2020_05_15_134238) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "Lists", "\"Users\"", column: "UserId", name: "Lists_UserId_fkey", on_update: :cascade, on_delete: :nullify
+  add_foreign_key "lists", "users"
 end
