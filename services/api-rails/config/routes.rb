@@ -5,4 +5,6 @@ Rails.application.routes.draw do
 
   post 'auth/signin', to: 'auth#signin'
   post 'auth/signout', to: 'auth#signout'
+
+  get 'lists/browse', to: 'lists#browse'
 end
