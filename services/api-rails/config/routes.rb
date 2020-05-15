@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   post 'auth/signout', to: 'auth#signout'
 
   get 'lists/browse', to: 'lists#browse'
+  get 'lists/:list_id', to: 'lists#show'
 end

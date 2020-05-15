@@ -4,5 +4,6 @@ class CreateListsMovies < ActiveRecord::Migration[6.0]
       t.belongs_to :list
       t.belongs_to :movie
     end
+    add_index :lists_movies, [:list_id, :movie_id], unique: true
   end
 end

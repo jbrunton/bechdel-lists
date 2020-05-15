@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_150457) do
   create_table "lists_movies", id: false, force: :cascade do |t|
     t.bigint "list_id"
     t.bigint "movie_id"
+    t.index ["list_id", "movie_id"], name: "index_lists_movies_on_list_id_and_movie_id", unique: true
     t.index ["list_id"], name: "index_lists_movies_on_list_id"
     t.index ["movie_id"], name: "index_lists_movies_on_movie_id"
   end
