@@ -24,20 +24,21 @@ default: &default
 development:
   <<: *default
   database: bechdel_lists_development
+  url: postgres://postgres_user:postgres_password@postgres:5432/bechdel_lists_development
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  username: postgres_user
+  #username: postgres_user
 
 
   # The password associated with the postgres role (username).
-  password: postgres_password
+  #password: postgres_password
 
-  # Connect on a TCP socket. Omitted by default since the client uses a
+  # Connect on a TCP socket. Omitted by default since the client uses an
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  host: postgres
+  #host: postgres
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
