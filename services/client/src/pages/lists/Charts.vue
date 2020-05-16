@@ -33,7 +33,7 @@
             ></v-progress-linear>
           </v-toolbar>
 
-          <ListHistogram v-bind:movies="list.Movies" />
+          <ListHistogram v-bind:movies="list.movies" />
 
           <div id="charts-area">
             <v-row>
@@ -129,14 +129,14 @@ export default {
 
     async loadGenres() {
       const result = await axios.get(`/api/lists/${this.listId}/genres`);
-      this.genres = [{ name: 'All', id: null, count: this.list.Movies.length }].concat(result.data);
+      this.genres = [{ name: 'All', id: null, count: this.list.movies.length }].concat(result.data);
     }
   },
 
   watch: {
     selectedGenre: async function(genreId) {
       this.showLoadingIndicator = true;
-      const query = genreId ? `?genreId=${genreId}` : '';
+      const query = genreId ? `?genre_id=${genreId}` : '';
       const url = `/api/lists/${this.listId}${query}`;
       const result = await axios.get(url);
       this.list = result.data;
@@ -160,7 +160,7 @@ export default {
       return this.$router.resolve({ name: 'List', params: { id: this.listId, parentTab: this.$route.params.parentTab }}).href;
     },
     showRatings: function() {
-      return !!this.list.averageRating;
+      return !!this.list.average_rating;
     }
   }
 }

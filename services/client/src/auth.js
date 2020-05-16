@@ -65,7 +65,7 @@ async function signIn(redirectPath) {
 async function verifyUser(googleUser) {
   try {
     const idToken = googleUser.getAuthResponse().id_token;
-    const response = await axios.post('/api/auth/signin', { idToken: idToken });
+    const response = await axios.post('/api/auth/signin', { token: idToken });
     return response.data;
   } catch (e) {
     alert('Unable to sign you in.');
