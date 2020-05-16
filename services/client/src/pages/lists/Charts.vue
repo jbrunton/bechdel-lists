@@ -114,7 +114,7 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-      const result = await axios.get(`/api-rails/lists/${this.listId}`);
+      const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       await this.loadChartData();
       await this.loadGenres();
@@ -122,13 +122,13 @@ export default {
     },
 
     async loadChartData() {
-      const result = await axios.get(`/api-rails/lists/${this.listId}/charts/by_year`);
+      const result = await axios.get(`/api/lists/${this.listId}/charts/by_year`);
       this.countByYearData = result.data.ratingsData;
       this.averageByYearData = result.data.averageData;
     },
 
     async loadGenres() {
-      const result = await axios.get(`/api-rails/lists/${this.listId}/genres`);
+      const result = await axios.get(`/api/lists/${this.listId}/genres`);
       this.genres = [{ name: 'All', id: null, count: this.list.movies.length }].concat(result.data);
     }
   },
@@ -137,11 +137,11 @@ export default {
     selectedGenre: async function(genreId) {
       this.showLoadingIndicator = true;
       const query = genreId ? `?genre_id=${genreId}` : '';
-      const url = `/api-rails/lists/${this.listId}${query}`;
+      const url = `/api/lists/${this.listId}${query}`;
       const result = await axios.get(url);
       this.list = result.data;
       
-      const chartsResult = await axios.get(`/api-rails/lists/${this.listId}/charts/by_year${query}`);
+      const chartsResult = await axios.get(`/api/lists/${this.listId}/charts/by_year${query}`);
       this.countByYearData = chartsResult.data.ratingsData;
       this.averageByYearData = chartsResult.data.averageData;
       

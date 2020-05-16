@@ -45,7 +45,7 @@ export default {
       this.lists = [];
       this.showLoadingIndicator = true;
       
-      const result = await axios.get('/api-rails/lists/browse');
+      const result = await axios.get('/api/lists/browse');
       this.lists = result.data;
       this.showLoadingIndicator = false;
     }

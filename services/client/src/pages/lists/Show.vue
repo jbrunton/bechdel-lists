@@ -150,7 +150,7 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-      const result = await axios.get(`/api-rails/lists/${this.listId}`);
+      const result = await axios.get(`/api/lists/${this.listId}`);
       this.list = result.data;
       this.showLoadingIndicator = false;
     },
@@ -162,7 +162,7 @@ export default {
     async deleteList() {
       this.deleteListDialog = false;
       this.showLoadingIndicator = true;
-      await axios.delete(`/api-rails/lists/${this.listId}`);
+      await axios.delete(`/api/lists/${this.listId}`);
       this.showLoadingIndicator = false;
       this.$router.push({ name: 'MyLists' });
     },
@@ -170,7 +170,7 @@ export default {
     async search() {      
       if (this.query.length >= 3) {
         this.showLoadingIndicator = true;
-        const result = await axios.get(`/api-rails/search?query=${this.query}`);
+        const result = await axios.get(`/api/search?query=${this.query}`);
         this.searchResults = result.data;
         this.showLoadingIndicator = false;
       } else {
@@ -181,13 +181,13 @@ export default {
     async addMovie(movie) {
       this.showLoadingIndicator = true;
       this.editMode = false;
-      await axios.post(`/api-rails/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
+      await axios.post(`/api/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
       this.load();
     },
 
     async removeMovie(movie) {
       this.showLoadingIndicator = true;
-      await axios.delete(`/api-rails/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
+      await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
       this.$emit('list-updated');
       this.load();
     },
