@@ -79,7 +79,7 @@ export default {
     async load() {
       this.lists = [];
       this.showLoadingIndicator = true;      
-      const result = await axios.get('/api/lists');
+      const result = await axios.get('/api-rails/lists');
       this.lists = result.data;
       this.showLoadingIndicator = false;
     },
@@ -99,7 +99,7 @@ export default {
     async addListClicked() {
       try {
         this.showLoadingIndicator = true;
-        await axios.post('/api/lists', { title: this.newListTitle });
+        await axios.post('/api-rails/lists', { title: this.newListTitle });
         this.showAddListItem = false;
         this.load();
       } catch (e) {

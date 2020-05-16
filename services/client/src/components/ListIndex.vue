@@ -10,7 +10,7 @@
         :to="{ name: 'ListCharts', params: { id: list.id, parentTab: parentTab }}">
           <v-icon color="pink">mdi-chart-timeline-variant</v-icon>
         </v-btn>
-        <Rating v-bind:rating="list.averageRating" :showScore="true" />
+        <Rating v-bind:rating="list.average_rating" :showScore="true" />
       </v-list-item-action>
     </v-list-item>
   </v-list>

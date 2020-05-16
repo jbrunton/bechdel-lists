@@ -43,7 +43,7 @@ const authStatus = new Promise(function(resolve) {
 async function signOut() {
   const auth2 = gapi.auth2.getAuthInstance();
   await auth2.signOut()
-  await axios.post('/api/auth/signout');
+  await axios.post('/api-rails/auth/signout');
 
   // so that components which use the authorize() method will correctly reload
   location.reload();
@@ -65,7 +65,7 @@ async function signIn(redirectPath) {
 async function verifyUser(googleUser) {
   try {
     const idToken = googleUser.getAuthResponse().id_token;
-    const response = await axios.post('/api/auth/signin', { idToken: idToken });
+    const response = await axios.post('/api-rails/auth/signin', { token: idToken });
     return response.data;
   } catch (e) {
     alert('Unable to sign you in.');

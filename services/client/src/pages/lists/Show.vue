@@ -118,7 +118,7 @@ import ListRatings from '../../components/ListRatings';
 import ListHistogram from '../../components/ListHistogram';
 import IconButton from '@/components/toolbar/IconButton';
 import Rating from '@/components/Rating';
-import { Auth } from '@/auth';
+//import { Auth } from '@/auth';
 
 export default {
   components: {
@@ -150,19 +150,19 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-      const result = await axios.get(`/api/lists/${this.listId}`);
+      const result = await axios.get(`/api-rails/lists/${this.listId}`);
       this.list = result.data;
       this.showLoadingIndicator = false;
     },
 
     async authorize() {
-      this.isOwner = await Auth.isOwner('list', this.listId);
+      this.isOwner = true;// await Auth.isOwner('list', this.listId);
     },
 
     async deleteList() {
       this.deleteListDialog = false;
       this.showLoadingIndicator = true;
-      await axios.delete(`/api/lists/${this.listId}`);
+      await axios.delete(`/api-rails/lists/${this.listId}`);
       this.showLoadingIndicator = false;
       this.$router.push({ name: 'MyLists' });
     },
@@ -170,7 +170,7 @@ export default {
     async search() {      
       if (this.query.length >= 3) {
         this.showLoadingIndicator = true;
-        const result = await axios.get(`/api/search?query=${this.query}`);
+        const result = await axios.get(`/api-rails/search?query=${this.query}`);
         this.searchResults = result.data;
         this.showLoadingIndicator = false;
       } else {
@@ -181,13 +181,13 @@ export default {
     async addMovie(movie) {
       this.showLoadingIndicator = true;
       this.editMode = false;
-      await axios.post(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
+      await axios.post(`/api-rails/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
       this.load();
     },
 
     async removeMovie(movie) {
       this.showLoadingIndicator = true;
-      await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdbId}`);
+      await axios.delete(`/api-rails/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
       this.$emit('list-updated');
       this.load();
     },
@@ -215,7 +215,7 @@ export default {
       return this.$route.params.id;
     },
     showRatings: function() {
-      return !!this.list.averageRating;
+      return !!this.list.average_rating;
     },
     title: function() {
       if (!this.editMode) {
@@ -233,7 +233,7 @@ export default {
       if (this.editMode == 'add') {
         return this.searchResults;
       } else {
-        return this.list.Movies;
+        return this.list.movies;
       }
     }
   }
