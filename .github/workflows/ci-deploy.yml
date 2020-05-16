@@ -54,6 +54,7 @@ jobs:
           HOST: ${{ steps.deployment_info.outputs.host }}
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_PRODUCTION_MASTER_KEY }}
           POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
           BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
           BUILD_VERSION: ${{ steps.deployment_info.outputs.buildVersion }}
@@ -62,9 +63,10 @@ jobs:
             ln -sf $BUILD_FILE docker-compose.yml
             export BUILD_VERSION
             export POSTGRES_CONNECTION
+            export RAILS_MASTER_KEY
             docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
             docker-compose run api bin/rails db:migrate
-          envs: POSTGRES_CONNECTION,BUILD_FILE,BUILD_VERSION
+          envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION
 
       - name: 'commit'
         run: |

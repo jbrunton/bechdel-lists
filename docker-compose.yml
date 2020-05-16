@@ -27,6 +27,7 @@ services:
       - GOOGLE_CLIENT_ID=729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
       - POSTGRES_CONNECTION
       - POSTGRES_DISABLE_SSL
+      - RAILS_MASTER_KEY
   client:
     image: "jbrunton/bechdel-lists-client:${TAG?}"
     build:
