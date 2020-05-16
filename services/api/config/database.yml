@@ -24,7 +24,7 @@ default: &default
 development:
   <<: *default
   database: bechdel_lists_development
-  url: postgres://postgres_user:postgres_password@postgres:5432/bechdel_lists_development
+  url: <%= ENV.fetch("POSTGRES_CONNECTION") { 'postgres://postgres_user:postgres_password@postgres:5432/bechdel_lists_development' } %>
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
