@@ -12,15 +12,17 @@ module.exports = {
     const dryRun = argv['dry-run'];
     const manifest = yaml.safeLoad(fs.readFileSync('./manifest.yml', 'utf8'));
 
+    const currentVersion = manifest.version;
+    if (currentVersion != nextVersion) {
+      console.log(`Current version is ${currentVersion}, updating to ${nextVersion}`);
+      manifest.version = nextVersion;
+    }
+
     if (envName) {
       const envManifest = manifest.environments[envName];
       const currentVersion = envManifest.version;
       console.log(`Current version of ${envName} is ${currentVersion}, updating to ${nextVersion}`);
       envManifest.version = nextVersion;
-    } else {
-      const currentVersion = manifest.version;
-      console.log(`Current version is ${currentVersion}, updating to ${nextVersion}`);
-      manifest.version = nextVersion;
     }
 
     writeOutput('./manifest.yml', yaml.safeDump(manifest), dryRun);
