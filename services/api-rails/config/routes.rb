@@ -16,5 +16,8 @@ Rails.application.routes.draw do
 
   get 'lists/:list_id/charts/by_year', to: 'charts#by_year'
 
+  get 'genres', to: 'genres#index'
+  get 'lists/:list_id/genres', to: 'genres#list_genres'
+
   get 'search', to: 'search#index'
 end

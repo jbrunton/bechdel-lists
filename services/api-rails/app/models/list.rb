@@ -1,6 +1,7 @@
 class List < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :movies
+  has_many :genres, through: :movies
 
   before_save :update_details
 
