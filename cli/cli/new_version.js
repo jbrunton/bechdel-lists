@@ -18,7 +18,7 @@ module.exports = {
       task: 'update_manifest',
       description: 'New version',
       auto_merge: false,
-      payload: { version: nextVersion },
+      payload: { version: nextVersion, environment: argv.deploy },
       required_contexts:[]
     };
 
@@ -35,6 +35,12 @@ module.exports = {
       .boolean('--major')
       .boolean('--minor')
       .boolean('--patch')
+      .option('--deploy <environment>', { type: 'environment', strict: true, desc: 'The environment to deploy to' })
+      .check((argv, context) => {
+        if (!argv.version && !releaseType(argv)) {
+          return context.cliMessage('[version] or --major, --minor, or --patch flags required');
+        }
+      })
   }
 };
 
@@ -48,6 +54,4 @@ function releaseType(argv) {
   if (argv.patch) {
     return 'patch';
   }
-
-  throw new Error("Version or --major, --minor, -patch required.");
 }
