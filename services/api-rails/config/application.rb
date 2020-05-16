@@ -40,6 +40,6 @@ module ApiRails
 
     # config.middleware.use Rack::MethodOverride
 
-    config.hosts << "api-rails"
+    config.hosts << "api"
   end
 end
