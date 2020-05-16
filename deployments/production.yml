@@ -1,5 +1,8 @@
-latest: d1f899eb-0fad-4cab-931b-cbd11f4bcd28
+latest: 56beb388-44a4-4a9a-8489-e043742439f2
 deployments:
+  - id: 56beb388-44a4-4a9a-8489-e043742439f2
+    version: 0.0.36
+    timestamp: '2020-05-16T20:05:51.490Z'
   - id: d1f899eb-0fad-4cab-931b-cbd11f4bcd28
     version: 0.0.35
     timestamp: '2020-05-16T18:15:20.605Z'
