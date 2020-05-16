@@ -34,6 +34,12 @@ module ApiRails
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.insert_after(ActionDispatch::Cookies, ActionDispatch::Session::CookieStore)
+
+    # config.middleware.use Rack::MethodOverride
+
     config.hosts << "api-rails"
   end
 end
