@@ -1,9 +1,18 @@
 class ChartsController < ApplicationController
   def by_year
     @list = List.find(params[:list_id])
-    @results = @list.movies
-        .select('year, rating, count(*) as count')
-        .group(:year, :rating)
+    if params[:genre_id].nil?
+      @results = @list.movies
+          .select('year, rating, count(*) as count')
+          .group(:year, :rating)
+    else
+      @genre = Genre.find(params[:genre_id])
+      @results = @list.movies
+          .joins(:genres)
+          .where('genres.id': @genre.id)
+          .select('year, rating, count(*) as count')
+          .group(:year, :rating)
+    end
 
     ratings_data = [%w(Year 0 1 2 3)]
     average_data = [%w(Year Average)]
