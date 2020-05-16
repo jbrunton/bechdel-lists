@@ -80,7 +80,5 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: api_rails_production
-  username: api_rails
-  password: <%= ENV['API_RAILS_DATABASE_PASSWORD'] %>
+  url: <%= ENV['POSTGRES_CONNECTION'] %>
+  
