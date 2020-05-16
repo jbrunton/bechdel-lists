@@ -27,4 +27,10 @@ def create_list(title, fileName, user)
   list.save!
 end
 
-create_list('Top 10 Global Movies 1999-2019', 'topmovies.json', demo_user)
+List.delete_all
+
+create_list('Global Top 10 Movies (1999-2019)', 'topmovies.json', demo_user)
+create_list('Marvel Cinematic Universe', 'mcu.json', demo_user)
+create_list('Pixar', 'pixar.json', demo_user)
+create_list('Star Wars', 'starwars.json', demo_user)
+create_list('James Bond', 'bond.json', test_user)
