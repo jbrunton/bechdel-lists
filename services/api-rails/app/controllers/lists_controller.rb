@@ -35,4 +35,26 @@ class ListsController < ApplicationController
       render status: 404
     end
   end
+
+  def add
+    @list = List.find(params[:list_id])
+    @movie = Movie.find_by(imdb_id: params[:imdb_id])
+    if @list.nil? || @movie.nil?
+      render status: 404
+    else
+      @list.movies << @movie
+      @movie.save
+    end
+  end
+
+  def remove
+    @list = List.find(params[:list_id])
+    @movie = Movie.find_by(imdb_id: params[:imdb_id])
+    if @list.nil? || @movie.nil?
+      render status: 404
+    else
+      @list.movies.delete(@movie)
+      @movie.save
+    end
+  end
 end
