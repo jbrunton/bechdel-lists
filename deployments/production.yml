@@ -1,5 +1,8 @@
-latest: 56beb388-44a4-4a9a-8489-e043742439f2
+latest: 39efeecf-1d69-4e45-b440-751abde93aa7
 deployments:
+  - id: 39efeecf-1d69-4e45-b440-751abde93aa7
+    version: 0.0.37
+    timestamp: '2020-05-16T20:45:21.325Z'
   - id: 56beb388-44a4-4a9a-8489-e043742439f2
     version: 0.0.36
     timestamp: '2020-05-16T20:05:51.490Z'
