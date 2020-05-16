@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   post 'auth/signin', to: 'auth#signin'
   post 'auth/signout', to: 'auth#signout'
 
+  get 'lists', to: 'lists#index'
   get 'lists/browse', to: 'lists#browse'
   get 'lists/:list_id', to: 'lists#show'
+  post 'lists', to: 'lists#create'
+  delete 'lists/:list_id', to: 'lists#destroy'
 end

@@ -5,7 +5,7 @@ class AuthController < ApplicationController
       payload = validator.check(params[:token], ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_ID'])
       user = User.find_or_create_by_email(payload['email'], payload['name'])
 
-      session[:user_id] = user.id
+      self.current_user = user
       cookies[:user] = user.name
 
       render json: user.as_json
