@@ -31,13 +31,13 @@ class ListsController < ApplicationController
     @list = List.find(params[:list_id])
     @movie = Movie.find_by(imdb_id: params[:imdb_id])
     @list.movies << @movie
-    @movie.save
+    @list.save
   end
 
   def remove
     @list = List.find(params[:list_id])
     @movie = Movie.find_by(imdb_id: params[:imdb_id])
     @list.movies.delete(@movie)
-    @movie.save
+    @list.save
   end
 end
