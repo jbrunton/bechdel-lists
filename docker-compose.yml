@@ -28,6 +28,7 @@ services:
       - POSTGRES_CONNECTION
       - POSTGRES_DISABLE_SSL
       - RAILS_MASTER_KEY
+      - RAILS_LOG_TO_STDOUT=1
   client:
     image: "jbrunton/bechdel-lists-client:${TAG?}"
     build:
