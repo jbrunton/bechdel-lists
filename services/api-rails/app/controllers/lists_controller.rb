@@ -9,11 +9,7 @@ class ListsController < ApplicationController
 
   def show
     list = List.find(params[:list_id])
-    if !list.nil?
-      render json: list.as_json(include: :movies)
-    else
-      render status: 404
-    end
+    render json: list.as_json(include: :movies)
   end
 
   def create
@@ -28,33 +24,20 @@ class ListsController < ApplicationController
 
   def destroy
     list = List.find(params[:list_id])
-    if !list.nil?
-      list.destroy!
-      render status: 200
-    else
-      render status: 404
-    end
+    list.destroy!
   end
 
   def add
     @list = List.find(params[:list_id])
     @movie = Movie.find_by(imdb_id: params[:imdb_id])
-    if @list.nil? || @movie.nil?
-      render status: 404
-    else
-      @list.movies << @movie
-      @movie.save
-    end
+    @list.movies << @movie
+    @movie.save
   end
 
   def remove
     @list = List.find(params[:list_id])
     @movie = Movie.find_by(imdb_id: params[:imdb_id])
-    if @list.nil? || @movie.nil?
-      render status: 404
-    else
-      @list.movies.delete(@movie)
-      @movie.save
-    end
+    @list.movies.delete(@movie)
+    @movie.save
   end
 end

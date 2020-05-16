@@ -14,5 +14,7 @@ Rails.application.routes.draw do
   post 'lists/:list_id/movies/:imdb_id', to: 'lists#add'
   delete 'lists/:list_id/movies/:imdb_id', to: 'lists#remove'
 
+  get 'lists/:list_id/charts/by_year', to: 'charts#by_year'
+
   get 'search', to: 'search#index'
 end
