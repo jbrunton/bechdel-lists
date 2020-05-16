@@ -11,7 +11,7 @@ services:
   api:
     image: 'bechdel-lists-api'
     volumes:
-      - ./services/api-rails:/app
+      - ./services/api:/app
     environment:
       - RAILS_ENV=development
       - SEED_USER_NAME
