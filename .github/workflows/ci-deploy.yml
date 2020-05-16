@@ -63,7 +63,7 @@ jobs:
             export BUILD_VERSION
             export POSTGRES_CONNECTION
             docker-compose -f docker-compose.yml up --detach --no-build --remove-orphans
-            docker-compose run api npm run db:migrate
+            docker-compose run api bin/rails db:migrate
           envs: POSTGRES_CONNECTION,BUILD_FILE,BUILD_VERSION
 
       - name: 'commit'
