@@ -27,7 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
-      
+        with:
+          ruby-version: 2.6.3
+          
       - name: copy .env
         run: cp ci/ci.env .env
 
