@@ -17,20 +17,20 @@ env:
 
 jobs:
 
-  # unit_tests:
-  #   runs-on: ubuntu-latest
+  unit_tests:
+    runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       service: [client]
+    strategy:
+      matrix:
+        service: [client]
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: run unit tests
-  #       env:
-  #         SERVICE: ${{ matrix.service }}
-  #       run: ./ci/unit_test.sh
+      - name: run unit tests
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/unit_test.sh
     
   # integration_tests:
   #   runs-on: ubuntu-latest
@@ -49,6 +49,18 @@ jobs:
   #       env:
   #         SERVICE: ${{ matrix.service }}
   #       run: ./ci/integration_tests/${SERVICE}.sh
+
+  tests_successful:
+    needs: [unit_tests]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: publish status
+        env:
+          PAYLOAD: '{"state": "success","description":"Tests passed","context":"ci-build"}'
+        run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/statuses/$GITHUB_SHA" --input -
 
   manifest_check:
     #needs: [unit_tests, integration_tests]
