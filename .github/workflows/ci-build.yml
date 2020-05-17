@@ -50,19 +50,6 @@ jobs:
   #         SERVICE: ${{ matrix.service }}
   #       run: ./ci/integration_tests/${SERVICE}.sh
 
-  tests_successful:
-    needs: [unit_tests]
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: publish status
-        env:
-          PAYLOAD: '{"state": "success","description":"Tests passed","context":"ci-build"}'
-          GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-        run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/statuses/$GITHUB_SHA" --input -
-
   manifest_check:
     #needs: [unit_tests, integration_tests]
     runs-on: ubuntu-latest
