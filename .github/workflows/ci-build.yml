@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        service: [client, api]
+        service: [client]
 
     steps:
       - uses: actions/checkout@v2
@@ -40,7 +40,7 @@ jobs:
 
     strategy:
       matrix:
-        service: [client]
+        service: [api, client]
 
     steps:
       - uses: actions/checkout@v2
