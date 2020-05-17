@@ -99,9 +99,9 @@ jobs:
           
           git push origin HEAD:master
   
-  deploy:
+  deploy_existing_build:
     needs: manifest_check
-    if: needs.manifest_check.outputs.deploymentsRequired == true
+    if: needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == false
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
@@ -124,3 +124,30 @@ jobs:
           PAYLOAD: ${{ steps.payload.outputs.payload }}
           GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
         run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
+
+  deploy_new_build:
+    needs: [manifest_check, build]
+    if: needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == true
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: generate payload
+        id: payload
+        env:
+          TASK: ${{ matrix.task }}
+          ENVIRONMENT: ${{ matrix.environment }}
+        run: npx ci set-outputs deploy-payload $ENVIRONMENT
+
+      - name: start deployment workflow
+        env:
+          PAYLOAD: ${{ steps.payload.outputs.payload }}
+          GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+        run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
+        
