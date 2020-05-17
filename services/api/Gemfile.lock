@@ -45,6 +45,8 @@ GEM
     activerecord (6.0.3)
       activemodel (= 6.0.3)
       activesupport (= 6.0.3)
+    activerecord-nulldb-adapter (0.4.0)
+      activerecord (>= 2.0.0)
     activestorage (6.0.3)
       actionpack (= 6.0.3)
       activejob (= 6.0.3)
@@ -168,6 +170,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-nulldb-adapter (~> 0.4.0)
   bootsnap (>= 1.4.2)
   byebug
   google-id-token (~> 1.4)

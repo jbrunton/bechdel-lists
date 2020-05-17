@@ -2,6 +2,5 @@
 set -e
 
 docker-compose up -d
-docker-compose run api npm run db:test:create
-docker-compose run api npm run test:integration
-          
+docker-compose run api bin/rails db:test:prepare
+docker-compose run api bin/rails spec:integration
