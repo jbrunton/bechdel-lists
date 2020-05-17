@@ -22,16 +22,19 @@ jobs:
 
     strategy:
       matrix:
-        service: [client]
+        service: [client, api]
 
     steps:
       - uses: actions/checkout@v2
 
+      - name: copy .env
+        run: cp ci/ci.env .env
+
       - name: run unit tests
         env:
           SERVICE: ${{ matrix.service }}
-        run: ./ci/unit_test.sh
-    
+        run: ./ci/unit_tests/${SERVICE}.sh
+      
   integration_tests:
     runs-on: ubuntu-latest
 
