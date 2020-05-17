@@ -1,0 +1,16 @@
+name: ci-status
+
+on:
+  status
+
+jobs:
+
+  log:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: log status
+        env:
+          EVENT: ${{ toJson(github.event) }}
+        run: echo "$EVENT"
+  
