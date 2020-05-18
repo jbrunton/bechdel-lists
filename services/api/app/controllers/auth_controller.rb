@@ -23,4 +23,16 @@ class AuthController < ApplicationController
   def profile
     render json: current_user.as_json
   end
+
+  def authorize
+    type = params[:type].classify.constantize
+    instance = type.find(params[:id])
+    if type == List
+      render json: {
+          is_owner: instance.user == current_user
+      }
+    else
+      raise "Unexpected type: #{params[:type]}"
+    end
+  end
 end
