@@ -6,7 +6,7 @@ class AuthController < ApplicationController
       user = User.find_or_create_by_email(payload['email'], payload['name'])
 
       self.current_user = user
-      cookies[:user] = user.name
+      cookies[:user] = user.name.nil? ? nil : URI.encode(user.name)
 
       render json: user.as_json
     rescue GoogleIDToken::ValidationError => e
@@ -18,5 +18,9 @@ class AuthController < ApplicationController
   def signout
     cookies.delete(:user)
     reset_session
+  end
+
+  def profile
+    render json: current_user.as_json
   end
 end

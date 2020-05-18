@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { CypressAuth } from '@/auth_cypress';
 
 const GoogleParams = {
   client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
@@ -15,7 +16,7 @@ function getAssumedStatus() {
   const assumeSignedIn = !!assumedUserName;
   return {
     assumeSignedIn: assumeSignedIn,
-    assumedUserName: assumedUserName
+    assumedUserName: decodeURI(assumedUserName)
   }
 }
 
@@ -89,11 +90,11 @@ async function isOwner(type, id) {
 
 export const Auth = {
   getStatus() {
-    return authStatus;
+    return window.Cypress ? CypressAuth.authStatus : authStatus;
   },
   getAssumedStatus: getAssumedStatus,
   authenticate: authenticate,
   signIn: signIn,
-  signOut: signOut,
+  signOut: window.Cypress ? CypressAuth.authStatus : signOut,
   isOwner: isOwner
 };

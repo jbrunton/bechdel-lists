@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   post 'auth/signin', to: 'auth#signin'
   post 'auth/signout', to: 'auth#signout'
+  get 'auth/profile', to: 'auth#profile'
 
   get 'lists', to: 'lists#index'
   get 'lists/browse', to: 'lists#browse'
@@ -20,4 +21,8 @@ Rails.application.routes.draw do
   get 'lists/:list_id/genres', to: 'genres#list_genres'
 
   get 'search', to: 'search#index'
+
+  unless Rails.env.production?
+    post 'dev/signin', to: 'dev#signin'
+  end
 end

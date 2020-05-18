@@ -1,11 +1,10 @@
 #!/bin/bash
 set -e
 
-export CLIENT_DIR=$WORKSPACE/services/client
-
-cd $CLIENT_DIR
+cd ${WORKSPACE}/services/client
 npm install
 
-cd $WORKSPACE
-docker-compose up -d
-docker run -v $CLIENT_DIR:/e2e -w /e2e cypress/included:4.5.0
+cd ${WORKSPACE}
+docker-compose up -d client
+docker-compose run api bin/rails db:migrate RAILS_ENV=development
+docker-compose run cypress

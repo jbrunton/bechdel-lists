@@ -18,6 +18,8 @@ services:
       - SEED_USER_EMAIL
     ports:
       - "5000:5000"
+    depends_on:
+      - postgres
   client:
     image: 'bechdel-lists-client'
     build:
@@ -25,6 +27,10 @@ services:
     volumes:
       - /app/node_modules
       - ./services/client:/app
+    depends_on:
+      - api
+      - nginx
+      - postgres
   nginx:
     image: 'bechdel-lists-nginx'
     build:
@@ -34,3 +40,14 @@ services:
       - "${NGINX_LOCAL_PORT:-3001}:80"
     volumes:
       - ./services/nginx:/etc/nginx/certs # hack to prevent missing path errors in lieu of a production compose file.
+  cypress:
+    image: cypress/included:4.5.0
+    depends_on: 
+      - client
+    volumes:
+      - ./services/client:/e2e
+    environment:
+      # pass base url to test pointing at the web application
+      - CYPRESS_baseUrl=http://nginx
+    # share the current folder as volume to avoid copying
+    working_dir: /e2e
