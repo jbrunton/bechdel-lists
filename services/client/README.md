@@ -16,14 +16,19 @@ This will run Cypress on your development machine against the web app running at
 
 To run Cypress in a container as it would be in a CI environment, you can do this (from the project root directory):
 
+  export COMPOSE_FILE=$(./get-compose-file cypress)
   docker-compose up cypress
 
 To debug issues specific to running Cypress in a container:
 
-1. Follow the steps to install XQuartz here: https://sourabhbajaj.com/blog/2017/02/07/gui-applications-docker-mac/
-2. Use the docker-compose.cy-open.yml docker file like this:
+1. Follow the steps to install XQuartz here: https://sourabhbajaj.com/blog/2017/02/07/gui-applications-docker-mac/.
+2. Add localhost to the XQuarts access control list:
+
+    /usr/X11/bin/xhost + localhost
+
+3. Use the docker-compose.cy-open.yml docker file like this:
   
-    export COMPOSE_FILE=docker-compose.yml:docker-compose.override.yml:docker-compose.cy-open.yml
+    export COMPOSE_FILE=$(./get-compose-file cy-open)
     docker-compose up cypress
 
 Note: you may also need to setup the database first:

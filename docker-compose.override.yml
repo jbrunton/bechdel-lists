@@ -40,14 +40,3 @@ services:
       - "${NGINX_LOCAL_PORT:-3001}:80"
     volumes:
       - ./services/nginx:/etc/nginx/certs # hack to prevent missing path errors in lieu of a production compose file.
-  cypress:
-    image: cypress/included:4.5.0
-    depends_on: 
-      - client
-    volumes:
-      - ./services/client:/e2e
-    environment:
-      # pass base url to test pointing at the web application
-      - CYPRESS_baseUrl=http://nginx
-    # share the current folder as volume to avoid copying
-    working_dir: /e2e
