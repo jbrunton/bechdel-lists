@@ -11,9 +11,9 @@ elif [[ $1 == 'cy-open' ]]; then
   echo "docker-compose.yml:docker-compose.override.yml:docker-compose.cypress.yml:docker-compose.cy-open.yml"
 elif [[ $1 == '' ]]; then
   echo "Usage: ./set-compose-file.sh <mode>"
-  echo "  Modes: development | cypress | cy-open"
+  echo "  Modes: development | production | cypress | cy-open"
   exit 1
 else
-  echo "Invalid argument. Valid modes: development | cypress | cy-open"
+  echo "Invalid argument. Valid modes: development | production | cypress | cy-open"
   exit 1
 fi
