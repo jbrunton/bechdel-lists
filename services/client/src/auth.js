@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { CypressAuth } from '@/auth_cypress';
 
 const GoogleParams = {
   client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
@@ -15,27 +16,11 @@ function getAssumedStatus() {
   const assumeSignedIn = !!assumedUserName;
   return {
     assumeSignedIn: assumeSignedIn,
-    assumedUserName: assumedUserName
+    assumedUserName: decodeURI(assumedUserName)
   }
 }
 
 const authStatus = new Promise(function(resolve) {
-  if (window.Cypress) {
-    // Integration tests skip Google sign in, so we defer to the session
-    if (Cookies.get('user')) {
-      axios.get('/api/auth/profile')
-        .then(response => {
-          resolve({ signedIn: true, user: response.data });
-        })
-        .catch(() => {
-          resolve({ signedIn: false })
-        });
-    } else {
-      resolve({ signedIn: false });
-    }
-    return;
-  }
-
   gapi.load('auth2', async function() {
     const auth = await gapi.auth2.init(GoogleParams);
     if (auth.isSignedIn.get()) {
@@ -57,10 +42,8 @@ const authStatus = new Promise(function(resolve) {
 });
 
 async function signOut() {
-  if (!window.Cypress) {
-    const auth2 = gapi.auth2.getAuthInstance();
-    await auth2.signOut()
-  }
+  const auth2 = gapi.auth2.getAuthInstance();
+  await auth2.signOut()
   await axios.post('/api/auth/signout');
 
   // so that components which use the authorize() method will correctly reload
@@ -107,11 +90,11 @@ async function isOwner(type, id) {
 
 export const Auth = {
   getStatus() {
-    return authStatus;
+    return window.Cypress ? CypressAuth.authStatus : authStatus;
   },
   getAssumedStatus: getAssumedStatus,
   authenticate: authenticate,
   signIn: signIn,
-  signOut: signOut,
+  signOut: window.Cypress ? CypressAuth.authStatus : signOut,
   isOwner: isOwner
 };

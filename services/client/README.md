@@ -9,6 +9,7 @@ You can run unit tests locally like this from `services/client`:
 The usual way to run integration tests is like this (from `services/client`):
 
   docker-compose up client -d
+  cd services/client
   npm run test:integration
 
 This will run Cypress on your development machine against the web app running at http://localhost:3030.
@@ -24,5 +25,9 @@ To debug issues specific to running Cypress in a container:
   
     export COMPOSE_FILE=docker-compose.yml:docker-compose.override.yml:docker-compose.cy-open.yml
     docker-compose up cypress
+
+Note: you may also need to setup the database first:
+
+    docker-compose run api bin/rails db:migrate RAILS_ENV=development
 
 See [this article](https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command/#Docker-compose) for more details.
