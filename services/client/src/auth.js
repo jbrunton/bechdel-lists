@@ -20,6 +20,12 @@ function getAssumedStatus() {
 }
 
 const authStatus = new Promise(function(resolve) {
+  console.log('dev_assume_signed_in: ' + Cookies.get('dev_assume_signed_in'));
+  if (Cookies.get('dev_assume_signed_in') == true) {
+    resolve({ signedIn: true, user: { name: decodeURI(Cookies.get('user')) } });
+    return;
+  }
+
   gapi.load('auth2', async function() {
     const auth = await gapi.auth2.init(GoogleParams);
     if (auth.isSignedIn.get()) {

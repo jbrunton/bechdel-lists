@@ -20,4 +20,8 @@ Rails.application.routes.draw do
   get 'lists/:list_id/genres', to: 'genres#list_genres'
 
   get 'search', to: 'search#index'
+
+  unless Rails.env.production?
+    post 'dev/signin', to: 'dev#signin'
+  end
 end
