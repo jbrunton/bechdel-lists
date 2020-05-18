@@ -24,8 +24,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('signin', email => {
+Cypress.Commands.add('signin', (email, name) => {
   cy.request('POST', '/api/dev/signin', {
-    email: email || 'test.user@example.com'
+    email: email || 'test.user@example.com',
+    name: name || 'Test User'
   })
 });

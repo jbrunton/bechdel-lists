@@ -29,7 +29,8 @@ services:
       - ./services/client:/app
     depends_on:
       - api
-      - nginx      
+      - nginx
+      - postgres
   nginx:
     image: 'bechdel-lists-nginx'
     build:
@@ -47,6 +48,6 @@ services:
       - ./services/client:/e2e
     environment:
       # pass base url to test pointing at the web application
-      - CYPRESS_baseUrl=http://host.docker.internal:3001
+      - CYPRESS_baseUrl=http://nginx
     # share the current folder as volume to avoid copying
     working_dir: /e2e
