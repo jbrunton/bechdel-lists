@@ -4,7 +4,6 @@ class DevController < ApplicationController
 
     self.current_user = user
     cookies[:user] = URI.encode(user.name)
-    cookies[:dev_assume_signed_in] = 1
 
     render json: user.as_json
   end
