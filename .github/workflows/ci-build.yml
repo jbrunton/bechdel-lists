@@ -33,17 +33,17 @@ jobs:
       - name: copy .env
         run: cp ci/ci.env .env
 
-      # - name: run unit tests
-      #   env:
-      #     SERVICE: ${{ matrix.service }}
-      #   run: ./ci/unit_tests/${SERVICE}.sh
+      - name: run unit tests
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: ./ci/unit_tests/${SERVICE}.sh
       
   integration_tests:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        service: [client]
+        service: [api, client]
 
     steps:
       - uses: actions/checkout@v2
