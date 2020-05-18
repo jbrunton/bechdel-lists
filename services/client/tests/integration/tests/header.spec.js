@@ -8,7 +8,17 @@ context('Header', () => {
   context('when not signed in', () => {
     it('Shows a sign in button', () => {
       cy.contains('header button', 'Sign In');
-    })  
+    })
+
+    it('Shows the Browse button', () => {
+      cy.get('header a#nav-browse')
+        .should('have.attr', 'href', '/browse/lists')
+        .should('have.text', 'Browse')
+    })
+
+    // it('Hides the My Lists button', () => {
+    //   cy.get('header a#nav-')
+    // })
   })
 
   // it("shows the signed in user's name", () => {
