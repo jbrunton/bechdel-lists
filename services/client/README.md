@@ -12,7 +12,9 @@ The usual way to run integration tests is like this (from `services/client`):
   cd services/client
   npm run test:integration
 
-This will run Cypress on your development machine against the web app running at http://localhost:3030.
+This will run Cypress on your development machine against the web app running at http://localhost:3030. However, typically you'll want to open the test suite with Cypress in order to review / debug the results:
+
+  npm run test:integration:open
 
 To run Cypress in a container as it would be in a CI environment, you can do this (from the project root directory):
 
