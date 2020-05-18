@@ -11,10 +11,11 @@ context('Profile', () => {
   })
 
   it("shows the signed in user's name", () => {
-    cy.request('POST', 'http://localhost:3001/api/dev/signin', { email: 'test.user@example.com' })
+    cy.signin();
+    
     cy.visit('http://localhost:3001/my/profile');
-  
-    //cy.get('main').debug();
-    cy.get('main').should('contain', 'Test User');
+    
+    cy.contains('.v-list-item', 'Test User');
+    cy.contains('.v-list-item', 'test.user@example.com');
   })
 })
