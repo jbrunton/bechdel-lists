@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-docker-compose cypress run
+docker-compose run cypress
