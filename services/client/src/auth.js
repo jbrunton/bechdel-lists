@@ -20,11 +20,19 @@ function getAssumedStatus() {
 }
 
 const authStatus = new Promise(function(resolve) {
-  if (window.Cypress && Cookies.get('user')) {
+  if (window.Cypress) {
     // Integration tests skip Google sign in, so we defer to the session
-    axios.get('/api/auth/profile').then(response => {
-      resolve({ signedIn: true, user: response.data });
-    });
+    if (Cookies.get('user')) {
+      axios.get('/api/auth/profile')
+        .then(response => {
+          resolve({ signedIn: true, user: response.data });
+        })
+        .catch(() => {
+          resolve({ signedIn: false })
+        });
+    } else {
+      resolve({ signedIn: false });
+    }
     return;
   }
 
@@ -49,8 +57,10 @@ const authStatus = new Promise(function(resolve) {
 });
 
 async function signOut() {
-  const auth2 = gapi.auth2.getAuthInstance();
-  await auth2.signOut()
+  if (!window.Cypress) {
+    const auth2 = gapi.auth2.getAuthInstance();
+    await auth2.signOut()
+  }
   await axios.post('/api/auth/signout');
 
   // so that components which use the authorize() method will correctly reload

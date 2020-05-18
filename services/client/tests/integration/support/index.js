@@ -18,3 +18,7 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+if (!Cypress.config('baseUrl')) {
+  Cypress.config('baseUrl', 'http://localhost:3001')
+}

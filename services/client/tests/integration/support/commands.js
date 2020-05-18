@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('signin', email => {
-  cy.request('POST', 'http://localhost:3001/api/dev/signin', {
+  cy.request('POST', '/api/dev/signin', {
     email: email || 'test.user@example.com'
   })
 });
