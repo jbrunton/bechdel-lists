@@ -85,7 +85,7 @@ async function authenticate() {
 
 async function isOwner(type, id) {
   const response = await axios.get(`/api/auth/authorize/${type}/${id}`);
-  return response.data.isOwner;
+  return response.data.is_owner;
 }
 
 export const Auth = {

@@ -118,7 +118,7 @@ import ListRatings from '../../components/ListRatings';
 import ListHistogram from '../../components/ListHistogram';
 import IconButton from '@/components/toolbar/IconButton';
 import Rating from '@/components/Rating';
-//import { Auth } from '@/auth';
+import { Auth } from '@/auth';
 
 export default {
   components: {
@@ -156,7 +156,7 @@ export default {
     },
 
     async authorize() {
-      this.isOwner = true;// await Auth.isOwner('list', this.listId);
+      this.isOwner = await Auth.isOwner('list', this.listId);
     },
 
     async deleteList() {
