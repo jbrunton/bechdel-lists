@@ -19,4 +19,8 @@ class AuthController < ApplicationController
     cookies.delete(:user)
     reset_session
   end
+
+  def profile
+    render json: current_user.as_json
+  end
 end

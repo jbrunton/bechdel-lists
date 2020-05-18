@@ -20,9 +20,11 @@ function getAssumedStatus() {
 }
 
 const authStatus = new Promise(function(resolve) {
-  console.log('dev_assume_signed_in: ' + Cookies.get('dev_assume_signed_in'));
-  if (Cookies.get('dev_assume_signed_in') == true) {
-    resolve({ signedIn: true, user: { name: decodeURI(Cookies.get('user')) } });
+  if (window.Cypress && Cookies.get('user')) {
+    // Integration tests skip Google sign in, so we defer to the session
+    axios.get('/api/auth/profile').then(response => {
+      resolve({ signedIn: true, user: response.data });
+    });
     return;
   }
 
