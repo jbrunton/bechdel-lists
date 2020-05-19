@@ -3,11 +3,13 @@ class ListsController < ApplicationController
   before_action :set_movie, only: [:add, :remove]
 
   def browse
-    render json: List.where(public: true).as_json
+    @lists = List.where(public: true)
+    render json: @lists.as_json
   end
 
   def index
-    render json: current_user.lists.as_json
+    @lists = current_user.lists
+    render json: @lists.as_json
   end
 
   def show
