@@ -2,7 +2,7 @@
 set -e
 
 cd ${WORKSPACE}/services/client
-npm install
+npm ci --no-optional
 
 cd ${WORKSPACE}
 docker-compose up -d
