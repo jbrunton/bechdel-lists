@@ -4,9 +4,14 @@
       <v-list-item-content>
         <v-list-item-title class="primary--text">
           {{list.title}}
-          <v-icon x-small  v-if="showPrivacy" :color="list.public ? 'grey lighten-1' : null">
-            {{ list.public ? 'mdi-lock-open-variant' : 'mdi-lock' }}
-          </v-icon>
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <v-icon x-small v-on="on" v-if="showPrivacy" :color="list.public ? 'grey lighten-1' : null">
+                {{ list.public ? 'mdi-lock-open-variant' : 'mdi-lock' }}
+              </v-icon>
+            </template>
+            <span>{{ list.public ? 'This list is public' : 'This list is private'}}</span>
+          </v-tooltip>
         </v-list-item-title>
         <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
       </v-list-item-content>
