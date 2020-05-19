@@ -1,5 +1,5 @@
 <template>
-  <v-menu bottom offset-y v-if="signedIn">
+  <v-menu open-on-hover bottom offset-y v-if="signedIn">
     <template v-slot:activator="{ on }">
       <v-btn
         id="nav-user-menu"
@@ -16,8 +16,8 @@
       <v-list-item id="nav-profile" :to="{ name: 'Profile' }">
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
-      <v-list-item @click="signOut">
-        <v-list-item-title>Sign out</v-list-item-title>
+      <v-list-item id="nav-sign-out" @click="signOut">
+        <v-list-item-title>Sign Out</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
