@@ -23,7 +23,7 @@ class List < ApplicationRecord
   end
 
   def update_details
-    stats = List.stats_for(self.movies)
+    stats = List.stats_for(self.movies.to_a)
     self.average_rating = stats[:average_rating]
     self.min_rating = stats[:min_rating]
     self.max_rating = stats[:max_rating]
