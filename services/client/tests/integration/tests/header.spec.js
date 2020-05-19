@@ -48,9 +48,9 @@ context('Header', () => {
     it("Shows the sign out button", () => {
       cy.contains('header button#nav-user-menu', 'Test User').then($el => {
         cy.wrap($el).trigger('mouseenter', { force: true });
-        cy.get('div[role=menu] #nav-sign-out').then($menu => {
-          $menu.show();
-          cy.wrap($menu).contains('Sign Out')
+        cy.get('div[role=menu] #nav-sign-out').then($signOutLink => {
+          $signOutLink.closest('div[role=menu]').show();
+          cy.wrap($signOutLink).contains('Sign Out')
         });
       })
     })
