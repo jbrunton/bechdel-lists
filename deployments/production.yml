@@ -1,5 +1,8 @@
-latest: 84cbe52d-63fc-4d46-89d2-c803430f4c85
+latest: 0bb15e95-024c-4bd9-bdae-dd1dc6e9afc3
 deployments:
+  - id: 0bb15e95-024c-4bd9-bdae-dd1dc6e9afc3
+    version: 0.1.2
+    timestamp: '2020-05-19T13:58:09.231Z'
   - id: 84cbe52d-63fc-4d46-89d2-c803430f4c85
     version: 0.1.1
     timestamp: '2020-05-19T12:34:47.912Z'
