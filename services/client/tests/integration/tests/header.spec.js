@@ -34,26 +34,18 @@ context('Header', () => {
     })
 
     it("Links to the signed in user's profile", () => {
-      cy.contains('[data-cy=nav-user-menu]', 'Test User').then($el => {
-        cy.wrap($el).trigger('mouseenter', { force: true });
-        cy.get('div[role=menu] [data-cy=nav-profile]').then($profileLink => {
-          $profileLink.closest('div[role=menu]').show();
-          cy.wrap($profileLink)
-            .get('[data-cy=nav-profile]')
+      cy.showUserMenu().then($menu => {
+        cy.wrap($menu).get('[data-cy=nav-profile]')
             .should('have.text', 'Profile')
             .should('have.attr', 'href', '/my/profile');
-        });
-      })
+      });
     })
 
     it("Shows the sign out button", () => {
-      cy.contains('[data-cy=nav-user-menu]', 'Test User').then($el => {
-        cy.wrap($el).trigger('mouseenter', { force: true });
-        cy.get('div[role=menu] [data-cy=nav-user-menu-options]').then($menuOptions => {
-          $menuOptions.closest('div[role=menu]').show();
-          cy.wrap($menuOptions).get('[data-cy=nav-sign-out]').contains('Sign Out');
-        });
-      })
+      cy.showUserMenu().then($menu => {
+        cy.wrap($menu).get('[data-cy=nav-sign-out]')
+        .contains('Sign Out');
+      });
     })
   })
 })

@@ -30,3 +30,12 @@ Cypress.Commands.add('signin', (email, name) => {
     name: name || 'Test User'
   })
 });
+
+Cypress.Commands.add('showUserMenu', () => {
+  cy.get('[data-cy=nav-user-menu]').then($el => {
+    cy.wrap($el).trigger('mouseenter', { force: true });
+    cy.get('div[role=menu] [data-cy=nav-profile]').then($profileLink => {
+      $profileLink.closest('div[role=menu]').show();
+    });
+  });
+})
