@@ -80,11 +80,6 @@ const routes = [
     }
   },
   {
-    path: '/search',
-    name: 'Search',
-    component: () => import(/* webpackChunkName: "search" */ '../pages/Search.vue')
-  },
-  {
     path: '*',
     name: '404',
     component: () => import(/* webpackChunkName: "404" */ '../pages/404.vue')
