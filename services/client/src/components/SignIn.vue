@@ -1,7 +1,8 @@
 <template>
-  <v-menu open-on-hover bottom offset-y v-if="signedIn">
+  <v-menu bottom offset-y v-if="signedIn">
     <template v-slot:activator="{ on }">
       <v-btn
+        id="nav-user-menu"
         text
         :loading="loading"
         v-on="on"
@@ -12,7 +13,7 @@
     </template>
 
     <v-list>
-      <v-list-item @click="profileClicked">
+      <v-list-item id="nav-profile" :to="{ name: 'Profile' }">
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
       <v-list-item @click="signOut">
@@ -62,10 +63,6 @@ export default {
     async signIn() {
       this.loading = true;
       Auth.signIn();
-    },
-
-    profileClicked() {
-      this.$router.push({ name: 'Profile' })
     }
   }
 }
