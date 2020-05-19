@@ -36,9 +36,9 @@ context('Header', () => {
     it("Links to the signed in user's profile", () => {
       cy.contains('header button#nav-user-menu', 'Test User').then($el => {
         cy.wrap($el).trigger('mouseenter', { force: true });
-        cy.get('div[role=menu] #nav-profile').then($menu => {
-          $menu.show();
-          cy.wrap($menu)
+        cy.get('div[role=menu] #nav-profile').then($profileLink => {
+          $profileLink.closest('div[role=menu]').show();
+          cy.wrap($profileLink)
             .should('have.text', 'Profile')
             .should('have.attr', 'href', '/my/profile');
         });
