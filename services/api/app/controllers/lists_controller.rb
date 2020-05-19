@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
   def browse
-    render json: List.all.as_json
+    render json: List.where(public: true).as_json
   end
 
   def index
@@ -27,6 +27,12 @@ class ListsController < ApplicationController
     else
       render json: list.errors, status: 422
     end
+  end
+
+  def update
+    @list = List.find(params[:list_id])
+    @list.update!(params.require(:list).permit(:public))
+    render json: @list.as_json
   end
 
   def destroy

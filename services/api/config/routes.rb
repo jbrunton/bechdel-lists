@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'lists/browse', to: 'lists#browse'
   get 'lists/:list_id', to: 'lists#show'
   post 'lists', to: 'lists#create'
+  put 'lists/:list_id', to: 'lists#update'
   delete 'lists/:list_id', to: 'lists#destroy'
   post 'lists/:list_id/movies/:imdb_id', to: 'lists#add'
   delete 'lists/:list_id/movies/:imdb_id', to: 'lists#remove'

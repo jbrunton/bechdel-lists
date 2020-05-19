@@ -20,7 +20,7 @@
                 <ListRatings v-bind:list="list" v-if="showRatings && !editMode" key='ratings' />
 
                 <span v-if="editMode == 'delete'" key='delete'>
-                  Are you sure you want to delete '{{ list.title }}'?
+                  Are you sure you want to delete <b>{{ list.title }}</b>?
                 </span>
 
                 <form v-if="editMode == 'add'" key='add' style="width: 100%;">
@@ -40,6 +40,10 @@
                     v-model="list.title"
                   ></v-text-field>
                 </form>
+
+                <span v-if="editMode == 'privacy'" key='privacy' style="width: 100%">
+                  This list is <b>{{ list.public ? 'public' : 'private' }}</b>
+                </span>
               </v-slide-y-transition>
             </template>
 
@@ -58,6 +62,7 @@
               <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
               <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
               <IconButton v-bind:selected="editMode == 'edit'" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+              <IconButton v-bind:selected="editMode == 'privacy'" text="Edit Privacy" :icon="privacyIcon" @click="editMode = 'privacy'" />
             </span>
             
             <v-progress-linear
@@ -79,7 +84,11 @@
               <v-btn color="red" dark @click="deleteList">Delete List</v-btn>
             </v-row>
 
-            <v-list min-height="200" max-height="100%;" v-if="editMode != 'delete'" :key="editMode">
+            <v-row justify="center" class="mt-4" v-if="editMode == 'privacy'" key='privacy-form'>
+              <v-btn color="red" dark @click="togglePrivacy">Make {{ list.public ? 'private' : 'public' }}</v-btn>
+            </v-row>
+
+            <v-list min-height="200" max-height="100%;" v-if="editMode != 'delete' && editMode != 'privacy'" :key="editMode">
               <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
                 <v-list-item-content>
                   <v-list-item-title v-text="movie.title"></v-list-item-title>
@@ -130,7 +139,7 @@ export default {
 
   data() {
     return {
-      list: { title: '', Movies: [] },
+      list: { title: '', public: false },
       isOwner: false,
       showLoadingIndicator: false,
 
@@ -150,7 +159,7 @@ export default {
   methods: {
     async load() {
       this.showLoadingIndicator = true;
-      const result = await axios.get(`/api/lists/${this.listId}`);
+      const result = await axios.get(this.listUrl);
       this.list = result.data;
       this.showLoadingIndicator = false;
     },
@@ -162,7 +171,7 @@ export default {
     async deleteList() {
       this.deleteListDialog = false;
       this.showLoadingIndicator = true;
-      await axios.delete(`/api/lists/${this.listId}`);
+      await axios.delete(this.listUrl());
       this.showLoadingIndicator = false;
       this.$router.push({ name: 'MyLists' });
     },
@@ -181,13 +190,13 @@ export default {
     async addMovie(movie) {
       this.showLoadingIndicator = true;
       this.editMode = false;
-      await axios.post(`/api/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
+      await axios.post(`${this.listUrl}/movies/${movie.imdb_id}`);
       this.load();
     },
 
     async removeMovie(movie) {
       this.showLoadingIndicator = true;
-      await axios.delete(`/api/lists/${this.$route.params.id}/movies/${movie.imdb_id}`);
+      await axios.delete(`${this.listUrl}/movies/${movie.imdb_id}`);
       this.$emit('list-updated');
       this.load();
     },
@@ -207,12 +216,21 @@ export default {
       } else {
         // ???
       }
+    },
+
+    togglePrivacy: async function() {
+      const response = await axios.put(this.listUrl, { list: { public: !this.list.public } });
+      this.list = response.data;
+      this.editMode = null;
     }
   },
 
   computed: {
     listId: function() {
       return this.$route.params.id;
+    },
+    listUrl: function() {
+      return `/api/lists/${this.listId}`
     },
     showRatings: function() {
       return !!this.list.average_rating;
@@ -226,6 +244,8 @@ export default {
         return 'Edit list';
       } else if (this.editMode == 'delete') {
         return 'Delete list';
+      } else if (this.editMode == 'privacy') {
+        return 'Edit privacy settings'
       }
       return null;
     },
@@ -235,6 +255,9 @@ export default {
       } else {
         return this.list.movies;
       }
+    },
+    privacyIcon: function() {
+      return this.list.public ? 'mdi-lock-open' : 'mdi-lock'
     }
   }
 }

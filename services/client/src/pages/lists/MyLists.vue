@@ -46,7 +46,7 @@
               </form>
             </v-card-text>
 
-            <ListIndex v-bind:lists="lists" parentTab="my" key="list" />
+            <ListIndex v-bind:lists="lists" parentTab="my" key="list" showPrivacy="true" />
           </v-slide-y-transition>
       </v-col>
     </v-row>
