@@ -2,5 +2,5 @@
 set -e
 
 cd ${WORKSPACE}/services/client
-npm install
+npm ci --no-optional
 npm run test:unit
