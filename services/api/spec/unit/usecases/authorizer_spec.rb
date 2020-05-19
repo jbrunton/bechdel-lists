@@ -47,4 +47,17 @@ RSpec.describe Authorizer do
       end
     end
   end
+
+  describe "it validates arguments" do
+    let(:authorizer) { Authorizer.new(nil) }
+    let(:list) { List.create(title: 'Test List') }
+
+    it "errors for invalid actions" do
+      expect { authorizer.can?(:party, list) }.to raise_error("Unexpected action: party")
+    end
+
+    it "errors for invalid subjects" do
+      expect { authorizer.can?(:read, User.new) }.to raise_error("Unexpected type: User")
+    end
+  end
 end

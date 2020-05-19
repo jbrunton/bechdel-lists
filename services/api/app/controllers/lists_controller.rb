@@ -1,4 +1,7 @@
 class ListsController < ApplicationController
+  before_action :set_list, except: [:browse, :index, :create]
+  before_action :set_movie, only: [:add, :remove]
+
   def browse
     render json: List.where(public: true).as_json
   end
@@ -8,7 +11,6 @@ class ListsController < ApplicationController
   end
 
   def show
-    @list = List.find(params[:list_id])
     authorize! :read, @list
     if params[:genre_id].nil?
       render json: @list.as_json(include: :movies)
@@ -31,31 +33,35 @@ class ListsController < ApplicationController
   end
 
   def update
-    @list = List.find(params[:list_id])
     authorize! :write, @list
     @list.update!(params.require(:list).permit(:public))
     render json: @list.as_json
   end
 
   def destroy
-    list = List.find(params[:list_id])
     authorize! :write, @list
     list.destroy!
   end
 
   def add
-    @list = List.find(params[:list_id])
     authorize! :write, @list
-    @movie = Movie.find_by(imdb_id: params[:imdb_id])
     @list.movies << @movie
     @list.save
   end
 
   def remove
-    @list = List.find(params[:list_id])
     authorize! :write, @list
-    @movie = Movie.find_by(imdb_id: params[:imdb_id])
     @list.movies.delete(@movie)
     @list.save
+  end
+
+  private
+
+  def set_list
+    @list = List.find(params[:list_id])
+  end
+
+  def set_movie
+    @movie = Movie.find_by(imdb_id: params[:imdb_id])
   end
 end
