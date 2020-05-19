@@ -9,7 +9,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:list_id])
-    authorize! @list, :read
+    authorize! :read, @list
     if params[:genre_id].nil?
       render json: @list.as_json(include: :movies)
     else
@@ -32,20 +32,20 @@ class ListsController < ApplicationController
 
   def update
     @list = List.find(params[:list_id])
-    authorize! @list, :write
+    authorize! :write, @list
     @list.update!(params.require(:list).permit(:public))
     render json: @list.as_json
   end
 
   def destroy
     list = List.find(params[:list_id])
-    authorize! @list, :write
+    authorize! :write, @list
     list.destroy!
   end
 
   def add
     @list = List.find(params[:list_id])
-    authorize! @list, :write
+    authorize! :write, @list
     @movie = Movie.find_by(imdb_id: params[:imdb_id])
     @list.movies << @movie
     @list.save
@@ -53,7 +53,7 @@ class ListsController < ApplicationController
 
   def remove
     @list = List.find(params[:list_id])
-    authorize! @list, :write
+    authorize! :write, @list
     @movie = Movie.find_by(imdb_id: params[:imdb_id])
     @list.movies.delete(@movie)
     @list.save

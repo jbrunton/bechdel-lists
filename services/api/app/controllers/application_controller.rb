@@ -8,18 +8,8 @@ class ApplicationController < ActionController::API
     render status: 403
   end
 
-  def authorize! instance, action
-    if instance.is_a?(List)
-      if action == :read
-        raise NotAuthorized unless instance.public || instance.user == current_user
-      elsif action == :write
-        raise NotAuthorized unless instance.user == current_user
-      else
-        raise "Unexpected action: #{action}"
-      end
-    else
-      raise "Unexpected type: #{instance.class}"
-    end
+  def authorize! action, subject
+    raise NotAuthorized unless Authorizer.new(current_user).can?(action, subject)
   end
 
   def current_user
