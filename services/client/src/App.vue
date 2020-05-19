@@ -28,8 +28,8 @@
       </v-container>
       <template v-slot:extension>
         <v-container>
-          <v-btn depressed tile color="primary" class="mr-1" :to="{ name: 'BrowseLists' }">Browse</v-btn>
-          <v-btn depressed tile color="primary" :to="{ name: 'MyLists' }" v-if="signedIn">My Lists</v-btn>
+          <v-btn id="nav-browse" depressed tile color="primary" class="mr-1" :to="{ name: 'BrowseLists' }">Browse</v-btn>
+          <v-btn id="nav-my-lists" depressed tile color="primary" :to="{ name: 'MyLists' }" v-if="signedIn">My Lists</v-btn>
         </v-container>
       </template>
     </v-app-bar>

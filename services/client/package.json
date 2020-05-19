@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:integration": "npx cypress run",
+    "test:integration:open": "npx cypress open",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

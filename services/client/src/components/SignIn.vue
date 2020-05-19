@@ -5,18 +5,19 @@
         text
         :loading="loading"
         v-on="on"
+        data-cy="nav-user-menu"
       >
         {{ signedInUser }}
         <v-icon right>mdi-menu-down</v-icon>
       </v-btn>
     </template>
 
-    <v-list>
-      <v-list-item @click="profileClicked">
+    <v-list data-cy="nav-user-menu-options">
+      <v-list-item :to="{ name: 'Profile' }" data-cy="nav-profile">
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
-      <v-list-item @click="signOut">
-        <v-list-item-title>Sign out</v-list-item-title>
+      <v-list-item @click="signOut" data-cy="nav-sign-out">
+        <v-list-item-title>Sign Out</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -62,10 +63,6 @@ export default {
     async signIn() {
       this.loading = true;
       Auth.signIn();
-    },
-
-    profileClicked() {
-      this.$router.push({ name: 'Profile' })
     }
   }
 }
