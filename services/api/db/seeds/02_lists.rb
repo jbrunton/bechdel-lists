@@ -10,7 +10,7 @@ test_user = User.find_or_create_by_email(
 
 def create_list(title, fileName, user)
   seed_data = JSON.parse(File.read("./db/seeds/#{fileName}"))
-  list = user.lists.create(title: title, user: user)
+  list = user.lists.create(title: title, user: user, public: true)
   movie_ids = []
   seed_data.each do |movie_seed|
     imdb_id = movie_seed['imdbId']

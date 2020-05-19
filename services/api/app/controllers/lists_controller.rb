@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
   def browse
-    render json: List.all.as_json
+    render json: List.where(public: true).as_json
   end
 
   def index
