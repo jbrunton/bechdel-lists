@@ -2,21 +2,21 @@
   <v-menu open-on-hover bottom offset-y v-if="signedIn">
     <template v-slot:activator="{ on }">
       <v-btn
-        id="nav-user-menu"
         text
         :loading="loading"
         v-on="on"
+        data-cy="nav-user-menu"
       >
         {{ signedInUser }}
         <v-icon right>mdi-menu-down</v-icon>
       </v-btn>
     </template>
 
-    <v-list>
-      <v-list-item id="nav-profile" :to="{ name: 'Profile' }">
+    <v-list data-cy="nav-user-menu-options">
+      <v-list-item :to="{ name: 'Profile' }" data-cy="nav-profile">
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
-      <v-list-item id="nav-sign-out" @click="signOut">
+      <v-list-item @click="signOut" data-cy="nav-sign-out">
         <v-list-item-title>Sign Out</v-list-item-title>
       </v-list-item>
     </v-list>

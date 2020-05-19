@@ -24,7 +24,7 @@ context('Header', () => {
     })
 
     it('Shows the signed in user', () => {
-      cy.contains('header button#nav-user-menu', 'Test User');
+      cy.contains('[data-cy=nav-user-menu]', 'Test User');
     })
 
     it('Shows the My Lists button', () => {
@@ -34,11 +34,12 @@ context('Header', () => {
     })
 
     it("Links to the signed in user's profile", () => {
-      cy.contains('header button#nav-user-menu', 'Test User').then($el => {
+      cy.contains('[data-cy=nav-user-menu]', 'Test User').then($el => {
         cy.wrap($el).trigger('mouseenter', { force: true });
-        cy.get('div[role=menu] #nav-profile').then($profileLink => {
+        cy.get('div[role=menu] [data-cy=nav-profile]').then($profileLink => {
           $profileLink.closest('div[role=menu]').show();
           cy.wrap($profileLink)
+            .get('[data-cy=nav-profile]')
             .should('have.text', 'Profile')
             .should('have.attr', 'href', '/my/profile');
         });
@@ -46,11 +47,11 @@ context('Header', () => {
     })
 
     it("Shows the sign out button", () => {
-      cy.contains('header button#nav-user-menu', 'Test User').then($el => {
+      cy.contains('[data-cy=nav-user-menu]', 'Test User').then($el => {
         cy.wrap($el).trigger('mouseenter', { force: true });
-        cy.get('div[role=menu] #nav-sign-out').then($signOutLink => {
-          $signOutLink.closest('div[role=menu]').show();
-          cy.wrap($signOutLink).contains('Sign Out')
+        cy.get('div[role=menu] [data-cy=nav-user-menu-options]').then($menuOptions => {
+          $menuOptions.closest('div[role=menu]').show();
+          cy.wrap($menuOptions).get('[data-cy=nav-sign-out]').contains('Sign Out');
         });
       })
     })
