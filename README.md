@@ -15,7 +15,9 @@ A small project that will (eventually) demo the following:
 
 The app itself allows users to create lists of movies and visualize trends in the Bechdel score over time, and by genre. Bechdel scores are taken from the [bechdeltest.com API](https://bechdeltest.com/api/v1/doc). You can try it out [here](http://bechdel-lists.jbrunton.com/) (example visualizations [here](https://bechdel-lists.jbrunton.com/browse/lists/1/charts)).
 
-![Screenshot of the Bechdel Lists app](https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/bechdel-lists-screenshot.png)
+<a href="https://github.com/jbrunton/bechdel-demo/blob/master/bechdel-lists-screenshot.png">
+    <img src="https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/bechdel-lists-screenshot.png" width="472" height="372">
+</a>
 
 ## Development
 
