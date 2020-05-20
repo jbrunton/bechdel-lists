@@ -7,7 +7,7 @@ RSpec.describe Authorizer do
     let(:private_list) { List.create(title: 'Private List', public: false) }
 
     describe "for authenticated users" do
-      let(:user) { User.create(email: 'test.user@example.com') }
+      let(:user) { User.create(email: 'test.user@example.com', name: 'Test User') }
       let(:owned_list) { user.lists.create(title: 'Test List', public: false) }
       let(:authorizer) { Authorizer.new(user) }
 
