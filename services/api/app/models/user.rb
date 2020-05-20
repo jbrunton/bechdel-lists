@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :lists
+  validates_presence_of :name
 
   def self.find_or_create_by_email(email, name)
     user = User.find_or_create_by(email: email)
