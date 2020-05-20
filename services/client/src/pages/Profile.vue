@@ -18,6 +18,7 @@
                 required
                 @change="updateUser"
                 :append-icon="updateStatus.icon"
+                data-cy="user_name"
               ></v-text-field>
             </v-list-item-content>
           </v-list-item>
@@ -27,6 +28,7 @@
                 v-model="user.email"
                 label="Sign-In Email"
                 disabled
+                data-cy="email"
               ></v-text-field>
             </v-list-item-content>
           </v-list-item>

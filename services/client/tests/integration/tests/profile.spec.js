@@ -7,11 +7,11 @@ context('Profile', () => {
   })
 
   it("shows the signed in user's name", () => {
-    cy.signin();
+    cy.signin('test.user@example.com', 'Test User');
     
     cy.visit('/my/profile');
     
-    cy.contains('.v-list-item', 'Test User');
-    cy.contains('.v-list-item', 'test.user@example.com');
+    cy.get('[data-cy=user_name]').should('have.value', 'Test User');
+    cy.get('[data-cy=email]').should('have.value', 'test.user@example.com');
   })
 })
