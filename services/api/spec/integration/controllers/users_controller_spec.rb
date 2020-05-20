@@ -47,6 +47,7 @@ RSpec.describe UsersController, type: :controller do
 
         it "returns a 422" do
           put :update, session: session, params: params
+
           expect(response.status).to eq(422)
           expect(response.body).to eq({
               "errors": {
@@ -63,24 +64,40 @@ RSpec.describe UsersController, type: :controller do
       expect(response.status).to eq(401)
     end
   end
-  #
-  # describe "GET/lists" do
-  #   it "assigns all the authenticated user's lists" do
-  #     get :index, session: { user_id: user.id }
-  #     expect(assigns(:lists)).to eq([user_list])
-  #   end
-  # end
-  #
-  # describe "GET/lists/:list_id" do
-  #   it "assigns the given list if the user is authorized" do
-  #     get :show, params: { list_id: user_list.id }, session: { user_id: user.id }
-  #     expect(assigns(:list)).to eq(user_list)
-  #     expect(response.status).to eq(200)
-  #   end
-  #
-  #   it "returns a 403 if the user is not authorized" do
-  #     get :show, params: { list_id: private_list.id }, session: { user_id: user.id }
-  #     expect(response.status).to eq(403)
-  #   end
-  # end
+
+  describe "GET /users/:user_id" do
+    context "if the user has public lists" do
+      it "returns the user's details" do
+        get :show, params: { user_id: public_user.id }
+
+        expect(response.status).to eq(200)
+        expect(response.body).to eq({ "name": public_user.name}.to_json)
+      end
+    end
+
+    context "if the user has no public lists" do
+      it "returns a 403" do
+        get :show, params: { user_id: private_user.id }
+        expect(response.status).to eq(403)
+      end
+    end
+  end
+
+  describe "GET /users/:user_id/lists" do
+    context "if the user has public lists" do
+      it "returns the user's details" do
+        get :lists, params: { user_id: public_user.id }
+
+        expect(response.status).to eq(200)
+        expect(response.body).to eq([public_list].to_json)
+      end
+    end
+
+    context "if the user has no public lists" do
+      it "returns a 403" do
+        get :lists, params: { user_id: private_user.id }
+        expect(response.status).to eq(403)
+      end
+    end
+  end
 end
