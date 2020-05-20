@@ -8,6 +8,7 @@ class ListsController < ApplicationController
   end
 
   def index
+    authenticate!
     @lists = current_user.lists
     render json: @lists.as_json
   end
@@ -26,6 +27,7 @@ class ListsController < ApplicationController
   end
 
   def create
+    authenticate!
     title = params[:title]
     list = List.new(title: title, user: current_user)
     if list.save

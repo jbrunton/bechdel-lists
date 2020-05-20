@@ -15,14 +15,14 @@ RSpec.describe ListsController, type: :controller do
     end
   end
 
-  describe "GET/lists" do
+  describe "GET /lists" do
     it "assigns all the authenticated user's lists" do
       get :index, session: { user_id: user.id }
       expect(assigns(:lists)).to eq([user_list])
     end
   end
 
-  describe "GET/lists/:list_id" do
+  describe "GET /lists/:list_id" do
     it "assigns the given list if the user is authorized" do
       get :show, params: { list_id: user_list.id }, session: { user_id: user.id }
       expect(assigns(:list)).to eq(user_list)
