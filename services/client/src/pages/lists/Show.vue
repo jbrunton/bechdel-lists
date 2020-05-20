@@ -49,21 +49,23 @@
 
             <v-spacer></v-spacer>
 
-            <v-fade-transition>
-              <v-btn text class="primary--text" v-if="!editMode" :key="editMode"
+            <v-slide-x-reverse-transition>
+              <v-btn text class="primary--text" v-if="!editMode && !showLoadingIndicator" :key="editMode"
                 :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}"
               >
                 <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
               </v-btn>
-            </v-fade-transition>
+            </v-slide-x-reverse-transition>
 
             <v-spacer v-if="isOwner"></v-spacer>
-            <span v-if="isOwner">
-              <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
-              <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
-              <IconButton v-bind:selected="editMode == 'edit'" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
-              <IconButton v-bind:selected="editMode == 'privacy'" text="Edit Privacy" :icon="privacyIcon" @click="editMode = 'privacy'" />
-            </span>
+              <v-slide-x-reverse-transition mode="in-out">
+                <span v-if="editMode">
+                  <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
+                  <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
+                  <IconButton v-bind:selected="editMode == 'privacy'" text="Edit Privacy" :icon="privacyIcon" @click="editMode = 'privacy'" />
+                </span>
+              </v-slide-x-reverse-transition>
+              <IconButton v-if="isOwner" v-bind:selected="editMode == 'edit'" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
             
             <v-progress-linear
               :active="showLoadingIndicator"
