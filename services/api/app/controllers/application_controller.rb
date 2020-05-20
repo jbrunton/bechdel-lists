@@ -3,9 +3,14 @@ class ApplicationController < ActionController::API
   include ActionController::Helpers
 
   NotAuthorized = Class.new(StandardError)
+  NotAuthenticated = Class.new(StandardError)
 
   rescue_from ApplicationController::NotAuthorized do
     render status: 403
+  end
+
+  rescue_from ApplicationController::NotAuthenticated do
+    render status: 401
   end
 
   rescue_from ActiveRecord::RecordInvalid do |e|
@@ -19,6 +24,10 @@ class ApplicationController < ActionController::API
     raise NotAuthorized unless Authorizer.new(current_user).can?(action, subject)
   end
 
+  def authenticate!
+    raise NotAuthenticated if current_user.nil?
+  end
+
   def current_user
     @current_user ||= User.find_by_id(session[:user_id])
   end
@@ -27,13 +36,7 @@ class ApplicationController < ActionController::API
     !!current_user
   end
 
-  def authenticate_user!
-    if current_user.nil?
-      format.json { head :unauthorized }
-    end
-  end
-
-  helper_method :current_user, :signed_in?, :authenticate_user!
+  helper_method :current_user, :signed_in?
 
   def current_user=(user)
     @current_user = user

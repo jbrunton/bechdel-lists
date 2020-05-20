@@ -8,7 +8,7 @@ class Authorizer
     validate_action(action)
 
     if action == :read
-      subject.public || is_owner?(subject)
+      subject.public? || is_owner?(subject)
     elsif action == :write
       is_owner?(subject)
     else
@@ -19,7 +19,9 @@ class Authorizer
   private
 
   def is_owner?(subject)
-    !@user.nil? && @user == subject.user
+    !@user.nil? &&
+        (subject.is_a?(List) && @user == subject.user) ||
+        (subject.is_a?(User) && @user == subject)
   end
 
   def validate_action(action)
@@ -27,6 +29,6 @@ class Authorizer
   end
 
   def validate_subject(subject)
-    raise "Unexpected type: #{subject.class}" unless subject.is_a?(List)
+    raise "Unexpected type: #{subject.class}" unless [List, User].any?{ |type| subject.is_a?(type) }
   end
 end
