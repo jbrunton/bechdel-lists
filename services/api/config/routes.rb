@@ -5,9 +5,11 @@ Rails.application.routes.draw do
 
   post 'auth/signin', to: 'auth#signin'
   post 'auth/signout', to: 'auth#signout'
-  get 'auth/profile', to: 'auth#profile'
   get 'auth/authorize/:type/:id', to: 'auth#authorize'
 
+  get 'users/profile', to: 'users#profile'
+  put 'users/profile', to: 'users#update'
+  
   get 'lists', to: 'lists#index'
   get 'lists/browse', to: 'lists#browse'
   get 'lists/:list_id', to: 'lists#show'

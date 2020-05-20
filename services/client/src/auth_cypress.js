@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 const authStatus = new Promise(function(resolve) {
   if (Cookies.get('user')) {
-    axios.get('/api/auth/profile')
+    axios.get('/api/users/profile')
       .then(response => {
         resolve({ signedIn: true, user: response.data });
       })

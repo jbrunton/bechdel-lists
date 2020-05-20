@@ -8,6 +8,13 @@ class ApplicationController < ActionController::API
     render status: 403
   end
 
+  rescue_from ActiveRecord::RecordInvalid do |e|
+    render status: 422, json: {
+        errors: e.record.errors.as_json,
+        messages: e.record.errors.full_messages.as_json
+    }
+  end
+
   def authorize! action, subject
     raise NotAuthorized unless Authorizer.new(current_user).can?(action, subject)
   end
