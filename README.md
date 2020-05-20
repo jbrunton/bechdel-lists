@@ -9,10 +9,13 @@
 A small project that will (eventually) demo the following:
 
 * A small microservices app using <b>docker-compose</b> for easy local development and deployments.
-* A non-trivial, cleanly architected backend [API](https://github.com/jbrunton/bechdel-demo/tree/master/api) written using <b>Express</b>.
-* A cleanly written [client app](https://github.com/jbrunton/bechdel-demo/tree/master/client) using <b>Vue.js</b>.
+* A non-trivial backend [API](https://github.com/jbrunton/bechdel-demo/tree/master/api) written with Ruby on Rails.
+* A [client app](https://github.com/jbrunton/bechdel-demo/tree/master/client) using <b>Vue.js</b>.
+* Unit and integration testing techniques using docker-compose and Cypress (and various other tools).
 
-The app itself allows users to create lists of movies and assigns an aggregate Bechdel score for the list (based on the average). Bechdel scores are taken from the [bechdeltest.com API](https://bechdeltest.com/api/v1/doc).
+The app itself allows users to create lists of movies and visualize trends in the Bechdel score over time, and by genre. Bechdel scores are taken from the [bechdeltest.com API](https://bechdeltest.com/api/v1/doc). You can try it out [here](http://bechdel-lists.jbrunton.com/) (example visualizations [here](https://bechdel-lists.jbrunton.com/browse/lists/1/charts)).
+
+![Screenshot of the Bechdel Lists app](https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/bechdel-lists-screenshot.png)
 
 ## Development
 
