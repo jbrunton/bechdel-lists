@@ -20,10 +20,6 @@ class AuthController < ApplicationController
     reset_session
   end
 
-  def profile
-    render json: current_user.as_json
-  end
-
   def authorize
     type = params[:type].classify.constantize
     instance = type.find(params[:id])

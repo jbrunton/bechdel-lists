@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   it "is an empty test database" do
     expect(User.find_by_email('test.user@example.com')).to be_nil
   end
-  
+
   describe ".find_or_create_by_email" do
     context "if the user doesn't exist" do
       it "creates a new user with the given name and email" do
