@@ -13,7 +13,8 @@
             <span>{{ list.public ? 'This list is public' : 'This list is private'}}</span>
           </v-tooltip>
         </v-list-item-title>
-        <v-list-item-subtitle v-text="list.description"></v-list-item-subtitle>
+        <v-list-item-subtitle class="text--primary" v-text="list.description" />
+        <v-list-item-subtitle v-if="list.user" class="caption">Author: {{list.user.name}}</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center">
         <v-btn icon class="mr-4" v-if="list.average_rating != null"

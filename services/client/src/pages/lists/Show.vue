@@ -1,9 +1,12 @@
 <template>
   <v-container>
-    <Breadcrumbs :params="{ list: list }" />
+    <Breadcrumbs :params="{ list: list, user: user }" />
     <v-row justify="center">
       <v-col cols="10">
-          
+          <p class="caption text-right ma-0" v-if="$route.params.parentTab == 'browse' && list.user.id">
+            Author:
+            <router-link :to="{ name: 'User', params: { userId: list.user.id } }">{{ list.user.name }}</router-link>
+          </p>
           <v-toolbar flat :color="editMode ? 'pink' : 'grey lighten-4'" :dark="!!editMode">
             <v-btn icon v-if="editMode" @click="editMode = false">
               <v-icon>mdi-close</v-icon>
@@ -12,7 +15,7 @@
             <v-fade-transition mode="out-in">
               <v-toolbar-title :key="editMode">
                 {{ title }}
-              </v-toolbar-title>  
+              </v-toolbar-title>
             </v-fade-transition>
 
             <template v-slot:extension v-if="showRatings || editMode">
@@ -49,23 +52,26 @@
 
             <v-spacer></v-spacer>
 
-            <v-slide-x-reverse-transition>
-              <v-btn text class="primary--text" v-if="!editMode && !showLoadingIndicator" :key="editMode"
-                :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}"
-              >
-                <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
-              </v-btn>
-            </v-slide-x-reverse-transition>
+            <v-btn text class="primary--text" v-if="!editMode && !showLoadingIndicator" :key="editMode"
+              @click="editMode = 'edit'"
+            >
+              <v-icon left color="pink">mdi-pencil</v-icon>Edit
+            </v-btn>
 
-            <v-spacer v-if="isOwner"></v-spacer>
-              <v-slide-x-reverse-transition mode="in-out">
-                <span v-if="editMode">
-                  <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
-                  <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
-                  <IconButton v-bind:selected="editMode == 'privacy'" text="Edit Privacy" :icon="privacyIcon" @click="editMode = 'privacy'" />
-                </span>
-              </v-slide-x-reverse-transition>
-              <IconButton v-if="isOwner" v-bind:selected="editMode == 'edit'" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+            <v-btn text class="primary--text" v-if="!editMode" :key="editMode"
+              :to="{ name: 'ListCharts', params: { id: listId, parentTab: $route.params.parentTab }}"
+            >
+              <v-icon left color="pink">mdi-chart-timeline-variant</v-icon>View Charts
+            </v-btn>
+
+            <v-slide-x-reverse-transition mode="in-out">
+              <span v-if="editMode">
+                <IconButton v-bind:selected="editMode == 'delete'" text="Delete List" icon="mdi-delete" @click="editMode = 'delete'" />              
+                <IconButton v-bind:selected="editMode == 'add'" text="Add Movie" icon="mdi-plus-circle" @click="editMode = 'add'" />              
+                <IconButton v-bind:selected="editMode == 'privacy'" text="Edit Privacy" :icon="privacyIcon" @click="editMode = 'privacy'" />
+                <IconButton v-bind:selected="editMode == 'edit'" text="Edit List" icon="mdi-pencil" @click="editMode = 'edit'" />
+              </span>
+            </v-slide-x-reverse-transition>
             
             <v-progress-linear
               :active="showLoadingIndicator"
@@ -77,7 +83,7 @@
           </v-toolbar>
 
           <v-slide-y-transition mode="out-in">
-            <ListHistogram v-bind:movies="list.Movies" v-if="!editMode" key='histogram' />
+            <ListHistogram v-bind:movies="list.movies" v-if="!editMode" key='histogram' />
           </v-slide-y-transition>
 
           <v-slide-y-transition mode="out-in">
@@ -86,9 +92,15 @@
               <v-btn color="red" dark @click="deleteList">Delete List</v-btn>
             </v-row>
 
-            <v-row justify="center" class="mt-4" v-if="editMode == 'privacy'" key='privacy-form'>
-              <v-btn color="red" dark @click="togglePrivacy">Make {{ list.public ? 'private' : 'public' }}</v-btn>
-            </v-row>
+            <div class="mt-4" v-if="editMode == 'privacy'" key='privacy-form'>
+              <div class="text-center ma-8">
+                <p>
+                  <span v-html="displayNameInfo" />
+                  You can edit your display name <router-link :to="{ name: 'Profile' }">here</router-link>.
+                </p>
+                <v-btn color="red" dark @click="togglePrivacy">Make {{ list.public ? 'private' : 'public' }}</v-btn>
+              </div>
+            </div>
 
             <v-list min-height="200" max-height="100%;" v-if="editMode != 'delete' && editMode != 'privacy'" :key="editMode">
               <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
@@ -141,7 +153,8 @@ export default {
 
   data() {
     return {
-      list: { title: '', public: false },
+      list: { title: '', public: false, movies: [], user: {} },
+      user: { name: '' },
       isOwner: false,
       showLoadingIndicator: false,
 
@@ -163,6 +176,8 @@ export default {
       this.showLoadingIndicator = true;
       const result = await axios.get(this.listUrl);
       this.list = result.data;
+      const { user } = await Auth.getStatus();
+      this.user = user; 
       this.showLoadingIndicator = false;
     },
 
@@ -260,6 +275,11 @@ export default {
     },
     privacyIcon: function() {
       return this.list.public ? 'mdi-lock-open' : 'mdi-lock'
+    },
+    displayNameInfo: function() {
+      return this.list.public
+        ? `This list is shown with your display name: <b>${this.user.name}</b>.`
+        : `This list will be shown with your display name: <b>${this.user.name}</b>.`;
     }
   }
 }

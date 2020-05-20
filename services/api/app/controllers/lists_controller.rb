@@ -15,13 +15,14 @@ class ListsController < ApplicationController
   def show
     authorize! :read, @list
     if params[:genre_id].nil?
-      render json: @list.as_json(include: :movies)
+      movies = @list.movies
+      stats = {}
     else
       @genre = Genre.find(params[:genre_id])
       movies = @list.movies.joins(:genres).where('genres.id': @genre.id)
       stats = List.stats_for(movies)
-      render json: @list.as_json.merge(stats, movies: movies)
     end
+    render json: @list.as_json(include: [:movies, user: { only: [:id, :name] }]).merge(stats, movies: movies)
   end
 
   def create
