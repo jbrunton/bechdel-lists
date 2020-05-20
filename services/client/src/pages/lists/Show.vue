@@ -86,9 +86,15 @@
               <v-btn color="red" dark @click="deleteList">Delete List</v-btn>
             </v-row>
 
-            <v-row justify="center" class="mt-4" v-if="editMode == 'privacy'" key='privacy-form'>
-              <v-btn color="red" dark @click="togglePrivacy">Make {{ list.public ? 'private' : 'public' }}</v-btn>
-            </v-row>
+            <div class="mt-4" v-if="editMode == 'privacy'" key='privacy-form'>
+              <div class="text-center ma-8">
+                <p>
+                  <span v-html="displayNameInfo" />
+                  You can edit your display name <router-link :to="{ name: 'Profile' }">here</router-link>.
+                </p>
+                <v-btn color="red" dark @click="togglePrivacy">Make {{ list.public ? 'private' : 'public' }}</v-btn>
+              </div>
+            </div>
 
             <v-list min-height="200" max-height="100%;" v-if="editMode != 'delete' && editMode != 'privacy'" :key="editMode">
               <v-list-item v-for="movie in movies" :key="movie.id" @click="movieClicked(movie)">
@@ -142,6 +148,7 @@ export default {
   data() {
     return {
       list: { title: '', public: false },
+      user: { name: '' },
       isOwner: false,
       showLoadingIndicator: false,
 
@@ -163,6 +170,8 @@ export default {
       this.showLoadingIndicator = true;
       const result = await axios.get(this.listUrl);
       this.list = result.data;
+      const { user } = await Auth.getStatus();
+      this.user = user; 
       this.showLoadingIndicator = false;
     },
 
@@ -260,6 +269,11 @@ export default {
     },
     privacyIcon: function() {
       return this.list.public ? 'mdi-lock-open' : 'mdi-lock'
+    },
+    displayNameInfo: function() {
+      return this.list.public
+        ? `This list is shown with your display name: <b>${this.user.name}</b>.`
+        : `This list will be shown with your display name: <b>${this.user.name}</b>.`;
     }
   }
 }
