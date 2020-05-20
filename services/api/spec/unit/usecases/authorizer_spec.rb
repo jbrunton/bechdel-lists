@@ -83,7 +83,7 @@ RSpec.describe Authorizer do
     end
 
     it "errors for invalid subjects" do
-      expect { authorizer.can?(:read, User.new) }.to raise_error("Unexpected type: User")
+      expect { authorizer.can?(:read, Movie.new) }.to raise_error("Unexpected type: Movie")
     end
   end
 end
