@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get 'users/profile', to: 'users#profile'
   put 'users/profile', to: 'users#update'
+  get 'users/:user_id', to: 'users#show'
+  get 'users/:user_id/lists', to: 'users#lists'
   
   get 'lists', to: 'lists#index'
   get 'lists/browse', to: 'lists#browse'

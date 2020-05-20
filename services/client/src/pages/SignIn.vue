@@ -9,9 +9,9 @@
           {{ message }}
         </v-banner>
         <div class="text-center ma-8">
-        <v-btn dark color="pink" @click="signInClicked">
-          Sign In
-        </v-btn>
+          <v-btn dark color="pink" @click="signInClicked">
+            Sign In
+          </v-btn>
         </div>
       </v-col>
     </v-row>
