@@ -7,21 +7,21 @@ RSpec.describe User, type: :model do
         user = User.find_or_create_by_email('test.user@example.com', 'Test User')
 
         expect(user.email).to eq('test.user@example.com')
-        expect(user.display_name).to eq('Test User')
+        expect(user.name).to eq('Test User')
       end
     end
 
     context "if the user exists" do
-      let!(:user) { User.create(email: 'test.user@example.com', display_name: 'Display Name' )}
+      let!(:user) { User.create(email: 'test.user@example.com', name: 'Display Name' )}
 
       it "finds the existing user" do
         found_user = User.find_or_create_by_email('test.user@example.com', 'Test User')
         expect(found_user).to eq(user)
       end
 
-      it "keeps the existing display_name" do
+      it "keeps the existing name" do
         found_user = User.find_or_create_by_email('test.user@example.com', 'Test User')
-        expect(found_user.display_name).to eq('Display Name')
+        expect(found_user.name).to eq('Display Name')
       end
     end
   end
