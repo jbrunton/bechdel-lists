@@ -36,15 +36,15 @@ context('Header', () => {
     it("Links to the signed in user's profile", () => {
       cy.showUserMenu().then($menu => {
         cy.wrap($menu).get('[data-cy=nav-profile]')
-            .should('have.text', 'Profile')
-            .should('have.attr', 'href', '/my/profile');
+          .should('have.text', 'Profile')
+          .should('have.attr', 'href', '/my/profile');
       });
     })
 
     it("Shows the sign out button", () => {
       cy.showUserMenu().then($menu => {
         cy.wrap($menu).get('[data-cy=nav-sign-out]')
-        .contains('Sign Out');
+          .contains('Sign Out');
       });
     })
   })
