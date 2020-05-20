@@ -2,8 +2,8 @@ require 'rails_helper'
 require 'db_helper'
 
 RSpec.describe ListsController, type: :controller do
-  let!(:user) { User.create(email: 'test.user@example.com') }
-  let!(:other_user) { User.create(email: 'other.user@example.com') }
+  let!(:user) { User.create(email: 'test.user@example.com', name: 'Test User') }
+  let!(:other_user) { User.create(email: 'other.user@example.com', name: 'Other User') }
   let!(:public_list) { other_user.lists.create(title: 'Public List', public: true) }
   let!(:private_list) { other_user.lists.create(title: 'Private List', public: false) }
   let!(:user_list) { user.lists.create(title: 'My List', public: false) }
