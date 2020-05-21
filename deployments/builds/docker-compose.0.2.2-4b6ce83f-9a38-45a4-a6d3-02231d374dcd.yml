@@ -1,0 +1,56 @@
+services:
+  api:
+    environment:
+      GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+      PORT: '5000'
+      POSTGRES_CONNECTION: null
+      POSTGRES_DISABLE_SSL: null
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: '1'
+      RAILS_MASTER_KEY: null
+    image: >-
+      jbrunton/bechdel-lists-api@sha256:ede0f68f34dce75493f30af404133eaf5cb80bde6e9d75e8ab968c1da15e41ae
+    ports:
+      - '9229:9229/tcp'
+  cadvisor:
+    container_name: cadvisor
+    depends_on:
+      - api
+      - client
+      - nginx
+    image: >-
+      gcr.io/google-containers/cadvisor@sha256:16bc6858dc5b7063c7d89153ad6544370eb79cb27a1b8d571f31b98673f7a324
+    ports:
+      - '8080:8080/tcp'
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker:/var/lib/docker:ro'
+  client:
+    image: >-
+      jbrunton/bechdel-lists-client@sha256:0adbca6af63d445f64406559f78a669642dc905162b832c2a1559d8819d944c2
+  nginx:
+    image: >-
+      jbrunton/bechdel-lists-nginx@sha256:c8e3ee5659df5d6937575acf31001e33245c5abd32b4d1436409328f5b6b2729
+    ports:
+      - '80:80/tcp'
+      - '443:443/tcp'
+    restart: always
+    volumes:
+      - '/home/deployer/certs:/etc/nginx/certs:rw'
+  prometheus:
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    container_name: prometheus
+    depends_on:
+      - cadvisor
+    image: >-
+      prom/prometheus@sha256:5880ec936055fad18ccee798d2a63f64ed85bd28e8e0af17c6923a090b686c3d
+    ports:
+      - '9090:9090/tcp'
+    volumes:
+      - >-
+        /home/runner/work/bechdel-demo/bechdel-demo/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+version: '3.0'
+
