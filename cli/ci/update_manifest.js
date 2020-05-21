@@ -11,11 +11,13 @@ module.exports = {
     const nextVersion = argv.version;
     const dryRun = argv['dry-run'];
     const manifest = yaml.safeLoad(fs.readFileSync('./manifest.yml', 'utf8'));
+    const commitMessages = [];
 
     const currentVersion = manifest.version;
     if (currentVersion != nextVersion) {
       console.log(`Current version is ${currentVersion}, updating to ${nextVersion}`);
       manifest.version = nextVersion;
+      commitMessages.push(`create build ${nextVersion}`);
     }
 
     if (envName) {
@@ -23,12 +25,13 @@ module.exports = {
       const currentVersion = envManifest.version;
       console.log(`Current version of ${envName} is ${currentVersion}, updating to ${nextVersion}`);
       envManifest.version = nextVersion;
+      commitMessages.push(`update ${envName} to ${nextVersion}`);
     }
 
     writeOutput('./manifest.yml', yaml.safeDump(manifest), dryRun);
 
     const filesToAdd = ['./manifest.yml'];
-    const commitMessage = `Updated ${envName || 'version'} to ${nextVersion}`;
+    const commitMessage = commitMessages.join(', ');
 
     if (!dryRun) {
       await git.add(filesToAdd);
