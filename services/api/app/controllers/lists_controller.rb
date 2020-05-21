@@ -14,6 +14,7 @@ class ListsController < ApplicationController
   end
 
   def show
+    foo
     authorize! :read, @list
     if params[:genre_id].nil?
       movies = @list.movies
