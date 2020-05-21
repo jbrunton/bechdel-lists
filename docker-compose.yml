@@ -1,7 +1,7 @@
 version: '3'
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.18.1
     container_name: prometheus
     ports:
       - 9090:9090
@@ -12,7 +12,7 @@ services:
     depends_on:
       - cadvisor
   cadvisor:
-    image: google/cadvisor:latest
+    image: gcr.io/google-containers/cadvisor:v0.36.0
     container_name: cadvisor
     ports:
       - 8080:8080

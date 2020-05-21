@@ -39,6 +39,9 @@ class Compose {
   }
 
   async config() {
+    // these images aren't built locally, so we need to pull them to get the digests
+    await exec('docker-compose pull prometheus cadvisor', this.execOpts);
+
     const result = await exec('docker-compose config --resolve-image-digests', this.execOpts);
     const dockerFile = result.stdout;
     const config = removeBuildContexts(dockerFile);
