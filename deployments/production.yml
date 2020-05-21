@@ -1,5 +1,8 @@
-latest: 4f1557f7-7de6-4535-938f-36acbb65eda6
+latest: 0aa0c05e-f7cd-432c-bb48-ceb598c2780f
 deployments:
+  - id: 0aa0c05e-f7cd-432c-bb48-ceb598c2780f
+    version: 0.2.2
+    timestamp: '2020-05-21T11:58:20.679Z'
   - id: 4f1557f7-7de6-4535-938f-36acbb65eda6
     version: 0.2.1
     timestamp: '2020-05-21T09:24:23.070Z'
