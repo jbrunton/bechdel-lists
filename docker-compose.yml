@@ -9,7 +9,6 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
       - ${PROMETHEUS_DIR:-/home/deployer/services/prometheus}/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - ${GRAFANA_DIR:-/home/deployer/services/grafana}/provisioning:/etc/grafana/provisioning/
     depends_on:
       - cadvisor
   cadvisor:
@@ -33,6 +32,8 @@ services:
       - 3000:3000
     depends_on:
       - prometheus
+    volumes:
+      - ${GRAFANA_DIR:-/home/deployer/services/grafana}/provisioning/:/etc/grafana/provisioning/
   nginx:
     image: "jbrunton/bechdel-lists-nginx:${TAG?}"
     restart: always
