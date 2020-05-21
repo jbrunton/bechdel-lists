@@ -8,7 +8,8 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-      - ${PROMETHEUS_CONFIG:-/home/deployer/prometheus.yml}:/etc/prometheus/prometheus.yml:ro
+      - ${PROMETHEUS_DIR:-/home/deployer/services/prometheus}/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ${GRAFANA_DIR:-/home/deployer/services/grafana}/provisioning:/etc/grafana/provisioning/
     depends_on:
       - cadvisor
   cadvisor:
