@@ -44,7 +44,7 @@ jobs:
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
-          source: "prometheus.yml,${{ steps.deployment_info.outputs.buildFile }}"
+          source: "${{ steps.deployment_info.outputs.buildFile }},services/prometheus,services/grafana"
           overwrite: true
           target: .
 
