@@ -46,3 +46,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "google-id-token", "~> 1.4"
 
 gem "activerecord-nulldb-adapter", "~> 0.4.0"
+
+gem "prometheus-client", "~> 2.0"
