@@ -1,5 +1,8 @@
-latest: 0aa0c05e-f7cd-432c-bb48-ceb598c2780f
+latest: 49dca60b-ffa4-4f03-8246-2b8ac22630ff
 deployments:
+  - id: 49dca60b-ffa4-4f03-8246-2b8ac22630ff
+    version: 0.2.4
+    timestamp: '2020-05-21T13:36:13.343Z'
   - id: 0aa0c05e-f7cd-432c-bb48-ceb598c2780f
     version: 0.2.2
     timestamp: '2020-05-21T11:58:20.679Z'
