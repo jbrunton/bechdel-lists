@@ -44,7 +44,7 @@ jobs:
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
-          source: ${{ steps.deployment_info.outputs.buildFile }}
+          source: "prometheus.yml,${{ steps.deployment_info.outputs.buildFile }}"
           overwrite: true
           target: .
 
