@@ -1,6 +1,6 @@
-version: 0.2.5
+version: 0.2.6
 environments:
   production:
     host: bechdel-lists.jbrunton.com
-    version: 0.2.5
+    version: 0.2.6
 
