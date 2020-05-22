@@ -65,7 +65,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(http_server_request_duration_seconds_sum[1m]) / rate(http_server_request_duration_seconds_count[1m])",
+          "expr": "api:latency:mean1m",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -159,7 +159,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(http_server_requests_total[1m])",
+          "expr": "api:throughput:mean1m",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -254,7 +254,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(http_server_requests_total{code=\"500\"}[1m])/rate(http_server_requests_total[1m])",
+          "expr": "api:errors:mean1m",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
