@@ -1,5 +1,8 @@
 version: '3'
 services:
+  prometheus:
+    volumes:
+      - ./services/prometheus/prometheus.development.yml:/etc/prometheus/prometheus.yml:ro
   postgres:
     image: 'postgres:latest'
     environment:
