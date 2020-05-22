@@ -52,6 +52,6 @@ services:
     build:
       context: ./services/ping
     environment:
-      - PING_TARGET_HOST
+      - PING_TARGET_HOST=${PING_TARGET_HOST:-bechdel-lists.jbrunton.com}
     depends_on:
       - api
