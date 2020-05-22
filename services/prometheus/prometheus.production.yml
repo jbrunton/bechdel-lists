@@ -13,4 +13,4 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
     - targets:
-      - bechdel-tests.jbrunton.com:9100
+      - bechdel-lists.jbrunton.com:9100
