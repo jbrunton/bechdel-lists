@@ -1,0 +1,67 @@
+services:
+  api:
+    environment:
+      GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+      PORT: '5000'
+      POSTGRES_CONNECTION: null
+      POSTGRES_DISABLE_SSL: null
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: '1'
+      RAILS_MASTER_KEY: null
+    image: >-
+      jbrunton/bechdel-lists-api@sha256:20d7a310c30f86823f8c32715f97e842d6acbab128080662b016dc0e49ac3325
+    ports:
+      - '9229:9229/tcp'
+  cadvisor:
+    container_name: cadvisor
+    depends_on:
+      - api
+      - client
+      - nginx
+    image: >-
+      gcr.io/google-containers/cadvisor@sha256:16bc6858dc5b7063c7d89153ad6544370eb79cb27a1b8d571f31b98673f7a324
+    ports:
+      - '8080:8080/tcp'
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker:/var/lib/docker:ro'
+  client:
+    image: >-
+      jbrunton/bechdel-lists-client@sha256:9656465a628df156ebf2aa8b615167c2a973e07aec18f478b604af61688e05ea
+  grafana:
+    container_name: grafana
+    depends_on:
+      - prometheus
+    image: >-
+      grafana/grafana@sha256:b7ebf5e058402cb924d9a1ccc5c389086d7ceebd164800454454411f028e767c
+    ports:
+      - '3000:3000/tcp'
+    volumes:
+      - >-
+        /home/deployer/services/grafana/provisioning:/etc/grafana/provisioning:rw
+  nginx:
+    image: >-
+      jbrunton/bechdel-lists-nginx@sha256:099b65fe66fe713bd2b22dbcb41103377642afe8d7cffbc931d05f7e08acc6f7
+    ports:
+      - '80:80/tcp'
+      - '443:443/tcp'
+    restart: always
+    volumes:
+      - '/home/deployer/certs:/etc/nginx/certs:rw'
+  prometheus:
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    container_name: prometheus
+    depends_on:
+      - cadvisor
+    image: >-
+      prom/prometheus@sha256:5880ec936055fad18ccee798d2a63f64ed85bd28e8e0af17c6923a090b686c3d
+    ports:
+      - '9090:9090/tcp'
+    volumes:
+      - >-
+        /home/deployer/services/prometheus/prometheus.production.yml:/etc/prometheus/prometheus.yml:ro
+version: '3.0'
+
