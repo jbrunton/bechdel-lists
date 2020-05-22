@@ -44,7 +44,7 @@ jobs:
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
-          source: "${{ steps.deployment_info.outputs.buildFile }},services/prometheus,services/grafana"
+          source: "${{ steps.deployment_info.outputs.buildFile }}",monitoring,docker-compose.monitoring.yml
           overwrite: true
           target: .
 
@@ -60,6 +60,7 @@ jobs:
           BUILD_VERSION: ${{ steps.deployment_info.outputs.buildVersion }}
         with:
           script: |
+            docker-compose -f docker-compose.monitoring.yml up --detach --no-build --remove-orphans
             ln -sf $BUILD_FILE docker-compose.yml
             export BUILD_VERSION
             export POSTGRES_CONNECTION
