@@ -1,0 +1,71 @@
+services:
+  api:
+    environment:
+      GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+      PORT: '5000'
+      POSTGRES_CONNECTION: null
+      POSTGRES_DISABLE_SSL: null
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: '1'
+      RAILS_MASTER_KEY: null
+    image: >-
+      jbrunton/bechdel-lists-api@sha256:166bceeb82bc329edfdd669c2e12182e9fc5adeeed67b9c61d84cea65337752d
+    ports:
+      - '9229:9229/tcp'
+  cadvisor:
+    container_name: cadvisor
+    depends_on:
+      - api
+      - client
+      - nginx
+    image: >-
+      gcr.io/google-containers/cadvisor@sha256:16bc6858dc5b7063c7d89153ad6544370eb79cb27a1b8d571f31b98673f7a324
+    ports:
+      - '8080:8080/tcp'
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker:/var/lib/docker:ro'
+  client:
+    image: >-
+      jbrunton/bechdel-lists-client@sha256:e3a7bb463a71702515114d7ece4e3b6262b2e8d3d0a82ed6998e28f449fb90c4
+  grafana:
+    container_name: grafana
+    depends_on:
+      - prometheus
+    image: >-
+      grafana/grafana@sha256:b7ebf5e058402cb924d9a1ccc5c389086d7ceebd164800454454411f028e767c
+    ports:
+      - '3000:3000/tcp'
+    volumes:
+      - >-
+        /home/deployer/services/grafana/provisioning:/etc/grafana/provisioning:rw
+  nginx:
+    image: >-
+      jbrunton/bechdel-lists-nginx@sha256:15ee204f39d83404469c5df0236c83da7227dd8f82b3354f0172d8c0b8448a2f
+    ports:
+      - '80:80/tcp'
+      - '443:443/tcp'
+    restart: always
+    volumes:
+      - '/home/deployer/certs:/etc/nginx/certs:rw'
+  ping:
+    environment:
+      HOST: bechdel-lists.jbrunton.com
+    image: >-
+      jbrunton/bechdel-lists-ping@sha256:b211417e4b43dbe5c1fbaa2e0988e5e95ec52ffc5c0cb788bd683c43f071d18e
+  prometheus:
+    command:
+      - '--config.file=/etc/prometheus/prometheus.production.yml'
+    container_name: prometheus
+    depends_on:
+      - cadvisor
+    image: >-
+      prom/prometheus@sha256:5880ec936055fad18ccee798d2a63f64ed85bd28e8e0af17c6923a090b686c3d
+    ports:
+      - '9090:9090/tcp'
+    volumes:
+      - '/home/deployer/services/prometheus:/etc/prometheus:rw'
+version: '3.0'
+

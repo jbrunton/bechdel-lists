@@ -1,4 +1,9 @@
 builds:
+  - id: 0.2.10-af78d457-9faf-4dcc-a008-d6c145af9643
+    version: 0.2.10
+    buildSha: d35e27e
+    imageTag: 0.2.10-af78d457-9faf-4dcc-a008-d6c145af9643
+    timestamp: '2020-05-22T13:44:49.399Z'
   - id: 0.2.9-b1316878-6ec9-4c5e-96bc-fc3d74e4cab9
     version: 0.2.9
     buildSha: 8ddccf1
