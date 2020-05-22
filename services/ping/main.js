@@ -8,7 +8,7 @@ const paths = [
 ];
 
 new CronJob(
-	'* * * * * *',
+	'*/15 * * * * *',
 	async function() {
     for (let path of paths) {
       const url = `http://${host}${path}`;
@@ -25,5 +25,3 @@ new CronJob(
 	true,
 	'Europe/London'
 );
-
-console.log('exiting');
