@@ -1,16 +1,5 @@
 version: '3'
 services:
-  prometheus:
-    image: prom/prometheus:v2.18.1
-    container_name: prometheus
-    ports:
-      - 9090:9090
-    command:
-      - --config.file=/etc/prometheus/prometheus.production.yml
-    volumes:
-      - ${PROMETHEUS_DIR:-/home/deployer/services/prometheus}:/etc/prometheus
-    depends_on:
-      - cadvisor
   cadvisor:
     image: gcr.io/google-containers/cadvisor:v0.36.0
     container_name: cadvisor
@@ -25,15 +14,6 @@ services:
       - nginx
       - api
       - client
-  grafana:
-    image: grafana/grafana:7.0.0
-    container_name: grafana
-    ports:
-      - 3000:3000
-    depends_on:
-      - prometheus
-    volumes:
-      - ${GRAFANA_DIR:-/home/deployer/services/grafana}/provisioning/:/etc/grafana/provisioning/
   nginx:
     image: "jbrunton/bechdel-lists-nginx:${TAG?}"
     restart: always
@@ -72,4 +52,6 @@ services:
     build:
       context: ./services/ping
     environment:
-      - HOST=bechdel-lists.jbrunton.com
+      - PING_TARGET_HOST
+    depends_on:
+      - api

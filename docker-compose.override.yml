@@ -1,10 +1,5 @@
 version: '3'
 services:
-  prometheus:
-    command:
-      - --config.file=/etc/prometheus/prometheus.development.yml
-    volumes:
-      - ./services/prometheus:/etc/prometheus
   postgres:
     image: 'postgres:latest'
     environment:
@@ -48,4 +43,4 @@ services:
   ping:
     image: 'bechdel-lists-ping'
     environment:
-      - HOST=host.docker.internal:${NGINX_LOCAL_PORT:-3001}
+      - PING_TARGET_HOST

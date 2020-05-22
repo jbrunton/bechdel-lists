@@ -1,11 +1,16 @@
 const CronJob = require('cron').CronJob;
 const axios = require('axios');
 
-const host = process.env['HOST'];
+const host = process.env['PING_TARGET_HOST'];
 const paths = [
   '/',
   '/api/lists/browse',
 ];
+
+if (!host) {
+  console.log("PING_TARGET_HOST not set, exiting.")
+  process.exit(1);
+}
 
 new CronJob(
 	'*/15 * * * * *',
