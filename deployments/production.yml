@@ -1,5 +1,8 @@
-latest: b8d05fe8-953f-4437-a159-d1535a26f112
+latest: adcc938e-70fa-4dea-98d5-ff0032706c8d
 deployments:
+  - id: adcc938e-70fa-4dea-98d5-ff0032706c8d
+    version: 0.2.6
+    timestamp: '2020-05-22T10:16:41.451Z'
   - id: b8d05fe8-953f-4437-a159-d1535a26f112
     version: 0.2.5
     timestamp: '2020-05-21T21:06:06.610Z'
