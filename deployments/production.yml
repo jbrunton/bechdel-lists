@@ -1,5 +1,8 @@
-latest: 1345db13-fb2e-468b-ab3d-74f0a489cddc
+latest: 82498fac-f5ce-4344-a914-47a9a6a969af
 deployments:
+  - id: 82498fac-f5ce-4344-a914-47a9a6a969af
+    version: 0.2.12
+    timestamp: '2020-05-22T21:30:05.639Z'
   - id: 1345db13-fb2e-468b-ab3d-74f0a489cddc
     version: 0.2.11
     timestamp: '2020-05-22T19:02:41.413Z'
