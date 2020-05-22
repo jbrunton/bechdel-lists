@@ -60,11 +60,11 @@ jobs:
           BUILD_VERSION: ${{ steps.deployment_info.outputs.buildVersion }}
         with:
           script: |
-            docker-compose -f docker-compose.monitoring.yml up --detach --no-build --remove-orphans
             ln -sf $BUILD_FILE docker-compose.yml
             export BUILD_VERSION
             export POSTGRES_CONNECTION
             export RAILS_MASTER_KEY
+            export COMPOSE_FILE="docker-compose.yml:docker-compose.monitoring.yml"
             docker-compose up --detach --no-build --remove-orphans
             docker-compose run api bin/rails db:migrate
           envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION
