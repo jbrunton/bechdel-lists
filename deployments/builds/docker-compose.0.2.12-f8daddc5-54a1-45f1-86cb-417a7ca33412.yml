@@ -1,0 +1,50 @@
+services:
+  api:
+    environment:
+      GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+      PORT: '5000'
+      POSTGRES_CONNECTION: null
+      POSTGRES_DISABLE_SSL: null
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: '1'
+      RAILS_MASTER_KEY: null
+    image: >-
+      jbrunton/bechdel-lists-api@sha256:52e702b5f93bb13e04e8829ce8b57ff74eeb08d5afbbbf6469eb3593234c6a15
+    ports:
+      - '9229:9229/tcp'
+  cadvisor:
+    container_name: cadvisor
+    depends_on:
+      - api
+      - client
+      - nginx
+    image: >-
+      gcr.io/google-containers/cadvisor@sha256:16bc6858dc5b7063c7d89153ad6544370eb79cb27a1b8d571f31b98673f7a324
+    ports:
+      - '8080:8080/tcp'
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker:/var/lib/docker:ro'
+  client:
+    image: >-
+      jbrunton/bechdel-lists-client@sha256:7e85fecaa81d3682ef6ecd946a7a299876bacb23035df0fff3b8896358923777
+  nginx:
+    image: >-
+      jbrunton/bechdel-lists-nginx@sha256:4306b5ffb32722512c4cab7b90976353d1d570c048ec766f1e1e80ea6c905792
+    ports:
+      - '80:80/tcp'
+      - '443:443/tcp'
+    restart: always
+    volumes:
+      - '/home/deployer/certs:/etc/nginx/certs:rw'
+  ping:
+    depends_on:
+      - api
+    environment:
+      PING_TARGET_HOST: bechdel-lists.jbrunton.com
+    image: >-
+      jbrunton/bechdel-lists-ping@sha256:c2ca7326f12d187342fc6750972cdcdc1580d7e4a321f72e657fcea717edd238
+version: '3.0'
+
