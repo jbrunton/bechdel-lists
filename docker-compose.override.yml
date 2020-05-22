@@ -43,4 +43,5 @@ services:
   ping:
     image: 'bechdel-lists-ping'
     environment:
-      - PING_TARGET_HOST
+      - PING_TARGET_HOST=${PING_TARGET_HOST:-host.docker.internal:3001}
+  
