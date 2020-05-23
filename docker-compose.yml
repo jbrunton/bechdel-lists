@@ -26,6 +26,14 @@ services:
       - 443:443
     volumes:
       - ${NGINX_CERTS_DIR:-/home/deployer/certs}:/etc/nginx/certs
+  nginx_exporter:
+    image: nginx/nginx-prometheus-exporter:0.7.0
+    ports:
+      - 9113:9113
+    environment:
+      - SCRAPE_URI=http://nginx/stub_status
+    depends_on:
+      - nginx
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
     build:
