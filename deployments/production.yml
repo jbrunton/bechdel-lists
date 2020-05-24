@@ -1,5 +1,8 @@
-latest: ba7a1586-2f0a-4f36-b826-93b79cce6768
+latest: dd7b2f0a-19ee-408e-af62-3c103f1c70d7
 deployments:
+  - id: dd7b2f0a-19ee-408e-af62-3c103f1c70d7
+    version: 0.2.15
+    timestamp: '2020-05-24T14:10:30.635Z'
   - id: ba7a1586-2f0a-4f36-b826-93b79cce6768
     version: 0.2.14
     timestamp: '2020-05-23T18:57:40.976Z'
