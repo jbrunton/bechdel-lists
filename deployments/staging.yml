@@ -1,2 +1,5 @@
-latest:
-deployments: []
+latest: 911e1727-c70e-4beb-b1cf-2b853cd0f09a
+deployments:
+  - id: 911e1727-c70e-4beb-b1cf-2b853cd0f09a
+    version: 0.2.15
+    timestamp: '2020-05-24T16:55:47.489Z'
