@@ -7,8 +7,8 @@ spec:
   selector:
     component: api
   ports:
-    - port: 3000
-      targetPort: 3000
+    - port: 5000
+      targetPort: 5000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,10 +26,12 @@ spec:
     spec:
       containers:
         - name: api
-          image: jbrunton/bechdel-lists-api:0.2.16-41c0ed0a-c2ae-4720-92f5-6041605363c5
+          image: jbrunton/bechdel-lists-api:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 5000
           env:
+            - name: PORT
+              value: '5000'
             - name: POSTGRES_HOST
               value: postgres-cluster-ip-service
             - name: POSTGRES_PORT
@@ -37,4 +39,4 @@ spec:
             - name: POSTGRES_DB
               value: bechdel_lists_development
             - name: POSTGRES_CONNECTION
-              value: postgres://postgres:postgres@postgres-cluster-ip-service:5432/bechdel_lists_development
+              value: postgres://postgres_user:postgres_password@postgres-cluster-ip-service:5432/bechdel_lists_development
