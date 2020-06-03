@@ -29,3 +29,6 @@ spec:
           image: jbrunton/bechdel-lists-client:0.2.16-41c0ed0a-c2ae-4720-92f5-6041605363c5
           ports:
             - containerPort: 5001
+          env:
+            - name: VUE_APP_GOOGLE_CLIENT_ID
+              value: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
