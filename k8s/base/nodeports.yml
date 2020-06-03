@@ -25,3 +25,17 @@ spec:
       nodePort: 32010
   selector:
     component: api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-node-port
+spec:
+  type: NodePort
+  ports:
+    - name: client
+      port: 5001
+      targetPort: 5001
+      nodePort: 32020
+  selector:
+    component: client
