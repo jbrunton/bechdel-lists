@@ -26,6 +26,6 @@ spec:
     spec:
       containers:
         - name: client
-          image: jbrunton/bechdel-lists-client:latest
+          image: jbrunton/bechdel-lists-client:0.2.16-41c0ed0a-c2ae-4720-92f5-6041605363c5
           ports:
             - containerPort: 5001

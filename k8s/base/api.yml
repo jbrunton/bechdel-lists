@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: jbrunton/bechdel-lists-api:latest
+          image: jbrunton/bechdel-lists-api:0.2.16-41c0ed0a-c2ae-4720-92f5-6041605363c5
           ports:
             - containerPort: 5000
           env:
