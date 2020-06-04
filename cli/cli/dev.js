@@ -1,4 +1,4 @@
-const { exec, spawn } = require('../lib/child_process');
+const { spawn } = require('../lib/child_process');
 const manifests = require('../lib/manifests');
 
 module.exports = {
