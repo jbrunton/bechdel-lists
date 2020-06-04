@@ -10,10 +10,10 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    depends_on:
-      - nginx
-      - api
-      - client
+    # depends_on:
+    #   - nginx
+    #   - api
+    #   - client
   nginx:
     image: "jbrunton/bechdel-lists-nginx:${TAG?}"
     restart: always
@@ -32,8 +32,8 @@ services:
       - 9113:9113
     environment:
       - SCRAPE_URI=http://nginx/stub_status
-    depends_on:
-      - nginx
+    # depends_on:
+    #   - nginx
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
     build:

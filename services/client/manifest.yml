@@ -1,0 +1,5 @@
+build:
+  dev:
+    volumes:
+      - $(pwd)/services/client:/app
+      - /app/node_modules

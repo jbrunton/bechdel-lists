@@ -9,6 +9,7 @@ const logger = require('./logger');
 const manifestPath = 'manifest.yml';
 const buildsCatalogPath = 'deployments/builds/catalog.yml';
 const deploymentsCatalogPath = environment => `deployments/${environment}.yml`;
+const serviceManifestpath = service => `services/${service}/manifest.yml`;
 
 class ManifestCache {
   constructor(remote) {
@@ -46,6 +47,11 @@ class ManifestCache {
   async getLatestDeployment(environment) {
     const catalog = await this.getDeploymentsCatalog(environment);
     return catalog.deployments.find(deployment => deployment.id == catalog.latest);
+  }
+
+  async getServiceManifest(service) {
+    const manifest = await await this._cacheLookup(serviceManifestpath(service));
+    return manifest;
   }
 
   async _cacheLookup(path) {
