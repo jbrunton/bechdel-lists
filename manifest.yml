@@ -6,4 +6,3 @@ environments:
   staging:
     host: 134.122.99.70
     version: 0.2.16
-

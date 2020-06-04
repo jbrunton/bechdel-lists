@@ -38,3 +38,7 @@ Note: you may also need to setup the database first:
     docker-compose run api bin/rails db:migrate RAILS_ENV=development
 
 See [this article](https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command/#Docker-compose) for more details.
+
+## Running locally with K8s
+
+    telepresence --swap-deployment client-deployment --docker-run --rm -it -v $(pwd)/services/client:/app -v /app/node_modules bechdel-lists-client:latest
