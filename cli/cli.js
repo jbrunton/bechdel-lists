@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 const sywac = require('sywac');
-const { TypeEnvironment, TypeVersion, TypeContainer } = require('./lib/types');
+const { TypeEnvironment, TypeVersion, TypeService } = require('./lib/types');
 
 sywac
   .registerFactory('environment', opts => new TypeEnvironment(opts))
   .registerFactory('version', opts => new TypeVersion(opts))
-  .registerFactory('container', opts => new TypeContainer(opts))
+  .registerFactory('service', opts => new TypeService(opts))
   .commandDirectory('./cli')
   .showHelpByDefault()
   .help('-h, --help')

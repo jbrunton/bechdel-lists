@@ -4,9 +4,9 @@ const semver = require('semver');
 const manifests = require('./manifests');
 const { exec } = require('./child_process');
 
-class TypeContainer extends Type {
+class TypeService extends Type {
   get datatype () {
-    return 'container';
+    return 'service';
   }
   async validateValue (value) {
     const result = await exec('docker-compose config --services', process.env);
@@ -64,5 +64,5 @@ class TypeVersion extends Type {
 module.exports = {
   TypeEnvironment: TypeEnvironment,
   TypeVersion: TypeVersion,
-  TypeContainer: TypeContainer
+  TypeService: TypeService
 };
