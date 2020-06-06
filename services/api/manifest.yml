@@ -2,3 +2,8 @@ build:
   dev:
     volumes:
       - $(pwd)/services/api:/app
+    ports:
+      - 1236:1236
+    command:
+      - bash -c "rm -f /app/tmp/pids/server.pid && bundle exec rdebug-ide --port 1236 --dispatcher-port 26166 --host 0.0.0.0 -- bin/rails s -b 0.0.0.0"
+  
