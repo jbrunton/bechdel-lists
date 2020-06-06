@@ -31,6 +31,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0.0'
   gem 'rails-controller-testing'
   gem 'dotenv-rails'
+  gem 'debase', '~> 0.2.4.1'
+  gem 'ruby-debug-ide', '~> 0.7.2'
 end
 
 group :development do
