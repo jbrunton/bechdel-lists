@@ -1,0 +1,6 @@
+bases:
+  - ../base
+secretGenerator:
+  - name: postgres-connection
+    files:
+      - ./secrets/postgres-connection

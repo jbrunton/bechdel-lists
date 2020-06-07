@@ -1,0 +1,9 @@
+bases:
+  - ../base
+resources:
+  - ./postgres.yml
+  - ./nodeports.yml
+secretGenerator:
+  - name: postgres-connection
+    files:
+      - ./secrets/postgres-connection

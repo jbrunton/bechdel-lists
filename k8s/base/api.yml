@@ -32,13 +32,10 @@ spec:
           env:
             - name: PORT
               value: '5000'
-            - name: POSTGRES_HOST
-              value: postgres-cluster-ip-service
-            - name: POSTGRES_PORT
-              value: '5432'
-            - name: POSTGRES_DB
-              value: bechdel_lists_development
-            - name: POSTGRES_CONNECTION
-              value: postgres://postgres_user:postgres_password@postgres-cluster-ip-service:5432/bechdel_lists_development
             - name: GOOGLE_CLIENT_ID
               value: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+            - name: POSTGRES_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-connection
+                  key: postgres-connection
