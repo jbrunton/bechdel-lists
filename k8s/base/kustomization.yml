@@ -1,0 +1,4 @@
+resources:
+  - ./api.yml
+  - ./client.yml
+  - ./ingress.yml

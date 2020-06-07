@@ -6,3 +6,4 @@ docker-compose.deployment.yml
 build/*
 !build/.gitkeep
 telepresence.log
+/k8s/prod/secrets
