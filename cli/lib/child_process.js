@@ -17,7 +17,7 @@ module.exports = {
   spawn(command, options, logger = defaultLogger) {
     return new Promise((resolve, reject) => {
       console.log('Running ' + command);
-      const proc = spawn(command, Object.assign({ shell: true}, options));
+      const proc = spawn(command, Object.assign({ shell: true }, options));
       proc.stdout.on('data', function (data) {
         logger.log(data.toString());
       });
