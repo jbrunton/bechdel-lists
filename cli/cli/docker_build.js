@@ -1,5 +1,6 @@
 const { spawn } = require('../lib/child_process');
 const manifests = require('../lib/manifests');
+const docker = require('../lib/docker');
 
 module.exports = {
   flags: 'docker-build <image|all> [args]',
@@ -16,15 +17,15 @@ module.exports = {
         run: async (argv, context) => {
           const dryRun = argv['dry-run'];
           const service = argv.service;
+          const buildTarget = argv['build-target'];
           
           const manifest = await manifests.local.getServiceManifest(service);
           const buildArgs = manifest?.build?.buildArgs || [];
-          const imageName = argv['build-target'] == 'dev' ? `bechdel-images-${service}` : `jbrunton/bechdel-images-${service}`;
-          const imageTag = `${imageName}:${process.env.TAG || 'latest'}`;
+          const imageTag = docker.generateTag(service, buildTarget, process.env.TAG);
           
           const commandBuilder = [
             'docker build',
-            `--target ${argv['build-target']}`,
+            `--target ${buildTarget}`,
             `--tag ${imageTag}`,
             buildArgs.map(buildArg => `--build-arg ${buildArg}`).join(' '),
             `services/${service}`
@@ -42,7 +43,7 @@ module.exports = {
       })
       .command({
         flags: 'all <build-target>',
-        desc: 'Builds all docker images for all services for the given build target',
+        desc: 'Builds docker images for all services for the given build target',
         params: [
           { type: 'build-target', strict: true }
         ],
@@ -51,7 +52,7 @@ module.exports = {
           const manifest = await manifests.local.getManifest();
           const services = manifest.build.services;
           for (let service of services) {
-            const command = `npx cli build image ${service} ${argv['build-target']} ${dryRun ? '--dry-run' : ''}`;
+            const command = `npx cli docker-build image ${service} ${argv['build-target']} ${dryRun ? '--dry-run' : ''}`;
             await spawn(command, { env: process.env });
           }
         }
