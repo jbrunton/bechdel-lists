@@ -2,8 +2,8 @@ const { spawn } = require('../lib/child_process');
 const manifests = require('../lib/manifests');
 
 module.exports = {
-  flags: 'build <image|images> [args]',
-  ignore: ['<image|images>', '[args]'],
+  flags: 'docker-build <image|all> [args]',
+  ignore: ['<image|all>', '[args]'],
   setup: sywac => {
     sywac
       .command({
@@ -41,8 +41,8 @@ module.exports = {
         }
       })
       .command({
-        flags: 'images <build-target>',
-        desc: 'Builds docker images for all services for the given build target',
+        flags: 'all <build-target>',
+        desc: 'Builds all docker images for all services for the given build target',
         params: [
           { type: 'build-target', strict: true }
         ],
