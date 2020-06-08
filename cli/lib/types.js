@@ -60,8 +60,22 @@ class TypeVersion extends Type {
   }
 }
 
+class TypeBuildTarget extends Type {
+  get datatype () {
+    return 'build-target';
+  }
+  async validateValue (value) {
+    return ['dev', 'prod'].includes(value);
+  }
+  buildInvalidMessage (context, msgAndArgs) {
+    super.buildInvalidMessage(context, msgAndArgs);
+    msgAndArgs.msg += ` Valid options: ${['dev', 'prod'].map(e => chalk.green.inverse(e)).join(', ')}.`;
+  }
+}
+
 module.exports = {
   TypeEnvironment: TypeEnvironment,
   TypeVersion: TypeVersion,
-  TypeService: TypeService
+  TypeService: TypeService,
+  TypeBuildTarget: TypeBuildTarget
 };

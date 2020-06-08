@@ -1,9 +1,19 @@
 const chalk = require('chalk');
+const fs = require('fs');
 
 const logger = require('../lib/logger');
 const Compose = require('../lib/compose');
 const { writeOutput } = require('../lib/fs_utils');
 const manifests = require('../lib/manifests');
+
+async function buildServices() {
+  const manifest = await manifests.local.getManifest();
+  const services = manifest.build.services;
+  for (let service of services) {
+    const serviceManifest = await manifest.local.getServiceManifest(service);
+    const buildArgs = serviceManifest.build?.buildArgs;
+  }
+}
 
 module.exports = {
   flags: 'create <subcommand> [args]',
@@ -27,9 +37,9 @@ module.exports = {
           const compose = new Compose(build.imageTag, buildVersion);
           
           if (!skipBuild) {
-            await compose.build(logger.dockerLogger);
+            //await compose.build(logger.dockerLogger);
           } else {
-            logger.info('--skip-build passed, skipping docker-compose build');
+            logger.info('--skip-build passed, skipping builds for ');
           }
           if (!dryRun && !skipPush) {
             await compose.push(logger.dockerLogger);
