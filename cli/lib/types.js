@@ -2,15 +2,14 @@ const Type = require('sywac/types/type')
 const chalk = require('chalk');
 const semver = require('semver');
 const manifests = require('./manifests');
-const { exec } = require('./child_process');
 
 class TypeService extends Type {
   get datatype () {
     return 'service';
   }
   async validateValue (value) {
-    const result = await exec('docker-compose config --services', process.env);
-    this._services = result.stdout.split("\n").filter(s => s.trim().length > 0);
+    const manifest = await manifests.local.getManifest();
+    this._services = manifest.build.services;
     return this._services.includes(value);
   }
   buildInvalidMessage (context, msgAndArgs) {
