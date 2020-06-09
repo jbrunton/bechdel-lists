@@ -14,6 +14,7 @@ env:
   CI: 1
   FORCE_COLOR: 1
   WORKSPACE: ${{ github.workspace }}
+  TARGET_BRANCH: list-187-staging
 
 jobs:
 
@@ -38,26 +39,27 @@ jobs:
           SERVICE: ${{ matrix.service }}
         run: ./ci/unit_tests/${SERVICE}.sh
       
-  integration_tests:
-    runs-on: ubuntu-latest
+  # integration_tests:
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        service: [api, client]
+  #   strategy:
+  #     matrix:
+  #       service: [api, client]
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: copy .env
-        run: cp ci/ci.env .env
+  #     - name: copy .env
+  #       run: cp ci/ci.env .env
 
-      - name: run
-        env:
-          SERVICE: ${{ matrix.service }}
-        run: ./ci/integration_tests/${SERVICE}.sh
+  #     - name: run
+  #       env:
+  #         SERVICE: ${{ matrix.service }}
+  #       run: ./ci/integration_tests/${SERVICE}.sh
 
   manifest_check:
-    needs: [unit_tests, integration_tests]
+    needs: unit_tests
+#    needs: [unit_tests, integration_tests]
     runs-on: ubuntu-latest
     outputs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
@@ -103,7 +105,7 @@ jobs:
           
           npx ci commit build
           
-          git push origin HEAD:master
+          git push origin HEAD:$TARGET_BRANCH
   
   deploy_existing_build:
     needs: manifest_check
