@@ -144,5 +144,5 @@ async function createDeployment(environment, version, dryRun) {
 }
 
 function buildFilePath(buildId) {
-  return `./deployments/builds/docker-compose.${buildId}.yml`
+  return `./deployments/builds/build.${buildId}.yml`
 }

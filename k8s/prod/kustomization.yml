@@ -3,7 +3,3 @@ bases:
 resources:
   - ./cert-issuer.yml
   - ./certificate.yml
-secretGenerator:
-  - name: postgres-connection
-    files:
-      - ./secrets/postgres-connection
