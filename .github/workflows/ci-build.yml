@@ -94,7 +94,7 @@ jobs:
         run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
       - name: 'build'
-        run: npx ci create build
+        run: npx cli build
 
       - name: 'commit'
         run: |
