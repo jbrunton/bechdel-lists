@@ -3,10 +3,10 @@ name: ci-build
 on:
   pull_request:
     branches:
-      - master
+      - list-187-staging
   push:
     branches:
-      - master
+      - list-187-staging
     paths-ignore:
       - 'deployments/**'
 
@@ -125,11 +125,11 @@ jobs:
           ENVIRONMENT: ${{ matrix.environment }}
         run: npx ci set-outputs deploy-payload $ENVIRONMENT
 
-      - name: start deployment workflow
-        env:
-          PAYLOAD: ${{ steps.payload.outputs.payload }}
-          GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-        run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
+      # - name: start deployment workflow
+      #   env:
+      #     PAYLOAD: ${{ steps.payload.outputs.payload }}
+      #     GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+      #   run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
 
   deploy_new_build:
     needs: [manifest_check, build]
@@ -151,9 +151,9 @@ jobs:
           ENVIRONMENT: ${{ matrix.environment }}
         run: npx ci set-outputs deploy-payload $ENVIRONMENT
 
-      - name: start deployment workflow
-        env:
-          PAYLOAD: ${{ steps.payload.outputs.payload }}
-          GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-        run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
+      # - name: start deployment workflow
+      #   env:
+      #     PAYLOAD: ${{ steps.payload.outputs.payload }}
+      #     GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+      #   run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
         
