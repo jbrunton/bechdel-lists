@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: staging-bechdel-lists-jbrunton-com-tls
+spec:
+  secretName: staging-bechdel-lists-jbrunton-com-cert
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: staging.bechdel-lists.jbrunton.com
+  dnsNames:
+    - staging.bechdel-lists.jbrunton.com

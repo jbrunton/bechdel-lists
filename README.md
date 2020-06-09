@@ -116,3 +116,16 @@ Integration tests must be run from within the container for the service, and mor
     docker-compose run api npm run db:test:create
     docker-compose run api npm run test:integration
 
+## Kubernetes
+
+First time setup:
+
+  1. Install nginx (TODO: add docs)
+
+  2. Production only: install cert-manager.
+
+
+kubectl create namespace cert-manager
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v0.15.1 --set installCRDs=true
