@@ -94,6 +94,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '14'
+      - uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: "3.5.5"
 
       - name: npm install
         run: npm install
