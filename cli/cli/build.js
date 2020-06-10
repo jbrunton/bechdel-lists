@@ -22,10 +22,8 @@ module.exports = {
     const manifest = await manifests.local.getManifest();
     const buildManifest = await manifests.createBuild(buildVersion, dryRun, imageTag);
     const buildId = buildManifest.id;
-    //const compose = new Compose(build.imageTag, buildVersion);
     
     if (!skipBuild) {
-      //await compose.build(logger.dockerLogger);
       await spawn('npx cli docker-build all prod', { env: process.env });
     } else {
       logger.info('--skip-build passed, skipping docker builds');
@@ -42,7 +40,7 @@ module.exports = {
     for (let service of services) {
       const imageName = `jbrunton/bechdel-lists-${service}`;
       console.log('process.cwd: ' + process.cwd());
-      await exec(`kustomize edit set image ${imageName}=${imageName}:${imageTag}`, {
+      await exec(`kustomize edit set image ${imageName}=${imageName}:${build.imageTag}`, {
         env: process.env,
         cwd: `${process.cwd()}/k8s/prod`
       });
