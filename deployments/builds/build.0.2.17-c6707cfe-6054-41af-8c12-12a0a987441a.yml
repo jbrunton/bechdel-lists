@@ -1,0 +1,146 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-cluster-ip-service
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    component: api
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-cluster-ip-service
+spec:
+  ports:
+  - port: 5001
+    targetPort: 5001
+  selector:
+    component: client
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kbld.k14s.io/images: |
+      - Metas:
+        - Tag: 0.2.17-c6707cfe-6054-41af-8c12-12a0a987441a
+          Type: resolved
+          URL: jbrunton/bechdel-lists-api:0.2.17-c6707cfe-6054-41af-8c12-12a0a987441a
+        URL: index.docker.io/jbrunton/bechdel-lists-api@sha256:f2bb06579742363294b757e12350fb417f2eadad4700a5efd21950c8537b73e1
+  name: api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "5000"
+        - name: GOOGLE_CLIENT_ID
+          value: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+        - name: POSTGRES_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              key: postgres-connection
+              name: postgres-connection
+        image: index.docker.io/jbrunton/bechdel-lists-api@sha256:f2bb06579742363294b757e12350fb417f2eadad4700a5efd21950c8537b73e1
+        name: api
+        ports:
+        - containerPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kbld.k14s.io/images: |
+      - Metas:
+        - Tag: 0.2.17-c6707cfe-6054-41af-8c12-12a0a987441a
+          Type: resolved
+          URL: jbrunton/bechdel-lists-client:0.2.17-c6707cfe-6054-41af-8c12-12a0a987441a
+        URL: index.docker.io/jbrunton/bechdel-lists-client@sha256:b672a6f9a664b52a2bc5bfa769c865b7ef42de5cb55f8c8bf6a1cbd8c83fc4e6
+  name: client-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: client
+  template:
+    metadata:
+      labels:
+        component: client
+    spec:
+      containers:
+      - env:
+        - name: VUE_APP_GOOGLE_CLIENT_ID
+          value: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+        image: index.docker.io/jbrunton/bechdel-lists-client@sha256:b672a6f9a664b52a2bc5bfa769c865b7ef42de5cb55f8c8bf6a1cbd8c83fc4e6
+        name: client
+        ports:
+        - containerPort: 5001
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: staging-bechdel-lists-jbrunton-com-tls
+spec:
+  commonName: staging.bechdel-lists.jbrunton.com
+  dnsNames:
+  - staging.bechdel-lists.jbrunton.com
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: staging-bechdel-lists-jbrunton-com-cert
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: john_brunton@live.co.uk
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  name: ingress-service
+spec:
+  rules:
+  - host: staging.bechdel-lists.jbrunton.com
+    http:
+      paths:
+      - backend:
+          serviceName: client-cluster-ip-service
+          servicePort: 5001
+        path: /?(.*)
+      - backend:
+          serviceName: api-cluster-ip-service
+          servicePort: 5000
+        path: /api/?(.*)
+  tls:
+  - hosts:
+    - staging.bechdel-lists.jbrunton.com
+    secretName: staging-bechdel-lists-jbrunton-com-cert
