@@ -68,12 +68,14 @@ jobs:
       
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
 
       - name: check manifest
         id: check
         if: github.event.ref == format('refs/heads/{0}', env.TARGET_BRANCH)
         run: |
-          node -v
           npm install
           npx ci set-outputs manifest-checks
 
@@ -89,6 +91,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}      
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
 
       - name: npm install
         run: npm install
@@ -117,6 +122,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
 
       - name: npm install
         run: npm install
@@ -143,6 +151,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
 
       - name: npm install
         run: npm install
