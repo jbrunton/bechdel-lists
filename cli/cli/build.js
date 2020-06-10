@@ -1,6 +1,3 @@
-const chalk = require('chalk');
-const fs = require('fs');
-
 const logger = require('../lib/logger');
 const { writeOutput } = require('../lib/fs_utils');
 const manifests = require('../lib/manifests');
@@ -10,6 +7,7 @@ module.exports = {
   flags: 'build',
   desc: 'Create a new build for the current manifest version',
   run: async (argv, context) => {
+    console.log ('starting build');
     const buildVersion = await manifests.local.getManifestVersion();
     const dryRun = argv['dry-run'],
       skipBuild = argv['skip-build'],
@@ -22,7 +20,6 @@ module.exports = {
     const buildManifest = await manifests.createBuild(buildVersion, dryRun, argv['image-tag']);
     const buildId = buildManifest.id;
     const imageTag = buildManifest.imageTag;
-    console.log('imageTag: ' + imageTag);
     
     if (!skipBuild) {
       const buildEnv = Object.assign({ 'TAG': imageTag, 'BUILD_VERSION': buildVersion }, process.env);
@@ -41,7 +38,6 @@ module.exports = {
     const services = manifest.build.services;
     for (let service of services) {
       const imageName = `jbrunton/bechdel-lists-${service}`;
-      console.log('process.cwd: ' + process.cwd());
       await exec(`kustomize edit set image ${imageName}=${imageName}:${imageTag}`, {
         env: process.env,
         cwd: `${process.cwd()}/k8s/prod`
