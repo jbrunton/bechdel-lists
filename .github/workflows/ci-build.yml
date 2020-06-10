@@ -1,176 +1,176 @@
-name: ci-build
+# name: ci-build
 
-on:
-  pull_request:
-    branches:
-      - list-187-staging
-  push:
-    branches:
-      - list-187-staging
-    paths-ignore:
-      - 'deployments/**'
+# on:
+#   pull_request:
+#     branches:
+#       - list-187-staging
+#   push:
+#     branches:
+#       - list-187-staging
+#     paths-ignore:
+#       - 'deployments/**'
 
-env:
-  CI: 1
-  FORCE_COLOR: 1
-  WORKSPACE: ${{ github.workspace }}
-  TARGET_BRANCH: list-187-staging
+# env:
+#   CI: 1
+#   FORCE_COLOR: 1
+#   WORKSPACE: ${{ github.workspace }}
+#   TARGET_BRANCH: list-187-staging
 
-jobs:
+# jobs:
 
-  unit_tests:
-    runs-on: ubuntu-latest
+#   unit_tests:
+#     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        service: [api, client]
+#     strategy:
+#       matrix:
+#         service: [api, client]
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.6.3
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: ruby/setup-ruby@v1
+#         with:
+#           ruby-version: 2.6.3
           
-      - name: copy .env
-        run: cp ci/ci.env .env
+#       - name: copy .env
+#         run: cp ci/ci.env .env
 
-      - name: run unit tests
-        env:
-          SERVICE: ${{ matrix.service }}
-        run: ./ci/unit_tests/${SERVICE}.sh
+#       - name: run unit tests
+#         env:
+#           SERVICE: ${{ matrix.service }}
+#         run: ./ci/unit_tests/${SERVICE}.sh
       
-  # integration_tests:
-  #   runs-on: ubuntu-latest
+#   # integration_tests:
+#   #   runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       service: [api, client]
+#   #   strategy:
+#   #     matrix:
+#   #       service: [api, client]
 
-  #   steps:
-  #     - uses: actions/checkout@v2
+#   #   steps:
+#   #     - uses: actions/checkout@v2
 
-  #     - name: copy .env
-  #       run: cp ci/ci.env .env
+#   #     - name: copy .env
+#   #       run: cp ci/ci.env .env
 
-  #     - name: run
-  #       env:
-  #         SERVICE: ${{ matrix.service }}
-  #       run: ./ci/integration_tests/${SERVICE}.sh
+#   #     - name: run
+#   #       env:
+#   #         SERVICE: ${{ matrix.service }}
+#   #       run: ./ci/integration_tests/${SERVICE}.sh
 
-  manifest_check:
-    needs: unit_tests
-#    needs: [unit_tests, integration_tests]
-    runs-on: ubuntu-latest
-    outputs:
-      buildRequired: ${{ steps.check.outputs.buildRequired }}
-      deploymentsRequired: ${{ steps.check.outputs.deploymentsRequired }}
-      deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
+#   manifest_check:
+#     needs: unit_tests
+# #    needs: [unit_tests, integration_tests]
+#     runs-on: ubuntu-latest
+#     outputs:
+#       buildRequired: ${{ steps.check.outputs.buildRequired }}
+#       deploymentsRequired: ${{ steps.check.outputs.deploymentsRequired }}
+#       deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
       
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v1
+#         with:
+#           node-version: '14'
 
-      - name: check manifest
-        id: check
-        if: github.event.ref == format('refs/heads/{0}', env.TARGET_BRANCH)
-        run: |
-          npm install
-          npx ci set-outputs manifest-checks
+#       - name: check manifest
+#         id: check
+#         if: github.event.ref == format('refs/heads/{0}', env.TARGET_BRANCH)
+#         run: |
+#           npm install
+#           npx ci set-outputs manifest-checks
 
-  build:
-    needs: manifest_check
-    runs-on: ubuntu-latest
-    if: ${{ needs.manifest_check.outputs.buildRequired == true }}
-    env:
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      DOCKER_USERNAME: jbrunton
+#   build:
+#     needs: manifest_check
+#     runs-on: ubuntu-latest
+#     if: ${{ needs.manifest_check.outputs.buildRequired == true }}
+#     env:
+#       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+#       DOCKER_USERNAME: jbrunton
 
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}      
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14'
-      - uses: imranismail/setup-kustomize@v1
-        with:
-          kustomize-version: "3.5.5"
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           token: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}      
+#       - uses: actions/setup-node@v1
+#         with:
+#           node-version: '14'
+#       - uses: imranismail/setup-kustomize@v1
+#         with:
+#           kustomize-version: "3.5.5"
 
-      - name: npm install
-        run: npm install
+#       - name: npm install
+#         run: npm install
 
-      - name: docker login
-        run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#       - name: docker login
+#         run: echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-      - name: 'build'
-        run: npx cli build
+#       - name: 'build'
+#         run: npx cli build
 
-      - name: 'commit'
-        run: |
-          git config --global user.email "jbrunton-ci-minion@outlook.com"
-          git config --global user.name "jbrunton-ci-minion"
+#       - name: 'commit'
+#         run: |
+#           git config --global user.email "jbrunton-ci-minion@outlook.com"
+#           git config --global user.name "jbrunton-ci-minion"
           
-          npx ci commit build
+#           npx ci commit build
           
-          git push origin HEAD:$TARGET_BRANCH
+#           git push origin HEAD:$TARGET_BRANCH
   
-  deploy_existing_build:
-    needs: manifest_check
-    if: needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == false
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
+#   deploy_existing_build:
+#     needs: manifest_check
+#     if: needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == false
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v1
+#         with:
+#           node-version: '14'
 
-      - name: npm install
-        run: npm install
+#       - name: npm install
+#         run: npm install
 
-      - name: generate payload
-        id: payload
-        env:
-          TASK: ${{ matrix.task }}
-          ENVIRONMENT: ${{ matrix.environment }}
-        run: npx ci set-outputs deploy-payload $ENVIRONMENT
+#       - name: generate payload
+#         id: payload
+#         env:
+#           TASK: ${{ matrix.task }}
+#           ENVIRONMENT: ${{ matrix.environment }}
+#         run: npx ci set-outputs deploy-payload $ENVIRONMENT
 
-      # - name: start deployment workflow
-      #   env:
-      #     PAYLOAD: ${{ steps.payload.outputs.payload }}
-      #     GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-      #   run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
+#       # - name: start deployment workflow
+#       #   env:
+#       #     PAYLOAD: ${{ steps.payload.outputs.payload }}
+#       #     GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+#       #   run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
 
-  deploy_new_build:
-    needs: [manifest_check, build]
-    if: needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == true
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
+#   deploy_new_build:
+#     needs: [manifest_check, build]
+#     if: needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == true
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix: ${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v1
+#         with:
+#           node-version: '14'
 
-      - name: npm install
-        run: npm install
+#       - name: npm install
+#         run: npm install
 
-      - name: generate payload
-        id: payload
-        env:
-          TASK: ${{ matrix.task }}
-          ENVIRONMENT: ${{ matrix.environment }}
-        run: npx ci set-outputs deploy-payload $ENVIRONMENT
+#       - name: generate payload
+#         id: payload
+#         env:
+#           TASK: ${{ matrix.task }}
+#           ENVIRONMENT: ${{ matrix.environment }}
+#         run: npx ci set-outputs deploy-payload $ENVIRONMENT
 
-      # - name: start deployment workflow
-      #   env:
-      #     PAYLOAD: ${{ steps.payload.outputs.payload }}
-      #     GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
-      #   run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
+#       # - name: start deployment workflow
+#       #   env:
+#       #     PAYLOAD: ${{ steps.payload.outputs.payload }}
+#       #     GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+#       #   run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
         

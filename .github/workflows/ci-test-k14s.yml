@@ -1,0 +1,31 @@
+name: ci-test-k14s
+
+on:
+  pull_request:
+    branches:
+      - list-187-staging
+  push:
+    branches:
+      - list-187-staging
+    paths-ignore:
+      - 'deployments/**'
+
+env:
+  CI: 1
+  FORCE_COLOR: 1
+  WORKSPACE: ${{ github.workspace }}
+  TARGET_BRANCH: list-187-staging
+
+jobs:
+
+  install_k14s:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+          
+      - name: install
+        run: curl -L https://k14s.io/install.sh | bash
+
+      - name: check
+        run: kbld version
