@@ -14,33 +14,35 @@ module.exports = {
     const dryRun = argv['dry-run'],
       skipBuild = argv['skip-build'],
       skipPush = argv['skip-push'];
-    const imageTag = argv['image-tag'];
 
     console.log(`Starting build for ${buildVersion}`.bold);
     console.log(`dryRun: ${dryRun}, skipBuild: ${skipBuild}, skipPush: ${skipPush}`);
 
     const manifest = await manifests.local.getManifest();
-    const buildManifest = await manifests.createBuild(buildVersion, dryRun, imageTag);
+    const buildManifest = await manifests.createBuild(buildVersion, dryRun, argv['image-tag']);
     const buildId = buildManifest.id;
+    const imageTag = buildManifest.imageTag;
+    console.log('imageTag: ' + imageTag);
     
     if (!skipBuild) {
-      await spawn('npx cli docker-build all prod', { env: process.env });
+      const buildEnv = Object.assign({ 'TAG': imageTag, 'BUILD_VERSION': buildVersion }, process.env);
+      await spawn('npx cli docker-build all prod', { env: buildEnv });
     } else {
       logger.info('--skip-build passed, skipping docker builds');
     }
     if (!dryRun && !skipPush) {
-      await spawn('npx cli docker-push all', { env: process.env });
+      const pushEnv = Object.assign({ 'TAG': imageTag }, process.env);
+      await spawn('npx cli docker-push all prod', { env: pushEnv });
     } else {
       const argName = dryRun ? 'dry-run' : 'skip-push';
       logger.info(`--${argName} passed, skipping docker push`);
     }
 
-    //const buildConfig = await compose.config();
     const services = manifest.build.services;
     for (let service of services) {
       const imageName = `jbrunton/bechdel-lists-${service}`;
       console.log('process.cwd: ' + process.cwd());
-      await exec(`kustomize edit set image ${imageName}=${imageName}:${build.imageTag}`, {
+      await exec(`kustomize edit set image ${imageName}=${imageName}:${imageTag}`, {
         env: process.env,
         cwd: `${process.cwd()}/k8s/prod`
       });

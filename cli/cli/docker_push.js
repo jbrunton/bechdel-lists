@@ -18,8 +18,12 @@ module.exports = {
           const dryRun = argv['dry-run'];
           const service = argv.service;
           const buildTarget = argv['build-target'];
+
+          if (buildTarget != 'prod') {
+            throw new Error("Push not allowed for dev build type");
+          }
         
-          const imageTag = docker.generateTag(service, buildTarget, process.env.TAG);          
+          const imageTag = docker.generateTag(service, 'prod', process.env.TAG);          
           const command = `docker push ${imageTag}`;
 
           if (!dryRun) {
@@ -38,10 +42,16 @@ module.exports = {
         ],
         run: async (argv, context) => {
           const dryRun = argv['dry-run'];
+          const buildTarget = argv['build-target'];
+
+          if (buildTarget != 'prod') {
+            throw new Error("Push not allowed for dev build type");
+          }
+
           const manifest = await manifests.local.getManifest();
           const services = manifest.build.services;
           for (let service of services) {
-            const command = `npx cli docker-push image ${service} ${argv['build-target']} ${dryRun ? '--dry-run' : ''}`;
+            const command = `npx cli docker-push image ${service} prod ${dryRun ? '--dry-run' : ''}`;
             await spawn(command, { env: process.env });
           }
         }
