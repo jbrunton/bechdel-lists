@@ -1,4 +1,9 @@
 builds:
+  - id: 0.2.18-063f802d-cbd0-4401-8251-8608728ad8b6
+    version: 0.2.18
+    buildSha: 44fbb71
+    imageTag: 0.2.18-063f802d-cbd0-4401-8251-8608728ad8b6
+    timestamp: '2020-06-10T18:29:04.103Z'
   - id: 0.2.17-c6707cfe-6054-41af-8c12-12a0a987441a
     version: 0.2.17
     buildSha: 9c25ece
