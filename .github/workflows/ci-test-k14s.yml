@@ -28,8 +28,11 @@ jobs:
         env:
           TOOL_CACHE: ${{ runner.tool_cache }}
         run: |
-          curl -L https://github.com/k14s/kbld/releases/download/v0.22.0/kbld-linux-amd64 > $TOOL_CACHE/kbld
-          chmod +x $TOOL_CACHE/kbld
+          export KBLD_DIR=$TOOL_CACHE/kbld-v0.22.0
+          mkdir $KBLD_DIR
+          curl -L https://github.com/k14s/kbld/releases/download/v0.22.0/kbld-linux-amd64 > $KBLD_DIR/kbld
+          chmod +x $KBLD_DIR/kbld
+          echo "::add-path::$KBLD_DIR"
 
       - name: check
         run: kbld version
