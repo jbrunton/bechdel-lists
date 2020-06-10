@@ -1,5 +1,8 @@
-latest: 27085962-0f3f-4dfb-8744-7317e9950c53
+latest: 809a878c-5761-4826-a7c2-724b0cdb3387
 deployments:
+  - id: 809a878c-5761-4826-a7c2-724b0cdb3387
+    version: 0.2.17
+    timestamp: '2020-06-10T16:07:51.792Z'
   - id: 27085962-0f3f-4dfb-8744-7317e9950c53
     version: 0.2.16
     timestamp: '2020-05-24T19:10:54.483Z'
