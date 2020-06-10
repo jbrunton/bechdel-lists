@@ -73,6 +73,7 @@ jobs:
         id: check
         if: github.event.ref == format('refs/heads/{0}', env.TARGET_BRANCH)
         run: |
+          node -v
           npm install
           npx ci set-outputs manifest-checks
 
