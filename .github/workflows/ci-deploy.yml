@@ -10,6 +10,8 @@ env:
   CI: 1
   FORCE_COLOR: 1
 
+  TARGET_BRANCH: list-187-staging
+
 jobs:
 
   deploy:
@@ -37,37 +39,50 @@ jobs:
         id: deployment_info
         run: npx ci set-outputs deployment-info $ENVIRONMENT
 
-      - name: copy files
-        uses: appleboy/scp-action@master
-        env:
-          HOST: ${{ steps.deployment_info.outputs.host }}
-          USERNAME: deployer
-          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+      - name: install doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          source: "${{ steps.deployment_info.outputs.buildFile }},monitoring,docker-compose.monitoring.yml"
-          overwrite: true
-          target: .
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: deploy
-        uses: appleboy/ssh-action@master
+      - name: save kubeconfig
+        run: doctl kubernetes cluster kubeconfig save test-cluster
+
+      - name: apply config
         env:
-          HOST: ${{ steps.deployment_info.outputs.host }}
-          USERNAME: deployer
-          KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_PRODUCTION_MASTER_KEY }}
-          POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
           BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
-          BUILD_VERSION: ${{ steps.deployment_info.outputs.buildVersion }}
-        with:
-          script: |
-            ln -sf $BUILD_FILE docker-compose.yml
-            export BUILD_VERSION
-            export POSTGRES_CONNECTION
-            export RAILS_MASTER_KEY
-            export COMPOSE_FILE="docker-compose.yml:docker-compose.monitoring.yml"
-            docker-compose up --detach --no-build --remove-orphans
-            docker-compose run api bin/rails db:migrate
-          envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION
+        run: kubectl apply -f $BUILD_FILE
+
+      # - name: copy files
+      #   uses: appleboy/scp-action@master
+      #   env:
+      #     HOST: ${{ steps.deployment_info.outputs.host }}
+      #     USERNAME: deployer
+      #     KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+      #   with:
+      #     source: "${{ steps.deployment_info.outputs.buildFile }},monitoring,docker-compose.monitoring.yml"
+      #     overwrite: true
+      #     target: .
+
+      # - name: deploy
+      #   uses: appleboy/ssh-action@master
+      #   env:
+      #     HOST: ${{ steps.deployment_info.outputs.host }}
+      #     USERNAME: deployer
+      #     KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
+      #     RAILS_MASTER_KEY: ${{ secrets.RAILS_PRODUCTION_MASTER_KEY }}
+      #     POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+      #     BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
+      #     BUILD_VERSION: ${{ steps.deployment_info.outputs.buildVersion }}
+      #   with:
+      #     script: |
+      #       ln -sf $BUILD_FILE docker-compose.yml
+      #       export BUILD_VERSION
+      #       export POSTGRES_CONNECTION
+      #       export RAILS_MASTER_KEY
+      #       export COMPOSE_FILE="docker-compose.yml:docker-compose.monitoring.yml"
+      #       docker-compose up --detach --no-build --remove-orphans
+      #       docker-compose run api bin/rails db:migrate
+      #     envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION
 
       - name: 'commit'
         run: |
@@ -76,7 +91,7 @@ jobs:
           
           npx ci commit deployment $ENVIRONMENT
           
-          git push origin HEAD:master
+          git push origin HEAD:$TARGET_BRANCH
   
       - name: 'notify success'
         if: success()
@@ -114,4 +129,4 @@ jobs:
           
           npx ci update-manifest $VERSION $ENVIRONMENT
           
-          git push origin HEAD:master
+          git push origin HEAD:$TARGET_BRANCH
