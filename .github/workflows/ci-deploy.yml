@@ -44,6 +44,13 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
+      - name: configure secrets
+        env:
+          TEMP: ${{ runner.temp }}
+        run: |
+          git clone git@github.com:jbrunton/jbrunton.com-secrets.git $TEMP/secrets
+          SECRETS_DIR=$TEMP/secrets/bechdel-lists/$ENVIRONMENT ./setup.sh prod
+
       - name: save kubeconfig
         run: doctl kubernetes cluster kubeconfig save test-cluster
 
