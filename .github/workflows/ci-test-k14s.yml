@@ -27,7 +27,9 @@ jobs:
       - name: install
         env:
           TOOL_CACHE: ${{ runner.tool_cache }}
-        run: curl -L https://github.com/k14s/kbld/releases/download/v0.22.0/kbld-linux-amd64 > $TOOL_CACHE
+        run: |
+          curl -L https://github.com/k14s/kbld/releases/download/v0.22.0/kbld-linux-amd64 > $TOOL_CACHE/kbld
+          chmod +x $TOOL_CACHE/kbld
 
       - name: check
         run: kbld version
