@@ -129,3 +129,11 @@ kubectl create namespace cert-manager
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v0.15.1 --set installCRDs=true
+
+  3. Production only: install SealedSecrets:
+
+    kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.12.4/controller.yaml
+
+    See https://github.com/bitnami-labs/sealed-secrets/releases
+
+    

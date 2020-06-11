@@ -143,6 +143,6 @@ async function createDeployment(environment, version, dryRun) {
   return deployment;
 }
 
-function buildFilePath(buildId) {
-  return `./deployments/builds/build.${buildId}.yml`
+function buildFilePath(buildId, environment) {
+  return `./deployments/builds/build.${environment}.${buildId}.yml`
 }
