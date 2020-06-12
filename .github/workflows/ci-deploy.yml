@@ -10,7 +10,7 @@ env:
   CI: 1
   FORCE_COLOR: 1
 
-  TARGET_BRANCH: list-197
+  TARGET_BRANCH: list-187-staging
 
 jobs:
 

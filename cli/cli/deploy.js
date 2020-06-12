@@ -17,7 +17,7 @@ module.exports = {
     console.log(`currentVersion: ${currentVersion}, nextVersion: ${nextVersion}`);
 
     const payload = {
-      ref: 'list-197',
+      ref: 'list-187-staging',
       environment: 'update_manifest',
       task: 'update_manifest',
       description: 'New version',
