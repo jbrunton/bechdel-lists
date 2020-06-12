@@ -44,18 +44,13 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: configure secrets
-        env:
-          TEMP: ${{ runner.temp }}
-          TOKEN: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}
-        run: |
-          git clone https://$TOKEN@github.com/jbrunton/jbrunton.com-secrets.git $TEMP/secrets
-          SECRETS_DIR=$TEMP/secrets/bechdel-lists/$ENVIRONMENT ./setup.sh prod
-
       - name: save kubeconfig
         run: doctl kubernetes cluster kubeconfig save test-cluster
 
-      - name: apply config
+      - name: configure environment
+        run: kubectl apply -k k8s/$ENVIRONMENT
+
+      - name: apply build config
         env:
           BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
         run: kubectl apply -f $BUILD_FILE

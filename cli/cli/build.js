@@ -40,10 +40,10 @@ module.exports = {
       const imageName = `jbrunton/bechdel-lists-${service}`;
       await exec(`kustomize edit set image ${imageName}=${imageName}:${imageTag}`, {
         env: process.env,
-        cwd: `${process.cwd()}/k8s/staging`
+        cwd: `${process.cwd()}/k8s/base`
       });
     }
-    const result = await exec('kustomize build k8s/staging | kbld -f -');
+    const result = await exec('kustomize build k8s/base | kbld -f -');
     const buildConfig = result.stdout.trim();
     const buildFile = manifests.buildFilePath(buildId);
     writeOutput(buildFile, buildConfig, dryRun);

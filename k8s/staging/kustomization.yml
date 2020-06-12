@@ -1,14 +1,4 @@
 resources:
-- ./cert-issuer.yml
-- ./certificate.yml
-- ./secrets/postgres-connection-sealed.yml
-- ../base
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-images:
-- name: jbrunton/bechdel-lists-api
-  newName: jbrunton/bechdel-lists-api
-  newTag: 0.2.20-ddee6fc1-4220-49ef-a9ba-6c3b30678e1f
-- name: jbrunton/bechdel-lists-client
-  newName: jbrunton/bechdel-lists-client
-  newTag: 0.2.20-ddee6fc1-4220-49ef-a9ba-6c3b30678e1f
+  - ./cert-issuer.yml
+  - ./certificate.yml
+  - ./secrets/postgres-connection-sealed.yml
