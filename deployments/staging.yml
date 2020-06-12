@@ -1,5 +1,8 @@
-latest: ce015743-8b98-4bb3-8f6b-20d7c4deda11
+latest: e4abfb02-ef9f-4ce2-872b-c11f1cb3b7bf
 deployments:
+  - id: e4abfb02-ef9f-4ce2-872b-c11f1cb3b7bf
+    version: 0.3.0
+    timestamp: '2020-06-12T10:46:22.732Z'
   - id: ce015743-8b98-4bb3-8f6b-20d7c4deda11
     version: 0.2.19
     timestamp: '2020-06-12T10:11:13.722Z'
