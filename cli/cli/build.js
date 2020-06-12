@@ -21,12 +21,15 @@ module.exports = {
     const buildId = buildManifest.id;
     const imageTag = buildManifest.imageTag;
     
+    // Step 1: build docker images for each service. This may be skipped if the images already exist.
     if (!skipBuild) {
       const buildEnv = Object.assign({ 'TAG': imageTag, 'BUILD_VERSION': buildVersion }, process.env);
       await spawn('npx cli docker-build all prod', { env: buildEnv });
     } else {
       logger.info('--skip-build passed, skipping docker builds');
     }
+    
+    // Step 2: push docker images for each service. This may be skipped if the images already exist in the repository.
     if (!dryRun && !skipPush) {
       const pushEnv = Object.assign({ 'TAG': imageTag }, process.env);
       await spawn('npx cli docker-push all prod', { env: pushEnv });
@@ -35,18 +38,24 @@ module.exports = {
       logger.info(`--${argName} passed, skipping docker push`);
     }
 
+    // Step 3: have Kustomize apply specific image tags.
     const services = manifest.build.services;
     for (let service of services) {
       const imageName = `jbrunton/bechdel-lists-${service}`;
       await exec(`kustomize edit set image ${imageName}=${imageName}:${imageTag}`, {
         env: process.env,
-        cwd: `${process.cwd()}/k8s/prod`
+        cwd: `${process.cwd()}/k8s/base`
       });
     }
-    const result = await exec('kustomize build k8s/prod | kbld -f -');
+
+    // Step 4: apply Kustomize followed by Kbld to extract image digests.
+    const result = await exec('kustomize build k8s/base | kbld -f -');
     const buildConfig = result.stdout.trim();
     const buildFile = manifests.buildFilePath(buildId);
     writeOutput(buildFile, buildConfig, dryRun);
+
+    // Step 5: cleanup. Remove the changes to the Kustomize file from Step 3.
+    await exec('git checkout k8s/base');
 
     console.log(`Completed build for ${buildVersion}`);
   },

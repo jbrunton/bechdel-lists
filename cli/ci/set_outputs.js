@@ -67,7 +67,7 @@ module.exports = {
         desc: 'Generate a deployment payload to deploy to <environment>',
           run: (argv, context) => {
           const payload = {
-            ref: process.env.GITHUB_REF || 'master',
+            ref: process.env.GITHUB_REF || 'list-187-staging',
             environment: argv.environment,
             description: 'Trigger deployment',
             auto_merge: false,

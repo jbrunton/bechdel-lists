@@ -1,5 +1,14 @@
-latest: 27085962-0f3f-4dfb-8744-7317e9950c53
+latest: e4abfb02-ef9f-4ce2-872b-c11f1cb3b7bf
 deployments:
+  - id: e4abfb02-ef9f-4ce2-872b-c11f1cb3b7bf
+    version: 0.3.0
+    timestamp: '2020-06-12T10:46:22.732Z'
+  - id: ce015743-8b98-4bb3-8f6b-20d7c4deda11
+    version: 0.2.19
+    timestamp: '2020-06-12T10:11:13.722Z'
+  - id: 809a878c-5761-4826-a7c2-724b0cdb3387
+    version: 0.2.17
+    timestamp: '2020-06-10T16:07:51.792Z'
   - id: 27085962-0f3f-4dfb-8744-7317e9950c53
     version: 0.2.16
     timestamp: '2020-05-24T19:10:54.483Z'

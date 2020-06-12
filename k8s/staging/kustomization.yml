@@ -1,5 +1,4 @@
-bases:
-  - ../base
 resources:
   - ./cert-issuer.yml
   - ./certificate.yml
+  - ./secrets/postgres-connection-sealed.yml

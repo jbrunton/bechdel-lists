@@ -1,4 +1,19 @@
 builds:
+  - id: 0.3.0-5e79dfa0-d4f8-41a1-84e8-c201d7ceb947
+    version: 0.3.0
+    buildSha: 8040df7
+    imageTag: 0.3.0-5e79dfa0-d4f8-41a1-84e8-c201d7ceb947
+    timestamp: '2020-06-12T10:40:46.639Z'
+  - id: 0.2.19-9d17bb83-5a23-4c64-ad00-747482ee4d1f
+    version: 0.2.19
+    buildSha: 8b3161a
+    imageTag: 0.2.19-35c3db4c-3bf1-44be-8646-1d46743dc983
+    timestamp: '2020-06-12T09:44:16.472Z'
+  - id: 0.2.18-063f802d-cbd0-4401-8251-8608728ad8b6
+    version: 0.2.18
+    buildSha: 44fbb71
+    imageTag: 0.2.18-063f802d-cbd0-4401-8251-8608728ad8b6
+    timestamp: '2020-06-10T18:29:04.103Z'
   - id: 0.2.17-c6707cfe-6054-41af-8c12-12a0a987441a
     version: 0.2.17
     buildSha: 9c25ece

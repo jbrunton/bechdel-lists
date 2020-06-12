@@ -83,7 +83,7 @@ module.exports = {
 };
 
 async function loadRemoteYaml(path) {
-  const url = `https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/${path}`;
+  const url = `https://raw.githubusercontent.com/jbrunton/bechdel-demo/list-187-staging/${path}`;
   const response = await axios.get(url);
   return yaml.safeLoad(response.data);
 }
