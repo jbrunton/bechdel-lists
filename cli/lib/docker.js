@@ -3,7 +3,7 @@ module.exports = {
 }
 
 function generateTag(service, buildTarget, tag) {
-  const imageName = buildTarget == 'dev' ? `bechdel-lists-${service}` : `jbrunton/bechdel-lists-${service}`;
+  const imageName = buildTarget == 'prod' ? `jbrunton/bechdel-lists-${service}` : `bechdel-lists-${service}`;
   const imageTag = `${imageName}:${tag || 'latest'}`;
   return imageTag;
 }

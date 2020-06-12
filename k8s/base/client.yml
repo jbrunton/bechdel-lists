@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: jbrunton/bechdel-lists-client
+          image: bechdel-lists-client
           ports:
             - containerPort: 5001
           env:

@@ -41,8 +41,8 @@ module.exports = {
     // Step 3: have Kustomize apply specific image tags.
     const services = manifest.build.services;
     for (let service of services) {
-      const imageName = `jbrunton/bechdel-lists-${service}`;
-      await exec(`kustomize edit set image ${imageName}=${imageName}:${imageTag}`, {
+      const imageName = `bechdel-lists-${service}`;
+      await exec(`kustomize edit set image ${imageName}=jbrunton/${imageName}:${imageTag}`, {
         env: process.env,
         cwd: `${process.cwd()}/k8s/base`
       });
