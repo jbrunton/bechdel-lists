@@ -46,7 +46,7 @@ jobs:
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
-          source: "${{ steps.deployment_info.outputs.buildFile }},monitoring,docker-compose.monitoring.yml"
+          source: "${{ steps.deployment_info.outputs.buildFile }}"
           overwrite: true
           target: .
 
