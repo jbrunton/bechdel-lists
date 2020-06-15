@@ -10,6 +10,8 @@ env:
   CI: 1
   FORCE_COLOR: 1
 
+  TARGET_BRANCH: list-204
+
 jobs:
 
   deploy:
@@ -76,7 +78,7 @@ jobs:
           
           npx ci commit deployment $ENVIRONMENT
           
-          git push origin HEAD:master
+          git push origin HEAD:$TARGET_BRANCH
   
       - name: 'notify success'
         if: success()
@@ -114,4 +116,4 @@ jobs:
           
           npx ci update-manifest $VERSION $ENVIRONMENT
           
-          git push origin HEAD:master
+          git push origin HEAD:$TARGET_BRANCH

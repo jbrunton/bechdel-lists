@@ -3,10 +3,10 @@ name: ci-build
 on:
   pull_request:
     branches:
-      - master
+      - list-204
   push:
     branches:
-      - master
+      - list-204
     paths-ignore:
       - 'deployments/**'
 
@@ -14,6 +14,8 @@ env:
   CI: 1
   FORCE_COLOR: 1
   WORKSPACE: ${{ github.workspace }}
+
+  TARGET_BRANCH: list-204
 
 jobs:
 
@@ -69,7 +71,7 @@ jobs:
 
       - name: check manifest
         id: check
-        if: github.event.ref == 'refs/heads/master'
+        if: github.event.ref == "refs/heads/$TARGET_BRANCH"
         run: |
           npm install
           npx ci set-outputs manifest-checks
@@ -103,7 +105,7 @@ jobs:
           
           npx ci commit build
           
-          git push origin HEAD:master
+          git push origin HEAD:$TARGET_BRANCH
   
   deploy_existing_build:
     needs: manifest_check
@@ -156,4 +158,3 @@ jobs:
           PAYLOAD: ${{ steps.payload.outputs.payload }}
           GITHUB_TOKEN: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
         run: echo "${PAYLOAD}" | hub api "repos/jbrunton/bechdel-demo/deployments" --input -
-        
