@@ -3,10 +3,10 @@ name: ci-build
 on:
   pull_request:
     branches:
-      - list-204
+      - list-202-staging
   push:
     branches:
-      - list-204
+      - list-202-staging
     paths-ignore:
       - 'deployments/**'
 
@@ -15,7 +15,7 @@ env:
   FORCE_COLOR: 1
   WORKSPACE: ${{ github.workspace }}
 
-  TARGET_BRANCH: list-204
+  TARGET_BRANCH: list-202-staging
 
 jobs:
 
