@@ -71,7 +71,7 @@ jobs:
 
       - name: check manifest
         id: check
-        if: github.event.ref == "refs/heads/$TARGET_BRANCH"
+        if: github.event.ref == format('refs/heads/{0}', env.TARGET_BRANCH)
         run: |
           npm install
           npx ci set-outputs manifest-checks
