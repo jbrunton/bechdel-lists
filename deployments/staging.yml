@@ -1,5 +1,8 @@
-latest: eae5a3a5-daea-498e-ab57-aa8790726948
+latest: e4edfbb2-7d33-4a83-8893-c98563125d29
 deployments:
+  - id: e4edfbb2-7d33-4a83-8893-c98563125d29
+    version: 0.2.16
+    timestamp: '2020-06-15T16:40:09.565Z'
   - id: eae5a3a5-daea-498e-ab57-aa8790726948
     version: 0.2.15
     timestamp: '2020-06-15T15:52:19.803Z'
