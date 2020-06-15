@@ -66,9 +66,7 @@ jobs:
             export BUILD_VERSION
             export POSTGRES_CONNECTION
             export RAILS_MASTER_KEY
-            export COMPOSE_FILE="docker-compose.yml:docker-compose.monitoring.yml"
-            docker-compose up --detach --no-build --remove-orphans
-            docker-compose run api bin/rails db:migrate
+            docker stack deploy bechdel-lists -c docker-compose.yml
           envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION
 
       - name: 'commit'
