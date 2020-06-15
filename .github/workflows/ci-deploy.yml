@@ -57,7 +57,7 @@ jobs:
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_PRODUCTION_MASTER_KEY }}
-          POSTGRES_CONNECTION: ${{ secrets.POSTGRES_PRODUCTION_CONNECTION }}
+          POSTGRES_CONNECTION: ${{ secrets[steps.deployment_info.outputs.connectionSecret] }}
           BUILD_FILE: ${{ steps.deployment_info.outputs.buildFile }}
           BUILD_VERSION: ${{ steps.deployment_info.outputs.buildVersion }}
         with:

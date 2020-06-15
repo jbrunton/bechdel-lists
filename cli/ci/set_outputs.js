@@ -61,6 +61,7 @@ module.exports = {
           console.log(`::set-output name=host::${envManifest.host}`);
           console.log(`::set-output name=buildVersion::${envManifest.version}`);
           console.log(`::set-output name=buildFile::${buildFile}`);
+          console.log(`::set-output name=connectionSecret::POSTGRES_${envName.toUpperCase()}_CONNECTION`);
         }
       })
       .command('deploy-payload <environment>', {
