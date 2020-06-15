@@ -5,5 +5,5 @@ environments:
     version: 0.2.15
   staging:
     host: staging.bechdel-lists.jbrunton.com
-    version: 0.2.15
+    version: 0.2.16
 
