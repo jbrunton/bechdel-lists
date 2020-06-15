@@ -4,6 +4,6 @@ environments:
     host: bechdel-lists.jbrunton.com
     version: 0.2.15
   staging:
-    host: 134.122.99.70
+    host: staging.bechdel-lists.jbrunton.com
     version: 0.2.16
 
