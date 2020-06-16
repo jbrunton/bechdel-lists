@@ -26,7 +26,7 @@ module.exports = {
       required_contexts:[]
     };
 
-    const command = `echo '${JSON.stringify(payload)}' | hub api "repos/jbrunton/bechdel-demo/deployments" --input -`;
+    const command = `echo '${JSON.stringify(payload)}' | hub api "repos/jbrunton/bechdel-lists/deployments" --input -`;
     if (!dryRun) {
       await exec(command, process.env);
     } else {

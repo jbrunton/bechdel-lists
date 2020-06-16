@@ -1,30 +1,30 @@
 # Bechdel Lists
 
-[![Build Status](https://github.com/jbrunton/bechdel-demo/workflows/ci-build/badge.svg?branch=master)](https://github.com/jbrunton/bechdel-demo/actions?query=branch%3Amaster+workflow%3Aci-build)
-[![Deployment Status](https://github.com/jbrunton/bechdel-demo/workflows/ci-deploy/badge.svg)](https://github.com/jbrunton/bechdel-demo/actions?workflow%3Aci-deploy)
-[![Maintainability](https://api.codeclimate.com/v1/badges/88c63816d9055f3c1ac6/maintainability)](https://codeclimate.com/github/jbrunton/bechdel-demo/maintainability)
+[![Build Status](https://github.com/jbrunton/bechdel-lists/workflows/ci-build/badge.svg?branch=master)](https://github.com/jbrunton/bechdel-lists/actions?query=branch%3Amaster+workflow%3Aci-build)
+[![Deployment Status](https://github.com/jbrunton/bechdel-lists/workflows/ci-deploy/badge.svg)](https://github.com/jbrunton/bechdel-lists/actions?workflow%3Aci-deploy)
+[![Maintainability](https://api.codeclimate.com/v1/badges/88c63816d9055f3c1ac6/maintainability)](https://codeclimate.com/github/jbrunton/bechdel-lists/maintainability)
 
 ## What is this?
 
 A small project that will (eventually) demo the following:
 
 * A small microservices app using <b>docker-compose</b> for easy local development and deployments.
-* A non-trivial backend [API](https://github.com/jbrunton/bechdel-demo/tree/master/api) written with Ruby on Rails.
-* A [client app](https://github.com/jbrunton/bechdel-demo/tree/master/client) using <b>Vue.js</b>.
+* A non-trivial backend [API](https://github.com/jbrunton/bechdel-lists/tree/master/api) written with Ruby on Rails.
+* A [client app](https://github.com/jbrunton/bechdel-lists/tree/master/client) using <b>Vue.js</b>.
 * Unit and integration testing techniques using docker-compose and Cypress (and various other tools).
 
 The app itself allows users to create lists of movies and visualize trends in the Bechdel score over time, and by genre. Bechdel scores are taken from the [bechdeltest.com API](https://bechdeltest.com/api/v1/doc). You can try it out [here](http://bechdel-lists.jbrunton.com/) (example visualizations [here](https://bechdel-lists.jbrunton.com/browse/lists/1/charts)).
 
-<a href="https://github.com/jbrunton/bechdel-demo/blob/master/bechdel-lists-screenshot.png">
-    <img src="https://raw.githubusercontent.com/jbrunton/bechdel-demo/master/bechdel-lists-screenshot.png" width="472" height="372">
+<a href="https://github.com/jbrunton/bechdel-lists/blob/master/bechdel-lists-screenshot.png">
+    <img src="https://raw.githubusercontent.com/jbrunton/bechdel-lists/master/bechdel-lists-screenshot.png" width="472" height="372">
 </a>
 
 ## Development
 
 Prerequisites: Git, Docker, Node, NPM.
 
-    git clone git@github.com:jbrunton/bechdel-demo.git
-    cd bechdel-demo
+    git clone git@github.com:jbrunton/bechdel-lists.git
+    cd bechdel-lists
     TAG=latest docker-compose up
 
 This will run the app at http://localhost:3001, though you'll need to prepare a development database to use it (see below).
@@ -73,8 +73,8 @@ By default docker-compose will map port 5432 to the postgres instance, and serve
 
 For convenience the repository includes a Postman collection and environment. The files are:
 
-    api/bechdel-demo.postman_collection.json
-    api/bechdel-demo.postman_environment.json
+    api/bechdel-lists.postman_collection.json
+    api/bechdel-lists.postman_environment.json
 
 The environment includes a variable `authEmail`. If you set this to your user's email, then you can authenticate at `/dev/signin`. This cuts out the Google Sign-In flow which [doesn't work with Postman](https://github.com/postmanlabs/postman-app-support/issues/7700).
 

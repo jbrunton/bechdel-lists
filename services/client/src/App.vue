@@ -18,7 +18,7 @@
         <SignIn />
 
         <v-btn
-          href="https://github.com/jbrunton/bechdel-demo"
+          href="https://github.com/jbrunton/bechdel-lists"
           target="_blank"
           text
         >
