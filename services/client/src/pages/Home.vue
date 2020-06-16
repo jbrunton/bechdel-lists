@@ -6,9 +6,9 @@
       <ul>
         <li>A small microservices app using <b>docker-compose</b> for easy local development and deployments.</li>
         <li>A non-trivial, cleanly architected backend
-          <a href="https://github.com/jbrunton/bechdel-demo/tree/master/api">API</a> written using <b>Express</b>.
+          <a href="https://github.com/jbrunton/bechdel-lists/tree/master/api">API</a> written using <b>Express</b>.
         </li>
-        <li>A cleanly written <a href="https://github.com/jbrunton/bechdel-demo/tree/master/client">client app</a> using
+        <li>A cleanly written <a href="https://github.com/jbrunton/bechdel-lists/tree/master/client">client app</a> using
         <b>Vue.js</b>
         </li>
       </ul>

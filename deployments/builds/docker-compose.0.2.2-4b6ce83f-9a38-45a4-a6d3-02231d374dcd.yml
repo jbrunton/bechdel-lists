@@ -51,6 +51,6 @@ services:
       - '9090:9090/tcp'
     volumes:
       - >-
-        /home/runner/work/bechdel-demo/bechdel-demo/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        /home/runner/work/bechdel-lists/bechdel-lists/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 version: '3.0'
 
