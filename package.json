@@ -1,10 +1,10 @@
 {
-  "name": "bechdel-demo",
+  "name": "bechdel-lists",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jbrunton/bechdel-demo.git"
+    "url": "git+https://github.com/jbrunton/bechdel-lists.git"
   },
-  "homepage": "https://github.com/jbrunton/bechdel-demo#readme",
+  "homepage": "https://github.com/jbrunton/bechdel-lists#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "colors": "^1.4.0",
