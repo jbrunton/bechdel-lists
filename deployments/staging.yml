@@ -1,5 +1,8 @@
-latest: e4edfbb2-7d33-4a83-8893-c98563125d29
+latest: d801cef4-4e07-48cb-8439-d5676810a07a
 deployments:
+  - id: d801cef4-4e07-48cb-8439-d5676810a07a
+    version: 0.2.17
+    timestamp: '2020-06-16T10:13:09.635Z'
   - id: e4edfbb2-7d33-4a83-8893-c98563125d29
     version: 0.2.16
     timestamp: '2020-06-15T16:40:09.565Z'
