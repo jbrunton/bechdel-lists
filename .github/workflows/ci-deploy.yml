@@ -10,7 +10,7 @@ env:
   CI: 1
   FORCE_COLOR: 1
 
-  TARGET_BRANCH: list-204
+  TARGET_BRANCH: list-202-staging
 
 jobs:
 
@@ -46,7 +46,7 @@ jobs:
           USERNAME: deployer
           KEY: ${{ secrets.DEPLOYER_SSH_KEY }}
         with:
-          source: "${{ steps.deployment_info.outputs.buildFile }},monitoring,docker-compose.monitoring.yml"
+          source: "${{ steps.deployment_info.outputs.buildFile }}"
           overwrite: true
           target: .
 
