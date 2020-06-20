@@ -57,12 +57,24 @@ services:
         - traefik.http.routers.bechdel-lists-api.tls.certresolver=le
         - traefik.http.services.bechdel-lists-api.loadbalancer.server.port=5000
 
-  # client:
-  #   image: "jbrunton/bechdel-lists-client:${TAG?}"
-  #   networks:
-  #     - traefik-public
-  #   build:
-  #     context: ./services/client
-  #     args:
-  #       build_version: $BUILD_VERSION
-  #       google_client_id: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+  client:
+    image: "jbrunton/bechdel-lists-client:${TAG?}"
+    networks:
+      - traefik-public
+    build:
+      context: ./services/client
+      args:
+        build_version: $BUILD_VERSION
+        google_client_id: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.bechdel-lists-client.rule=Host(`${DOMAIN?}`)
+        - traefik.http.routers.bechdel-lists-client.entrypoints=https
+        - traefik.http.routers.bechdel-lists-client.tls=true
+        - traefik.http.routers.bechdel-lists-client.tls.certresolver=le
+        - traefik.http.services.bechdel-lists-client.loadbalancer.server.port=5001
