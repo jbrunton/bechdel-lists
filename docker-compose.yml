@@ -42,6 +42,7 @@ services:
       - POSTGRES_DISABLE_SSL
       - RAILS_MASTER_KEY
       - RAILS_LOG_TO_STDOUT=1
+      - DOMAIN
     deploy:
       mode: replicated
       replicas: 1
