@@ -40,7 +40,6 @@ module ApiRails
 
     # config.middleware.use Rack::MethodOverride
 
-    config.hosts << "api"
-    config.hosts << "localhost"
+    config.hosts << ENV['DOMAIN']
   end
 end

@@ -1,27 +1,16 @@
-version: '3'
+version: '3.8'
+
+networks:
+  traefik-public:
+    external: true
+
 services:
-  nginx:
-    image: "jbrunton/bechdel-lists-nginx:${TAG?}"
-    restart: always
-    build:
-      context: ./services/nginx
-      args:
-        listen_env: ${NGINX_LISTEN_ENV:-production}
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ${NGINX_CERTS_DIR:-/home/deployer/certs}:/etc/nginx/certs
-  nginx_exporter:
-    image: nginx/nginx-prometheus-exporter:0.7.0
-    ports:
-      - 9113:9113
-    environment:
-      - SCRAPE_URI=http://nginx/stub_status
-    depends_on:
-      - nginx
+
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
+    networks:
+      - traefik-public
+      - default
     build:
       context: ./services/api
     ports:
@@ -34,10 +23,40 @@ services:
       - POSTGRES_DISABLE_SSL
       - RAILS_MASTER_KEY
       - RAILS_LOG_TO_STDOUT=1
+      - DOMAIN
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.bechdel-lists-api.rule=Host(`${DOMAIN?}`) && PathPrefix(`/api`)
+        - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix,https-redirect
+        - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
+        - traefik.http.routers.bechdel-lists-api.entrypoints=https
+        - traefik.http.routers.bechdel-lists-api.tls=true
+        - traefik.http.routers.bechdel-lists-api.tls.certresolver=le
+        - traefik.http.services.bechdel-lists-api.loadbalancer.server.port=5000
+
   client:
     image: "jbrunton/bechdel-lists-client:${TAG?}"
+    networks:
+      - traefik-public
     build:
       context: ./services/client
       args:
         build_version: $BUILD_VERSION
         google_client_id: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.bechdel-lists-client.rule=Host(`${DOMAIN?}`)
+        - traefik.http.routers.bechdel-lists-client.entrypoints=https
+        - traefik.http.routers.bechdel-lists-client.tls=true
+        - traefik.http.routers.bechdel-lists-client.tls.certresolver=le
+        - traefik.http.services.bechdel-lists-client.loadbalancer.server.port=5001

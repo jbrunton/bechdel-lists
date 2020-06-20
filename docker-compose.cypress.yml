@@ -1,13 +1,15 @@
-version: '3.0'
+version: '3.8'
 services:
   cypress:
     image: cypress/included:4.5.0
+    networks:
+      - traefik-public
     depends_on: 
       - client
     volumes:
       - ./services/client:/e2e
     environment:
       # pass base url to test pointing at the web application
-      - CYPRESS_baseUrl=http://nginx
+      - CYPRESS_baseUrl=http://${DOMAIN?}
     # share the current folder as volume to avoid copying
     working_dir: /e2e

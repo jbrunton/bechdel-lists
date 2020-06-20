@@ -1,4 +1,5 @@
-version: '3'
+version: '3.8'
+
 services:
   postgres:
     image: 'postgres:latest'
@@ -8,6 +9,7 @@ services:
       - POSTGRES_DB=bechdel_lists_development
     ports:
       - "${POSTGRES_LOCAL_PORT:-5432}:5432"
+
   api:
     image: 'bechdel-lists-api'
     volumes:
@@ -16,10 +18,15 @@ services:
       - RAILS_ENV=development
       - SEED_USER_NAME
       - SEED_USER_EMAIL
-    ports:
-      - "5000:5000"
     depends_on:
       - postgres
+    labels:
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.bechdel-lists-api.rule=Host(`${DOMAIN?}`) && PathPrefix(`/api`)
+      - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix
+      - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
+      - traefik.http.services.bechdel-lists-api.loadbalancer.server.port=5000
+
   client:
     image: 'bechdel-lists-client'
     build:
@@ -29,15 +36,8 @@ services:
       - ./services/client:/app
     depends_on:
       - api
-      - nginx
       - postgres
-  nginx:
-    image: 'bechdel-lists-nginx'
-    build:
-      args:
-        listen_env: development
-    ports:
-      - "${NGINX_LOCAL_PORT:-3001}:80"
-    volumes:
-      - ./services/nginx:/etc/nginx/certs # hack to prevent missing path errors in lieu of a production compose file.
-  
+    labels:
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.bechdel-lists-client.rule=Host(`${DOMAIN?}`)
+      - traefik.http.services.bechdel-lists-client.loadbalancer.server.port=5001
