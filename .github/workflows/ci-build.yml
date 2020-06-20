@@ -97,7 +97,7 @@ jobs:
 
       - name: 'build'
         env:
-          HOST: dummy
+          HOST: ENV:HOST # this will be replaced with '$HOST' - see compose.js
         run: npx ci create build
 
       - name: 'commit'

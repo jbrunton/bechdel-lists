@@ -11,6 +11,16 @@ function removeBuildContexts(config) {
   return yaml.safeDump(configObject);
 }
 
+// This is necessary because docker-compose evaluates all variables. To reinstate variables that we want to keep
+// for deployment time, set them to ENV:VAR-NAME. E.g. if the variable $HOST is set to ENV:HOST, it will be reinstated
+// as $HOST.
+function reinstateEnvVars(config) {
+  return config.replace(/ENV:(\w+)/g, function(match, p1) {
+    console.log('match: ' + match);
+    return `\$${p1}`
+  });
+}
+
 class Compose {
   constructor(tag, buildVersion) {
     this.tag = tag;
@@ -41,7 +51,7 @@ class Compose {
   async config() {
     const result = await exec('docker-compose config --resolve-image-digests', this.execOpts);
     const dockerFile = result.stdout;
-    const config = removeBuildContexts(dockerFile);
+    const config = removeBuildContexts(reinstateEnvVars(dockerFile));
     return config;
   }
 }
