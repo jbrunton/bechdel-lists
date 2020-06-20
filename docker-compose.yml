@@ -1,25 +1,25 @@
-version: '3'
+version: '3.8'
 services:
-  nginx:
-    image: "jbrunton/bechdel-lists-nginx:${TAG?}"
-    restart: always
-    build:
-      context: ./services/nginx
-      args:
-        listen_env: ${NGINX_LISTEN_ENV:-production}
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ${NGINX_CERTS_DIR:-/home/deployer/certs}:/etc/nginx/certs
-  nginx_exporter:
-    image: nginx/nginx-prometheus-exporter:0.7.0
-    ports:
-      - 9113:9113
-    environment:
-      - SCRAPE_URI=http://nginx/stub_status
-    depends_on:
-      - nginx
+  # nginx:
+  #   image: "jbrunton/bechdel-lists-nginx:${TAG?}"
+  #   restart: always
+  #   build:
+  #     context: ./services/nginx
+  #     args:
+  #       listen_env: ${NGINX_LISTEN_ENV:-production}
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     - ${NGINX_CERTS_DIR:-/home/deployer/certs}:/etc/nginx/certs
+  # nginx_exporter:
+  #   image: nginx/nginx-prometheus-exporter:0.7.0
+  #   ports:
+  #     - 9113:9113
+  #   environment:
+  #     - SCRAPE_URI=http://nginx/stub_status
+  #   depends_on:
+  #     - nginx
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
     build:
@@ -34,10 +34,10 @@ services:
       - POSTGRES_DISABLE_SSL
       - RAILS_MASTER_KEY
       - RAILS_LOG_TO_STDOUT=1
-  client:
-    image: "jbrunton/bechdel-lists-client:${TAG?}"
-    build:
-      context: ./services/client
-      args:
-        build_version: $BUILD_VERSION
-        google_client_id: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+  # client:
+  #   image: "jbrunton/bechdel-lists-client:${TAG?}"
+  #   build:
+  #     context: ./services/client
+  #     args:
+  #       build_version: $BUILD_VERSION
+  #       google_client_id: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com

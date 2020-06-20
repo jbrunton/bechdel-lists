@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   postgres:
     image: 'postgres:latest'
@@ -10,6 +10,9 @@ services:
       - "${POSTGRES_LOCAL_PORT:-5432}:5432"
   api:
     image: 'bechdel-lists-api'
+    networks:
+      - traefik-public
+      - default
     volumes:
       - ./services/api:/app
     environment:
@@ -20,24 +23,36 @@ services:
       - "5000:5000"
     depends_on:
       - postgres
-  client:
-    image: 'bechdel-lists-client'
-    build:
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./services/client:/app
-    depends_on:
-      - api
-      - nginx
-      - postgres
-  nginx:
-    image: 'bechdel-lists-nginx'
-    build:
-      args:
-        listen_env: development
-    ports:
-      - "${NGINX_LOCAL_PORT:-3001}:80"
-    volumes:
-      - ./services/nginx:/etc/nginx/certs # hack to prevent missing path errors in lieu of a production compose file.
-  
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.bechdel-lists-api.rule=Host(`localhost`);PathPrefixStrip:/api
+      - traefik.http.routers.bechdel-lists-api.rule=Host(`localhost`) && PathPrefix(`/api`)
+      - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix
+      - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
+
+  # client:
+  #   image: 'bechdel-lists-client'
+  #   build:
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+  #     - /app/node_modules
+  #     - ./services/client:/app
+  #   depends_on:
+  #     - api
+  #     - nginx
+  #     - postgres
+  # nginx:
+  #   image: 'bechdel-lists-nginx'
+  #   build:
+  #     args:
+  #       listen_env: development
+  #   ports:
+  #     - "${NGINX_LOCAL_PORT:-3001}:80"
+  #   volumes:
+  #     - ./services/nginx:/etc/nginx/certs # hack to prevent missing path errors in lieu of a production compose file.
+
+networks:
+  traefik-public:
+    external: true
