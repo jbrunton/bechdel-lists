@@ -6,6 +6,7 @@ npm ci --no-optional
 
 cd ${WORKSPACE}
 docker network create traefik-public
+docker-compose -f docker-compose.traefik-dev.yml up -d
 docker-compose up -d
 docker-compose run api bin/rails db:migrate RAILS_ENV=development
 export COMPOSE_FILE=$($WORKSPACE/get-compose-file.sh cypress)
