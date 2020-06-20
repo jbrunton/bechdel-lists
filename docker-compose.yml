@@ -22,6 +22,9 @@ services:
   #     - nginx
   api:
     image: "jbrunton/bechdel-lists-api:${TAG?}"
+    networks:
+      - traefik-public
+      - default
     build:
       context: ./services/api
     ports:
@@ -34,10 +37,12 @@ services:
       - POSTGRES_DISABLE_SSL
       - RAILS_MASTER_KEY
       - RAILS_LOG_TO_STDOUT=1
-  # client:
-  #   image: "jbrunton/bechdel-lists-client:${TAG?}"
-  #   build:
-  #     context: ./services/client
-  #     args:
-  #       build_version: $BUILD_VERSION
-  #       google_client_id: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+  client:
+    image: "jbrunton/bechdel-lists-client:${TAG?}"
+    networks:
+      - traefik-public
+    build:
+      context: ./services/client
+      args:
+        build_version: $BUILD_VERSION
+        google_client_id: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com

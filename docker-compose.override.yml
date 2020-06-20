@@ -10,9 +10,6 @@ services:
       - "${POSTGRES_LOCAL_PORT:-5432}:5432"
   api:
     image: 'bechdel-lists-api'
-    networks:
-      - traefik-public
-      - default
     volumes:
       - ./services/api:/app
     environment:
@@ -26,23 +23,28 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
-      - traefik.constraint-label=traefik-public
-      - traefik.http.routers.bechdel-lists-api.rule=Host(`localhost`);PathPrefixStrip:/api
       - traefik.http.routers.bechdel-lists-api.rule=Host(`localhost`) && PathPrefix(`/api`)
       - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix
       - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
 
-  # client:
-  #   image: 'bechdel-lists-client'
-  #   build:
-  #     dockerfile: Dockerfile.dev
-  #   volumes:
-  #     - /app/node_modules
-  #     - ./services/client:/app
-  #   depends_on:
-  #     - api
-  #     - nginx
-  #     - postgres
+  client:
+    image: 'bechdel-lists-client'
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./services/client:/app
+    ports:
+      - "5001:5001"
+    depends_on:
+      - api
+      - postgres
+    labels:
+      - "traefik.http.routers.bechdel-lists-client.rule=Host(`localhost`)"
+      # - traefik.enable=true
+      # - traefik.docker.network=traefik-public
+      # - traefik.http.routers.bechdel-lists-client.rule=Host(`client.localhost`)
+  
   # nginx:
   #   image: 'bechdel-lists-nginx'
   #   build:
