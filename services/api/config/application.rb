@@ -42,5 +42,7 @@ module ApiRails
 
     config.hosts << "api"
     config.hosts << "localhost"
+    config.hosts << "staging.bechdel-lists.jbrunton.com"
+    config.hosts << "bechdel-lists.jbrunton.com"
   end
 end
