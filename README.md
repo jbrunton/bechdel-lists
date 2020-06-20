@@ -37,6 +37,13 @@ For convenience you may wish to create a `.env` file in the project root directo
 
 Then you can omit the `TAG=latest` variable for most docker commands. See below for more about the other config options.
 
+### Start a Traefik instance
+
+Traefik is required on the network `traefik-public`. For first time setup, you'll need to run:
+
+    docker create network traefik-public
+    docker-compose -f docker-compose.traefik-dev.yml up -d
+
 ### Database preparation
 
 You'll need to create and configure the database:

@@ -23,7 +23,7 @@ services:
       - POSTGRES_DISABLE_SSL
       - RAILS_MASTER_KEY
       - RAILS_LOG_TO_STDOUT=1
-      - DOMAIN
+      - HOST
     deploy:
       mode: replicated
       replicas: 1
@@ -31,7 +31,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
-        - traefik.http.routers.bechdel-lists-api.rule=Host(`${DOMAIN?}`) && PathPrefix(`/api`)
+        - traefik.http.routers.bechdel-lists-api.rule=Host(`${HOST?}`) && PathPrefix(`/api`)
         - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix,https-redirect
         - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
         - traefik.http.routers.bechdel-lists-api.entrypoints=https
@@ -55,7 +55,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
-        - traefik.http.routers.bechdel-lists-client.rule=Host(`${DOMAIN?}`)
+        - traefik.http.routers.bechdel-lists-client.rule=Host(`${HOST?}`)
         - traefik.http.routers.bechdel-lists-client.entrypoints=https
         - traefik.http.routers.bechdel-lists-client.tls=true
         - traefik.http.routers.bechdel-lists-client.tls.certresolver=le

@@ -40,6 +40,6 @@ module ApiRails
 
     # config.middleware.use Rack::MethodOverride
 
-    config.hosts << ENV['DOMAIN']
+    config.hosts << ENV['HOST']
   end
 end

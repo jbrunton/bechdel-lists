@@ -10,6 +10,6 @@ services:
       - ./services/client:/e2e
     environment:
       # pass base url to test pointing at the web application
-      - CYPRESS_baseUrl=http://${DOMAIN?}
+      - CYPRESS_baseUrl=http://${HOST?}
     # share the current folder as volume to avoid copying
     working_dir: /e2e

@@ -66,8 +66,9 @@ jobs:
             export BUILD_VERSION
             export POSTGRES_CONNECTION
             export RAILS_MASTER_KEY
+            export HOST
             docker stack deploy bechdel-lists -c docker-compose.yml
-          envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION
+          envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION,HOST
 
       - name: 'commit'
         run: |
