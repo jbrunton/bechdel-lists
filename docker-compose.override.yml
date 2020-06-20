@@ -22,7 +22,7 @@ services:
       - postgres
     labels:
       - traefik.docker.network=traefik-public
-      - traefik.http.routers.bechdel-lists-api.rule=Host(`${DOMAIN:-localhost}`) && PathPrefix(`/api`)
+      - traefik.http.routers.bechdel-lists-api.rule=Host(`${DOMAIN?}`) && PathPrefix(`/api`)
       - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix
       - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
       - traefik.http.services.bechdel-lists-api.loadbalancer.server.port=5000
@@ -39,5 +39,5 @@ services:
       - postgres
     labels:
       - traefik.docker.network=traefik-public
-      - traefik.http.routers.bechdel-lists-client.rule=Host(`${DOMAIN:-localhost}`)
+      - traefik.http.routers.bechdel-lists-client.rule=Host(`${DOMAIN?}`)
       - traefik.http.services.bechdel-lists-client.loadbalancer.server.port=5001

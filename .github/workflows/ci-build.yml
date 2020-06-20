@@ -56,7 +56,6 @@ jobs:
       - name: run
         env:
           SERVICE: ${{ matrix.service }}
-          DOMAIN: reverse-proxy
         run: ./ci/integration_tests/${SERVICE}.sh
 
   manifest_check:
