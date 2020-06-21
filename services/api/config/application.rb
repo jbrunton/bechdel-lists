@@ -40,7 +40,9 @@ module ApiRails
 
     # config.middleware.use Rack::MethodOverride
 
-    config.hosts << 'loadbalancer' unless Rails.env.production?
     config.hosts << ENV['HOST']
+
+    # This is for local testing of the monitoring stack, which targets the local traefik host
+    config.hosts << 'traefik' unless Rails.env.production?
   end
 end
