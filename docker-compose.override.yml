@@ -22,7 +22,7 @@ services:
       - postgres
     labels:
       - traefik.docker.network=traefik-public
-      - traefik.http.routers.bechdel-lists-api.rule=Host(`${HOST?}`) && PathPrefix(`/api`)
+      - traefik.http.routers.bechdel-lists-api.rule=(Host(`traefik`) || Host(`${HOST?}`)) && PathPrefix(`/api`)
       - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix
       - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
       - traefik.http.services.bechdel-lists-api.loadbalancer.server.port=5000

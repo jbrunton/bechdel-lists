@@ -40,6 +40,7 @@ module ApiRails
 
     # config.middleware.use Rack::MethodOverride
 
+    config.hosts << 'loadbalancer' unless Rails.env.production?
     config.hosts << ENV['HOST']
   end
 end
