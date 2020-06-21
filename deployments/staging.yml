@@ -1,5 +1,8 @@
-latest: 536625e9-7461-44b0-9ab5-a251b006fece
+latest: 301cb2a2-6782-46b8-87ff-9952f4abfbc3
 deployments:
+  - id: 301cb2a2-6782-46b8-87ff-9952f4abfbc3
+    version: 0.2.21
+    timestamp: '2020-06-21T11:59:11.740Z'
   - id: 536625e9-7461-44b0-9ab5-a251b006fece
     version: 0.2.20
     timestamp: '2020-06-20T20:45:33.317Z'
