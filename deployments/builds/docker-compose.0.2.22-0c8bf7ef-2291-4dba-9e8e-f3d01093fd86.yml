@@ -1,0 +1,65 @@
+networks:
+  traefik-public:
+    external: true
+    name: traefik-public
+services:
+  api:
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - >-
+          traefik.http.routers.bechdel-lists-api-http.rule=Host(`$HOST`) &&
+          PathPrefix(`/api`)
+        - traefik.http.routers.bechdel-lists-api-http.entrypoints=http
+        - traefik.http.routers.bechdel-lists-api-http.middlewares=https-redirect
+        - >-
+          traefik.http.routers.bechdel-lists-api-https.rule=Host(`$HOST`) &&
+          PathPrefix(`/api`)
+        - >-
+          traefik.http.routers.bechdel-lists-api-https.middlewares=api-stripprefix
+        - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
+        - traefik.http.routers.bechdel-lists-api-https.entrypoints=https
+        - traefik.http.routers.bechdel-lists-api-https.tls=true
+        - traefik.http.routers.bechdel-lists-api-https.tls.certresolver=le
+        - traefik.http.services.bechdel-lists-api.loadbalancer.server.port=5000
+      mode: replicated
+      replicas: 1
+    environment:
+      GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+      HOST: $HOST
+      PORT: '5000'
+      POSTGRES_CONNECTION: null
+      POSTGRES_DISABLE_SSL: null
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: '1'
+      RAILS_MASTER_KEY: null
+    image: >-
+      jbrunton/bechdel-lists-api@sha256:d59d5d1b9b556dd1f333617ad73a7a0bf2dedaefea1165736c315733ddf0c3e1
+    networks:
+      default: null
+      traefik-public: null
+    ports:
+      - published: 9229
+        target: 9229
+  client:
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.bechdel-lists-client.rule=Host(`$HOST`)
+        - traefik.http.routers.bechdel-lists-client.entrypoints=https
+        - traefik.http.routers.bechdel-lists-client.tls=true
+        - traefik.http.routers.bechdel-lists-client.tls.certresolver=le
+        - >-
+          traefik.http.services.bechdel-lists-client.loadbalancer.server.port=5001
+      mode: replicated
+      replicas: 1
+    image: >-
+      jbrunton/bechdel-lists-client@sha256:1ee2fc96de66acadd2948f6251214e90097746744b1d251116bf9eb74e326c3c
+    networks:
+      traefik-public: null
+version: '3.8'
+
