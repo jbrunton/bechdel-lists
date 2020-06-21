@@ -31,12 +31,15 @@ services:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
-        - traefik.http.routers.bechdel-lists-api.rule=Host(`${HOST?}`) && PathPrefix(`/api`)
-        - traefik.http.routers.bechdel-lists-api.middlewares=api-stripprefix,https-redirect
+        - traefik.http.routers.bechdel-lists-api-http.rule=Host(`${HOST?}`) && PathPrefix(`/api`)
+        - traefik.http.routers.bechdel-lists-api-http.entrypoints=http
+        - traefik.http.routers.bechdel-lists-api-http.middlewares=https-redirect
+        - traefik.http.routers.bechdel-lists-api-https.rule=Host(`${HOST?}`) && PathPrefix(`/api`)
+        - traefik.http.routers.bechdel-lists-api-https.middlewares=api-stripprefix
         - traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api
-        - traefik.http.routers.bechdel-lists-api.entrypoints=https
-        - traefik.http.routers.bechdel-lists-api.tls=true
-        - traefik.http.routers.bechdel-lists-api.tls.certresolver=le
+        - traefik.http.routers.bechdel-lists-api-https.entrypoints=https
+        - traefik.http.routers.bechdel-lists-api-https.tls=true
+        - traefik.http.routers.bechdel-lists-api-https.tls.certresolver=le
         - traefik.http.services.bechdel-lists-api.loadbalancer.server.port=5000
 
   client:
