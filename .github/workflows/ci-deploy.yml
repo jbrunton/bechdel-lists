@@ -67,6 +67,7 @@ jobs:
             export POSTGRES_CONNECTION
             export RAILS_MASTER_KEY
             export HOST
+            docker-compose run api bin/rails db:migrate
             docker stack deploy bechdel-lists -c docker-compose.yml
           envs: POSTGRES_CONNECTION,RAILS_MASTER_KEY,BUILD_FILE,BUILD_VERSION,HOST
 
