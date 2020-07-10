@@ -1,3 +1,41 @@
+local steps = import 'common/steps.libsonnet';
+
+local deploy_job (buildRequired) =
+  local deploy_steps = [
+    steps.checkout,
+    steps.named("npm install", "npm install"),
+    {
+      env: {
+        ENVIRONMENT: "${{ matrix.environment }}",
+        TASK: "${{ matrix.task }}"
+      },
+      id: "payload",
+      name: "generate payload",
+      run: "npx ci set-outputs deploy-payload $ENVIRONMENT"
+    },
+    {
+      env: {
+        GITHUB_TOKEN: "${{ secrets.CI_MINION_ACCESS_TOKEN }}",
+        PAYLOAD: "${{ steps.payload.outputs.payload }}"
+      },
+      name: "start deployment workflow",
+      run: "echo \"${PAYLOAD}\" | hub api \"repos/jbrunton/bechdel-lists/deployments\" --input -"
+    }
+  ];
+  local needs = if buildRequired then [
+    "manifest_check",
+    "build"
+  ] else "manifest_check";
+  {
+    "if": "needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == %s" % buildRequired,
+    needs: needs,
+    "runs-on": "ubuntu-latest",
+    steps: deploy_steps,
+    strategy: {
+      matrix: "${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}"
+    }
+  };
+
 local workflow = {
   env: {
     CI: 1,
@@ -20,95 +58,21 @@ local workflow = {
             token: "${{ secrets.CI_ADMIN_ACCESS_TOKEN }}"
           }
         },
-        {
-          name: "npm install",
-          run: "npm install"
-        },
-        {
-          name: "docker login",
-          run: "echo \"$DOCKER_ACCESS_TOKEN\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin"
-        },
-        {
-          name: "build",
-          run: "npx ci create build"
-        },
-        {
-          name: "commit",
-          run: "git config --global user.email \"jbrunton-ci-minion@outlook.com\"\ngit config --global user.name \"jbrunton-ci-minion\"\n\nnpx ci commit build\n\ngit push origin HEAD:master\n"
-        }
+        steps.named('npm install', 'npm install'),
+        steps.named('docker login', 'echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin'),
+        steps.named('build', 'npx ci create build'),
+        steps.named('commit', |||
+          git config --global user.email "jbrunton-ci-minion@outlook.com"
+          git config --global user.name "jbrunton-ci-minion"
+
+          npx ci commit build
+          
+          git push origin HEAD:master
+        |||),
       ]
     },
-    deploy_existing_build: {
-      "if": "needs.manifest_check.outputs.deploymentsRequired == true \u0026\u0026 needs.manifest_check.outputs.buildRequired == false",
-      needs: "manifest_check",
-      "runs-on": "ubuntu-latest",
-      steps: [
-        {
-          uses: "actions/checkout@v2"
-        },
-        {
-          name: "npm install",
-          run: "npm install"
-        },
-        {
-          env: {
-            ENVIRONMENT: "${{ matrix.environment }}",
-            TASK: "${{ matrix.task }}"
-          },
-          id: "payload",
-          name: "generate payload",
-          run: "npx ci set-outputs deploy-payload $ENVIRONMENT"
-        },
-        {
-          env: {
-            GITHUB_TOKEN: "${{ secrets.CI_MINION_ACCESS_TOKEN }}",
-            PAYLOAD: "${{ steps.payload.outputs.payload }}"
-          },
-          name: "start deployment workflow",
-          run: "echo \"${PAYLOAD}\" | hub api \"repos/jbrunton/bechdel-lists/deployments\" --input -"
-        }
-      ],
-      strategy: {
-        matrix: "${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}"
-      }
-    },
-    deploy_new_build: {
-      "if": "needs.manifest_check.outputs.deploymentsRequired == true \u0026\u0026 needs.manifest_check.outputs.buildRequired == true",
-      needs: [
-        "manifest_check",
-        "build"
-      ],
-      "runs-on": "ubuntu-latest",
-      steps: [
-        {
-          uses: "actions/checkout@v2"
-        },
-        {
-          name: "npm install",
-          run: "npm install"
-        },
-        {
-          env: {
-            ENVIRONMENT: "${{ matrix.environment }}",
-            TASK: "${{ matrix.task }}"
-          },
-          id: "payload",
-          name: "generate payload",
-          run: "npx ci set-outputs deploy-payload $ENVIRONMENT"
-        },
-        {
-          env: {
-            GITHUB_TOKEN: "${{ secrets.CI_MINION_ACCESS_TOKEN }}",
-            PAYLOAD: "${{ steps.payload.outputs.payload }}"
-          },
-          name: "start deployment workflow",
-          run: "echo \"${PAYLOAD}\" | hub api \"repos/jbrunton/bechdel-lists/deployments\" --input -"
-        }
-      ],
-      strategy: {
-        matrix: "${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}"
-      }
-    },
+    deploy_existing_build: deploy_job(false),
+    deploy_new_build: deploy_job(true),
     integration_tests: {
       "runs-on": "ubuntu-latest",
       steps: [
