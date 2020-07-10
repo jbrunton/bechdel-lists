@@ -1,4 +1,4 @@
-local steps = import 'common/steps.libsonnet';
+local steps = import '../common/steps.libsonnet';
 
 local matrix_strategy = {
   matrix: {
