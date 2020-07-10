@@ -2,6 +2,7 @@ local deploy_job = import 'jobs/deploy.libsonnet';
 local build_job = import 'jobs/build.libsonnet';
 local tests = import 'jobs/tests.libsonnet';
 local manifest_check_job = import 'jobs/manifest_check.libsonnet';
+local workflows = import '../common/workflows.libsonnet';
 
 local workflow = {
   env: {
@@ -18,19 +19,11 @@ local workflow = {
     unit_tests: tests.unit_tests
   },
   name: "ci-build",
-  on: {
-    pull_request: {
-      branches: [
-        "master"
-      ]
-    },
-    push: {
-      branches: [
-        "master"
-      ],
+  on: workflows.triggers.pull_request_defaults {
+    push+: {
       "paths-ignore": [
         "deployments/**"
-      ]
+      ],
     }
   }
 };
