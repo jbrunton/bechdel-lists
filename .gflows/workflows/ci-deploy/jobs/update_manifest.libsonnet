@@ -5,10 +5,7 @@ local steps = import '../../common/steps.libsonnet';
   "runs-on": "ubuntu-latest",
   steps: [
     steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
-    {
-      name: "npm install",
-      run: "npm install"
-    },
+    steps.npm_install,
     {
       env: {
         ENVIRONMENT: "${{ github.event.deployment.payload.environment }}",

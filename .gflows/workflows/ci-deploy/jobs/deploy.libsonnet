@@ -9,10 +9,7 @@ local steps = import '../../common/steps.libsonnet';
   steps: [
     steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
     steps.update_status("Deployment pending", "pending"),
-    {
-      name: "npm install",
-      run: "npm install"
-    },
+    steps.npm_install,
     {
       id: "deployment_info",
       name: "deployment info",
@@ -49,10 +46,7 @@ local steps = import '../../common/steps.libsonnet';
         script: "ln -sf $BUILD_FILE docker-compose.yml\nexport BUILD_VERSION\nexport POSTGRES_CONNECTION\nexport RAILS_MASTER_KEY\nexport COMPOSE_FILE=\"docker-compose.yml:docker-compose.monitoring.yml\"\ndocker-compose up --detach --no-build --remove-orphans\ndocker-compose run api bin/rails db:migrate\n"
       }
     },
-    {
-      name: "commit",
-      run: "git config --global user.email \"jbrunton-ci-minion@outlook.com\"\ngit config --global user.name \"jbrunton-ci-minion\"\n\nnpx ci commit deployment $ENVIRONMENT\n\ngit push origin HEAD:master\n"
-    },
+    steps.commit('npx ci commit deployment $ENVIRONMENT'),
     { "if": "success()" } + steps.update_status("notify success", "success"),
     { "if": "failure()" } + steps.update_status("notify failure", "failure"),
   ]

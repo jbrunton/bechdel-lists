@@ -2,7 +2,7 @@ local steps = import '../../common/steps.libsonnet';
 
 local deploy_steps = [
   steps.checkout,
-  steps.named("npm install", "npm install"),
+  steps.npm_install,
   {
     env: {
       ENVIRONMENT: "${{ matrix.environment }}",

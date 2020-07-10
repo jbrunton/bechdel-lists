@@ -10,16 +10,9 @@ local steps = import '../../common/steps.libsonnet';
   "runs-on": "ubuntu-latest",
   steps: [
     steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
-    steps.named('npm install', 'npm install'),
+    steps.npm_install,
     steps.named('docker login', 'echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin'),
     steps.named('build', 'npx ci create build'),
-    steps.named('commit', |||
-      git config --global user.email "jbrunton-ci-minion@outlook.com"
-      git config --global user.name "jbrunton-ci-minion"
-
-      npx ci commit build
-      
-      git push origin HEAD:master
-    |||),
+    steps.commit('npx ci commit build')
   ]
 }

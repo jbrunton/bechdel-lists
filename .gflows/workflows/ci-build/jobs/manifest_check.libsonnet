@@ -17,7 +17,10 @@ local steps = import '../../common/steps.libsonnet';
       id: "check",
       "if": "github.event.ref == 'refs/heads/master'",
       name: "check manifest",
-      run: "npm install\nnpx ci set-outputs manifest-checks\n"
+      run: |||
+        npm install
+        npx ci set-outputs manifest-checks
+      |||
     }
   ]
 }

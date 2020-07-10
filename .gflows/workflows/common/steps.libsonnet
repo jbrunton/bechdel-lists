@@ -22,6 +22,8 @@ local named (name, command) = { name: name, run: command };
 
   copy_env: named("copy .env", "cp ci/ci.env .env"),
 
+  npm_install: named('npm install', 'npm install'),
+
   update_status(name, state)::  {
     name: name,
     uses: "deliverybot/status@master",
@@ -30,6 +32,16 @@ local named (name, command) = { name: name, run: command };
       token: "${{ secrets.GITHUB_TOKEN }}"
     }
   },
+
+  commit(command)::
+    named('commit', |||
+      git config --global user.email "jbrunton-ci-minion@outlook.com"
+      git config --global user.name "jbrunton-ci-minion"
+
+      %s
+      
+      git push origin HEAD:master
+    ||| % command),
 
   run:: run,
   
