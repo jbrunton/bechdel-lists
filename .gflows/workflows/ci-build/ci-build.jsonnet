@@ -1,4 +1,3 @@
-local steps = import '../common/steps.libsonnet';
 local deploy_job = import 'jobs/deploy.libsonnet';
 local build_job = import 'jobs/build.libsonnet';
 local tests = import 'jobs/tests.libsonnet';
