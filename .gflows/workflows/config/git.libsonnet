@@ -1,3 +1,3 @@
 {
-  main_branch: 'develop'
+  main_branch: 'master'
 }
