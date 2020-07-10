@@ -1,3 +1,5 @@
+local steps = import 'common/steps.libsonnet';
+
 local workflow = {
   env: {
     CI: 1,
@@ -13,20 +15,8 @@ local workflow = {
       "if": "${{ github.event.deployment.task == 'deploy' }}",
       "runs-on": "ubuntu-latest",
       steps: [
-        {
-          uses: "actions/checkout@v2",
-          with: {
-            token: "${{ secrets.CI_ADMIN_ACCESS_TOKEN }}"
-          }
-        },
-        {
-          name: "Deployment pending",
-          uses: "deliverybot/status@master",
-          with: {
-            state: "pending",
-            token: "${{ secrets.GITHUB_TOKEN }}"
-          }
-        },
+        steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
+        steps.update_status("Deployment pending", "pending"),
         {
           name: "npm install",
           run: "npm install"
@@ -71,36 +61,15 @@ local workflow = {
           name: "commit",
           run: "git config --global user.email \"jbrunton-ci-minion@outlook.com\"\ngit config --global user.name \"jbrunton-ci-minion\"\n\nnpx ci commit deployment $ENVIRONMENT\n\ngit push origin HEAD:master\n"
         },
-        {
-          "if": "success()",
-          name: "notify success",
-          uses: "deliverybot/status@master",
-          with: {
-            state: "success",
-            token: "${{ secrets.GITHUB_TOKEN }}"
-          }
-        },
-        {
-          "if": "failure()",
-          name: "notify failure",
-          uses: "deliverybot/status@master",
-          with: {
-            state: "failure",
-            token: "${{ secrets.GITHUB_TOKEN }}"
-          }
-        }
+        { "if": "success()" } + steps.update_status("notify success", "success"),
+        { "if": "failure()" } + steps.update_status("notify failure", "failure"),
       ]
     },
     update_manifest: {
       "if": "${{ github.event.deployment.task == 'update_manifest' }}",
       "runs-on": "ubuntu-latest",
       steps: [
-        {
-          uses: "actions/checkout@v2",
-          with: {
-            token: "${{ secrets.CI_ADMIN_ACCESS_TOKEN }}"
-          }
-        },
+        steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
         {
           name: "npm install",
           run: "npm install"
