@@ -1,5 +1,14 @@
 local steps = import 'common/steps.libsonnet';
 
+local matrix_strategy = {
+  matrix: {
+    service: [
+      "api",
+      "client"
+    ]
+  }
+};
+
 local deploy_job (buildRequired) =
   local deploy_steps = [
     steps.checkout,
@@ -76,13 +85,8 @@ local workflow = {
     integration_tests: {
       "runs-on": "ubuntu-latest",
       steps: [
-        {
-          uses: "actions/checkout@v2"
-        },
-        {
-          name: "copy .env",
-          run: "cp ci/ci.env .env"
-        },
+        steps.checkout,
+        steps.copy_env,
         {
           env: {
             SERVICE: "${{ matrix.service }}"
@@ -91,14 +95,7 @@ local workflow = {
           run: "./ci/integration_tests/${SERVICE}.sh"
         }
       ],
-      strategy: {
-        matrix: {
-          service: [
-            "api",
-            "client"
-          ]
-        }
-      }
+      strategy: matrix_strategy
     },
     manifest_check: {
       needs: [
@@ -112,9 +109,7 @@ local workflow = {
       },
       "runs-on": "ubuntu-latest",
       steps: [
-        {
-          uses: "actions/checkout@v2"
-        },
+        steps.checkout,
         {
           id: "check",
           "if": "github.event.ref == 'refs/heads/master'",
@@ -126,19 +121,14 @@ local workflow = {
     unit_tests: {
       "runs-on": "ubuntu-latest",
       steps: [
-        {
-          uses: "actions/checkout@v2"
-        },
+        steps.checkout,
         {
           uses: "ruby/setup-ruby@v1",
           with: {
             "ruby-version": "2.6.3"
           }
         },
-        {
-          name: "copy .env",
-          run: "cp ci/ci.env .env"
-        },
+        steps.copy_env,
         {
           env: {
             SERVICE: "${{ matrix.service }}"
@@ -147,14 +137,7 @@ local workflow = {
           run: "./ci/unit_tests/${SERVICE}.sh"
         }
       ],
-      strategy: {
-        matrix: {
-          service: [
-            "api",
-            "client"
-          ]
-        }
-      }
+      strategy: matrix_strategy
     }
   },
   name: "ci-build",

@@ -1,3 +1,6 @@
+local run (command) = { run: command };
+local named (name, command) = { name: name, run: command };
+
 {
   checkout: {
     uses: 'actions/checkout@v2'
@@ -9,10 +12,10 @@
       'go-version': '^1.14.4'
     }
   },
+
+  copy_env: named("copy .env", "cp ci/ci.env .env"),
   
-  run:: function(command)
-    { run: command },
+  run:: run,
   
-  named:: function(name, command)
-    { name: name, run: command },
+  named:: named,
 }
