@@ -1,4 +1,5 @@
 local steps = import '../../common/steps.libsonnet';
+local workflows = import '../../common/workflows.libsonnet';
 
 local matrix_strategy = {
   matrix: {
@@ -10,38 +11,29 @@ local matrix_strategy = {
 };
 
 {
-  integration_tests: {
-    "runs-on": "ubuntu-latest",
+  integration_tests: workflows.ubuntu {
     steps: [
       steps.checkout,
       steps.copy_env,
-      {
-        env: {
-          SERVICE: "${{ matrix.service }}"
-        },
-        name: "run",
-        run: "./ci/integration_tests/${SERVICE}.sh"
+      steps.named("run", "./ci/integration_tests/${SERVICE}.sh") {
+        env: { SERVICE: "${{ matrix.service }}" }
       }
     ],
     strategy: matrix_strategy
   },
-  unit_tests: {
-    "runs-on": "ubuntu-latest",
+  unit_tests: workflows.ubuntu {
     steps: [
       steps.checkout,
-      {
-        uses: "ruby/setup-ruby@v1",
+      steps.uses("ruby/setup-ruby@v1") {
         with: {
           "ruby-version": "2.6.3"
         }
       },
       steps.copy_env,
-      {
+      steps.named("run unit tests", "./ci/unit_tests/${SERVICE}.sh") {
         env: {
           SERVICE: "${{ matrix.service }}"
-        },
-        name: "run unit tests",
-        run: "./ci/unit_tests/${SERVICE}.sh"
+        }
       }
     ],
     strategy: matrix_strategy

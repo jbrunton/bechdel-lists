@@ -1,30 +1,29 @@
 local run (command) = { run: command };
 local named (name, command) = { name: name, run: command };
+local uses(action) = { uses: action };
 
 {
-  checkout: {
-    uses: 'actions/checkout@v2'
-  },
+  checkout: uses('actions/checkout@v2'),
 
-  checkout_with_token(token):: {
-    uses: 'actions/checkout@v2',
+  checkout_with_token(token):: uses('actions/checkout@v2') {
     with: {
       token: "${{ secrets.%s }}" % token
     }
   },
   
-  setup_go: {
-    uses: 'actions/setup-go@v2',
+  setup_go: uses('actions/setup-go@v2') {
     with: {
       'go-version': '^1.14.4'
     }
   },
 
+  uses:: uses,
+
   copy_env: named("copy .env", "cp ci/ci.env .env"),
 
   npm_install: named('npm install', 'npm install'),
 
-  update_status(name, state)::  {
+  update_status(name, state):: {
     name: name,
     uses: "deliverybot/status@master",
     with: {

@@ -1,8 +1,8 @@
 local steps = import '../../common/steps.libsonnet';
+local workflows = import '../../common/workflows.libsonnet';
 
-{
+workflows.ubuntu {
   "if": "${{ github.event.deployment.task == 'update_manifest' }}",
-  "runs-on": "ubuntu-latest",
   steps: [
     steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
     steps.npm_install,

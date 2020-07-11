@@ -1,11 +1,11 @@
 local steps = import '../../common/steps.libsonnet';
+local workflows = import '../../common/workflows.libsonnet';
 
-{
+workflows.ubuntu {
   env: {
     ENVIRONMENT: "${{ github.event.deployment.environment }}"
   },
   "if": "${{ github.event.deployment.task == 'deploy' }}",
-  "runs-on": "ubuntu-latest",
   steps: [
     steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
     steps.update_status("Deployment pending", "pending"),

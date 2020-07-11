@@ -1,4 +1,5 @@
 local steps = import '../../common/steps.libsonnet';
+local workflows = import '../../common/workflows.libsonnet';
 
 local deploy_steps = [
   steps.checkout,
@@ -23,17 +24,15 @@ local deploy_steps = [
 ];
 
 {
-  define(buildRequired)::
-    {
-      "if": "needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == %s" % buildRequired,
-      needs: if buildRequired then [
-        "manifest_check",
-        "build"
-      ] else "manifest_check",
-      "runs-on": "ubuntu-latest",
-      steps: deploy_steps,
-      strategy: {
-        matrix: "${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}"
-      }
+  define(buildRequired):: workflows.ubuntu {
+    "if": "needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == %s" % buildRequired,
+    needs: if buildRequired then [
+      "manifest_check",
+      "build"
+    ] else "manifest_check",
+    steps: deploy_steps,
+    strategy: {
+      matrix: "${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}"
     }
+  }
 }
