@@ -5,21 +5,21 @@ local deploy_steps = [
   steps.checkout,
   steps.npm_install,
   {
+    id: "payload",
+    name: "generate payload",
+    run: "npx ci set-outputs deploy-payload $ENVIRONMENT",
     env: {
       ENVIRONMENT: "${{ matrix.environment }}",
       TASK: "${{ matrix.task }}"
-    },
-    id: "payload",
-    name: "generate payload",
-    run: "npx ci set-outputs deploy-payload $ENVIRONMENT"
+    }
   },
   {
+    name: "start deployment workflow",
+    run: "echo \"${PAYLOAD}\" | hub api \"repos/jbrunton/bechdel-lists/deployments\" --input -",
     env: {
       GITHUB_TOKEN: "${{ secrets.CI_MINION_ACCESS_TOKEN }}",
       PAYLOAD: "${{ steps.payload.outputs.payload }}"
-    },
-    name: "start deployment workflow",
-    run: "echo \"${PAYLOAD}\" | hub api \"repos/jbrunton/bechdel-lists/deployments\" --input -"
+    }
   }
 ];
 

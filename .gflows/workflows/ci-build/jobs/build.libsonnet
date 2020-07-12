@@ -2,12 +2,12 @@ local steps = import '../../common/steps.libsonnet';
 local workflows = import '../../common/workflows.libsonnet';
 
 workflows.ubuntu {
+  needs: "manifest_check",
+  "if": "${{ needs.manifest_check.outputs.buildRequired == true }}",
   env: {
     DOCKER_ACCESS_TOKEN: "${{ secrets.DOCKER_ACCESS_TOKEN }}",
     DOCKER_USERNAME: "jbrunton"
   },
-  "if": "${{ needs.manifest_check.outputs.buildRequired == true }}",
-  needs: "manifest_check",
   steps: [
     steps.checkout_with_token('CI_ADMIN_ACCESS_TOKEN'),
     steps.npm_install,
