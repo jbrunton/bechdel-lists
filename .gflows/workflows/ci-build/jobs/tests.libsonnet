@@ -24,11 +24,7 @@ local matrix_strategy = {
   unit_tests: workflows.ubuntu {
     steps: [
       steps.checkout,
-      steps.uses("ruby/setup-ruby@v1") {
-        with: {
-          "ruby-version": "2.6.3"
-        }
-      },
+      steps.setup_ruby,
       steps.copy_env,
       steps.named("run unit tests", "./ci/unit_tests/${SERVICE}.sh") {
         env: {
