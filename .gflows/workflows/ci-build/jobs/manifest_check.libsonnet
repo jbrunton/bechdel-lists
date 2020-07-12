@@ -1,6 +1,7 @@
 local steps = import '../../common/steps.libsonnet';
+local workflows = import '../../common/workflows.libsonnet';
 
-{
+workflows.ubuntu {
   needs: [
     "unit_tests",
     "integration_tests"
@@ -10,7 +11,6 @@ local steps = import '../../common/steps.libsonnet';
     deploymentMatrix: "${{ steps.check.outputs.deploymentMatrix }}",
     deploymentsRequired: "${{ steps.check.outputs.deploymentsRequired }}"
   },
-  "runs-on": "ubuntu-latest",
   steps: [
     steps.checkout,
     {
