@@ -3,6 +3,8 @@ local deploy_job = import 'jobs/deploy.libsonnet';
 local update_manifest_job = import 'jobs/update_manifest.libsonnet';
 
 local workflow = {
+  name: "ci-deploy",
+  on: "deployment",
   env: {
     CI: 1,
     DOCKER_ACCESS_TOKEN: "${{ secrets.DOCKER_ACCESS_TOKEN }}",
@@ -12,9 +14,7 @@ local workflow = {
   jobs: {
     deploy: deploy_job,
     update_manifest: update_manifest_job
-  },
-  name: "ci-deploy",
-  on: "deployment"
+  }
 };
 
 std.manifestYamlDoc(workflow)

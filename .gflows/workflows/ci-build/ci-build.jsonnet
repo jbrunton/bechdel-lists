@@ -5,6 +5,12 @@ local manifest_check_job = import 'jobs/manifest_check.libsonnet';
 local workflows = import '../common/workflows.libsonnet';
 
 local workflow = {
+  name: "ci-build",
+  on: workflows.triggers.pull_request_defaults {
+    push+: {
+      "paths-ignore": ["deployments/**"],
+    }
+  },
   env: {
     CI: 1,
     FORCE_COLOR: 1,
@@ -17,14 +23,6 @@ local workflow = {
     integration_tests: tests.integration_tests,
     manifest_check: manifest_check_job,
     unit_tests: tests.unit_tests
-  },
-  name: "ci-build",
-  on: workflows.triggers.pull_request_defaults {
-    push+: {
-      "paths-ignore": [
-        "deployments/**"
-      ],
-    }
   }
 };
 
