@@ -11,4 +11,7 @@ local git_config = import '../config/git.libsonnet';
       }
     },
   },
+  ubuntu: {
+    'runs-on': 'ubuntu-latest'
+  },
 }
