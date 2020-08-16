@@ -7,6 +7,7 @@ ARG build_version
 ENV VUE_APP_BUILD_VERSION=$build_version
 
 COPY ./package.json ./
+COPY ./package-lock.json ./
 RUN npm install --no-optional
 COPY . .
 RUN npm run build
