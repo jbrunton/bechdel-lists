@@ -13,7 +13,7 @@ module.exports = {
       .command('build', {
         desc: 'Create a new build for the current manifest version',
         run: async (argv, context) => {
-          const buildVersion = await manifests.local.getManifestVersion();
+          const buildVersion = argv['build-version'] || await manifests.local.getManifestVersion();
           const dryRun = argv['dry-run'],
             skipBuild = argv['skip-build'],
             skipPush = argv['skip-push'];
@@ -47,6 +47,7 @@ module.exports = {
       })
       .boolean('--skip-build', { desc: 'Skip the docker-compose build step' })
       .boolean('--skip-push', { desc: 'Skip the docker-compose push step' })
-      .string('--image-tag', { desc: 'Use an existing docker image tag' });
+      .string('--image-tag', { desc: 'Use an existing docker image tag' })
+      .string('--build-version', { desc: 'Version name to use' });
   }
 };
