@@ -39,7 +39,9 @@ class Compose {
   }
 
   async config() {
-    const result = await exec('docker-compose config | ytt -f - -f ./ci/clean-config.yml | kbld -f -', this.execOpts);
+    const yttCommand = 'ytt -f - -f ./ci/clean-config.yml';
+    const kbldCommand = 'kbld -f - --images-annotation=false';
+    const result = await exec(`docker-compose config | ${yttCommand} | ${kbldCommand}`, this.execOpts);
     const dockerFile = result.stdout;
     const config = removeBuildContexts(dockerFile);
     return config;
