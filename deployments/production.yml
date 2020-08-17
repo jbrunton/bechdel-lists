@@ -1,5 +1,8 @@
-latest: dd7b2f0a-19ee-408e-af62-3c103f1c70d7
+latest: 8d9dd80a-4011-4323-b94c-f9ab48c1852d
 deployments:
+  - id: 8d9dd80a-4011-4323-b94c-f9ab48c1852d
+    version: 0.2.17
+    timestamp: '2020-08-17T13:00:25.132Z'
   - id: dd7b2f0a-19ee-408e-af62-3c103f1c70d7
     version: 0.2.15
     timestamp: '2020-05-24T14:10:30.635Z'
