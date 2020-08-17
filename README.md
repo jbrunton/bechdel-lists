@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/jbrunton/bechdel-lists/workflows/ci-build/badge.svg?branch=develop)](https://github.com/jbrunton/bechdel-lists/actions?query=branch%3Adevelop+workflow%3Aci-build)
 [![Deployment Status](https://github.com/jbrunton/bechdel-lists/workflows/ci-deploy/badge.svg)](https://github.com/jbrunton/bechdel-lists/actions?workflow%3Aci-deploy)
-[![Maintainability](https://api.codeclimate.com/v1/badges/88c63816d9055f3c1ac6/maintainability)](https://codeclimate.com/github/jbrunton/bechdel-lists/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ebcd3967ab1563d2b12a/maintainability)](https://codeclimate.com/github/jbrunton/bechdel-lists/maintainability)
 
 ## What is this?
 
