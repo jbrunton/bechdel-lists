@@ -1,0 +1,52 @@
+services:
+  api:
+    environment:
+      GOOGLE_CLIENT_ID: 729453438306-js80sgkqlrnot0elppoe7fblb51lkjv5.apps.googleusercontent.com
+      PORT: '5000'
+      POSTGRES_CONNECTION: null
+      POSTGRES_DISABLE_SSL: null
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: '1'
+      RAILS_MASTER_KEY: null
+    image: >-
+      index.docker.io/jbrunton/bechdel-lists-api@sha256:873e00fe1cf1674e6da0dd7af82f3495089ffbffe63718537505bcbee596e59a
+    ports:
+      - '9229:9229/tcp'
+  cadvisor:
+    container_name: cadvisor
+    depends_on:
+      - api
+      - client
+      - nginx
+    image: >-
+      gcr.io/google-containers/cadvisor@sha256:16bc6858dc5b7063c7d89153ad6544370eb79cb27a1b8d571f31b98673f7a324
+    ports:
+      - '8080:8080/tcp'
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker:/var/lib/docker:ro'
+  client:
+    image: >-
+      index.docker.io/jbrunton/bechdel-lists-client@sha256:6d2ec066d47ea1070c3e9dbb74766a1922544c964565664db3e228c9e53bf143
+  nginx:
+    image: >-
+      index.docker.io/jbrunton/bechdel-lists-nginx@sha256:87e0ee4c9cd51248ace004875d09db27c74e477fa518ffd0c3d13d0520dbc211
+    ports:
+      - '80:80/tcp'
+      - '443:443/tcp'
+    restart: always
+    volumes:
+      - '/home/deployer/certs:/etc/nginx/certs:rw'
+  nginx_exporter:
+    depends_on:
+      - nginx
+    environment:
+      SCRAPE_URI: 'http://nginx/stub_status'
+    image: >-
+      index.docker.io/nginx/nginx-prometheus-exporter@sha256:4058e755536f642a33780c83c00647e9363a21527c7cfcebbf4b373e027119c4
+    ports:
+      - '9113:9113/tcp'
+version: '3.0'
+
