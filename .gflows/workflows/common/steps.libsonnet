@@ -44,6 +44,6 @@
 
     %s
     
-    git push origin HEAD:master
+    git push origin HEAD:develop
   ||| % command),
 }

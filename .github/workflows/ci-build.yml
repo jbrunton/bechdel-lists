@@ -29,7 +29,7 @@
         
         npx ci commit build
         
-        git push origin HEAD:master
+        git push origin HEAD:develop
   "deploy_existing_build":
     "if": "needs.manifest_check.outputs.deploymentsRequired == true && needs.manifest_check.outputs.buildRequired == false"
     "needs": "manifest_check"
@@ -101,7 +101,7 @@
     "steps":
     - "uses": "actions/checkout@v2"
     - "id": "check"
-      "if": "github.event.ref == 'refs/heads/master'"
+      "if": "github.event.ref == 'refs/heads/develop'"
       "name": "check manifest"
       "run": |
         npm install
@@ -128,9 +128,9 @@
 "on":
   "pull_request":
     "branches":
-    - "master"
+    - "develop"
   "push":
     "branches":
-    - "master"
+    - "develop"
     "paths-ignore":
     - "deployments/**"

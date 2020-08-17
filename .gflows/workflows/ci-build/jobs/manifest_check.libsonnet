@@ -15,7 +15,7 @@ workflows.ubuntu {
     steps.checkout,
     {
       id: "check",
-      "if": "github.event.ref == 'refs/heads/master'",
+      "if": "github.event.ref == 'refs/heads/develop'",
       name: "check manifest",
       run: |||
         npm install

@@ -62,7 +62,7 @@
         
         npx ci commit deployment $ENVIRONMENT
         
-        git push origin HEAD:master
+        git push origin HEAD:develop
     - "if": "success()"
       "name": "notify success"
       "uses": "deliverybot/status@master"
@@ -94,6 +94,6 @@
         
         npx ci update-manifest $VERSION $ENVIRONMENT
         
-        git push origin HEAD:master
+        git push origin HEAD:develop
 "name": "ci-deploy"
 "on": "deployment"
