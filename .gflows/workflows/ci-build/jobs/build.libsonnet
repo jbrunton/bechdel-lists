@@ -14,7 +14,7 @@ workflows.ubuntu {
     steps.uses('k14s/setup-k14s-action@v1') {
       with: {
         only: 'ytt, kbld',
-        token: '{{ secrets.GITHUB_TOKEN }}'
+        token: '${{ secrets.GITHUB_TOKEN }}'
       },
     },
     steps.named('docker login', 'echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin'),
