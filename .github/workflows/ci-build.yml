@@ -21,7 +21,7 @@
     - "uses": "k14s/setup-k14s-action@v1"
       "with":
         "only": "ytt, kbld"
-        "token": "{{ secrets.GITHUB_TOKEN }}"
+        "token": "${{ secrets.GITHUB_TOKEN }}"
     - "name": "docker login"
       "run": "echo \"$DOCKER_ACCESS_TOKEN\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin"
     - "name": "build"
