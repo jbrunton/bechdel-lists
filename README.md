@@ -116,5 +116,8 @@ Unit tests for a service can be executed from within the service directory. For 
 
 Integration tests must be run from within the container for the service, and moreover may require creation of the test database on first time use:
 
-    docker-compose run api bin/rails db:test:prepare
-    docker-compose run api bin/rails spec:integration
+```bash
+docker-compose run api bin/rails db:test:prepare
+docker-compose run api bin/rails spec:integration # API integration tests
+docker-compose run cypress # client integration tests
+```
