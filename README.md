@@ -111,8 +111,13 @@ Unit tests for a service can be executed from within the service directory. For 
     cd services/client
     npm run test:unit
 
+    cs services/api
+    bin/rails spec:unit
+
 Integration tests must be run from within the container for the service, and moreover may require creation of the test database on first time use:
 
-    docker-compose run api npm run db:test:create
-    docker-compose run api npm run test:integration
-
+```bash
+docker-compose run api bin/rails db:test:prepare
+docker-compose run api bin/rails spec:integration # API integration tests
+docker-compose run cypress # client integration tests
+```

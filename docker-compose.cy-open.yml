@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3'
 # e2e/cy-open.yml from repo
 # https://github.com/bahmutov/cypress-open-from-docker-compose
 services:
