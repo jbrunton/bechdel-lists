@@ -1,0 +1,11 @@
+name: ci-test
+"on":
+  pull_request:
+  push:
+    branches:
+    - develop
+jobs:
+  sandbox-test:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Tests successful!"
