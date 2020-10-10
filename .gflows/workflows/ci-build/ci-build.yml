@@ -2,7 +2,7 @@ name: ci-build
 "on":
   workflow_run:
     workflows: ["ci-test"]
-    #branches: ["develop"]
+    branches: ["develop"]
     types:
       - completed
 

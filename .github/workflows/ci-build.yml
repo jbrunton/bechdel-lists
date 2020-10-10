@@ -5,6 +5,8 @@ name: ci-build
   workflow_run:
     workflows:
     - ci-test
+    branches:
+    - develop
     types:
     - completed
 env:
