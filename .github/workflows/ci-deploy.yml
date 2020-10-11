@@ -33,7 +33,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
+        token: ${{ secrets.CI_ADMIN_ACCESS_TOKEN }}
     - name: git config
       run: |
         git config --global user.email "jbrunton-ci-minion@outlook.com"
