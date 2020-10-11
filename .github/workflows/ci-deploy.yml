@@ -32,6 +32,8 @@ jobs:
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
     - uses: jbrunton/setup-g3ops@v0
     - uses: k14s/setup-k14s-action@v1
       with:
@@ -39,7 +41,7 @@ jobs:
     - env:
         ENVIRONMENT: ${{ matrix.environment }}
         VERSION: ${{ matrix.version }}
-      run: go run main.go deploy $VERSION $ENVIRONMENT
+      run: g3ops deploy $VERSION $ENVIRONMENT
     - name: git push
       run: |
         git pull origin develop
