@@ -18,7 +18,7 @@ jobs:
       buildRequired: ${{ steps.check.outputs.buildRequired }}
     steps:
     - uses: actions/checkout@v2
-    - run: go get github.com/jbrunton/g3ops
+    - uses: jbrunton/setup-g3ops@v0
     - name: check
       id: check
       run: g3ops manifest check
