@@ -39,7 +39,7 @@ jobs:
       - env:
           ENVIRONMENT: "${{ matrix.environment }}"
           VERSION: "${{ matrix.version }}"
-        run: go run main.go deploy $VERSION $ENVIRONMENT
+        run: g3ops deploy $VERSION $ENVIRONMENT
       - name: git push
         run: |
           git pull origin develop
