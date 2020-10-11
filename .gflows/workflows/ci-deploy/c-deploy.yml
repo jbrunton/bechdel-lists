@@ -35,7 +35,7 @@ jobs:
         with:
           token: ${{ secrets.CI_MINION_ACCESS_TOKEN }}
       - name: git config
-      - run: |
+        run: |
           git config --global user.email "jbrunton-ci-minion@outlook.com"
           git config --global user.name "jbrunton-ci-minion"
           git config pull.rebase false
