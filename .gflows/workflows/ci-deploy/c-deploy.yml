@@ -1,0 +1,46 @@
+name: ci-deploy
+"on":
+  workflow_run:
+    workflows: ["ci-build"]
+    branches: ["develop"]
+    types:
+      - completed
+
+env:
+  CI: 1
+
+jobs:
+  manifest_check:
+    runs-on: ubuntu-latest
+    outputs:
+      deploymentsRequired: ${{ steps.check.outputs.deploymentsRequired }}
+      deploymentMatrix: ${{ steps.check.outputs.deploymentMatrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jbrunton/setup-g3ops@v0
+      - name: check
+        id: check
+        # TODO: use setup-g3ops action
+        run: g3ops manifest check
+
+  deploy:
+    needs: manifest_check
+    if: needs.manifest_check.outputs.deploymentsRequired == true
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: "${{ fromJson(needs.manifest_check.outputs.deploymentMatrix) }}"
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jbrunton/setup-g3ops@v0
+      - uses: k14s/setup-k14s-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - env:
+          ENVIRONMENT: "${{ matrix.environment }}"
+          VERSION: "${{ matrix.version }}"
+        run: go run main.go deploy $VERSION $ENVIRONMENT
+      - name: git push
+        run: |
+          git pull origin develop
+          git push origin develop

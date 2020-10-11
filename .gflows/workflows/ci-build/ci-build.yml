@@ -21,17 +21,17 @@ jobs:
         id: check
         run: g3ops manifest check
 
-  # build:
-  #   needs: manifest_check
-  #   if: needs.manifest_check.outputs.buildRequired == true
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - #@ checkout_with_token("G3OPS_ADMIN_ACCESS_TOKEN")
-  #     - #@ setup_git()
-  #     - uses: k14s/setup-k14s-action@v1
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #     - env:
-  #         G3OPS_DOCKER_ACCESS_TOKEN: ${{ secrets.G3OPS_DOCKER_ACCESS_TOKEN }}
-  #         G3OPS_DOCKER_USERNAME: ${{ secrets.G3OPS_DOCKER_USERNAME }}
-  #       run: go run main.go build
+  build:
+    needs: manifest_check
+    if: needs.manifest_check.outputs.buildRequired == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jbrunton/setup-g3ops@v0
+      - uses: k14s/setup-k14s-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - env:
+          G3OPS_DOCKER_ACCESS_TOKEN: ${{ secrets.G3OPS_DOCKER_ACCESS_TOKEN }}
+          G3OPS_DOCKER_USERNAME: ${{ secrets.G3OPS_DOCKER_USERNAME }}
+        run: g3ops build
